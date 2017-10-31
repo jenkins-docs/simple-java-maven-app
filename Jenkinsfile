@@ -23,7 +23,7 @@ pipeline {
         }
 		stage('Deploy') {
             steps {
-                sh "curl --upload-file target/${NAME}-${VERSION}.jar 'http://tomcatsc:passsc@localhost:8080/manager/text/deploy?path=/jenkins&update=true'"
+                sh './jenkins/scripts/deploy.sh'
             }
         }
     }
