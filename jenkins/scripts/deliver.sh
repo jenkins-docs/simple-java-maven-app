@@ -25,4 +25,4 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 set -x
 java -jar target/${NAME}-${VERSION}.jar
 
-curl --upload-file target/${NAME}-${VERSION}.jar "http://tomcatsc:passsc@localhost:8080/manager/text/deploy?path=/jenkins&update=true"
+curl --upload-file target/${NAME}-${VERSION}.jar "http://tomcatsc:passsc@10.65.135.104:8080/manager/text/deploy?path=/jenkins&update=true"
