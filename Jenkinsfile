@@ -21,6 +21,10 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-
+		stage('CompilePL') {
+            steps {
+                sh './jenkins/scripts/sqlbatch.sh'
+            }
+        }
     }
 }
