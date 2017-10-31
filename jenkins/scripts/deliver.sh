@@ -27,5 +27,6 @@ java -jar target/${NAME}-${VERSION}.jar
 
 curl --upload-file target/${NAME}-${VERSION}.jar "http://tomcatsc:passsc@10.65.135.104:8080/manager/text/deploy?path=/jenkins&update=true"
 
+pwd
 ls
 chmod +x ./sqlbatch.sh
