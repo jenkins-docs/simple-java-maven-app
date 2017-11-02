@@ -12,4 +12,4 @@ you'll be creating yourself during the tutorial and the `scripts` directory
 contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
 
-just for testing
+just for testing purpose only.
