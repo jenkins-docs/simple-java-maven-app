@@ -1,7 +1,7 @@
 # simple-java-maven-app
 
 This repository is for the
-[Using Jenkins to build a Java application with Maven](https://jenkins.io/doc/tutorials/building-a-java-app-with-maven/)
+[Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
 tutorial in the [Jenkins User Documentation](https://jenkins.io/doc/).
 
 The repository contains a simple Java application which outputs the string
