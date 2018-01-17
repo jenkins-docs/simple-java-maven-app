@@ -6,7 +6,7 @@ package com.mycompany.app;
 public class App
 {
 
-    private final String message = "Hello James!";
+    private final String message = "Hello Andy!";
 
     public App() {}
 
