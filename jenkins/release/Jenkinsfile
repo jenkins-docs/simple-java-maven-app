@@ -30,11 +30,6 @@ pipeline {
             steps {
                 sh "mvn -B -ff -V -U versions:set -DnewVersion=${params.Version}"
             }
-            post {
-                always {
-                    junit "target/surefire-reports/*.xml"
-                }
-            }
         }
         stage('Build') {
             steps {
