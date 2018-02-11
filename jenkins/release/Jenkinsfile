@@ -4,18 +4,21 @@ pipeline {
         maven 'maven-3.5.2'
         jdk 'jdk-1.8.0_162'
     }
+    parameters {
+        string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
+    }
     stages {
         stage('Input parameter') {
-            input {
-                message "Create a Release?"
-                ok "GO"
-                parameters {
-                    string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
-                    string(name: 'TagName', description: 'Name of Tag (e.g. 2.0.0)')
-                }
-            }
+//            input {
+//                message "Create a Release?"
+//                ok "GO"
+//                parameters {
+//                    string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
+//                    string(name: 'TagName', description: 'Name of Tag (e.g. 2.0.0)')
+//                }
+//            }
             steps {
-                echo "Going to create release ${Version} with ${TagName}"
+                echo "Going to create release ${Version}"
             }
         }
         stage('Clean') {
@@ -25,11 +28,11 @@ pipeline {
         }
         stage('Set Version') {
             steps {
-                sh 'mvn -B -ff -V -U versions:set -DnewVersion=${Version}'
+                sh "mvn -B -ff -V -U versions:set -DnewVersion=${Version}"
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit "target/surefire-reports/*.xml"
                 }
             }
         }
