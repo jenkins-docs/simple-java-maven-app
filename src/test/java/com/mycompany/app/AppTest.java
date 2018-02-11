@@ -1,38 +1,48 @@
 package com.mycompany.app;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.After;
+import static org.junit.Assert.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
+public class AppTest
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void testAppConstructor() {
+        try {
+            new App();
+        } catch (Exception e) {
+            fail("Construction failed.");
+        }
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
+    @Test
+    public void testAppMain()
     {
-        assertTrue( true );
+        App.main(null);
+        try {
+            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
+        } catch (AssertionError e) {
+            fail("\"message\" is not \"Hello World!\"");
+        }
     }
+
+    @After
+    public void cleanUpStreams() {
+        System.setOut(null);
+    }
+
 }
