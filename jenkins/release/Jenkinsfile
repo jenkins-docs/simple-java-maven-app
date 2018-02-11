@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3.5.2'
+        jdk 'jdk-1.8.0_162'
+    }
+    parameters {
+        string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
+    }
+    stages {
+        stage('Input parameter') {
+//            input {
+//                message "Create a Release?"
+//                ok "GO"
+//                parameters {
+//                    string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
+//                    string(name: 'TagName', description: 'Name of Tag (e.g. 2.0.0)')
+//                }
+//            }
+            steps {
+                echo "Going to create release ${params.Version}"
+            }
+        }
+        stage('Clean') {
+            steps {
+                sh 'mvn -B -ff -V -U clean'
+            }
+        }
+        stage('Set Version') {
+            steps {
+                sh "mvn -B -ff -V -U versions:set -DnewVersion=${params.Version}"
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn -B -fae -V -U install'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+    }
+}

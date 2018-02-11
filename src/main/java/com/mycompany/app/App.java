@@ -1,21 +1,40 @@
 package com.mycompany.app;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Deque;
+import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Hello world!
  */
-public class App
-{
+public class App {
 
-    private final String message = "Hello World!";
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
-    public App() {}
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
-    public static void main(String[] args) {
-        System.out.println(new App().getMessage());
+
+    public void greet(String who) {
+        LOGGER.info("Hello {}!", who);
     }
 
-    private final String getMessage() {
-        return message;
+    public void run() throws InterruptedException {
+
+        Deque d;
+        Queue q;
+
+        executorService.scheduleAtFixedRate(() -> greet("World"), 2, 2, TimeUnit.SECONDS);
+        executorService.scheduleAtFixedRate(() -> greet("Everybody"), 2, 2, TimeUnit.SECONDS);
+        Thread.sleep(20000);
+        executorService.shutdown();
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        new App().run();
+    }
 }
