@@ -5,14 +5,14 @@ pipeline {
     jdk 'jdk-1.8.0_162'
   }
   stages {
+    stage('Clean') {
+        steps {
+          sh 'mvn -B -ff -V -U clean'
+        }
+      }
     stage('Build') {
       steps {
-        sh 'mvn --batch-mode -V -U -e clean package'
-      }
-    }
-    stage('Test') {
-      steps {
-        sh 'mvn --batch-mode -V -U -e test'
+        sh 'mvn -B -fae -V -U install'
       }
       post {
         always {
