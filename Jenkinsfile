@@ -1,15 +1,23 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3-alpine'
-      args '-v /root/.m2:/root/.m2'
-    }
-    
+  agent any
+  tools {
+    maven 'maven-3.5.2'
+    jdk 'jdk-1.8.0_162'
   }
   stages {
-    stage('') {
+    stage('Build') {
       steps {
-        sh 'mvn -B -DskipTests clean package'
+        sh 'mvn --batch-mode -V -U -e clean package'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'mvn --batch-mode -V -U -e'
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+        }
       }
     }
   }
