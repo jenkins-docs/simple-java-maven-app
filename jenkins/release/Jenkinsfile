@@ -18,7 +18,7 @@ pipeline {
 //                }
 //            }
             steps {
-                echo "Going to create release ${Version}"
+                echo "Going to create release ${params.Version}"
             }
         }
         stage('Clean') {
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Set Version') {
             steps {
-                sh "mvn -B -ff -V -U versions:set -DnewVersion=${Version}"
+                sh "mvn -B -ff -V -U versions:set -DnewVersion=${params.Version}"
             }
             post {
                 always {
