@@ -12,7 +12,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'mvn --batch-mode -V -U -e'
+        sh 'mvn --batch-mode -V -U -e test'
       }
       post {
         always {
