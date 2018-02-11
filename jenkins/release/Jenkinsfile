@@ -5,6 +5,19 @@ pipeline {
         jdk 'jdk-1.8.0_162'
     }
     stages {
+        stage('Example') {
+            input {
+                message "Create a Release?"
+                ok "GO"
+                parameters {
+                    string(name: 'Version', description: 'Release version (e.g. 2.0.0)')
+                    string(name: 'TagName', description: 'Name of Tag (e.g. 2.0.0)')
+                }
+            }
+            steps {
+                echo "Going to create release ${Version} with ${TagName}"
+            }
+        }
         stage('Clean') {
             steps {
                 sh 'mvn -B -ff -V -U clean'
@@ -12,7 +25,7 @@ pipeline {
         }
         stage('Set Version') {
             steps {
-                sh 'mvn -B -ff -V -U versions:set'
+                sh 'mvn -B -ff -V -U versions:set -DnewVersion'
             }
             post {
                 always {
