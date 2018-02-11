@@ -5,7 +5,7 @@ pipeline {
         jdk 'jdk-1.8.0_162'
     }
     stages {
-        stage('Example') {
+        stage('Input parameter') {
             input {
                 message "Create a Release?"
                 ok "GO"
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Set Version') {
             steps {
-                sh 'mvn -B -ff -V -U versions:set -DnewVersion'
+                sh 'mvn -B -ff -V -U versions:set -DnewVersion=${Version}'
             }
             post {
                 always {
