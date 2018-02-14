@@ -1,4 +1,4 @@
 @Library('javapipeline-helpers') _
 
 
-libraryResource('com/practice/cicd/runpipeline.groovy')
+load "com/practice/cicd/runpipeline.groovy"
