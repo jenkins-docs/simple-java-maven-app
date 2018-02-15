@@ -6,9 +6,9 @@ pipeline {
     stage ('Example') {
         steps {
              script { 
-                // log.info 'Starting'
+                 log.info 'Starting'
                  runpipeline ('karthi')
-               //  log.warning 'Nothing to do!'
+                 log.warning 'Nothing to do!'
                  }
             }
         }
