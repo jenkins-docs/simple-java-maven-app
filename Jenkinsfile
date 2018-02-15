@@ -7,6 +7,7 @@ pipeline {
         steps {
              script { 
                  log.info 'Starting'
+                 runpipeline 'karthi'
                  log.warning 'Nothing to do!'
                  }
             }
