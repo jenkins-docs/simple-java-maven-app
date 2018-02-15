@@ -1,7 +1,7 @@
 @Library('javapipeline-helpers') _
 
 pipeline {
-    agent none
+    agent any
     stages {
     stage ('Example') {
         steps {
