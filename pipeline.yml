@@ -1,0 +1,28 @@
+---
+resources:
+- name: resource-app
+  type: git
+  source:
+    uri: https://github.com/tonan/simple-java-maven-app.git
+    branch: concourse
+
+jobs:
+- name: job-test-app
+  public: true
+  plan:
+  - get: resource-app
+    trigger: true
+  - task: build-simple-java
+    config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {
+              repository: maven,
+              tags: 3-alpine
+            }
+          inputs:
+            - name: resource-app
+          run:
+            path: mvn
+            args: ["-B -DskipTests clean package"]
