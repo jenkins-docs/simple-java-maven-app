@@ -24,5 +24,7 @@ jobs:
           inputs:
             - name: resource-app
           run:
-            path: ls
-            args: ["ltr resource-app"]
+            dir: resource-app
+            path: mvn
+            args:
+              - test
