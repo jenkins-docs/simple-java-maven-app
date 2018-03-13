@@ -11,14 +11,15 @@ jobs:
   public: true
   plan:
   - get: resource-app
-    trigger: true 
-  - task: run-unit-tests
+    trigger: true
+  - task: web-app-test
     file: resource-app/tasks/run-unit-tests.yml
 
 - name: job-build-app
   public: true
   plan:
-  - get: job-test-app
+  - get: resource-app
     trigger: true
+    passed: [job-test-app]
   - task: web-app-build
-    file: resource-app/tasks/run-unit-tests.yml
+    file: resource-app/tasks/build-app.yml
