@@ -1,0 +1,24 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {
+    repository: maven,
+    tags: 3-alpine
+  }
+
+inputs:
+- name: resource-app
+
+outputs:
+- name: pack
+
+run:
+  dir: resource-app
+  path: mvn
+  args:
+  - -B
+  - -DskipTests
+  - clean
+  - package
