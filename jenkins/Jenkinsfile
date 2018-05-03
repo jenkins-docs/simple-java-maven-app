@@ -7,6 +7,10 @@ pipeline {
     }
     stages {
         stage('Build') {
+        		options {
+        		    timestamp()
+        		}
+ 
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
