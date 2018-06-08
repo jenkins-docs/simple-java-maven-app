@@ -1,29 +1,24 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent any
+    tools {
+        maven 'maven_3.5.3'
+        jdk 'JAVA_10.0.1'
     }
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                bat 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test cobertura:cobertura -Dcobertura.report.format=xml'
             }
             post {
-                always {
+                success {
                     junit 'target/surefire-reports/*.xml'
+                    cobertura coberturaReportFile: '**/target/site/cobertura/coverage.xml'
                 }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
