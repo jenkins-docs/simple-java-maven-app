@@ -1,5 +1,6 @@
 package com.mycompany.app;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.Before;
@@ -14,9 +15,11 @@ public class AppTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayInputStream inContent = new ByteArrayInputStream("Sun".getBytes());
 
     @Before
     public void setUpStreams() {
+    	System.setIn(inContent);
         System.setOut(new PrintStream(outContent));
     }
 
@@ -33,11 +36,10 @@ public class AppTest
     public void testAppMain()
     {
         App.main(null);
-        try {
-            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
-        } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello World!\"");
-        }
+        String expected = "Hello World!" + System.getProperty("line.separator") + 
+        		"Hello, Sun!" + System.getProperty("line.separator");
+        assertEquals(expected, outContent.toString());
+        
     }
 
     @After
