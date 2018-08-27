@@ -1,4 +1,5 @@
 pipeline {
+    def customImage
     agent {
         docker {
             image 'maven:3-alpine' 
@@ -9,11 +10,15 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
+                customImage = docker.build("image_of_justice")
             }
         }
         stage('Test') {
             steps {
                 sh 'mvn test'
+                customImage.inside {
+                sh 'echo "test of justice"'
+                }
             }
             post {
                 always {
