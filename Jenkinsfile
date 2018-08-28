@@ -11,7 +11,11 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("getintodevops/hellonode")
+        app = docker.build("image-of-justice")
+    }
+
+    stage('Maven build') {
+        sh 'mvn -B -DskipTests clean package' 
     }
 
     stage('Test image') {
@@ -20,6 +24,23 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
+        }
+    }
+
+    stage('Test Maven build') {
+        steps {
+            sh 'mvn test'
+        }
+        post {
+            always {
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+    }
+
+    stage('Deliver') {
+        steps {
+            sh './jenkins/scripts/deliver.sh'
         }
     }
 }
