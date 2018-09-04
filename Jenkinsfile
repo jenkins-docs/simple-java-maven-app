@@ -11,9 +11,7 @@ node {
         sh 'mvn clean install -s settings.xml'
     }
 
-    stage('Build image') {stage('Deploy Maven build') {
-        sh 'mvn deploy'
-    }
+    stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
