@@ -6,6 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
+# Changed in Testing branch  
 
    <name>my-app</name>
   
