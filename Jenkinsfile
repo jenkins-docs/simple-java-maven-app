@@ -7,7 +7,13 @@ node {
         checkout scm
     }
 
-    stage('Build image') {
+    stage('Maven clean install settings') {
+        mvn clean install -s mvn-settings.xml
+    }
+
+    stage('Build image') {stage('Deploy Maven build') {
+        sh 'mvn deploy'
+    }
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
@@ -32,9 +38,7 @@ node {
         junit 'target/surefire-reports/*.xml'
     }
 
-    stage('Deliver') {
-        steps {
-            sh './jenkins/scripts/deliver.sh'
-        }
+    stage('Deploy Maven build') {
+        sh 'mvn deploy'
     }
 }
