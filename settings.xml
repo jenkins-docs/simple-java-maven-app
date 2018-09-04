@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+   
+   <servers>
+	  <!-- OPERATOR CREDENTIALS -->
+      <server>
+         <id>maven-snapshots-operator</id>
+         <username>operator</username>
+         <password>operator</password>
+      </server>
+      <server>
+         <id>maven-releases-operator</id>
+         <username>operator</username>
+         <password>operator</password>
+      </server>
+	  <!-- DEVELOPER CREDENTIALS -->
+      <server>
+         <id>maven-snapshots-developer</id>
+         <username>developer</username>
+         <password>developer</password>
+      </server>
+	  <server>
+         <id>maven-releases-developer</id>
+         <username>developer</username>
+         <password>developer</password>
+      </server>
+   </servers>
+   
+   <mirrors>
+      <mirror>
+         <id>central</id>
+         <name>central</name>
+         <url>http://<NEXUS_IP>:8081/repository/maven-public/</url>
+         <mirrorOf>*</mirrorOf>
+      </mirror>
+   </mirrors>
+   
+   <profiles>
+      <profile>
+         <id>developer</id>
+         <properties>
+			<repo.snapshots.credentials>maven-snapshots-developer</repo.snapshots.credentials>
+			<repo.releases.credentials>maven-releases-developer</repo.releases.credentials>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+         </properties>
+      </profile>
+	  <profile>
+         <id>operator</id>
+         <properties>
+			<repo.snapshots.credentials>maven-snapshots-operator</repo.snapshots.credentials>
+			<repo.releases.credentials>maven-releases-operator</repo.releases.credentials>
+         </properties>
+      </profile>
+   </profiles>
+   
+</settings>
