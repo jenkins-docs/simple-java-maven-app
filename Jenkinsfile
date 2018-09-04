@@ -8,7 +8,7 @@ node {
     }
 
     stage('Maven clean install settings') {
-        sh 'mvn clean install -s mvn-settings.xml'
+        sh 'mvn clean install -s settings.xml'
     }
 
     stage('Build image') {stage('Deploy Maven build') {
