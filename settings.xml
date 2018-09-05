@@ -14,6 +14,14 @@
      </server>
   </servers>
 
+  <mirrors>
+     <mirror>
+        <id>central</id>
+        <name>central</name>
+        <url>http://localhost:8083/service/rest/repository/browse/maven-public/</url>
+        <mirrorOf>*</mirrorOf>
+     </mirror>
+  </mirrors>
 
   <profiles>
      <profile>
