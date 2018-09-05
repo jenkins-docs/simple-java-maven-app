@@ -9,6 +9,8 @@
   
   <url>http://maven.apache.org</url>
 
+# Master branch connected
+ 
   <dependencies>
   <dependency>
     <groupId>junit</groupId>
@@ -25,8 +27,6 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
- 
- # HotFix Branch 
  
         <archive>
             <manifest>
