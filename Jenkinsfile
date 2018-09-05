@@ -1,6 +1,6 @@
 node {
     def app
-    
+
     stage('Clone repository') {
         checkout scm
     }
@@ -10,7 +10,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("image-of-justice")
+        app = docker.build("simple-image")
     }
 
     stage('Maven build') {
