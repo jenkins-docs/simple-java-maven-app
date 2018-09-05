@@ -5,26 +5,14 @@
   <artifactId>my-app</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-
-# Changed in Testing branch  
-
-   <name>my-app</name>
+  <name>my-app</name>
   
   <url>http://maven.apache.org</url>
 
-# Current New changes pushed in MASTER 
-  
-  # These changes go in HOtFIX Branch
-
-
   <dependencies>
- 
   <dependency>
- 
     <groupId>junit</groupId>
-      
       <artifactId>junit</artifactId>
- 
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
@@ -37,7 +25,10 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
-  
+ 
+
+ # Changed in Testing branch 
+ 
         <archive>
             <manifest>
               <addClasspath>true</addClasspath>
