@@ -26,12 +26,7 @@
         <version>3.0.2</version>
         <configuration>
  
-
- # Master Branch  
-
  # HotFix Branch 
- 
- # Changed in Testing branch 
  
         <archive>
             <manifest>
