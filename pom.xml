@@ -34,4 +34,14 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+        <snapshotRepository>
+            <id>${repo.snapshots.credentials}</id>
+            <url>http://localhost:8081/service/rest/repository/browse/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>${repo.releases.credentials}</id>
+            <url>http://localhost:8081/service/rest/repository/browse/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>

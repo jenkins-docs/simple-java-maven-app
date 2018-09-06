@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+
+  <servers>
+     <server>
+        <id>maven-snapshots</id>
+        <username>operator</username>
+        <password>{gVU4IOUuieoHXgX8Kx80UyE+5rS0kSBw+rC6Cy/Fzd4=}</password>
+     </server>
+     <server>
+        <id>maven-releases</id>
+        <username>operator</username>
+        <password>{gVU4IOUuieoHXgX8Kx80UyE+5rS0kSBw+rC6Cy/Fzd4=}</password>
+     </server>
+  </servers>
+
+  <mirrors>
+     <mirror>
+        <id>central</id>
+        <name>central</name>
+        <url>http://localhost:8081/service/rest/repository/browse/maven-public/</url>
+        <mirrorOf>*</mirrorOf>
+     </mirror>
+  </mirrors>
+
+  <profiles>
+     <profile>
+        <id>poc</id>
+     </profile>
+  </profiles>
+
+</settings>
