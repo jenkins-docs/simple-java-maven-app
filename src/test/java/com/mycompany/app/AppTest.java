@@ -40,17 +40,6 @@ public class AppTest
         }
     }
 
-    @Test
-    public void testAppMain2()
-    {
-        App.main(null);
-        try {
-            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
-        } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello World!\"");
-        }
-    }
-
     @After
     public void cleanUpStreams() {
         System.setOut(null);
