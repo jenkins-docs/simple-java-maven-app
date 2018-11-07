@@ -6,7 +6,7 @@ pipeline {
         }
     }
     stages {
-        stage('Build') { 
+        stage('ccBuild') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
             }
