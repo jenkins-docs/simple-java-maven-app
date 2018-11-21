@@ -11,7 +11,7 @@
     <snapshotRepository>
         <id>artifactory</id>
         <name>artifactory</name>
-        <url>jfrog/artifactory/example-repo-local/</url>
+        <url>$jfrog</url>
     </snapshotRepository>
   </distributionManagement>
   <dependencies>
