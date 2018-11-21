@@ -11,7 +11,7 @@
     <snapshotRepository>
         <id>artifactory</id>
         <name>artifactory</name>
-        <url>$jfrog</url>
+        <url>$jfrogurl</url>
     </snapshotRepository>
   </distributionManagement>
   <dependencies>
