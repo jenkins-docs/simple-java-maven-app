@@ -1,17 +1,21 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven' 
-            args '-v /root/.m2:/root/.m2' 
-        }
+  agent any
+
+  tools {
+    maven 'mvn-3.5.2'
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'mvn package'
+      }
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
-                sh 'ls target/'
-                
-            }
-        }
+    
+    stage('Make Container') {
+      steps {
+      sh "docker build -t snscaimito/ledger-service:${env.BUILD_ID} ."
+      }
     }
+  }
 }
