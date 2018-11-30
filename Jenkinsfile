@@ -17,9 +17,9 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Upload') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh 'mvn deploy'
             }
         }
     }
