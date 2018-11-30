@@ -18,7 +18,7 @@ pipeline {
         }
 		stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean install' 
+                sh 'mvn -B -DskipTests clean install src:install javadoc:install' 
             }
         }
 		
