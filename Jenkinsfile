@@ -15,6 +15,7 @@ pipeline {
     stage('Make Container') {
       steps {
       sh "docker build -t snscaimito/ledger-service:${env.BUILD_ID} ."
+      sh "docker rmi snscaimito/ledger-service:${env.BUILD_ID}"
       }
     }
   }
