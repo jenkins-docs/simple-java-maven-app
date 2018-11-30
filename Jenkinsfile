@@ -9,7 +9,7 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
-                sh 'cd /target'
+                sh 'cd target'
                 sh 'ls'
             }
         }
