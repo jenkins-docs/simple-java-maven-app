@@ -9,7 +9,8 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
-                sh 'docker build -t sample-java-app .'
+                sh 'cd /target'
+                sh 'ls'
             }
         }
     }
