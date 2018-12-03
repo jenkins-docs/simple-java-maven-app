@@ -5,7 +5,7 @@ pipeline {
         pollSCM ('*/5 * * * *')
     }
 
-/* a comment */ 
+/* a comment */
 
     stages {
         stage('Build') {
