@@ -1,44 +1,18 @@
 pipeline {
 	agent any
 	
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'set -x'
-                sh 'echo "Pre build step"'
-                sh 'mvn -B -DskipTests clean package' 
-                sh 'echo "Post build step"'
-            }
-        }
-        
-        stage('Test') { 
-            steps {
-                sh 'mvn test' 
-            }
-            post {
-                always {
-                    junit 'app/target/surefire-reports/*.xml' 
+    stages {        
+        stage('Input') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+                submitter "alice,bob"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
                 }
             }
-        }
-        
-        stage('UploadArtifact') {
-            input {
-                message "Press OK to continue"
-                submitter "PERSON"
-		        parameters {
-			        string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
-		        }
-            }
             steps {
-                echo "User: ${PERSON} said OK"
-                sh 'mvn deploy'
-            }
-        }
-        
-        stage('GenerateRpms') {
-            steps {
-                sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
+                echo "Hello, ${PERSON}, nice to meet you."
             }
         }
     }
