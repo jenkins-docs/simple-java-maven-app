@@ -7,6 +7,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
+        
         stage('Test') { 
             steps {
                 sh 'mvn test' 
@@ -17,9 +18,16 @@ pipeline {
                 }
             }
         }
-        stage('Upload') {
+        
+        stage('UploadArtifact') {
             steps {
                 sh 'mvn deploy'
+            }
+        }
+        
+        stage('GenerateRpms') {
+            steps {
+                sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
             }
         }
     }

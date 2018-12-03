@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+<parent>
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>java-app-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</parent>  
+
+  <groupId>com.mycompany.app.rpms</groupId>
+  <artifactId>java-app-rpm-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <application.name>java-app</application.name>
+    <application.path>app</application.path>
+    <svc.account.user>app-svc</svc.account.user>
+    <svc.account.group>app-svc</svc.account.group>
+    <target.application.home>/opt/apps/apps/java-app</target.application.home>
+  </properties>
+  
+  <profiles>
+    <profile>
+      <id>create-rpms</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>rpm-maven-plugin</artifactId>
+              <version>2.1.5</version>
+              <extensions>true</extensions>
+
+              <executions>
+                <execution>
+                  <id>generate-rpm</id>
+                  <goals>
+                    <goal>rpm</goal>
+                  </goals>
+                </execution>
+              </executions>
+
+              <configuration>
+                <defaultUsername>${svc.account.user}</defaultUsername>
+                <defaultGroupname>${svc.account.group}</defaultGroupname>
+                <defaultFilemode>755</defaultFilemode>
+                <defaultDirmode>755</defaultDirmode>
+                <group>${application.name}</group>
+                <mappings>
+                  <mapping>
+                    <directoryIncluded>true</directoryIncluded>
+                  </mapping>
+                </mappings>
+              </configuration>
+
+            </plugin>
+          </plugins>
+        </pluginManagement>
+
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.8.2</version>
+            <configuration>
+              <deployAtEnd>false</deployAtEnd>
+
+<!--
+deployAtEnd is set in SCM Parent pom - for some reason the rpm plugin will not deploy to Repo server
+if set true.
+-->
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+
+      <!--
+
+For some reason both yum repos are only available when the id is nexus-yum...
+
+-->
+
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Releases</name>
+      <url>http://localhost:8081/repository/maven-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Snapshot</name>
+      <url>http://localhost:8081/repository/maven-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+      <!-- modules element is dynamically populated by build_rpms shell script -->
+      <modules>
+        <module>java-app-rpm</module>
+      </modules>
+      
+      </profile>
+  </profiles>
+  
+</project>
