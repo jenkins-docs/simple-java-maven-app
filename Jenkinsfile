@@ -31,6 +31,7 @@ pipeline {
 		        }
             }
             steps {
+                echo "User: ${username} said OK"
                 sh 'mvn deploy'
             }
         }
