@@ -1,6 +1,6 @@
 pipeline {
-	agent any
-	
+    agent any
+    
     stages {
         stage('Build') { 
             steps {
@@ -22,9 +22,9 @@ pipeline {
         stage('UploadArtifact') {
             input {
                 message "Press OK to continue"
-		        parameters {
-			        string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
-		        }
+                parameters {
+                    string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
+                }
             }
             steps {
                 echo "User: ${PERSON} said OK"
