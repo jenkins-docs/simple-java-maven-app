@@ -1,24 +1,24 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-        
-        stage('Test') { 
+
+        stage('Test') {
             steps {
-                sh 'mvn test' 
+                sh 'mvn test'
             }
             post {
                 always {
-                    junit 'app/target/surefire-reports/*.xml' 
+                    junit 'app/target/surefire-reports/*.xml'
                 }
             }
         }
-        
+
         stage('UploadArtifact') {
             input {
                 message "Press OK to continue"
@@ -31,7 +31,7 @@ pipeline {
                 sh 'mvn deploy'
             }
         }
-        
+
         stage('GenerateRpms') {
             steps {
                 sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
