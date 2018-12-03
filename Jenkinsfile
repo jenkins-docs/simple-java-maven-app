@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    
+    triggers {
+        pollSCM ('*/5 * * * *')
+    }
 
     stages {
         stage('Build') {
@@ -20,14 +24,15 @@ pipeline {
         }
 
         stage('UploadArtifact') {
-            input {
+/*            input {
                 message "Press OK to continue"
                 parameters {
                     string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
                 }
             }
+            */
             steps {
-                echo "User: ${PERSON} said OK"
+                /*echo "User: ${PERSON} said OK"*/
                 sh 'mvn deploy'
             }
         }
