@@ -25,7 +25,7 @@ pipeline {
         stage('UploadArtifact') {
             input {
                 message "Press OK to continue"
-                submitter "user1,user2"
+                submitter "PERSON"
 		        parameters {
 			        string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
 		        }
