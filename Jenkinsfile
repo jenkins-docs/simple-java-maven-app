@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    options {
-        parallelsAlwaysFailFast()
-    }
+
     stages {
         stage('Non-Parallel Stage') {
             steps {
@@ -10,6 +8,10 @@ pipeline {
             }
         }
         stage('Parallel Stage') {
+            when {
+                branch 'master'
+            }
+            failFast true
             parallel {
                 stage('Branch A') {
                     agent {
