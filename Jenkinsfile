@@ -27,11 +27,11 @@ pipeline {
                 message "Press OK to continue"
                 submitter "user1,user2"
 		        parameters {
-			        string(name:'username', defaultValue: 'user', description: 'Username of the user pressing Ok')
+			        string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
 		        }
             }
             steps {
-                echo "User: ${username} said OK"
+                echo "User: ${PERSON} said OK"
                 sh 'mvn deploy'
             }
         }
