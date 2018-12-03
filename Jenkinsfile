@@ -1,54 +1,41 @@
 pipeline {
-    agent any
-
+	agent any
+	
     stages {
-        stage('Non-Parallel Stage') {
+        stage('Build') { 
             steps {
-                echo 'This stage will be executed first.'
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Parallel Stage') {
-            when {
-                branch 'master'
+        
+        stage('Test') { 
+            steps {
+                sh 'mvn test' 
             }
-
-            parallel {
-                stage('Branch A') {
-                    agent {
-                        label "for-branch-a"
-                    }
-                    steps {
-                        echo "On Branch A"
-                    }
-                }
-
-                stage('Branch B') {
-                    agent {
-                        label "for-branch-b"
-                    }
-                    steps {
-                        echo "On Branch B"
-                    }
-                }
-
-                stage('Branch C') {
-                    agent {
-                        label "for-branch-c"
-                    }
-                    stages {
-                        stage('Nested 1') {
-                            steps {
-                                echo "In stage Nested 1 within Branch C"
-                            }
-                        }
-                        stage('Nested 2') {
-                            steps {
-                                echo "In stage Nested 2 within Branch C"
-                            }
-                        }
-                    }
+            post {
+                always {
+                    junit 'app/target/surefire-reports/*.xml' 
                 }
             }
-        } 
+        }
+        
+        stage('UploadArtifact') {
+            input {
+                message "Press OK to continue"
+		        parameters {
+			        string(name:'PERSON', defaultValue: 'user', description: 'Username of the user pressing Ok')
+		        }
+            }
+            steps {
+                echo "User: ${PERSON} said OK"
+                sh 'mvn deploy'
+            }
+        }
+        
+        stage('GenerateRpms') {
+            steps {
+                sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
+            }
+        }
     }
 }
