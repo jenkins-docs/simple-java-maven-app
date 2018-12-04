@@ -4,10 +4,10 @@ pipeline {
 	stages {
 		stage('Info') {
             steps {
-                echo "Selected params: ${params.target-env}"
+                echo "Selected params: ${params.TARGET_ENV}"
             }
         }
-
+/*
 		stage('qa-deploy') {
 			when {
 				expression { 
@@ -58,6 +58,6 @@ pipeline {
 				echo "Job is dev"
 			}
 		}
-
+*/
 	}
 }
