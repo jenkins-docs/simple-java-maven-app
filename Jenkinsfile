@@ -10,7 +10,7 @@ pipeline {
     stages {
 		stage('Info') {
             steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                echo "Running ${env.JOB_NAME}"
             }
         }
 
