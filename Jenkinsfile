@@ -7,7 +7,7 @@ pipeline {
                 echo "Selected params: ${params.TARGET_ENV}"
                 
                 script {
-					String[] targetEnv = params.TARGET_ENV.split (",")
+					String[] targetEnv = params.TARGET_ENV.tokenize (",")
 					echo "# envs - ${targetEnv.size()}"
 					for (String s: targetEnv) { 
 						echo "Parameter $s" 
