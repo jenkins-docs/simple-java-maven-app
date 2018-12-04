@@ -9,12 +9,8 @@ pipeline {
 
     stages {
 		stage('Info') {
-			when {
-				expression { ${env.JOB_NAME}.endsWith ("dev") }
-			}
-            steps {
+			when (env.JOB_NAME.endsWith('dev'))
 				echo "Running ${env.JOB_NAME}"
-			}
         }
     }
 }
