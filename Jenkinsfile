@@ -7,8 +7,8 @@ pipeline {
                 echo "Selected params: ${params.TARGET_ENV}"
                 
                 script {
-					String[] values = params.TARGET_ENV.split (",")
-					for (String s: values) { 
+					String[] targetEnv = params.TARGET_ENV.split (",")
+					for (String s: targetEnv) { 
 						echo "Parameter $s" 
 					}
 				}
