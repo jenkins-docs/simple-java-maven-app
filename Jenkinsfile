@@ -39,16 +39,21 @@ pipeline {
                 }
             }
             */
+            when {
+				env.JOB_NAME.endswith('dev')
+			}
             steps {
                 /*echo "User: ${PERSON} said OK"*/
-                sh 'mvn deploy'
+                echo "Deploy to dev"
             }
         }
 
+/*
         stage('GenerateRpms') {
             steps {
                 sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
             }
         }
+*/
     }
 }
