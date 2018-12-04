@@ -3,9 +3,10 @@ pipeline {
 
 	parameters {
 		choice (
-			choices: 'env-a\n\env-b',
-			description: 'choose env'
+			choices: ['env-a', 'env-b'],
+			description: 'choose env',
 			name: 'target'
+		)
 	}
 	
 	stages {
