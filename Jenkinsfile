@@ -20,6 +20,7 @@ pipeline {
 			steps {
 				step ([$class: 'WsCleanup'])
 			}
+		}
 /*
 		stage('qa-deploy') {
 			when {
