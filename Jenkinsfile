@@ -1,13 +1,5 @@
 pipeline {
 	agent any
-
-	parameters {
-		choice (
-			choices: ['env-a', 'env-b'],
-			description: 'choose env',
-			name: 'target'
-		)
-	}
 	
 	stages {
 		stage('Info') {
