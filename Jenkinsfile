@@ -5,8 +5,9 @@ pipeline {
 		stage('Info') {
             steps {
                 echo "Selected params: ${params.TARGET_ENV}"
-                for (int i in ${params.TARGET_ENV}) {
-					println("This parameter is $i")
+                script {
+					for (int i in ${params.TARGET_ENV}) {
+					echo "Parameter $i"
 				}
             }
         }
