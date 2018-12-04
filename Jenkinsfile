@@ -12,6 +12,18 @@ pipeline {
 					}
 				}
 			}
+		stage('GetTools') {
+			steps {
+				checkout([  
+				$class: 'GitSCM', 
+				branches: [[name: 'refs/heads/master']], 
+				doGenerateSubmoduleConfigurations: false, 
+				extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'Tools']], 
+				submoduleCfg: [], 
+				userRemoteConfigs: [[credentialsId: '1a79b242-5a87-47d0-b801-768d5853b114', url: 'git@github.com:dpriches/build_tools.git']]
+        ])
+			}
+		
 		}
 		
 /*
