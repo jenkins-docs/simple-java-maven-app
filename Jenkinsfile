@@ -10,9 +10,11 @@ stages {
         }
     }
     stage('Deploy') {
-           when (env.JOB_NAME.endsWith('nightly')
-                sh 'echo "Deploy on nighlty"'
-            when (env.JOB_NAME.endsWith('sprintly')
-                sh 'echo "Deploy only sprintly"'
+			when {
+				env.JOB_NAME.endsWith('nightly')
+			}
+			steps {
+				sh 'echo "Deploy on nighlty"'
+			}
     }
 }
