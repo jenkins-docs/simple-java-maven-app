@@ -10,7 +10,7 @@ pipeline {
     stages {
 		stage('Info') {
             steps {
-                echo "Running ${env.JOB_NAME}"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             }
         }
 
@@ -39,21 +39,16 @@ pipeline {
                 }
             }
             */
-            when {
-				env.JOB_NAME.endswith('dev')
-			}
             steps {
                 /*echo "User: ${PERSON} said OK"*/
-                echo "Deploy to dev"
+                sh 'mvn deploy'
             }
         }
 
-/*
         stage('GenerateRpms') {
             steps {
                 sh 'mvn deploy -P create-rpms -f create-rpms/pom.xml'
             }
         }
-*/
     }
 }
