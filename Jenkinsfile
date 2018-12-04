@@ -11,10 +11,12 @@ pipeline {
 		}
 		stage('Deploy') {
 			when {
-				env.JOB_NAME.endsWith('dev')
+				expression { 
+					env.JOB_NAME.endsWith('dev')
+				}
 			}
 			steps {
-				sh 'echo "Job is dev"'
+				echo "Job is dev"
 			}
 		}
 	}
