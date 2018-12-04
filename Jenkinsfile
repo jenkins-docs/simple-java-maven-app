@@ -9,7 +9,7 @@ pipeline {
                 script {
 					String[] values = params.TARGET_ENV.split (",")
 					for (String s: values) { 
-						echo "Parameter values[i]" 
+						echo "Parameter $s" 
 					}
 				}
 			}
