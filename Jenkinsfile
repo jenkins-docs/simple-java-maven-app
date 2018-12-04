@@ -39,7 +39,7 @@ pipeline {
             }
         }
 
-		stage('Deploy') {
+		stage('dev-deploy') {
 			when {
 				expression { 
 					env.JOB_NAME.endsWith('dev')
@@ -47,6 +47,17 @@ pipeline {
 			}
 			steps {
 				echo "Job is dev"
+			}
+		}
+
+		stage('qa-deploy') {
+			when {
+				expression { 
+					env.JOB_NAME.endsWith('qa')
+				}
+			}
+			steps {
+				echo "Job is qa"
 			}
 		}
 	}
