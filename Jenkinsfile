@@ -4,8 +4,6 @@ pipeline {
 	stages {	
 		stage('Info') {
             steps {
-                echo "Selected params: ${params.TARGET_ENV}"
-                
                 script {
 					String[] targetEnv = params.TARGET_ENV.tokenize (",")
 					echo "# envs - ${targetEnv.size()}"
@@ -16,12 +14,13 @@ pipeline {
 			}
 		}
 		
-		stage('Cleanup') {
+/*
+ 		stage('Cleanup') {
 			steps {
 				step ([$class: 'WsCleanup'])
 			}
 		}
-/*
+		*/
 		stage('qa-deploy') {
 			when {
 				expression { 
@@ -29,11 +28,14 @@ pipeline {
 				}
 			}
 			steps {
-				echo "Job is qa"
+				script {
+					echo "Job is qa"
+				}
 				
 			}
 		}
 
+/*
 		stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
