@@ -8,7 +8,13 @@ pipeline {
 /* a comment */ 
 
     stages {
-        stage('Build') {
+		stage('Info') {
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+
+		stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
