@@ -8,7 +8,7 @@ pipeline {
                 
                 script {
 					String[] targetEnv = params.TARGET_ENV.split (",")
-					echo "# envs - $targetEnv.size()"
+					echo "# envs - targetEnv.size()"
 					for (String s: targetEnv) { 
 						echo "Parameter $s" 
 					}
