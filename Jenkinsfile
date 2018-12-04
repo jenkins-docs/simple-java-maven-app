@@ -1,14 +1,30 @@
 pipeline {
-	agent {
-		label 'master'
-	}
+	agent any
 
+	parameters {
+		choice (
+			choices: 'env-a\n\env-b',
+			description: 'choose env'
+			name: 'target'
+	}
+	
 	stages {
 		stage('Info') {
             steps {
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             }
         }
+
+		stage('qa-deploy') {
+			when {
+				expression { 
+					env.JOB_NAME.endsWith('qa')
+				}
+			}
+			steps {
+				echo "Job is qa"
+			}
+		}
 
 		stage('Build') {
             steps {
@@ -50,15 +66,5 @@ pipeline {
 			}
 		}
 
-		stage('qa-deploy') {
-			when {
-				expression { 
-					env.JOB_NAME.endsWith('qa')
-				}
-			}
-			steps {
-				echo "Job is qa"
-			}
-		}
 	}
 }
