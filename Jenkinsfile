@@ -1,20 +1,21 @@
 pipeline {
-agent {
-    label 'master'
-}
+	agent {
+		label 'master'
+	}
 
-stages {
-    stage('Build') {
-        steps {
-            echo "Hello"
-        }
-    }
-    stage('Deploy') {
+	stages {
+		stage('Build') {
+			steps {
+				sh 'echo "Hello"'
+			}
+		}
+		stage('Deploy') {
 			when {
-				env.JOB_NAME.endsWith('nightly')
+				env.JOB_NAME.endsWith('dev')
 			}
 			steps {
-				sh 'echo "Deploy on nighlty"'
+				sh 'echo "Job is dev"'
 			}
-    }
+		}
+	}
 }
