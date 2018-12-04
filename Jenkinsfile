@@ -15,6 +15,11 @@ pipeline {
 				}
 			}
 		}
+		
+		stage('Cleanup') {
+			steps {
+				step ([$class: 'WsCleanup'])
+			}
 /*
 		stage('qa-deploy') {
 			when {
@@ -24,6 +29,7 @@ pipeline {
 			}
 			steps {
 				echo "Job is qa"
+				
 			}
 		}
 
