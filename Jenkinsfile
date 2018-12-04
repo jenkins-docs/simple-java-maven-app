@@ -5,8 +5,12 @@ pipeline {
 		stage('Info') {
             steps {
                 echo "Selected params: ${params.TARGET_ENV}"
+                
                 script {
-						for (int i in params.TARGET_ENV) { echo "Parameter $i" }
+					String[] values = params.TARGET_ENV.split (",")
+					for (String s: values) { 
+						echo "Parameter values[i]" 
+					}
 				}
 			}
 		}
