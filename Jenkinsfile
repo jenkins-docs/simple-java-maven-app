@@ -2,6 +2,15 @@ pipeline {
 	agent any
 	
 	stages {
+		stage('Checkout') {
+			dir('app') {
+				git url: 'git@github.com:dpriches/simple-java-maven-app.git'
+				}
+			dir('build_tools') {
+				git url: 'git@github.com:dpriches/build_tools.git'
+				}
+		}
+		
 		stage('Info') {
             steps {
                 echo "Selected params: ${params.TARGET_ENV}"
