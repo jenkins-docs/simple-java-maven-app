@@ -1,16 +1,18 @@
 pipeline {
-    agent any
-    
-    triggers {
-        pollSCM ('*/5 * * * *')
-    }
+agent {
+    label 'master'
+}
 
-/* a comment */ 
-
-    stages {
-		stage('Info') {
-			when (env.JOB_NAME.endsWith('dev'))
-				echo "Running ${env.JOB_NAME}"
+stages {
+    stage('Build') {
+        steps {
+            echo "Hello"
         }
+    }
+    stage('Deploy') {
+           when (env.JOB_NAME.endsWith('nightly')
+                sh 'echo "Deploy on nighlty"'
+            when (env.JOB_NAME.endsWith('sprintly')
+                sh 'echo "Deploy only sprintly"'
     }
 }
