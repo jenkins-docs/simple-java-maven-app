@@ -2,13 +2,13 @@
   <parent>
     <groupId>com.mycompany.app</groupId>
     <artifactId>java-app-parent</artifactId>
-    <version>1.1</version>
+    <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
   <artifactId>java-app</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>${revision}</version>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
