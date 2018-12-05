@@ -25,28 +25,13 @@ pipeline {
 				])
 			}
 		}
-		
-/*
+
  		stage('Cleanup') {
 			steps {
 				step ([$class: 'WsCleanup'])
 			}
 		}
-
-		stage('qa-deploy') {
-			when {
-				expression { 
-					env.JOB_NAME.endsWith('qa')
-				}
-			}
-			steps {
-				script {
-					echo "Job is qa"
-				}
-				
-			}
-		}
-
+		
 		stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -76,16 +61,5 @@ pipeline {
             }
         }
 
-		stage('dev-deploy') {
-			when {
-				expression { 
-					env.JOB_NAME.endsWith('dev')
-				}
-			}
-			steps {
-				echo "Job is dev"
-			}
-		}
-*/
 		}
 }
