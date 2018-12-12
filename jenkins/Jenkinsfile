@@ -43,7 +43,7 @@ spec:
             }
             steps {
                 container('maven') {
-                    sh './scripts/deliver.sh'
+                    echo './scripts/deliver.sh'
                 }
             }
         }
