@@ -6,7 +6,7 @@ node {
   stage('Build') {
     echo 'Building Project'
      }
-  stage(‘Deploy’){
+  stage('Deploy'){
     echo “Deploying…”
      }
 }
