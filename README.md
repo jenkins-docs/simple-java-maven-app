@@ -1,4 +1,5 @@
 # simple-java-maven-app
+docker run -u root --rm -i --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home -v c:/workspace/_github/CICD:/home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean
 
 This repository is for the
 [Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
