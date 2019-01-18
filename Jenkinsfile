@@ -8,7 +8,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo EKKLOT1
                 sh 'mvn -B -DskipTests clean package'
             }
         }
