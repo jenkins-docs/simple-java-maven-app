@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') { 
             environment {
-                USERPASS = credentials('fruity')
+                USERPASS = [string(credentialsId: 'fruity', variable: 'USERPASS')]
             }
             steps {
                 script {
