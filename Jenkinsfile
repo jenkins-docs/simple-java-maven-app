@@ -29,7 +29,6 @@ pipeline {
         stage('SonarQube analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarQube Scanner 2.8'
                     withSonarQubeEnv('Sonarqube') {
                         sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
                     }
