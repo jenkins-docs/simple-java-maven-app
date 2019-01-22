@@ -41,7 +41,7 @@ pipeline {
                         """{
                         "files": [
                             {
-                            "pattern": "simple-java-maven-app/*.groovy",
+                            "pattern": "/home/Documents/simple-java-maven-app/*.groovy",
                             "target": "Jenkins-integration/"
                             }
                         ]
