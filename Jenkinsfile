@@ -31,7 +31,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarQube Scanner 2.8'
                     withSonarQubeEnv('Sonarqube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
                     }
                 }
             }
