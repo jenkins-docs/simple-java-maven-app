@@ -8,12 +8,13 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                script {
+                sh "echo 'hello'"
+                /*script {
                     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
                         method.auth(USERPASS)
                     }
-                }
+                }*/
             }
         }
         stage('Test') {
