@@ -9,7 +9,7 @@ pipeline {
         stage('Build') { 
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'fruity', variable: 'TOKEN')]) {
+                    withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'TOKEN')]) {
                         def method = load("auth.groovy")
                         method.auth(USERPASS)
                     }
