@@ -1,5 +1,8 @@
 def auth(token) {
-    println token
+    def (usr, pass) = token.split(':')
+    if (usr == 'banana') {
+        println "banana"
+    }
 }
 
 return [

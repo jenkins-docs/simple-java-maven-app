@@ -11,7 +11,6 @@ pipeline {
                 script {
                     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
-                        sh "echo $USERPASS"
                         method.auth(USERPASS)
                     }
                 }
