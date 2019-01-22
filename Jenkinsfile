@@ -10,7 +10,7 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package' 
                 script {
-                    withCredentials([usernameColonPassword(credentialsId: 'mylogin', variable: 'USERPASS')]) {
+                    withCredentials([usernameColonPassword(credentialsId: 'fruit', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
                         method.auth(USERPASS)
                     }  
