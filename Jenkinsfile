@@ -5,15 +5,15 @@ pipeline {
             args '-v /root/.m2:/root/.m2' 
         }
     }
-    environment {
-        USERPASS = credentials('fruit')
-    }
     stages {
         stage('Build') { 
+            environment {
+                USERPASS = credentials('fruit')
+            }
             steps {
                 script {
-                        def method = load("auth.groovy")
-                        method.auth(USERPASS)
+                    def method = load("auth.groovy")
+                    method.auth(USERPASS)
                 }
             }
         }
