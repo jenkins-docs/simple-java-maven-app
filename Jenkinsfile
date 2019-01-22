@@ -7,13 +7,12 @@ pipeline {
     }
     stages {
         stage('Build') { 
-            environment {
-                USERPASS = string(credentialsId: 'fruity', variable: 'USERPASS')
-            }
             steps {
                 script {
-                    def method = load("auth.groovy")
-                    method.auth(USERPASS)
+                    withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+                        def method = load("auth.groovy")
+                        method.auth(USERPASS)
+                    }
                 }
             }
         }
