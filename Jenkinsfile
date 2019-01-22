@@ -1,12 +1,12 @@
 pipeline {
-    environment {
-        USERPASS = credentials('fruit')
-    }
     agent {
         docker {
             image 'maven:3-alpine' 
             args '-v /root/.m2:/root/.m2' 
         }
+    }
+    environment {
+        USERPASS = credentials('fruit')
     }
     stages {
         stage('Build') { 
