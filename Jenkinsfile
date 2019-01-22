@@ -30,9 +30,14 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('Sonarqube') {
-                        sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+                        sh 'mvn clean package sonar:sonar'
                     }
                 }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
             }
         }
         stage('Deliver') {
