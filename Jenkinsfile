@@ -8,13 +8,12 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh "echo 'hello'"
-                /*script {
+                script {
                     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
                         method.auth(USERPASS)
                     }
-                }*/
+                }
             }
         }
         stage('Test') {
@@ -44,6 +43,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
+                /*
                 rtServer (
                     id: "Artifactory-1",
                     url: "http://172.17.0.3:8081/artifactory",
@@ -61,7 +61,7 @@ pipeline {
                             }
                         ]
                         }"""
-                )
+                ) */
             }
         }
     }
