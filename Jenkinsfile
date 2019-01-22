@@ -27,14 +27,14 @@ pipeline {
             }
         }
         stage('Deliver') {
-            rtServer (
-                id: "Artifactory-1",
-                url: "http://172.17.0.3:8081/artifactory",
-                username: "zac",
-                password: "abcd123"
-            )
             steps {
                 sh './jenkins/scripts/deliver.sh'
+                rtServer (
+                    id: "Artifactory-1",
+                    url: "http://172.17.0.3:8081/artifactory",
+                    username: "zac",
+                    password: "abcd123"
+                )
                 rtUpload (
                     serverId: "Artifactory-1",
                     spec:
