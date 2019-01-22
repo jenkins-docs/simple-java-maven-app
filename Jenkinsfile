@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+        USERPASS = credentials('fruit')
+    }
     agent {
         docker {
             image 'maven:3-alpine' 
@@ -9,10 +12,8 @@ pipeline {
         stage('Build') { 
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'fruit', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
                         method.auth(USERPASS)
-                    }  
                 }
             }
         }
