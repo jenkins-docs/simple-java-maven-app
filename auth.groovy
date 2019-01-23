@@ -1,11 +1,7 @@
 def auth(token) {
     def (usr, pass) = token.split(':')
-    if (usr == 'banana') {
-        println "banana"
-    }
-    if (pass == 'apple') {
-        println "apple"
-    }
+    assert usr == 'banana'
+    assert pass == 'apple'
 }
 
 return [
