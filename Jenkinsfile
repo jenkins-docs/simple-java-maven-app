@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
+                sh 'mvn clean install'
                 script {
                     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
                         def method = load("auth.groovy")
