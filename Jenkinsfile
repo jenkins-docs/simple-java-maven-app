@@ -48,7 +48,6 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
-                /*
                 rtServer (
                     id: "Artifactory-1",
                     url: "http://172.17.0.3:8081/artifactory",
@@ -66,7 +65,7 @@ pipeline {
                             }
                         ]
                         }"""
-                ) */
+                )
             }
         }
     }
