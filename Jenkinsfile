@@ -8,16 +8,10 @@ node {
     }
     stage('Tester') {
         mvn('test')
-        post {
-            always {
-                junit 'target/surefire-reports/*.xml'
-            }
-        }
+        junit 'target/surefire-reports/*.xml'
     }
     stage('SonarQube analysis') {
-        environment {
-            scanner = tool 'Scanner' 
-        }
+        scanner = tool 'Scanner' 
         withSonarQubeEnv('Sonarqube') {
             sh "${scanner}/bin/sonar-scanner"
         }
@@ -29,31 +23,26 @@ node {
     }
     stage('Deliver') {
         sh './jenkins/scripts/deliver.sh'
-        post {
-            always {
-                withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
-                    rtServer (
-                        id: "Artifactory-1",
-                        url: "http://172.17.0.3:8081/artifactory",
-                        username: "${USR}",
-                        password: "${PASS}"
-                    )
-                    rtUpload (
-                        serverId: "Artifactory-1",
-                        spec:
-                            """{
-                            "files": [
-                                {
-                                "pattern": "/home/Documents/simple-java-maven-app/auth.groovy",
-                                "target": "Jenkins-integration/"
-                                }
-                            ]
-                            }"""
-                    )
-                }               
-            }
-            
-        }
+        withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
+            rtServer (
+                id: "Artifactory-1",
+                url: "http://172.17.0.3:8081/artifactory",
+                username: "${USR}",
+                password: "${PASS}"
+            )
+            rtUpload (
+                serverId: "Artifactory-1",
+                spec:
+                    """{
+                    "files": [
+                        {
+                        "pattern": "/home/Documents/simple-java-maven-app/auth.groovy",
+                        "target": "Jenkins-integration/"
+                        }
+                    ]
+                    }"""
+            )
+        }               
     }
 }
 
