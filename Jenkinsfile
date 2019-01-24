@@ -1,3 +1,5 @@
+#!groovy​
+
 node {
     maven = tool 'M3'
     scanner = tool 'Scanner' 
@@ -38,7 +40,7 @@ def sonar() {
 }
 def authVerify() {
     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
-        def method = load("auth.groovy")
+        method = load("auth.groovy")
         method.auth(USERPASS)
     }
 }
