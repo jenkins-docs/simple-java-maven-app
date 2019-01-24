@@ -11,9 +11,9 @@ public class App
     public App() {}
 
     public static void main(String[] args) {
-        while(true) {
-            //Infinite loop
-        }
+        System.out.println(new App().getMessage());
+        while(true)
+        {}
     }
 
     private final String getMessage() {
