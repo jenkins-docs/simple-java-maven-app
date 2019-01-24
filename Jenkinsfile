@@ -1,13 +1,13 @@
 node {
     stage('Build') { 
-        sh 'mvn clean install'
+        mvn 'clean install'
         withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
             def method = load("auth.groovy")
             method.auth(USERPASS)
         }
     }
     stage('Tester') {
-        sh 'mvn test'
+        mvn 'test'
         post {
             always {
                 junit 'target/surefire-reports/*.xml'
@@ -54,5 +54,12 @@ node {
             }
             
         }
+    }
+}
+
+def mvn(args) {
+    def mvn_version = 'M3'
+    withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+        sh "mvn $args" 
     }
 }
