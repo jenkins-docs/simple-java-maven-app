@@ -1,13 +1,13 @@
 node {
     stage('Build') { 
-        mvn 'clean install'
+        mvn('clean install')
         withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
             def method = load("auth.groovy")
             method.auth(USERPASS)
         }
     }
     stage('Tester') {
-        mvn 'test'
+        mvn('test')
         post {
             always {
                 junit 'target/surefire-reports/*.xml'
