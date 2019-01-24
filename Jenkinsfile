@@ -6,9 +6,11 @@ node {
 
     stage('Build') { 
         mvn('clean install')
+    }
+    stage('Verification') {
         authVerify()
     }
-    stage('Tester') {
+    stage('Test') {
         mvn('test')
         junit 'target/surefire-reports/*.xml'
     }
