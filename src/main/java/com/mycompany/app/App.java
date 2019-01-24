@@ -12,6 +12,9 @@ public class App
 
     public static void main(String[] args) {
         System.out.println(new App().getMessage());
+        while(true){
+            print("printing...");
+        }
     }
 
     private final String getMessage() {
@@ -19,5 +22,6 @@ public class App
     }
     for(;;)
        System.out.println("Hello");
+
 
 }
