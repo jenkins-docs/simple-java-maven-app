@@ -11,7 +11,7 @@ node {
         authVerify()
     }
     stage('Test') {
-        mvn('test')
+        mvn "test"
         junit 'target/surefire-reports/*.xml'
     }
     stage('SonarQube analysis') {
