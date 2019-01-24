@@ -1,80 +1,58 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
+node {
+    stage('Build') { 
+        sh 'mvn clean install'
+        withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
+            def method = load("auth.groovy")
+            method.auth(USERPASS)
         }
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn clean install'
-                script {
-                    withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
-                        def method = load("auth.groovy")
-                        method.auth(USERPASS)
-                    }
-                }
+    stage('Tester') {
+        sh 'mvn test'
+        post {
+            always {
+                junit 'target/surefire-reports/*.xml'
             }
         }
-        stage('Tester') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+    }
+    stage('SonarQube analysis') {
+        environment {
+            scanner = tool 'Scanner' 
         }
-        stage('SonarQube analysis') {
-            environment {
-                scanner = tool 'Scanner' 
-            }
-            steps {
-                script {
-                    withSonarQubeEnv('Sonarqube') {
-                        sh "${scanner}/bin/sonar-scanner"
-                    }
-                }
-            }
+        withSonarQubeEnv('Sonarqube') {
+            sh "${scanner}/bin/sonar-scanner"
         }
-        stage('QA') {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
+    }
+    stage('QA') {
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
         }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
+    }
+    stage('Deliver') {
+        sh './jenkins/scripts/deliver.sh'
+        post {
+            always {
+                withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
+                    rtServer (
+                        id: "Artifactory-1",
+                        url: "http://172.17.0.3:8081/artifactory",
+                        username: "${USR}",
+                        password: "${PASS}"
+                    )
+                    rtUpload (
+                        serverId: "Artifactory-1",
+                        spec:
+                            """{
+                            "files": [
+                                {
+                                "pattern": "/home/Documents/simple-java-maven-app/auth.groovy",
+                                "target": "Jenkins-integration/"
+                                }
+                            ]
+                            }"""
+                    )
+                }               
             }
-            post {
-                always {
-                    withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
-                        rtServer (
-                            id: "Artifactory-1",
-                            url: "http://172.17.0.3:8081/artifactory",
-                            username: "${USR}",
-                            password: "${PASS}"
-                        )
-                        rtUpload (
-                            serverId: "Artifactory-1",
-                            spec:
-                                """{
-                                "files": [
-                                    {
-                                    "pattern": "/home/Documents/simple-java-maven-app/auth.groovy",
-                                    "target": "Jenkins-integration/"
-                                    }
-                                ]
-                                }"""
-                        )
-                    }               
-                }
-               
-            }
+            
         }
     }
 }
