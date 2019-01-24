@@ -44,6 +44,7 @@ def sonar() {
 def authVerify() {
     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
         rootdir = pwd()
+        println rootdir
         method = load "${rootdir}@script/auth.groovy"
         method.auth(USERPASS)
     }
