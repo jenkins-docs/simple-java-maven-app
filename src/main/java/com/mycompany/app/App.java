@@ -11,9 +11,7 @@ public class App
     public App() {}
 
     public static void main(String[] args) {
-        for (int i = 1; i <= 10000; ++i) {
         System.out.println(new App().getMessage());
-        }
     }
 
     private final String getMessage() {
