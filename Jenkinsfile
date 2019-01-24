@@ -17,7 +17,7 @@ pipeline {
                 }
             }
         }
-        stage('Tst') {
+        stage('Test') {
             steps {
                 sh 'mvn test'
             }
