@@ -4,7 +4,8 @@ node {
     maven = tool 'M3'
     scanner = tool 'Scanner' 
 
-    stage('Build') { 
+    stage('Build') {
+        checkout scm 
         mvn "clean install"
     }
     stage('Verification') {
