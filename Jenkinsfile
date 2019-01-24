@@ -5,7 +5,7 @@ node {
     scanner = tool 'Scanner' 
 
     stage('Build') { 
-        mvn('clean install')
+        mvn "clean install"
     }
     stage('Verification') {
         authVerify()
@@ -42,7 +42,8 @@ def sonar() {
 }
 def authVerify() {
     withCredentials([usernameColonPassword(credentialsId: 'fruity', variable: 'USERPASS')]) {
-        method = load("auth.groovy")
+        rootdir = pwd()
+        method = load "${rootdir}@script/auth.groovy"
         method.auth(USERPASS)
     }
 }
