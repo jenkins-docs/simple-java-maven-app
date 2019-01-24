@@ -1,4 +1,7 @@
 node {
+    maven = tool 'M3'
+    scanner = tool 'Scanner' 
+
     stage('Build') { 
         mvn('clean install')
         authVerify()
@@ -16,8 +19,7 @@ node {
         }
     }
     stage('Deliver') {
-        def mvn_version = 'M3'
-        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+        withEnv( ["PATH+MAVEN=${maven}/bin"] ) {
             sh './jenkins/scripts/deliver.sh'
         }
         artifactory()
@@ -25,13 +27,11 @@ node {
 }
 
 def mvn(args) {
-    def mvn_version = 'M3'
-    withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+    withEnv( ["PATH+MAVEN=${maven}/bin"] ) {
         sh "mvn $args" 
     }
 }
 def sonar() {
-    scanner = tool 'Scanner' 
     withSonarQubeEnv('Sonarqube') {
         sh "${scanner}/bin/sonar-scanner"
     }
