@@ -30,7 +30,7 @@ node {
 
 def mvn(args) {
     withEnv( ["PATH+MAVEN=${maven}/bin"] ) {
-        sh "mvn $args" 
+        sh "mvn ${args}" 
     }
 }
 def sonar() {
