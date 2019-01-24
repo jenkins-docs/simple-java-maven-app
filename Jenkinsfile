@@ -24,7 +24,7 @@ node {
     stage('Deliver') {
         def mvn_version = 'M3'
         withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
-            sh './jenkins/scripts/deliver.sh'4
+            sh './jenkins/scripts/deliver.sh'
         }
         withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
             rtServer (
