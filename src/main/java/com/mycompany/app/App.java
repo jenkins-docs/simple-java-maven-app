@@ -20,8 +20,4 @@ public class App
     private final String getMessage() {
         return message;
     }
-    for(;;)
-       System.out.println("Hello");
-
-
 }
