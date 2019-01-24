@@ -22,7 +22,10 @@ node {
         }
     }
     stage('Deliver') {
-        sh './jenkins/scripts/deliver.sh'
+        def mvn_version = 'M3'
+        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+            sh './jenkins/scripts/deliver.sh'4
+        }
         withCredentials([usernamePassword(credentialsId: 'art', usernameVariable: 'USR', passwordVariable: 'PASS')]) {
             rtServer (
                 id: "Artifactory-1",
