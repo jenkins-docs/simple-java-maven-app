@@ -13,7 +13,7 @@ public class App
     public static void main(String[] args) {
         System.out.println(new App().getMessage());
         while(true){
-            print("printing...");
+            System.out.println("printing...");
         }
     }
 
