@@ -8,6 +8,13 @@ node {
         checkout scm 
         mvn "clean install"
     }
+    stage('Verification') {
+        if (env.BRANCH_NAME == 'multibranch') {
+            echo 'Cannot verify because reasons.'
+        } else {
+            authVerify()
+        }
+    }
     stage('Test') {
         mvn "test"
         junit 'target/surefire-reports/*.xml'
