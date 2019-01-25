@@ -8,9 +8,6 @@ node {
         checkout scm 
         mvn "clean install"
     }
-    stage('Verification') {
-        authVerify()
-    }
     stage('Test') {
         mvn "test"
         junit 'target/surefire-reports/*.xml'
