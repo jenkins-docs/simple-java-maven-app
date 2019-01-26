@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                echo '${env.RUNNING}'
+                echo "${env.RUNNING}"
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
