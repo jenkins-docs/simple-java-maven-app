@@ -5,9 +5,14 @@ pipeline {
             args '-v /root/.m2:/root/.m2' 
         }
     }
+    environment {
+        RUNNING = 'I am running'
+        SCRIPT_NAME = 'deliver-for-master.sh'
+    }
     stages {
         stage('Build') { 
             steps {
+                echo "${env.RUNNING}"
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
@@ -30,7 +35,11 @@ pipeline {
             when {
                 branch 'development'
             }
+            environment {
+                SCRIPT_NAME = 'deliver-for-development.sh'
+            }
             steps {
+                echo "${env.RUNNING} ${env.SCRIPT_NAME}"
                 sh './jenkins/scripts/deliver-for-development.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
@@ -40,7 +49,11 @@ pipeline {
             when {
                 branch 'production'
             }
+            environment {
+                SCRIPT_NAME = 'deliver-for-production.sh'
+            }
             steps {
+                echo "${env.RUNNING} ${env.SCRIPT_NAME}"
                 sh './jenkins/scripts/deliver-for-production.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'

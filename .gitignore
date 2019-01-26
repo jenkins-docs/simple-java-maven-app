@@ -1,3 +1,6 @@
+.idea/
+my-app.iml
+
 .DS_Store
 target/
 pom.xml.tag
