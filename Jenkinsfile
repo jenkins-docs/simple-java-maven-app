@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         RUNNING = 'I am running'
-        SCRIPT_NAME = 'deliver-for-master.sh'
+        SCRIPT_NAME = 'deliver.sh'
     }
     stages {
         stage('Build') { 
@@ -26,8 +26,12 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Deliver for master') {
+            when {
+                branch 'master'
+            }
             steps {
+                echo "${env.RUNNING} ${env.SCRIPT_NAME}"
                 sh './jenkins/scripts/deliver.sh' 
             }
         }
@@ -40,7 +44,7 @@ pipeline {
             }
             steps {
                 echo "${env.RUNNING} ${env.SCRIPT_NAME}"
-                sh './jenkins/scripts/deliver-for-development.sh'
+                sh "./jenkins/scripts/${env.SCRIPT_NAME}"
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
             }
@@ -54,7 +58,7 @@ pipeline {
             }
             steps {
                 echo "${env.RUNNING} ${env.SCRIPT_NAME}"
-                sh './jenkins/scripts/deliver-for-production.sh'
+                sh "./jenkins/scripts/${env.SCRIPT_NAME}"
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
             }
