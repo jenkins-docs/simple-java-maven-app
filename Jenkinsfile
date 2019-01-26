@@ -39,6 +39,7 @@ pipeline {
                 SCRIPT_NAME = 'deliver-for-development.sh'
             }
             steps {
+                echo "${env.RUNNING} ${env.SCRIPT_NAME}"
                 sh './jenkins/scripts/deliver-for-development.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
@@ -52,6 +53,7 @@ pipeline {
                 SCRIPT_NAME = 'deliver-for-production.sh'
             }
             steps {
+                echo "${env.RUNNING} ${env.SCRIPT_NAME}"
                 sh './jenkins/scripts/deliver-for-production.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
