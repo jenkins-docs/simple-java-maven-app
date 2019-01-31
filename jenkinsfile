@@ -22,7 +22,8 @@ pipeline{
     }
     stage ('Deploy'){
       steps {
-        sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
+        sh 'scp -r target centos@54.244.9.91:/root/'
+        sh 'java -jar centos@54.244.9.91:/root/target/my-app-1.0-SNAPSHOT.jar'
       }
     }
   }
