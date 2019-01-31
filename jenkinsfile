@@ -5,26 +5,70 @@ pipeline{
     jdk 'java1.8.0'
   }
   stages{
-    stage('Build'){
+    //stage('Build'){
+     // steps{
+      //  sh "mvn -B -DskipTests clean package"
+     // }
+   // }
+    //stage('Test'){
+      //steps{
+        //sh "mvn test"
+      //}
+      //post{
+        //always{
+          //junit 'target/surefire-reports/*.xml'
+        //}
+      //}
+    //}
+    stage('Clone'){
       steps{
-        sh "mvn -B -DskipTests clean package"
+        git branch: 'master', url:"https://github.com/mahi4847/simple-java-maven-app.git"
       }
     }
-    stage('Test'){
+    stage('Artifactory Configuration'){
       steps{
-        sh "mvn test"
-      }
-      post{
-        always{
-          junit 'target/surefire-reports/*.xml'
-        }
+        rtServer(
+          id: "ARTIFACTORY_SERVICE",
+          url: "http://34.212.184.207:8081/artifactory",
+          credentialsId: "artifactory_info"
+        )
+        rtMavenDeployer(
+          id: "MAVEN_DEPLOYER",
+          serverId: "ARTIFACTORY_SERVICE",
+          releaseRepo: "libs-release-local",
+          snapshotRepo: "libs-snapshot-local"
+        )
+        rtMavenResolver(
+          id: "MAVEN_RESOLVER",
+          serverId: "ARTIFACTORY_SERVICE",
+          releaseRepo: "libs-release",
+          snapshotRepo: "libs-snapshot"
+        )
       }
     }
-    stage ('Deploy'){
-      steps {
-        sh 'scp -o StrictHostKeyChecking=no -i /tmp/my.pem target/my-app1-1.0-SNAPSHOT.jar centos@52.26.244.188:/tmp/'
-        sh 'ssh -i /tmp/my.pem centos@52.26.244.188 java -jar /tmp/my-app1-1.0-SNAPSHOT.jar'
+    stage('Exec Maven'){
+      steps{
+        rtMavenRun(
+          tool: 'maven3.6.0',
+          pom: 'pom.xml',
+          goals: 'clean install',
+          deployerId: "MAVEN_DEPLOYER"
+          resolverId: "MAVEN_RESOLVER"
+        )
       }
     }
+    stage('Publish build info'){
+      steps{
+        rtPublishBuildInfo(
+          serverId: "ARTIFACTORY_SERVICE"
+        )
+      }
+    }
+    //stage ('Deploy'){
+     // steps {
+      //  sh 'scp -o StrictHostKeyChecking=no -i /tmp/my.pem target/my-app1-1.0-SNAPSHOT.jar centos@52.26.244.188:/tmp/'
+     //   sh 'ssh -i /tmp/my.pem centos@52.26.244.188 java -jar /tmp/my-app1-1.0-SNAPSHOT.jar'
+     // }
+   // }
   }
 }
