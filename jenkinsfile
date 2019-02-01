@@ -4,6 +4,14 @@ pipeline{
     maven 'maven3.6.0'
     jdk 'java1.8.0'
   }
+  
+  stage('SonarQube analysis') {
+    withSonarQubeEnv('My SonarQube Server') {
+      // requires SonarQube Scanner for Maven 3.2+
+      //sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+      sh 'mvn sonar:sonar \ -Dsonar.host.url=http://54.213.144.44:9000 \  -Dsonar.login=d80aab2c21a38d0a5d513c612dd182d4c588d2ae'
+    }
+  }
   stages{
     //stage('Build'){
      // steps{
