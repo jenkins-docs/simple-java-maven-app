@@ -4,12 +4,6 @@ pipeline{
     maven 'maven3.6.0'
     jdk 'java1.8.0'
   }
-  
-  stage('SonarQube analysis') {
-    steps {
-      sh 'mvn sonar:sonar -Dsonar.host.url=http://54.213.144.44:9000 -Dsonar.login=d80aab2c21a38d0a5d513c612dd182d4c588d2ae'
-    }
-  }
   stages{
     //stage('Build'){
      // steps{
@@ -29,6 +23,11 @@ pipeline{
     stage('Clone'){
       steps{
         git branch: 'master', url:"https://github.com/mahi4847/simple-java-maven-app.git"
+      }
+    }
+    stage('SonarQube analysis') {
+      steps {
+        sh 'mvn sonar:sonar -Dsonar.host.url=http://54.213.144.44:9000 -Dsonar.login=d80aab2c21a38d0a5d513c612dd182d4c588d2ae'
       }
     }
     stage('Artifactory Configuration'){
