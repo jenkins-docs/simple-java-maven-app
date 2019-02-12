@@ -1,0 +1,42 @@
+1017  cat serv.yml
+ 1018  kubectl get pods --namespace=avengers
+ 1019  cd ..
+ 1020  kubectl get pods
+ 1021  ls
+ 1022  cd phoenix/
+ 1023  ls
+ 1024  cd ..
+ 1025  ls
+ 1026  kubectl get pods --namespace=phoenix
+ 1027  sonar status
+ 1028  sudo /etc/init.d/sonar status
+ 1029  kubectl get pods --all-namespaces
+ 1030  curl ident.me
+ 1031  kubectl get nodes -owide
+ 1032  clear
+ 1033  kubectl get pods -n devops
+ 1034  kubectl delete pod sonarqube-sonarqube-7b995b77bb-4z7gs -n devops
+ 1035  kubectl get pods -n devops
+ 1036  kubetl describe pod sonarqube-sonarqube-7b995b77bb-fq7m8 -n devops
+ 1037  kubectl describe pod sonarqube-sonarqube-7b995b77bb-fq7m8 -n devops
+ 1038  kubectl get pods -n devops
+ 1039  ls -lret
+ 1040  ls -lrt
+ 1041  cd /opt/sonar/extensions/plugins/
+ 1042  l
+ 1043  ll
+ 1044  kubectl get pods -n devops
+ 1045  kubectl exec -it sonarqube-sonarqube-7b995b77bb-fq7m8 -n devops /bin/bash/
+ 1046  kubectl exec -it sonarqube-sonarqube-7b995b77bb-fq7m8 -n devops /bin/bash
+ 1047  kubectl get pods -n devops
+ 1048  history
+ 1049  kubectl get pods -n devops
+ 1050  kubectl delete pod sonarqube-sonarqube-7b995b77bb-fq7m8 -n devops
+ 1051  kubectl get pods -n devops
+ 1052  history
+ 1053  kubetl describe pod
+ 1054  kubectl get pods -n devops
+ 1055  kubetl describe pod sonarqube-sonarqube-7b995b77bb-ksdcg -n devops
+ 1056  kubectl describe pod sonarqube-sonarqube-7b995b77bb-ksdcg -n devops
+ 1057  kubectl get pods -n devops
+ 1058  history
