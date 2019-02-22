@@ -8,7 +8,7 @@ jdk:
 # faster builds
 #gem 'coveralls', require: false 
 script: #"mvn cobertura:cobertura"
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=devops-asset_sonarqube -Dsonar.organization=devops-asset -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=devops-asset_simple-java-maven-app -Dsonar.organization=devops-asset -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN
 
 cache:
   directories:
