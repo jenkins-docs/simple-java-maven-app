@@ -18,9 +18,9 @@
   <build>
     <plugins>
       <plugin>
-        <!-- Build an executable JAR -->
+        <!-- Build an executable WAR -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-war-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
           <archive>
