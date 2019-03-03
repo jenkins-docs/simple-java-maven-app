@@ -14,6 +14,7 @@ pipeline {
 		stage('Test') {
 			steps {
 				sh 'mvn test'
+				sh 'mvn emma:emma'
 			}
 			post {
 				always {
