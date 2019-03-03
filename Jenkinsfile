@@ -14,13 +14,17 @@ pipeline {
 		stage('Test') {
 			steps {
 				sh 'mvn test'
-				sh 'mvn emma:emma'
 			}
 			post {
 				always {
 					junit 'target/surefire-reports/*.xml'
 				}
 			}	
+		}
+		stage('Coverage') {
+		    steps {
+		        sh 'mvn emma:emma'
+		    }
 		}
 		stage('Deliver') {
 			steps {
