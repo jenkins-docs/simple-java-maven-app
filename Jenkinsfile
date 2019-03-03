@@ -21,11 +21,6 @@ pipeline {
 				}
 			}	
 		}
-		stage('Coverage') {
-		    steps {
-		        sh 'mvn emma:emma'
-		    }
-		}
 		stage('Deliver') {
 			steps {
 				sh './jenkins/scripts/deliver.sh'
