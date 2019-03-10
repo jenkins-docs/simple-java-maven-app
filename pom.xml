@@ -37,13 +37,13 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus</id>
-			<name>maven-releases</name>
-			<url>http://localhost:8081/repository/maven-releases</url>
+			<name>simple-java-maven-app-releases</name>
+			<url>http://localhost:8081/repository/simple-java-maven-app-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>nexus</id>
-			<name>maven-snapshots</name>
-			<url>http://localhost:8081/repository/maven-snapshots</url>
+			<name>simple-java-maven-app-snapshots</name>
+			<url>http://localhost:8081/repository/simple-java-maven-app-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
