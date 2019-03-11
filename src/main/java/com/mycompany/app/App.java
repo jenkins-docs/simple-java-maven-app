@@ -6,7 +6,7 @@ package com.mycompany.app;
 public class App
 {
 
-    private final String message = "Hello (Snapshot) Jar!";
+    private final String message = "Hello Jar! CI: Git, Jenkins, Nexus, CD: ?, ?";
 
     public App() {}
 

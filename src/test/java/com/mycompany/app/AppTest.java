@@ -34,9 +34,9 @@ public class AppTest
     {
         App.main(null);
         try {
-            assertEquals("Hello (Snapshot) Jar!" + System.getProperty("line.separator"), outContent.toString());
+            assertEquals("Hello Jar! CI: Git, Jenkins, Nexus, CD: ?, ?" + System.getProperty("line.separator"), outContent.toString());
         } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello (Snapshot) Jar!\"");
+            fail("\"message\" is not \"Hello Jar! CI: Git, Jenkins, Nexus, CD: ?, ?\"");
         }
     }
 
