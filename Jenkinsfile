@@ -10,5 +10,15 @@ pipeline {
                 sh 'mvn -Dmaven.repo.local=.m2 -X -DskipTests clean package' 
             }
         }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
     }
 }
