@@ -10,7 +10,7 @@ pipeline {
 // Do some prep work for the build
 		stage('Prep') {
 			steps {
-				echo 'placeholder'
+				echo "branch is ${env.BRANCH}"
 			}
 		}
 
