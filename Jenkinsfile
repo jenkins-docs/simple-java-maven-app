@@ -7,7 +7,7 @@ pipeline {
 
 	stages {	
 
-// Do some prep work for the build
+// Do some prep work for the build - add branch publishing
 		stage('Prep') {
 			steps {
 				echo 'Branch is ' + env.BRANCH_NAME
