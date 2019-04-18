@@ -30,10 +30,12 @@
               <mainClass>com.mycompany.app.App</mainClass>
             </manifest>
           </archive>
-	  <source>1.6</source>
-	  <target>1.6</target>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+  </properties>
 </project>
