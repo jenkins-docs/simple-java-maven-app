@@ -18,4 +18,9 @@ public class App
         return message;
     }
 
+    private final void putMessage() {
+        System.out.println(message);
+    }
+
+
 }
