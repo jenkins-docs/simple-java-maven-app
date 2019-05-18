@@ -39,6 +39,12 @@ public class AppTest
             fail("\"message\" is not \"Hello World!\"");
         }
     }
+	
+	@Test
+	public void testAppGreeting()
+	{
+		App.main(null);
+	}
 
     @After
     public void cleanUpStreams() {
