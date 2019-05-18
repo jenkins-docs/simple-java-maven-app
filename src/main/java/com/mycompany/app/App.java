@@ -20,6 +20,6 @@ public class App
     }
 
 	private final String getGreeting(String somebody) {
-		return String.format(template, sombody);
+		return String.format(template, somebody);
 	}
 }
