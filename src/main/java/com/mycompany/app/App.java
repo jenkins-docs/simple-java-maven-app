@@ -12,6 +12,7 @@ public class App
 
     public static void main(String[] args) {
         System.out.println(new App().getMessage());
+        System.out.println("Je s'appelle Groot");
     }
 
     private final String getMessage() {
