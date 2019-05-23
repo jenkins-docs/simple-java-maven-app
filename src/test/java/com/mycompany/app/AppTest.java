@@ -29,7 +29,7 @@ public class AppTest
         }
     }
 
-    @Test
+   /* @Test
     public void testAppMain()
     {
         App.main(null);
@@ -38,7 +38,7 @@ public class AppTest
         } catch (AssertionError e) {
             fail("\"message\" is not \"Hello World!\"");
         }
-    }
+    }*/
 
     @After
     public void cleanUpStreams() {
