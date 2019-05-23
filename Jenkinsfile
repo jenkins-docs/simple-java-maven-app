@@ -18,5 +18,10 @@ pipeline {
         junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
+    stage('Informe') {
+      steps {
+        emailext(subject: 'Je s\'appelle Groot', body: 'Je s\'appelle Groot', from: 'jesappelle@groot.fr', to: 'cyrielle.rech@epsi.fr')
+      }
+    }
   }
 }
