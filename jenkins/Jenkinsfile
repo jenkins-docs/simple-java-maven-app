@@ -13,6 +13,8 @@ pipeline {
             }
         }
         stage('Test') {
+              steps {
+        script {
         //    steps {
           //      sh 'mvn test'
           //  }
@@ -28,7 +30,7 @@ pipeline {
                 junit 'target/surefire-reports/*.xml'
                 throw err
     }
-
+        }}
         }
         stage('Deliver') {
             steps {
