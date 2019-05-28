@@ -13,17 +13,26 @@ pipeline {
             }
         }
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+        //    steps {
+          //      sh 'mvn test'
+          //  }
+          //  post {
+          //      always {
+          //          junit 'target/surefire-reports/*.xml'
+           //     }
+          //  }
+            try {
+        // Any maven phase that that triggers the test phase can be used here.
+        sh 'mvn test'
+    } catch(err) {
+                junit 'target/surefire-reports/*.xml'
+                throw err
+    }
+
         }
         stage('Deliver') {
             steps {
+                    echo "Im deploying now!"
                 sh './jenkins/scripts/deliver.sh'
             }
         }
