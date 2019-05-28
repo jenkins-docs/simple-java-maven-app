@@ -35,14 +35,15 @@ pipeline {
         stage('Deliver') {
             steps {
                     echo "Im deploying now!"
+                  archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 sh './jenkins/scripts/deliver.sh'
             }
         }
     }
-    post {
-        always {
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                    junit 'target/surefire-reports/*.xml'
-        }
-    }
+  //  post {
+  //      always {
+  //          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+  //                  junit 'target/surefire-reports/*.xml'
+   //     }
+   // }
 }
