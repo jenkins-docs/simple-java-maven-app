@@ -1,12 +1,11 @@
 package com.mycompany.app;
 
-/**
- * Hello world!
- */
+//Java Pipeline!
+
 public class App
 {
 
-    private final String message = "Hello World!";
+    private final String message = "Java Pipeline!";
 
     public App() {}
 
