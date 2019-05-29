@@ -25,8 +25,9 @@ pipeline {
          //  }
             try {
         // Any maven phase that that triggers the test phase can be used here.
-                 junit 'target/surefire-reports/*.xml'
         sh 'mvn test'
+                                 junit 'target/surefire-reports/*.xml'
+
     } catch(err) {
                 junit 'target/surefire-reports/*.xml'
                 throw err
