@@ -18,13 +18,14 @@ pipeline {
         //    steps {
           //      sh 'mvn test'
           //  }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-           }
+         //   post {
+         //       always {
+         //           junit 'target/surefire-reports/*.xml'
+         //       }
+         //  }
             try {
         // Any maven phase that that triggers the test phase can be used here.
+                 junit 'target/surefire-reports/*.xml'
         sh 'mvn test'
     } catch(err) {
                 junit 'target/surefire-reports/*.xml'
