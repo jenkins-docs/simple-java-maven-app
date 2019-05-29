@@ -1,11 +1,7 @@
 pipeline {
     agent {
        label 'android-poc-slave'
-      //  docker {
-      //      image 'maven:3-alpine'
-      //      args '-v /root/.m2:/root/.m2'
-      //  }
-    }
+          }
     stages {
         stage('Build') {
             steps {
@@ -26,7 +22,7 @@ pipeline {
             try {
         // Any maven phase that that triggers the test phase can be used here.
         sh 'mvn test'
-                                 junit 'target/surefire-reports/*.xml'
+        junit 'target/surefire-reports/*.xml'
 
     } catch(err) {
                 junit 'target/surefire-reports/*.xml'
