@@ -44,6 +44,6 @@ pipeline {
   //                  junit 'target/surefire-reports/*.xml'
 //slackSend baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: ' #439FE0', failOnError: true, message: 'started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC' 
               slackSend ( teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC', baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: '#00FF00', message: """FINISHED: Job "${env.STAGE_NAME} ${env.JOB_NAME} [${env.BUILD_NUMBER}]" (${env.BUILD_URL})""")
-
+        }
     }
 }
