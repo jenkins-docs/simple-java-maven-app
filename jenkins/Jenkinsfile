@@ -42,7 +42,6 @@ pipeline {
         always {
   //          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
   //                  junit 'target/surefire-reports/*.xml'
-slackSend baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: 'Dina Gamal', color: ' #439FE0', failOnError: true, message: 'build java pipeline', teamDomain: 'https://jenkinsapp.slack.com', token: 'L977N3yGsGjyJVpIGaqmXlHv'
-        }
+slackSend baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: ' #439FE0', failOnError: true, message: 'build java pipeline', teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC'        }
     }
 }
