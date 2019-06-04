@@ -38,10 +38,12 @@ pipeline {
             }
         }
     }
-  //  post {
-  //      always {
+    post {
+        always {
   //          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
   //                  junit 'target/surefire-reports/*.xml'
-   //     }
-   // }
+                slackSend channel: 'Dina Gamal', color: ' #439FE0', failOnError: true, message: 'build java pipeline', teamDomain: 'https://jenkinsapp.slack.com'
+
+        }
+    }
 }
