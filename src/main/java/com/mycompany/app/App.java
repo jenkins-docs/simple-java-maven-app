@@ -5,7 +5,7 @@ package com.mycompany.app;
 public class App
 {
 
-    private final String message = "Java Pipeline!";
+    private final String message = "Java Pipelin!";
 
     public App() {}
 
