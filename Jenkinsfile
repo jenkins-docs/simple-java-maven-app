@@ -16,15 +16,6 @@ pipeline {
         sh 'echo Stage3'
         go build
       }
-      post {
-        failure {
-          mail {
-            to: 'tuananhnguyen.ima@gmail.com',
-            subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-            body: "Something is wrong with ${env.BUILD_URL}"
-          }
-        }
-      }
     }
     stage('Stage4') {
       steps {
@@ -42,4 +33,11 @@ pipeline {
       }
     }
   }
+  post {
+        failure {
+            mail to 'tuananhnguyen.ima@gmail.com'
+                subject "Failed Pipeline: ${currentBuild.fullDisplayName}"
+                body "Something is wrong with ${env.BUILD_URL}"
+        }
+      }
 }
