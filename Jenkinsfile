@@ -18,9 +18,11 @@ pipeline {
       }
       post {
         failure {
-          mail to: 'tuananhnguyen.ima@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
+          mail {
+            to: 'tuananhnguyen.ima@gmail.com',
+            subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+            body: "Something is wrong with ${env.BUILD_URL}"
+          }
         }
       }
     }
