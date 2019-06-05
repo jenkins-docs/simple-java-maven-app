@@ -13,7 +13,9 @@ pipeline {
     }
     stage('Stage3') {
       steps {
-        sh 'echo Stage3'
+        sh '''echo Stage3
+
+go build'''
       }
     }
     stage('Stage4') {
