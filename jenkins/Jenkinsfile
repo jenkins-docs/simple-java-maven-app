@@ -26,6 +26,8 @@ pipeline {
 
     } catch(err) {
                 junit 'target/surefire-reports/*.xml'
+              slackSend ( teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC', baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: '#FF0000', message: """Error: Job "${env.STAGE_NAME} ${env.JOB_NAME} [${env.BUILD_NUMBER}]" (${env.BUILD_URL}) ${env.WORKSPACE} [ Test Results Charts: ${env.JOB_URL}test_results_analyzer ]""")
+                
                 throw err
     }
         }}
@@ -35,15 +37,17 @@ pipeline {
                     echo "Im deploying now!"
                   archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 sh './jenkins/scripts/deliver.sh'
+      slackSend ( teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC', baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: '#00FF00', message: """FINISHED: Job "${env.STAGE_NAME} ${env.JOB_NAME} [${env.BUILD_NUMBER}]" (${env.BUILD_URL}) ${env.WORKSPACE} [ Test Results Charts: ${env.JOB_URL}test_results_analyzer ]""")
+
             }
         }
     }
-    post {
-        always {
+ //   post {
+   //     always {
   //          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
   //                  junit 'target/surefire-reports/*.xml'
 //slackSend baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: ' #439FE0', failOnError: true, message: 'started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC' 
-              slackSend ( teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC', baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: '#00FF00', message: """FINISHED: Job "${env.STAGE_NAME} ${env.JOB_NAME} [${env.BUILD_NUMBER}]" (${env.BUILD_URL}) ${env.WORKSPACE} [ Test Results Charts: ${env.JOB_URL}test_results_analyzer ]""")
-        }
-    }
+   //           slackSend ( teamDomain: 'https://jenkinsapp.slack.com', token: 'SZMv8yOkIeuFtFmDJO9NRViC', baseUrl: 'https://jenkinsapp.slack.com/services/hooks/jenkins-ci/', channel: '#general', color: '#00FF00', message: """FINISHED: Job "${env.STAGE_NAME} ${env.JOB_NAME} [${env.BUILD_NUMBER}]" (${env.BUILD_URL}) ${env.WORKSPACE} [ Test Results Charts: ${env.JOB_URL}test_results_analyzer ]""")
+   //     }
+  //  }
 }
