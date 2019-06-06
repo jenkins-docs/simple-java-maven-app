@@ -21,9 +21,9 @@ pipeline {
     stage('Stage3') {
       steps {
         sh 'echo Stage3'
-        retry(3) {
-          sh 'mvn build'
-        }
+        //retry(3) {
+        //  sh 'mvn build'
+       // }
       }
     }
     stage('Stage4') {
