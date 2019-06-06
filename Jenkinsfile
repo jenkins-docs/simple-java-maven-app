@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Stage6') {
           steps {
-            sh 'Parallel Stage-6'
+            sh 'echo Parallel Stage-6'
           }
         }
       }
