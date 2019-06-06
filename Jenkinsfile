@@ -5,8 +5,8 @@ pipeline {
   }
   parameters {
     choice(
-      choices: ['development', 'staging', 'production']
-      description: 'build environment'
+      choices: ['development', 'staging', 'production'],
+      description: 'build environment',
       name: 'REQUESTED_BUILD'
     )
   }
