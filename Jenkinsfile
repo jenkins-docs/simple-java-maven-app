@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  enviroment {
+  environment {
     NTA_HOME = 'NTA_HOME_ENVIROMENT_VARIABLE'
   }
   parameters {
@@ -31,15 +31,17 @@ pipeline {
         sh 'echo Stage6'
       }
     }
-    parallel {
-      stage('Stage5') {
-        steps {
-          sh 'echo Parallel Stage-5'
+    stage('Stage-Parallel') {
+      parallel {
+        stage('Stage5') {
+          steps {
+            sh 'echo Parallel Stage-5'
+          }
         }
-      }
-      stage('Stage6') {
-        steps {
-          sh 'Parallel Stage-6'
+        stage('Stage6') {
+          steps {
+            sh 'Parallel Stage-6'
+          }
         }
       }
     }
