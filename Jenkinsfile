@@ -4,7 +4,11 @@ pipeline {
     NTA_HOME = 'NTA_HOME_ENVIROMENT_VARIABLE'
   }
   parameters {
-    string(name: 'enviroment build', defaultValue: 'dev')
+    choice(
+      choices: ['development', 'staging', 'production']
+      description: 'build environment'
+      name: 'REQUESTED_BUILD'
+    )
   }
   stages {
     stage('Stage1') {
@@ -18,17 +22,30 @@ pipeline {
         sh 'echo Stage2'
       }
     }
-    stage('Stage3') {
+    stage('Stage3-Development') {
+      when {
+        // Only say hello if a "development" is requested
+        expression { params.REQUESTED_BUILD == 'development' }
+      }
       steps {
-        sh 'echo Stage3'
-        //retry(3) {
-        //  sh 'mvn build'
-       // }
+        sh 'echo Stage3-development'
+      }
+    }
+    stage('Stage3-Staging') {
+      when {
+        // Only say hello if a "staging" is requested
+        expression { params.REQUESTED_BUILD == 'staging' }
+      }
+      steps {
+        sh 'echo Stage3-staging'
       }
     }
     stage('Stage4') {
       steps {
-        sh 'echo Stage6'
+        sh 'echo Stage4'
+        //retry(3) {
+        //  sh 'mvn build'
+       // }
       }
     }
     stage('Stage-Parallel') {
