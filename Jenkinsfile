@@ -14,7 +14,7 @@ pipeline {
     stage('Stage3') {
       steps {
         sh 'echo Stage3'
-        mvn build
+        sh 'mvn build'
       }
     }
     stage('Stage4') {
