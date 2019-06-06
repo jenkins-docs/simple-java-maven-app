@@ -1,9 +1,16 @@
 pipeline {
   agent any
+  enviroment {
+    NTA_HOME = 'NTA_HOME_ENVIROMENT_VARIABLE'
+  }
+  parameters {
+    string(name: 'enviroment build', defaultValue: 'dev')
+  }
   stages {
     stage('Stage1') {
       steps {
-        sh 'echo Hello'
+        sh 'printenv'
+        sh 'echo NTA Home: ${NTA_HOME}'
       }
     }
     stage('Stage2') {
@@ -14,33 +21,53 @@ pipeline {
     stage('Stage3') {
       steps {
         sh 'echo Stage3'
-        sh 'mvn build'
+        retry(3) {
+          sh 'mvn build'
+        }
       }
     }
     stage('Stage4') {
       steps {
-        sh 'echo Stage4'
-      }
-    }
-    stage('Stage5') {
-      steps {
-        sh 'echo Stage5'
-      }
-    }
-    stage('Stage6') {
-      steps {
         sh 'echo Stage6'
+      }
+    }
+    parallel {
+      stage('Stage5') {
+        steps {
+          sh 'echo Parallel Stage-5'
+        }
+      }
+      stage('Stage6') {
+        steps {
+          sh 'Parallel Stage-6'
+        }
+      }
+    }
+    stage('Back-end') {
+      agent {
+        docker { image 'maven:3-alpine' }
+      }
+      steps {
+        sh 'mvn --version'
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'node:7-alpine' }
+      }
+      steps {
+        sh 'node --version'
       }
     }
   }
   post {
-     always {
-        mail to: 'tuananhnguyen.ima@gmail.com',
-           subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-           body: "Something is wrong with ${env.BUILD_URL}"
-      }
+    always {
+      sh 'echo COMPLETED'
+    }
     failure {
-      echo 'FAILURE'
+      mail to: 'tuananhnguyen.ima@gmail.com',
+        subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+        body: "Something is wrong with ${env.BUILD_URL}"
     }
    }
 }
