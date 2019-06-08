@@ -1,4 +1,4 @@
-package try;
+package com.mycompany.app;
 
 //Java Pipeline!
 
