@@ -18,9 +18,13 @@ pipeline {
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
+                    mvn 'test-compile jacoco:prepare-agent surefire:test -B -e'
                     step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
                 }
             }
+        }
+        stage('Code Coverage') {
+            step([$class: 'JacocoPublisher', execPattern: 'target/jacoco.exec', exclusionPattern: '**/Messages.class'])
         }
         stage('Deliver') {
             steps {
