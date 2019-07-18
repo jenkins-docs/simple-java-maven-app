@@ -23,9 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Code Coverage') {
-            step([$class: 'JacocoPublisher', execPattern: 'target/jacoco.exec', exclusionPattern: '**/Messages.class'])
-        }
+       
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
