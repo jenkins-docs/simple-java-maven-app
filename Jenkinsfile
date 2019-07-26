@@ -9,7 +9,14 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                script {
+                    try {
+                        sh 'mvn test'
+                    } catch(err) {
+                        echo "Maven test execution failed"
+                        echo err
+                    }
+                }
             }
             post {
                 always {
