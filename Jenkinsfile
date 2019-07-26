@@ -19,7 +19,6 @@ pipeline {
                         sh 'mvn test'
                     } catch(err) {
                         echo "Maven test execution failed"
-                        echo err
                     }
                 }
             }
