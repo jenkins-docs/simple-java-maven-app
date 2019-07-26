@@ -2,6 +2,11 @@ pipeline {
     agent { label 'ami-slave' }
     tools { maven '3.6.1' }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
