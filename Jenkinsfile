@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'ami-slave' }
+    tools { maven '3.6.1' }
     stages {
         stage('Build') {
             steps {
