@@ -5,6 +5,7 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    //desi
     stages {
         stage('Build') {
             steps {
@@ -18,12 +19,12 @@ pipeline {
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
-                    
+
                     step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
                 }
             }
         }
-       
+
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
