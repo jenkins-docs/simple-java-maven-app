@@ -38,7 +38,7 @@
    <repository>
      <id>github</id>
      <name>GitHub johndavidmarx Apache Maven Packages</name>
-     <url>https://maven.pkg.github.com/johndavidmarx/simple-java-maven-app</url>
+     <url>https://github.com/johndavidmarx/simple-java-maven-app</url>
    </repository>
   </distributionManagement>
 </project>
