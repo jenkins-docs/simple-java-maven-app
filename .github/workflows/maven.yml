@@ -18,4 +18,6 @@ jobs:
     - name: Run Maven Tests
       run: mvn test
     - name: Publish Maven Artifacts
-      run: mvn deploy
+      run: mvn deploy -Dtoken=$GITHUB_TOKEN
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
