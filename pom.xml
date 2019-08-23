@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>my-app</name>
-  <url>http://maven.apache.org</url>
+  <url>http://maven.pkg.github.com</url>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -37,7 +37,7 @@
   <distributionManagement>
    <repository>
      <id>github</id>
-     <name>GitHub Apache Maven Packages</name>
+     <name>GitHub johndavidmarx Apache Maven Packages</name>
      <url>https://maven.pkg.github.com/johndavidmarx/simple-java-maven-app</url>
    </repository>
   </distributionManagement>
