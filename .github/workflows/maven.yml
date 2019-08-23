@@ -18,6 +18,6 @@ jobs:
     - name: Run Maven Tests
       run: mvn test
     - name: Publish Maven Artifacts
-      run: mvn -Dregistry=https://maven.pkg.github.com/johndavidmarx/simple-java-maven-app -Dtoken=$PACKAGE_TOKEN deploy
+      run: mvn deploy
       env:
         PACKAGE_TOKEN: ${{ secrets.package_token }}
