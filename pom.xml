@@ -34,4 +34,11 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub github Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/github/actions4universe</url>
+   </repository>
+  </distributionManagement>
 </project>
