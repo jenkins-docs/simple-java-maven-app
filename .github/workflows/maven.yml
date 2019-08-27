@@ -13,11 +13,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Inject GitHub Token Into Settings
+      run: |
+          sed -i -e 's/TOKEN/'$GITHUB_TOKEN'/g' settings.xml
+          cat settings.xml
+      env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Build with Maven
       run: mvn -B -DskipTests clean package
     - name: Run Maven Tests
       run: mvn test
     - name: Publish Maven Artifacts
-      run: mvn deploy
-      env:
-        PACKAGE_TOKEN: ${{ secrets.package_token }}
+      run: mvn deploy --settings settings.xml
