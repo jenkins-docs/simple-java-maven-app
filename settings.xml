@@ -5,8 +5,8 @@
   <servers>
     <server>
       <id>github</id>
-      <username>johndavidmarx</username>
-      <password>$GITHUB_TOKEN</password>
+      <username>Actions</username>
+      <password>TOKEN</password>
     </server>
   </servers>      
 </settings>
