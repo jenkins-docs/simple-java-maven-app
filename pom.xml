@@ -24,6 +24,7 @@
      </plugin>
       <plugin>
         <!-- Build an executable JAR -->
+        <!-- updated file -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.1.2</version>
