@@ -1,31 +1,35 @@
 pipeline {
     agent any
     stages {
-        stage("Build") {
+        stage("Compile") {
             steps {
                 script {
-                    echo 'Build....'
+                    echo '[INFO] Starting compilation'
+                    mvn clean compile
                 }
             }
         }
-        stage("Sonar Build") {
+        stage("Test") {
             steps {
                 script {
-                    echo 'Running Sonar scanning....'
+                    echo '[INFO] Starting build'
+                    mvn clean test 
                 }
             }
         }
-        stage("Testing") {
+        stage("package") {
             steps {
                 script {
-                    echo 'Running Tests....'
+                    echo '[INFO] Starting packaging'
+                    mvn clean package
                 }
             }
         }
-        stage("Upload Artifact") {
+        stage("deploy") {
             steps {
                 script {
-                    echo 'Upload Artifact....'
+                    echo '[INFO] Starting upload to artifactory'
+                    mvn clean deploy
                 }
             }
         }
