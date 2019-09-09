@@ -17,19 +17,11 @@ pipeline {
                 }
             }
         }
-        stage("package") {
-            steps {
-                script {
-                    echo '[INFO] Starting packaging'
-                    mvn clean package
-                }
-            }
-        }
         stage("deploy") {
             steps {
                 script {
                     echo '[INFO] Starting upload to artifactory'
-                    mvn clean deploy
+                    mvn clean install
                 }
             }
         }
