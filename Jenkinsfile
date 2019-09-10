@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                sh '''
-                which mvn
+                export PATH=$PATH:/root/apache-maven-3.6.1/bin
                 mvn clean install
                 '''
             }
