@@ -5,8 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                sh '''
-                whoami
-                echo $PATH
+                which mvn
                 mvn clean install
                 '''
             }
