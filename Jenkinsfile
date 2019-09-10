@@ -6,6 +6,7 @@ pipeline {
             steps {
                sh '''
                 whoami
+                echo $PATH
                 mvn clean install
                 '''
             }
