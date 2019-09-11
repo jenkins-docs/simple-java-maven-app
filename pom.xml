@@ -25,6 +25,7 @@
      </plugin>
       <plugin>
         <!-- Build an executable JAR -->
+        <!-- adding hr files -->
         <!-- updated file -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
