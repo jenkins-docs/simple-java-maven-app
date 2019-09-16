@@ -13,7 +13,7 @@ pipeline{
         stage("Maven Build"){
             steps{
                 sh "mvn clean package"
-                //sh "mv target/*.jar target/my-app-1.0-SNAPSHOT.jar"
+                sh "mv target/*.jar target/myweb.jar"
             }
         }
         stage('Test') {
@@ -30,7 +30,7 @@ pipeline{
             steps{
                 sshagent(['tomcat-new']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar  ubuntu@172.31.25.197:/opt/tomcat8/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb.jar  ubuntu@172.31.25.197:/opt/tomcat8/webapps/
                     
                     ssh ubuntu@172.31.25.197 /opt/tomcat8/bin/shutdown.sh
                     
