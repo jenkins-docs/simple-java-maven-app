@@ -13,7 +13,7 @@ pipeline{
         stage("Maven Build"){
             steps{
                 sh "mvn clean package"
-                sh "mv target/*.jar target/my-app-1.0-SNAPSHOT.jar"
+                //sh "mv target/*.jar target/my-app-1.0-SNAPSHOT.jar"
             }
         }
         stage("deploy-dev"){
