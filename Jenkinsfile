@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-            git credentialsId: '6fc1abe4-f4c7-4338-9085-1c7075dc3a4e', url: 'https://github.com/rajaduraivka/funny.git'
-                echo 'Building..'
+git credentialsId: '3dd40017-55b4-4298-a1d2-1eb007b01b6e', url: 'https://github.com/rajaduraivka/simple-java-maven-app.git'                echo 'Building..'
             }
         }
         stage('Test') {
