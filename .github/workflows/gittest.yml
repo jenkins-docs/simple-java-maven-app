@@ -1,6 +1,8 @@
 name: Java CI
 
-on: [push]
+on: 
+  push:
+    branches: master
 
 jobs:
   build:
@@ -12,3 +14,7 @@ jobs:
     - run: git switch -c workflow-branch
     - run: git status
     - run: git branch
+    - run: echo "Hello" > test-reports/hello.txt
+    - run: git add test-reports/hello.txt
+    - run: git commit -m "Hello"
+    - run: git push
