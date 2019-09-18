@@ -9,7 +9,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        ref: workflow-branch
-    - run: git status
-    - run: git branch  
+    - uses: vsoch/pull-request-action@master
+   
