@@ -9,5 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: vsoch/pull-request-action@master
-   
+    - run: git switch -c workflow-branch
+    - run: git status
+    - run: git branch
