@@ -11,6 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - run: git config --global user.email "${{github.actor}}@github.com"
+    - run: git config --global user.name "${{github.actor}}"
     - run: git switch -c workflow-branch
     - run: git status
     - run: git branch
