@@ -13,7 +13,8 @@ jobs:
     - uses: actions/checkout@v1
     - run: git config --global user.email "${{github.actor}}@github.com"
     - run: git config --global user.name "${{github.actor}}"
-    - run: git switch -c workflow-branch
+    - run: git fetch origin
+    - run: git checkout workflow-branch
     - run: git status
     - run: git branch
     - run: echo "Hello" > test-reports/hello.txt
