@@ -1,8 +1,9 @@
 pipeline{
     agent any
-    def sonarUrl = 'sonar.host.url=http://172.31.30.136:9000'
+    
     environment{
         PATH = "/opt/maven3/bin:$PATH"
+        def sonarUrl = "http://172.31.30.136:9000"
     }
     stages{
         stage("Git Checkout"){
@@ -13,7 +14,7 @@ pipeline{
         stage('Sonar Publish'){
             steps{
                 withCredentials([string(credentialsId: 'sonarqube-server', variable: 'sonarToken')]) {
-                def sonarToken = "sonar.login=${sonarToken}"
+                    step{def sonarToken = "sonar.login=${sonarToken}"}
                 sh "mvn sonar:sonar -D${sonarUrl}  -D${sonarToken}"
              }
             }
