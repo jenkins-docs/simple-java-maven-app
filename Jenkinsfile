@@ -11,11 +11,12 @@ pipeline{
             }
         }
         stage('Sonar Publish'){
-               withCredentials([string(credentialsId: 'sonarqube-server', variable: 'sonarToken')]) {
+            steps{
+                withCredentials([string(credentialsId: 'sonarqube-server', variable: 'sonarToken')]) {
                 def sonarToken = "sonar.login=${sonarToken}"
                 sh "mvn sonar:sonar -D${sonarUrl}  -D${sonarToken}"
              }
-
+            }
    }
         stage("Maven Build"){
             steps{
