@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    
+    def sonarUrl = 'sonar.host.url=http://172.31.30.136:9000'
     environment{
         PATH = "/opt/maven3/bin:$PATH"
     }
@@ -10,6 +10,13 @@ pipeline{
                 git credentialsId: 'github', url: 'https://github.com/sudharsansadasivam/simple-java-maven-app'
             }
         }
+        stage('Sonar Publish'){
+               withCredentials([string(credentialsId: 'sonarqube-server', variable: 'sonarToken')]) {
+                def sonarToken = "sonar.login=${sonarToken}"
+                sh "mvn sonar:sonar -D${sonarUrl}  -D${sonarToken}"
+             }
+
+   }
         stage("Maven Build"){
             steps{
                 sh "mvn clean package"
