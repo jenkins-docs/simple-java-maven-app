@@ -20,4 +20,6 @@ public class App
 
 
     public void test(){}
+
+    public void test2(){}
 }
