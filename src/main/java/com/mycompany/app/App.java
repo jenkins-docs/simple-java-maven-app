@@ -18,4 +18,6 @@ public class App
         return message;
     }
 
+
+    public void test(){}
 }
