@@ -11,14 +11,15 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Sonarqube') {
+        stage('sonarqube') {
             environment {
                 scannerHome = tool 'sonarscanner'
             }    
             steps {
                 withSonarQubeEnv('sonarqube') {
                     sh "${scannerHome}/bin/sonar-scanner"
-                }        timeout(time: 10, unit: 'MINUTES') {
+                }        
+                timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
