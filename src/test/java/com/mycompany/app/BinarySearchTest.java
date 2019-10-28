@@ -1,12 +1,13 @@
 package com.mycompany.app;
 
+import org.junit.jupiter.api.Test;
 
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class BinarySearchTest {
- 
+    
+    @Test
     public void testArrayWithOddNumberOfElements() {
         int [] collection = new int []
                 {11, 22, 33, 44, 55, 66, 77};
@@ -18,7 +19,8 @@ public class BinarySearchTest {
         assertEquals (-1, BinarySearch.search(collection, 45));
         assertEquals (-1, BinarySearch.search(collection, 100));
     }
- 
+
+    @Test
     public void testArrayWithEvenNumberOfElements() {
         int [] collection = new int []
                 {11, 22, 33, 44, 55, 66, 77, 88};
@@ -33,6 +35,7 @@ public class BinarySearchTest {
         assertEquals (-1, BinarySearch.search(collection, 100));
     }
  
+    @Test
     public void testArrayWithOnlyOneElement () {
         int [] collection = new int [] {11};
         assertEquals (0, BinarySearch.search(collection, 11));
