@@ -39,12 +39,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M1</version>
-        <configuration>
-          <includes>
-            <include>BinarySearchTest.java</include>
-          </includes>
-        </configuration>
-      </plugin>
+        </plugin>
        <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -71,20 +66,6 @@
                     </execution>
                 </executions>
             </plugin>
-   <plugin>
-     <groupId>org.sonarsource.scanner.maven</groupId>
-     <artifactId>sonar-maven-plugin</artifactId>
-     <version>3.4.0.905</version>
-       <executions>
-          <execution>
-             <id>sonar-run</id>
-             <phase>verify</phase>
-               <goals>
-                  <goal>sonar</goal>
-               </goals>
-          </execution>
-      </executions>
- </plugin>
-  </plugins>
+   </plugins>
   </build>
 </project>
