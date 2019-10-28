@@ -11,19 +11,6 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package sonar:sonar'
             }
         }
-        stage('SQPoc') {
-            environment {
-                scannerHome = tool 'sonarscanner'
-            }    
-            steps {
-                withSonarQubeEnv('SQPoc') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }        
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
         stage('Test') {
             steps {
                 sh 'mvn test'
