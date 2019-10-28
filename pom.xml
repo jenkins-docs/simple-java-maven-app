@@ -7,6 +7,23 @@
   <version>1.0-SNAPSHOT</version>
   <name>my-app</name>
   <url>http://maven.apache.org</url>
+  <properties> 
+    <maven.compiler.source>1.8</maven.compiler.source> 
+    <maven.compiler.target>1.8</maven.compiler.target> 
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+  </properties>
+  <profiles>
+  <profile>
+   <id>sonar</id>
+   <activation>
+      <activeByDefault>true</activeByDefault>
+   </activation>
+   <properties>
+      <!-- SERVER ON A REMOTE HOST -->
+      <sonar.host.url>http://10.220.3.4:9000</sonar.host.url>
+   </properties>
+  </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -45,16 +62,20 @@
             </execution>
           </executions>
 	</plugin>
-  <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.0</version>
-        <configuration>
-          <includes>
-            <include>BinarySearchTest.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-    </plugins>
+   <plugin>
+     <groupId>org.sonarsource.scanner.maven</groupId>
+     <artifactId>sonar-maven-plugin</artifactId>
+     <version>3.4.0.905</version>
+       <executions>
+          <execution>
+             <id>sonar-run</id>
+             <phase>verify</phase>
+               <goals>
+                  <goal>sonar</goal>
+               </goals>
+          </execution>
+      </executions>
+ </plugin>
+  </plugins>
   </build>
 </project>
