@@ -11,12 +11,12 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('sonarqube') {
+        stage('SQPoc') {
             environment {
                 scannerHome = tool 'sonarscanner'
             }    
             steps {
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('SQPoc') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }        
                 timeout(time: 10, unit: 'MINUTES') {
