@@ -1,5 +1,7 @@
 package com.mycompany.app;
 
+import String;
+
 /**
  * Hello world!
  */
