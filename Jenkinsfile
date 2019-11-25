@@ -33,9 +33,11 @@ pipeline {
         }
         stage('Sonar') {
             steps {
-                def scannerHome = tool 'SonarScanner 4.0';
-                withSonarQubeEnv('sonar-nantes') { // If you have configured more than one global server connection, you can specify its name
-                    sh "${scannerHome}/bin/sonar-scanner"
+                withDockerContainer(args: '-v /root/.m2:/root/.m2', image: 'maven:3-alpine', toolName: 'myDocker')
+                {
+                    withSonarQubeEnv('sonar-nantes') { // If you have configured more than one global server connection, you can specify its name
+                        sh 'mvn clean package sonar:sonar'
+                    }
                 }
             }
             
