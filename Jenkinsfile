@@ -16,5 +16,19 @@ pipeline {
                 
             }
         }
+        stage('Test') {
+            steps {
+                withDockerContainer(args: '-v /root/.m2:/root/.m2', image: 'maven:3-alpine', toolName: 'myDocker')
+                {
+                    sh 'mvn test'
+                }
+                
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
     }
 }
