@@ -30,5 +30,13 @@ pipeline {
                 }
             }
         }
+        stage('Deliver') {
+            steps {
+                 withDockerContainer(args: '-v /root/.m2:/root/.m2', image: 'maven:3-alpine', toolName: 'myDocker')
+                {
+                    sh './jenkins/scripts/deliver.sh'
+                }
+            }
+        }
     }
 }
