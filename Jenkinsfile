@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                withDockerContainer(args: '-v /root/.m2:/root/.m2', image: 'maven:3-alpine', toolName: 'myDocker')
+                withDockerContainer(args: '-v /root/.m2:/root/.m2', image: 'maven:3.6.2-jdk-8-alpine', toolName: 'myDocker')
                 {
                     sh 'mvn -B -DskipTests clean package' 
                 }
