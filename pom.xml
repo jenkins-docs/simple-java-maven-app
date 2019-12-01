@@ -16,6 +16,10 @@
     </dependency>
   </dependencies>
   <build>
+    <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+</properties>
     <plugins>
       <plugin>
         <!-- Build an executable JAR -->
