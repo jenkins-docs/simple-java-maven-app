@@ -7,7 +7,46 @@
   <version>1.0-SNAPSHOT</version>
   <name>my-app</name>
   <url>http://maven.apache.org</url>
+	  <repositories>
+  <repository>
+    <id>codeguru-profiler</id>
+    <name>codeguru-profiler</name>
+    <url>https://d1osg35nybn3tt.cloudfront.net</url>
+  </repository>
+</repositories>
+
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.9.17</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+</dependencyManagement>
+
   <dependencies>
+  <dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>codeguru-profiler-java-agent</artifactId>
+    <version>0.1.0</version>
+  </dependency>
+
+	  <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.11.543</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>auth</artifactId>
+            <version>2.9.17</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
