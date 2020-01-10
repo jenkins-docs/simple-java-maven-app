@@ -15,6 +15,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
   <build>
     <plugins>
       <plugin>
@@ -23,6 +24,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
+          <jvmTarget>1.8</jvmTarget>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
