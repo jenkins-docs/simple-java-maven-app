@@ -1,7 +1,9 @@
-package com.mycompany.app;
+package com.ustglobal.app;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import com.ustglobal.app.App;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
@@ -34,9 +36,9 @@ public class AppTest
     {
         App.main(null);
         try {
-            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
+            assertEquals("Hello from UST!" + System.getProperty("line.separator"), outContent.toString());
         } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello World!\"");
+            fail("\"message\" is not \"Hello from UST!\"");
         }
     }
 
