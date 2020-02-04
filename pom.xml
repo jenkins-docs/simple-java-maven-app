@@ -5,7 +5,7 @@
   <artifactId>Test-Maven-Jenkins</artifactId>
   <packaging>jar</packaging>
   <version>1.0-latest</version>
-  <name>Simple-java-maven-app</name>
+  <name>Simple-java-maven-app-jenkins</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
