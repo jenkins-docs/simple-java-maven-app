@@ -14,6 +14,9 @@ public class App
         System.out.println(new App().getMessage());
     }
 
+    /**
+     * Gets the message.
+    */
     private final String getMessage() {
         return message;
     }
