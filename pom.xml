@@ -32,6 +32,10 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactID>maven-surefire-plugin</artifactID>
+        <version>2.22.1</version>
+       </plugin>
     </plugins>
   </build>
 </project>
