@@ -1,4 +1,5 @@
 pipeline {
+   agent { label "worker_node" }
    stages {
         stage('Pull') {
             steps{
