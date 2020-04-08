@@ -3,7 +3,7 @@ pipeline {
         stage('Pull') {
             steps{
                 //拉取代码
-            	git 'https://https://github.com/yjj2100/simple-java-maven-app-1.git'
+            	git 'https://github.com/yjj2100/simple-java-maven-app-1.git'
             }
         }
     stages {
