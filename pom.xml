@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0-latest</version>
   <name>Simple-java-maven-app-jenkins</name>
-  <url>http://maven.apache.org1</url>
+  <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -20,7 +20,7 @@
       <plugin>
         <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>1maven-jar-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
           <archive>
