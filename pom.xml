@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0-latest</version>
   <name>Simple-java-maven-app-jenkins</name>
-  <url>http://maven.apache.org</url>
+  <url>http://maven.apache.org1</url>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
