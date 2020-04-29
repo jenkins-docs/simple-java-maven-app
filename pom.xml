@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId> Jenkins-java-maven-app</groupId>
   <artifactId>Test-Maven-Jenkins</artifactId>
-  <packaging>jar</packaging>
+  <packaging>1jar</packaging>
   <version>1.0-latest</version>
   <name>Simple-java-maven-app-jenkins</name>
   <url>http://maven.apache.org</url>
