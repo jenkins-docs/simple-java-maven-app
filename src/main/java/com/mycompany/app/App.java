@@ -38,7 +38,8 @@ package com.mycompany.app;
 public class App
 {
 
-    private final String message = "Hello World.. 1..2..3..4..5..6..7";
+//    private final String message = "Hello World.. 1..2..3..4..5..6..7";
+    private final String message = "Hello World!";
 
     public App() {}
 
