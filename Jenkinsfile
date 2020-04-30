@@ -13,8 +13,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                //sh 'mvn -B -DskipTests clean package'
-                bat(/mvn -B -DskipTests clean package/)
+                sh 'mvn -B -DskipTests clean package'
+                // For windows nodes
+                //bat(/mvn -B -DskipTests clean package/)
             }
         }
     }
