@@ -5,6 +5,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    export PATH=/Users/vishalruparelmbp/Downloads/apache-maven-3.6.3/bin:$PATH
                     echo '[INFO] Starting compilation'
                     mvn clean compile
                     '''
