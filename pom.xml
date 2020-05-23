@@ -34,4 +34,11 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+       <repository>
+         <id>internal.repo</id>
+         <name>Internal repo</name>
+         <url>file:///c:/temp/jenkins/deployfolder/</url>
+       </repository>
+   </distributionManagement>
 </project>
