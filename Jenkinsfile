@@ -11,6 +11,8 @@ pipeline {
       post {
         success {
           junit 'target/surefire-reports/**/*.xml'
+          
+          slackSend channel: 'rally-jenkins-integration', message: "SUCCESSFUL" color: '#BADA55', tokenCredentialId: 'JenkinsSlack'
         }
       }
     }
