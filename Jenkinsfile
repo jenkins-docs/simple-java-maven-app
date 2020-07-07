@@ -41,8 +41,8 @@ pipeline {
           } else {
               echo 'PR only'
           }
-         */
         }
+        */
        }
         
      }
