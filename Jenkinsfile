@@ -33,8 +33,8 @@ pipeline {
     stage('Deploy') {
       
       steps {
-        echo 'git branch = ${env.GIT_BRANCH}'
-        echo 'git local branch = ${env.GIT_LOCAL_BRANCH}'
+        echo "git branch = ${env.GIT_BRANCH}"
+        echo "git local branch = ${env.GIT_LOCAL_BRANCH}"
         /*script {
           if (env.GIT_BRANCH == 'master') {
               echo 'master branch deployed'
