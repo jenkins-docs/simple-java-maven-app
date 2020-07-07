@@ -35,14 +35,13 @@ pipeline {
       steps {
         echo "git branch = ${env.GIT_BRANCH}"
         echo "git local branch = ${env.GIT_LOCAL_BRANCH}"
-        /*script {
-          if (env.GIT_BRANCH == 'master') {
+        script {
+          if (env.GIT_BRANCH == 'origin/master') {
               echo 'master branch deployed'
           } else {
               echo 'PR only'
           }
         }
-        */
        }
         
      }
