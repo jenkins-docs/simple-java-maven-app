@@ -34,7 +34,7 @@ pipeline {
       
       steps {
         script {
-          if (env.BRANCH_NAME === 'master') {
+          if (env.GIT_BRANCH == 'master') {
               echo 'master branch deployed'
           } else {
               echo 'PR only'
