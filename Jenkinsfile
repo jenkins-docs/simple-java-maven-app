@@ -30,11 +30,11 @@ pipeline {
               junit 'target/surefire-reports/**/*.xml'
             }
             success {
-               slackSend channel: 'rally-jenkins-integration', color: '#00ff00', message: "BUILD SUCCESSFUL\nJob Name = ${env.JOB_NAME}\nJob Number = ${env.BUILD_NUMBER}\nJob URL = ${env.BUILD_URL} ",
+               slackSend channel: 'rally-jenkins-integration', color: '#00ff00', message: "BUILD SUCCESSFUL\nBranch Name = ${env.GIT_BRANCH}\nJob Name = ${env.JOB_NAME}\nJob Number = ${env.BUILD_NUMBER}\nJob URL = ${env.BUILD_URL} ",
                       teamDomain: 'rallydemo', tokenCredentialId: 'JenkinsSlack'
              }
             failure {
-                slackSend channel: 'rally-jenkins-integration', color: '#00ff00', message: "BUILD UNSUCCESSFUL\nJob Name = ${env.JOB_NAME}\nJob Number = ${env.BUILD_NUMBER}\nJob URL = ${env.BUILD_URL} ",
+                slackSend channel: 'rally-jenkins-integration', color: '#00ff00', message: "BUILD UNSUCCESSFUL\nBranch Name = ${env.GIT_BRANCH}\nJob Name = ${env.JOB_NAME}\nJob Number = ${env.BUILD_NUMBER}\nJob URL = ${env.BUILD_URL} ",
                       teamDomain: 'rallydemo', tokenCredentialId: 'JenkinsSlack'
             }
          }
