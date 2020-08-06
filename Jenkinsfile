@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'hello yujin' 
+                sh 'echo yujin' 
                 sh 'mvn -B -gs maven-setting.xml -DskipTests clean package' 
             }
         }
