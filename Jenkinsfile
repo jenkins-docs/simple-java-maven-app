@@ -16,7 +16,7 @@ pipeline {
             }
         }
     }
-    stage(‘docker镜像发布’){
+    stage('Ok'){
        agent any
            steps {
             withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'pwd', usernameVariable: 'user')]) {
