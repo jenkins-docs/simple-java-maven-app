@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn -B -gs maven-setting.xml -DskipTests clean package' 
                 mail to: 'yujin19861013@163.com',
                      subject: "Failed Pipeline: ${env.BRANCH_NAME}",
-                     body: "Something is wrong with ${env.WORKSPACE}"
+                     body: "Something is DALIAN GOOD wrong with ${env.WORKSPACE}"
             }
         }
     }
