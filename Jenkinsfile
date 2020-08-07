@@ -16,4 +16,16 @@ pipeline {
             }
         }
     }
+    stage(‘docker镜像发布’){
+       agent any
+           steps {
+            withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'pwd', usernameVariable: 'user')]) {
+            // some block
+             sh 'docker login --username=$user -p $pwd registry.cn-beijing.aliyuncs.com'
+             sh 'docker tag maven-jenkins registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
+	         sh 'ocker push registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0
+             }
+
+           }
+    }
 }
