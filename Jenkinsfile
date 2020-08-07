@@ -19,7 +19,7 @@ pipeline {
 	stage(‘docker构建镜像’){
          agent any
           steps {
-          sh 'docker build -t icoding-java-img .'
+          sh 'docker build -t abc .'
          }
        }
     
@@ -29,7 +29,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'abcpwd', usernameVariable: 'user')]) {
             // some block
              sh 'docker login -u $user -p $abcpwd registry.cn-beijing.aliyuncs.com'
-             sh 'docker tag icoding-java-img registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
+             sh 'docker tag abc registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
 	     sh 'docker push registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
              }
            }
