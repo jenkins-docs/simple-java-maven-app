@@ -1,28 +1,29 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
+    agent none
     stages {
-        stage('Build') { 
-            steps {
+        stage('Maven进行构建') { 
+           agent {
+       		 docker {
+            		image 'maven:3-alpine' 
+            		args '-v /root/.m2:/root/.m2' 
+          	}
+          }
+    	steps {
                 sh 'echo yujin' 
                 sh 'mvn -B -gs maven-setting.xml -DskipTests clean package' 
                 mail to: 'yujin19861013@163.com',
                      subject: "Failed Pipeline: ${env.BRANCH_NAME}",
                      body: "Something is DALIAN GOOD CITY wrong with ${env.WORKSPACE}"
             }
-        }
+      }
 	stage(‘docker构建镜像’){
          agent any
           steps {
           sh 'docker build -t icoding-java-img'
          }
-      }
+       }
     
-    stage('Ok'){
+     stage('Ok'){
        agent any
            steps {
             withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'abcpwd', usernameVariable: 'user')]) {
