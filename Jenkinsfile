@@ -15,7 +15,7 @@ pipeline {
                      body: "Something is DALIAN GOOD CITY wrong with ${env.WORKSPACE}"
             }
         }
-    }
+    
     stage('Ok'){
        agent any
            steps {
@@ -27,5 +27,6 @@ pipeline {
              }
 
            }
+    }
     }
 }
