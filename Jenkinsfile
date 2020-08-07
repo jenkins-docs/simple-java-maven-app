@@ -15,6 +15,12 @@ pipeline {
                      body: "Something is DALIAN GOOD CITY wrong with ${env.WORKSPACE}"
             }
         }
+	stage(‘docker构建镜像’){
+         agent any
+          steps {
+          sh 'docker build -t icoding-java-img'
+         }
+      }
     
     stage('Ok'){
        agent any
