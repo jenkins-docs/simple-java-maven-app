@@ -19,7 +19,7 @@ pipeline {
 	stage(‘docker构建镜像’){
          agent any
           steps {
-          sh 'docker build -t icoding-java-img'
+          sh 'docker build -t icoding-java-img .'
          }
        }
     
