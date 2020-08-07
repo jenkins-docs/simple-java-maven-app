@@ -27,7 +27,6 @@ pipeline {
        agent any
            steps {
             withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'abcpwd', usernameVariable: 'user')]) {
-            // some block
              sh 'docker login -u $user -p $abcpwd registry.cn-beijing.aliyuncs.com'
              sh 'docker tag abc registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
 	     sh 'docker push registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
