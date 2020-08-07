@@ -19,9 +19,9 @@ pipeline {
     stage('Ok'){
        agent any
            steps {
-            withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'apwd', usernameVariable: 'user')]) {
+            withCredentials([usernamePassword(credentialsId: 'aliyun', passwordVariable: 'abcpwd', usernameVariable: 'user')]) {
             // some block
-             sh 'docker login -u $user -p $apwd registry.cn-beijing.aliyuncs.com'
+             sh 'docker login -u $user -p $abcpwd registry.cn-beijing.aliyuncs.com'
              sh 'docker tag maven-jenkins registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
 	     sh 'docker push registry.cn-beijing.aliyuncs.com/jack_jin_namespace/yujin_docker:v1.0'
              }
