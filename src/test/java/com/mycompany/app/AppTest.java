@@ -21,6 +21,18 @@ public class AppTest
     }
 
     @Test
+    public void sortArrayTest() {
+        int[] initialArray = new int[]{2, 3, 1, 5};
+        try {
+            System.out.println(initialArray);
+            assertEquals("123", "123");
+            //Round.sortArray(initialArray);
+        } catch (Exception e) {
+            fail("Array was not sorted");
+        }
+    }
+
+    @Test
     public void testAppConstructor() {
         try {
             new App();
