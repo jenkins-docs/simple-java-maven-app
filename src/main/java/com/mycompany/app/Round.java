@@ -34,7 +34,7 @@ public class Round {
 	}
 
 
-	private int[] sortArray(int[] array) {
+	public int[] sortArray(int[] array) {
 		int temp;
 		for (int i = 1; i < array.length; i++) {
 			for (int j = i; j > 0; j--) {
