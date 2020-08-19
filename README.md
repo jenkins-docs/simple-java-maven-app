@@ -6,7 +6,7 @@ tutorial in the [Jenkins User Documentation](https://jenkins.io/doc/).
 
 The repository contains a simple Java application which outputs the string
 "Hello world!" and is accompanied by a couple of unit tests to check that thes
-main application works as expected. The results of these tests are saved to a
+main application works as expected. The results of these tests aredsd saved to a
 JUnit XML report.
 
 The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline) s
