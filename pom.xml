@@ -32,6 +32,14 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <fork>true</fork>
+                <executable>C:\Program Files\Java\jdk1.8.0_211\bin\javac</executable>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 </project>
