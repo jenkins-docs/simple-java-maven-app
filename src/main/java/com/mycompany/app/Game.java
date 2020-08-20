@@ -3,7 +3,6 @@ package com.mycompany.app;
 import java.util.Scanner;
 
 public class Game {
-	//test
 
 	public static void main(String[] args) {
 		

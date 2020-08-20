@@ -8,8 +8,6 @@ import static org.junit.Assert.*;
  */
 public class GameTest
 {
-
-	
 	@Test
     public void testRoll() {
         int dice = 0;
