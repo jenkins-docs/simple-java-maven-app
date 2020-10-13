@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        label 'first-slave' {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
+    agent { label 'first-slave' }
     stages {
         stage('Build') { 
             steps {
