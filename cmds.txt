@@ -1,3 +1,5 @@
+Welcome to GIT
+
 1017  cat serv.yml
  1018  kubectl get pods --namespace=avengers
  1019  cd ..
@@ -40,3 +42,5 @@
  1056  kubectl describe pod sonarqube-sonarqube-7b995b77bb-ksdcg -n devops
  1057  kubectl get pods -n devops
  1058  history
+ 
+
