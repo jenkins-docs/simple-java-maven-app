@@ -1,10 +1,17 @@
 pipeline {
+    
+    environment {
+        
+        registry = "bopporgo/boppururepo"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+        
+    }
     agent {
         docker {
             image 'maven:3-alpine'
-            args '-u root'
+           args '-u root'
          
-       
         }
     }
     stages {
@@ -23,10 +30,27 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('build') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                script {
+                    
+             dockerImage = docker.build registry + ':$BUILD_NUMBER'  
             }
         }
     }
-}
+
+        stage ('deploy') {
+            
+            steps {
+                script {
+                    
+                    docker.with registry ('',registryCredential)
+                    
+                    { dockerImage.push()
+    
+                    }
+                }
+            }
+    }
+    
+    
