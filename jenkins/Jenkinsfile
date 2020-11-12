@@ -18,8 +18,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                sh 'dockerinfo'
-            }
+                }
         }
         stage('Test') {
             steps {
@@ -31,11 +30,11 @@ pipeline {
                 }
             }
         }
+        
+    } 
         stage('build') {
             steps {
-               
-                 {
-                script {
+               script {
                 dockerImage =  docker.build registry + ":$BUILD_NUMBER" 
             }
         }
@@ -55,5 +54,5 @@ pipeline {
             }
     }
   }
-}
+
     
