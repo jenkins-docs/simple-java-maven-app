@@ -33,7 +33,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                agent {docker 
+               
                  {
                 script {
                 dockerImage =  docker.build registry + ":$BUILD_NUMBER" 
@@ -56,3 +56,4 @@ pipeline {
     }
   }
 }
+    
