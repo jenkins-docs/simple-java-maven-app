@@ -11,7 +11,7 @@ pipeline {
       parallel {
         stage('build') {
           steps {
-            sh 'mvn  package'
+            sh 'mvn  clean package'
             sh 'exit'
           }
         }
