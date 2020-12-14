@@ -8,26 +8,15 @@ pipeline {
   }
   stages {
     stage('build') {
-      parallel {
-        stage('build') {
-          steps {
-            sh 'mvn  clean package'
-            sh 'exit'
-          }
-        }
-
-        stage('exit') {
-          steps {
-            sh 'exit'
-          }
-        }
-
+      steps {
+        sh 'mvn  clean package'
+        sh 'exit'
       }
     }
 
-    stage('image ') {
+    stage('exit from image') {
       steps {
-        sh 'sudo docker build -t javamaven .'
+        sh 'exit '
       }
     }
 
