@@ -4,18 +4,18 @@ pipeline {
       image 'maven:3-alpine'
       args '-p 3000:3000'
     }
-
   }
   stages {
     stage('build') {
       steps {
-        sh 'mvn clean package'
+        sh 'mvn  package'
+        sh 'exit'
       }
     }
 
     stage('image ') {
       steps {
-        sh 'docker build -t javamaven .'
+        sh 'sudo docker build -t javamaven .'
       }
     }
 
