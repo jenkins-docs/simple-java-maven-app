@@ -15,7 +15,7 @@ pipeline {
 
     stage('image ') {
       steps {
-        sh 'sudo docker build -t javamaven .'
+        sh 'docker build -t javamaven .'
       }
     }
 
