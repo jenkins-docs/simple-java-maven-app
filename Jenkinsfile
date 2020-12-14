@@ -4,12 +4,24 @@ pipeline {
       image 'maven:3-alpine'
       args '-p 3000:3000'
     }
+
   }
   stages {
     stage('build') {
-      steps {
-        sh 'mvn  package'
-        sh 'exit'
+      parallel {
+        stage('build') {
+          steps {
+            sh 'mvn  package'
+            sh 'exit'
+          }
+        }
+
+        stage('exit') {
+          steps {
+            sh 'exit'
+          }
+        }
+
       }
     }
 
