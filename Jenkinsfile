@@ -13,5 +13,11 @@ pipeline {
       }
     }
 
+    stage('image ') {
+      steps {
+        sh 'sudo docker build -t javamaven .'
+      }
+    }
+
   }
 }
