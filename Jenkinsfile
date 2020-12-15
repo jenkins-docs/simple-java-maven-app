@@ -21,10 +21,13 @@ pipeline {
     }
 
     stage('image ') {
+      agent {
+        docker{
       steps {
         sh 'sudo docker build -t javamaven .'
       }
     }
-
+      }
+    }
   }
 }
