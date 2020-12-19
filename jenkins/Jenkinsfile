@@ -23,8 +23,8 @@ pipeline {
         stage('Build'){
             steps{
                 sh "mvn --version"
-                //sh "mvn clean install"
-                sh 'mvn -B -DskipTests clean package'
+                sh "mvn clean install"
+                //sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Code Quality') {
@@ -37,11 +37,11 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Deploy') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
+        //stage('Deploy') {
+        //    steps {
+        //        sh './jenkins/scripts/deliver.sh'
+        //    }
+        //}
     }
     post{
         always{
