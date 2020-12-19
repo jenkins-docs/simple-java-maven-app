@@ -1,14 +1,35 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent any
+    tools {
+        dockerTool 'docker'
+        maven 'maven'
+        gradle 'gradle'
     }
     stages {
-        stage('Build') {
-            steps {
+        // stage('Main') {
+        //     steps {
+        //         sh 'hostname'
+        //         sh 'gradle --version'
+        //         sh 'mvn --version'
+        //     }
+        // }
+        stage('Checkout'){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                userRemoteConfigs: [[credentialsId: 'github-pvt-repo-token', url: 'https://github.com/sdgcpsc/simple-java-maven-app.git']]])
+            }
+        }
+        stage('Build'){
+            steps{
+                sh "mvn --version"
+                //sh "mvn clean install"
                 sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Code Quality') {
+            steps{
+                echo "Running Sonar Qube Code Quality"
             }
         }
         stage('Test') {
@@ -21,10 +42,15 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deploy') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
+        }
+    }
+    post{
+        always{
+            cleanWs()
         }
     }
 }
