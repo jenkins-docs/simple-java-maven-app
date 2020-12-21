@@ -1,30 +1,58 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent any
+    tools {
+        dockerTool 'docker'
+        maven 'maven'
+        gradle 'gradle'
     }
     stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
+        // stage('Main') {
+        //     steps {
+        //         sh 'hostname'
+        //         sh 'gradle --version'
+        //         sh 'mvn --version'
+        //     }
+        // }
+        stage('SCM Checkout'){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                userRemoteConfigs: [[credentialsId: 'github-pvt-repo-token', url: 'https://github.com/sdgcpsc/simple-java-maven-app.git']]])
             }
         }
-        stage('Test') {
+        stage('Build App'){
+            steps{
+                sh "mvn --version"
+                //sh "mvn clean install"
+                sh "mvn clean package"
+                //sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Code Quality') {
+            steps{
+                echo "Running Sonar Qube Code Quality"
+            }
+        }
+        stage('Test App') {
             steps {
                 sh 'mvn test'
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+        }
+        //stage('Deploy App') {
+        //    steps {
+        //        echo "Running Sonar Qube Code Quality"
+        //        sh './jenkins/scripts/deliver.sh'
+        //    }
+        //}
+        stage('Clean'){
+            steps{
+                echo "Running Sonar Qube Code Quality"
             }
         }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
+    }
+    post{
+        always{
+            cleanWs()
         }
     }
 }
