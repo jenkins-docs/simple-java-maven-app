@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-M2_HOME=/usr/local/Cellar/maven/3.6.3_1/libexec
+M2_HOME=/usr/local/bin/mvn
 echo 'The following Maven command installs your Maven-built Java application'
 echo 'into the local Maven repository, which will ultimately be stored in'
 echo 'Jenkins''s local Maven repository (and the "maven-repository" Docker data'
