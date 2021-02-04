@@ -46,3 +46,20 @@ jobs:
       with:
         name: Package
         path: staging
+
+        on: push
+   
+  notify-success:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: mentors
+          SLACK_COLOR: '#5AC18E'
+          SLACK_MESSAGE: '${{ SLACK_MSG_AUTHOR }} succesfully built the project! :rocket:'
+          SLACK_TITLE: Build Succesful!
+          SLACK_USERNAME: GitHub Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
