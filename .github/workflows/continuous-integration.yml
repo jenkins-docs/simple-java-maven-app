@@ -4,7 +4,9 @@
 name: Continuous Integration
 
 on:
-  push
+  pull_request:
+    branches:
+      - main
 
 jobs:
   notify-start:
@@ -17,7 +19,7 @@ jobs:
           SLACK_CHANNEL: mentors
           SLACK_COLOR: '#7fe5f0'
           SLACK_MESSAGE: 'Starting CI :runner:'
-          SLACK_TITLE: New push in the repo detected
+          SLACK_TITLE: A new PR has been opened
           SLACK_USERNAME: GitHub Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
