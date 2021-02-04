@@ -7,6 +7,20 @@ on:
   push
 
 jobs:
+  notify-start:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: mentors
+          SLACK_COLOR: '#7fe5f0'
+          SLACK_MESSAGE: 'Starting CI :runner:'
+          SLACK_TITLE: New push in the repo detected
+          SLACK_USERNAME: GitHub Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -50,7 +64,7 @@ jobs:
         on: push
    
   notify-success:
-    needs: build-and-test
+    needs: [build-and-test, notify-start]
     runs-on: ubuntu-latest
     
     steps:
@@ -59,7 +73,7 @@ jobs:
         env:
           SLACK_CHANNEL: mentors
           SLACK_COLOR: '#5AC18E'
-          SLACK_MESSAGE: 'The build was succesful! :rocket:'
+          SLACK_MESSAGE: 'CI was succesful! :rocket:'
           SLACK_TITLE: Build Succesful!
           SLACK_USERNAME: GitHub Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
