@@ -59,7 +59,7 @@ jobs:
         env:
           SLACK_CHANNEL: mentors
           SLACK_COLOR: '#5AC18E'
-          SLACK_MESSAGE: '${{ SLACK_MSG_AUTHOR }} succesfully built the project! :rocket:'
+          SLACK_MESSAGE: 'The build was succesful! :rocket:'
           SLACK_TITLE: Build Succesful!
           SLACK_USERNAME: GitHub Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
