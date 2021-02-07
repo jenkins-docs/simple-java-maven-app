@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Cleaning Stage') {
             steps {
-                echo 'This will clean maven project by deleting the target directory.!!'
+                echo 'This stage will clean maven project by deleting the target directory.!!'
                 sh "mvn clean"
             }
         }
