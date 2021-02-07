@@ -32,7 +32,7 @@ pipeline {
         }
         stage("Email Build Status"){
             steps{
-                mail body: "${env.JOB-NAME} - BUILD # ${env.BUILD_NUMBER}", to:'vikas.singh1312@outlook.com' 
+                mail bcc: '', body: 'Check Build Status', cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'vikas.singh1312@outlook.com'
             }
         }
     }
