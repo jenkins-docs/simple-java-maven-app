@@ -30,5 +30,10 @@ pipeline {
                 archive 'target/*.jar'
            }
         }
+        stage("Email Build Status"){
+            steps{
+                mail body: "${env.JOB-NAME} - BUILD # ${env.BUILD_NUMBER}", to:'vikas.singh1312@outlook.com' 
+            }
+        }
     }
 }
