@@ -30,10 +30,5 @@ pipeline {
                 archive 'target/*.jar'
            }
         }
-        stage("Email Build Status"){
-            steps{
-                mail bcc: '', body: 'Check Build Status', cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'vikas.singh1312@outlook.com'
-            }
-        }
     }
 }
