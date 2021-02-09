@@ -22,5 +22,10 @@ pipeline {
                 sh 'mvn package'
             }
         }
-    }
+    post {
+        success {
+            echo "This will run only if build is successfull"
+        }
+    } 
+ }
 }
