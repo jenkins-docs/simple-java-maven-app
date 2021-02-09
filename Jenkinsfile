@@ -23,7 +23,7 @@ pipeline {
             }
         }
     post {
-        success {
+        always {
             echo "This will run only if build is successfull"
         }
     } 
