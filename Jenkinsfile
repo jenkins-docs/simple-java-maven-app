@@ -5,10 +5,15 @@ pipeline {
             steps {
                 echo 'i am in Cleaning stage of pipeline'
                 sh 'mvn clean'
-                echo "This is my commit id ${env.GIT_COMMIT}"
+                echo "This is my commit id ${env.GIT_COMMIT} and branch is ${env.BRANCH_NAME}"
             }
         }
         stage('testing-stage') {
+            when {
+                expression {
+                    BRANCH_NAME == "develop"
+                }
+            }
             steps {
                 echo "This is test phase of my build job"
                 sh 'mnv test'
