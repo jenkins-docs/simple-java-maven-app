@@ -5,6 +5,7 @@ pipeline {
             steps {
                 echo 'i am in Cleaning stage of pipeline'
                 sh 'mvn clean'
+                echo "This is my commit id ${env.GIT_COMMIT}"
             }
         }
         stage('testing-stage') {
@@ -12,6 +13,7 @@ pipeline {
                 echo "This is test phase of my build job"
                 sh 'mvn test'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and jon name is ${env.JOB_NAME}"
+                
             }
         }
         stage('Building-package') {
