@@ -16,7 +16,7 @@ pipeline {
             }
             steps {
                 echo "This is test phase of my build job"
-                sh 'mnv test'
+                sh 'mvn test'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and job name is ${env.JOB_NAME}"
                 
             }
