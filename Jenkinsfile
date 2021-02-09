@@ -11,6 +11,7 @@ pipeline {
             steps {
                 echo "This is test phase of my build job"
                 sh 'mvn test'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and jon name is ${env.JOB_NAME}"
             }
         }
         stage('Building-package') {
