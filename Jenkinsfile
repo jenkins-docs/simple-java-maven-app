@@ -1,34 +1,23 @@
 pipeline {
-
-    agent any 
+    agent any
     stages {
-        stage('Cleaning Stage') {
+        stage('Cleaning-stage') {
             steps {
-                echo 'This stage will clean maven project by deleting the target directory.!!'
-                sh "mvn clean"
+                echo 'i am in Cleaning stage of pipeline'
+                sh 'mvn clean'
             }
         }
-
-        stage('Testing Stage') { 
+        stage('testing-stage') {
             steps {
-                echo 'This stage will run the test cases of the project..!!'
-                sh "mvn test"
-                
+                echo "This is test phase of my build job"
+                sh 'mvn test'
             }
         }
-
-        stage('Packageing Stage') { 
+        stage('Building-package') {
             steps {
-                echo 'This stage will build the maven project and packages them into a JAR/WAR'
-                sh "mvn package"
-    }
-  }
-        stage("Results") {
-            steps {
-                input("Do you want to capture results?")
-                junit '**/target/surefire-reports/TEST-*.xml'
-                archive 'target/*.jar'
-           }
+                echo "Now I am in package phase"
+                sh 'mvn package'
+            }
         }
     }
 }
