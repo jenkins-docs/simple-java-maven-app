@@ -22,5 +22,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
+
     }
+    post {
+        always {
+            echo "Run always"
+    }
+ }
 }
