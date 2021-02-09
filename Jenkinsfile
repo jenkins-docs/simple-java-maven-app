@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "This is test phase of my build job"
                 sh 'mnv test'
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and jon name is ${env.JOB_NAME}"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and job name is ${env.JOB_NAME}"
                 
             }
         }
@@ -20,11 +20,6 @@ pipeline {
             steps {
                 echo "Now I am in package phase"
                 sh 'mvn package'
-            }
-        }
-    post {
-        always {
-            echo "This will run only if build is successfull"
             }
         }
     }
