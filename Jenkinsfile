@@ -21,13 +21,6 @@ pipeline {
                 }
             }
         }
-        
-          
-        
-        stage('Sonar Analysis'){
-                steps{
-                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
-                }
-            }
+ 
     }
 }
