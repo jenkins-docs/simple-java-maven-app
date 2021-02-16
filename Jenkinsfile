@@ -24,11 +24,21 @@ pipeline {
         
           
         
-          stage('SonarQube analysis') {
-    def scannerHome = tool 'SonarScanner 4.0';
-    withSonarQubeEnv('sonar-server') { // If you have configured more than one global server connection, you can specify its name
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
+        stage('Sonar Analysis'){
+                steps{
+                    withSonarQubeEnv('sonar-server') {
+                        sh 'mvn sonar:sonar'
+                    }
+                    
+                    timeout(time: 1, unit: 'HOURS') {
+                        script{
+                          def qg = waitForQualityGate()
+                          if (qg.status != 'OK') {
+                              error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                          }
+                        }
+                  }
+                }
+            }
     }
 }
