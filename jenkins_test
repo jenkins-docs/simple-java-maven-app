@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+     environment {
+        PATH= "/usr/bin:$PATH"
+    }
+    stages
+    {
+        stage('Git Checkout') {
+        steps
+        {
+           git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
+        }
+    }
+    
+     
+        stage('Build with maven') {
+            steps
+            {
+                sh 'mvn clean  -DskipTests'
+                //echo "Build Stage"
+            }
+        }
+    
+    
+
+
+stage("build & SonarQube analysis") {
+                    steps {
+                 withSonarQubeEnv('Jenkins-testing') {
+    sh "mvn compile test install sonar:sonar"
+                        }
+            }
+          }
+
+// stage("color") {
+//     steps {
+
+
+// ansiColor('css') {
+//   sh "ls -al"
+// }
+
+// echo 'this will be rendered as-is'
+// // multiple ansiColor steps within one pipeline are also supported
+
+// ansiColor('vga') {
+//   echo '\033[42m\033[97mWhite letters, green background\033[0m'
+// }
+
+// }
+// }
+}
+}
