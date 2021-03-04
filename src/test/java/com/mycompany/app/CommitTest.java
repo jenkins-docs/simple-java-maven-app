@@ -1,6 +1,6 @@
 package com.mycompany.app;
 
-#Test Git Commit
+//Test Git Commit
 public class CommitTest {
 
 }
