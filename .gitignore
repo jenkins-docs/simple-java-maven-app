@@ -1,3 +1,7 @@
+/.classpath
+/.idea/
+/.project
+/.settings/
 .DS_Store
 target/
 pom.xml.tag
