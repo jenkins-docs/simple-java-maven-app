@@ -1,0 +1,48 @@
+pipeline {
+
+agent any
+
+stages {
+
+tools
+{
+  maven 'maven3.6.3'
+}
+stages {
+
+stage(' maven build')
+{
+  steps{
+        sh "mvn clean package"
+       }
+}
+stage('ExecutionSonarQubeReport')
+{
+  steps{
+        sh "mvn sonar:sonar"
+       }
+}   
+stage (Sonarqube analysis ){
+steps {
+    sh 'gradle sonarqube'
+      }
+}
+stage (Quality }
+{
+steps {
+      if (Quality>50%)
+      sh "mvn sonar:sonar"
+      else
+      waitforqualitygate abort pipeline:true
+      }
+}
+       
+
+stage('DeployApptoTomcat')
+{
+  steps{
+        sshagent([' ']) {
+        sh "scp-o StrictHostkeychecking=no target/maven-web-application.war ec2-user@ip:/opt/apache-tomcat-/webapps
+        sh stage                }
+        }
+}
