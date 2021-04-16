@@ -1,29 +1,58 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    
+    agent none
+    
+    parameters {
+        string(name: 'X' , defaultValue: 'myslavemaven', description: 'enter ur name ? ')
     }
+    
     stages {
-        stage('Build') {
+        
+        stage('Build'){
+            
+            agent {
+                label "${params.X}"
+            }
+            
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                echo "my name is  :  ${params.X}"
+                echo "my first step in build stage"
+                git 'https://github.com/vimallinuxworld13/simple-java-maven-app.git'
+                sh "ls -l"
+                sh "pwd"
+                stash includes: '*' , name: 'myapp'
+                
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+        
+        stage('Test'){
+            
+             agent {
+                label 'myslavemaven'
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+            
+            steps {
+                echo "test"
+                unstash 'myapp'
+                sh 'mvn package'
+                stash includes: 'target/*.jar', name: 'myjar'
             }
         }
-        stage('Deliver') {
+        
+        
+        
+         stage('Deploy'){
+             when {
+              branch "fix-*"   
+             }
+              agent {
+                label 'myslavemaven'
+            }
+            
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                echo "deploy"
+                unstash 'myjar'
+                sh 'java -jar *.jar'
             }
         }
     }
