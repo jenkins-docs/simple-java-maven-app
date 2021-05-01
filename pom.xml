@@ -65,7 +65,7 @@
                   <message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
                 </bannedPlugins>
                 <requireMavenVersion>
-                  <version>[3.5.4,)</version>
+                  <version>[2.0.6,)</version>
                 </requireMavenVersion>
               </rules>
             </configuration>
