@@ -1,19 +1,20 @@
 pipeline {
-    agnent {
-        label 'agnet12'
+    agent {
+        label 'agent12'
     }
+    
     stages{
         stage('checkout'){
             steps{
-                checkout scm
-            }
+            checkout scm
             
-        }
-        stage('build'){
-            steps{
-                sh "mvn clean install"
             }
         }
+        stage('Build'){
+            steps{
+             sh "sh mvn clean install"
+            }
+        }
+       
     }
-    
 }
