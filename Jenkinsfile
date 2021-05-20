@@ -12,8 +12,8 @@ pipeline {
         }
         stage('Build'){
             steps{
-             sh 'mvn clean install'
-                echo "above pass"
+             sh "mvn clean install"
+             
             }
         }
        
