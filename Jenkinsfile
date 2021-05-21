@@ -3,7 +3,7 @@ pipeline{
         label 'agentx'
     }
      tools {
-        maven 'maven1' 
+        maven 'maven2' 
     }
     stages{
         stage('checkout'){
@@ -13,6 +13,7 @@ pipeline{
         }
         stage('build'){
             steps{
+                sh 'mvn --version'
                 sh 'mvn install'
             }
         }
