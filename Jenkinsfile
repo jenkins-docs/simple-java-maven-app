@@ -1,22 +1,23 @@
-pipeline {
-    agent {
-        label 'demo'
+pipeline{
+    agent{
+        label 'agentx'
     }
-    
     stages{
         stage('checkout'){
             steps{
             checkout scm
-            
             }
         }
-        stage('Build'){
+        stage('build'){
             steps{
-               sh "echo $PATH"
-             sh "mvn clean install"
-             
+                sh 'mvn clean install'
             }
         }
-       
+        stage('post-build'){
+            steps{
+                echo "this is post build message "
+            }
+        }
+        
     }
 }
