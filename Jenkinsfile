@@ -34,7 +34,7 @@ pipeline{
        stage('Deploy'){
            steps{
                sshagent(['maven-cd-key']) {
-                sh "scp target/my-app-1.0-SNAPSHOT ubuntu@54.160.246.98:/home/ubuntu"
+                sh "scp  -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT ubuntu@54.160.246.98:/home/ubuntu"
             }
 
            }
