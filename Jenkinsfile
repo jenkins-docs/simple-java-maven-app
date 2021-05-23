@@ -3,7 +3,7 @@ pipeline{
         label 'agentx'
     }
      tools {
-        maven 'maven1' 
+        maven 'maven2' 
     }
     stages{
         stage('checkout'){
