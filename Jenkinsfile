@@ -14,7 +14,7 @@ pipeline{
         stage('build'){
             steps{
                 sh 'mvn --version'
-                sh 'sudo mvn install'
+                sh 'mvn install'
             }
         }
         stage('post-build'){
