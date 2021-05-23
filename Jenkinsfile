@@ -14,8 +14,15 @@ pipeline{
         stage('build'){
             steps{
                 sh 'mvn --version'
-                sh 'mvn clean install'
+                sh 'mvn clean install -Dskiptests'
             }
+        }
+        stage('Test'){
+            steps{
+            sh "mvn test"
+            junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
+            }
+        
         }
         stage('post-build'){
             steps{
