@@ -19,7 +19,7 @@ pipeline{
         }
         stage('post-build'){
             steps{
-                echo "this is post build message "
+                echo "this is post build message ro demonstrate the badge plugin "
             }
         }
         
