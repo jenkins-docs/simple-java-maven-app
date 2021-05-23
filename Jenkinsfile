@@ -38,4 +38,17 @@ pipeline{
         }
         
     }
+     post{
+        always{
+            deleteDir()
+        }
+        failure{
+
+            echo "send the mail to the testers or may be dev"
+        }
+        success{
+            echo "build is successful"
+        }
+
+    }
 }
