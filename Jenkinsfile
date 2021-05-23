@@ -31,8 +31,28 @@ pipeline{
             }
         
         }
-     
+       stage('Deploy'){
+           steps{
+               sshagent(['maven-cd-key']) {
+                   echo "copying to the cd server..lets check"
+                sh "scp  -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@54.160.246.98:/home/ubuntu"
+            }
+
+           }
+       }
         
     }
- 
+    post{
+        always{
+            deleteDir()
+        }
+        failure{
+
+            echo "send the mail to the testers or may be dev"
+        }
+        success{
+            echo "build is successful"
+        }
+
+    }
 }
