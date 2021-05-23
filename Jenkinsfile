@@ -5,6 +5,14 @@ pipeline{
      tools {
         maven 'maven1' 
     }
+    options {
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+       timestamps
+       timeout(5)
+
+    } 
+
+
     stages{
         stage('checkout'){
             steps{
