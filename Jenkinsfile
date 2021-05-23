@@ -7,7 +7,7 @@ pipeline{
     }
     options {
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
-       timeout(5)
+      timeout(5)
 
     } 
 
@@ -31,14 +31,17 @@ pipeline{
             }
         
         }
-        stage('post-build'){
-            steps{
-                echo "this is post build message ro demonstrate the badge plugin "
+       stage('Deploy'){
+           steps{
+               sshagent(['maven-cd-key']) {
+                sh "scp target/my-app-1.0-SNAPSHOT ubuntu@54.160.246.98:/home/ubuntu"
             }
-        }
+
+           }
+       }
         
     }
-     post{
+    post{
         always{
             deleteDir()
         }
