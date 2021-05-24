@@ -26,6 +26,7 @@ pipeline{
         }
         stage('Test'){
             steps{
+             echo "hello from the feature branch"
             sh "mvn test"
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
             }
