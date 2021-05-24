@@ -35,7 +35,7 @@ pipeline{
            steps{
                sshagent(['maven-cd-key']) {
                    echo "copying to the cd server..lets check"
-                sh "scp  -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@54.160.246.98:/home/ubuntu"
+                sh "scp  -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.17.106:/home/ubuntu"
             }
 
            }
