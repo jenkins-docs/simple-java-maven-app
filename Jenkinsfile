@@ -4,8 +4,14 @@ pipeline{
     }
     tools {
      maven 'maven1'
-    }      
+    }     
+    options {
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+    }
+ 
   stages{
+
+
         stage('build'){
             steps{
                 sh 'mvn clean install -Dskiptests'
@@ -23,5 +29,21 @@ pipeline{
                 echo "this is post  build"
             }
         }
+
     }
+    post{
+        always{
+            echo "this will execute always"
+            deleteDir()
+        }
+        failure{
+            echo "sending mail to the concerned person"
+        }
+        success{
+            echo "always got successfull"
+        }
+    }
+
+
+
 }
