@@ -10,7 +10,7 @@ pipeline{
         }
         stage('post build'){
             steps{
-                echo "this is post  build 1"
+                echo "this is post  build 2"
             }
         }
     }
