@@ -3,13 +3,19 @@ pipeline{
         label 'agentx'
     }
     tools {
-     maven 'maven2'
+     maven 'maven1'
     }      
   stages{
         stage('build'){
             steps{
-                sh 'mvn -version'
-                sh 'mvn clean install'
+                sh 'mvn clean install -Dskiptests'
+            }
+        }
+        stage('test'){
+            steps{
+                 echo '################### lets do the  testing  #####################'
+                sh 'mvn test'
+                junit allowEmptyResults: true, testResults: 'target/test-reports/*.xml'
             }
         }
         stage('post build'){
