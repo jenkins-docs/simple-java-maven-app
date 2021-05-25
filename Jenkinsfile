@@ -32,7 +32,7 @@ pipeline{
         stage('deploy'){
             steps{
                 sshagent(['agent']) {
-                    sh "scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.19.10"
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.19.10:/home/ubuntu"
                     
                  }
             }
