@@ -2,15 +2,19 @@ pipeline{
     agent {
         label 'agentx'
     }
-    stages{
+    tools {
+     maven 'maven1'
+    }      
+  stages{
         stage('build'){
             steps{
+                sh 'mvn -version'
                 sh 'mvn clean install'
             }
         }
         stage('post build'){
             steps{
-                echo "this is post  build 3"
+                echo "this is post  build"
             }
         }
     }
