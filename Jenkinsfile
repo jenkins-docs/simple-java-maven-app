@@ -29,12 +29,20 @@ pipeline{
                 echo "this is post  build"
             }
         }
+        stage('deploy'){
+            steps{
+                sshagent(['agent']) {
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.19.10"
+                    
+                 }
+            }
+        }
 
     }
     post{
         always{
             echo "this will execute always"
-           // deleteDir()
+            deleteDir()
         }
         failure{
             echo "sending mail to the concerned person"
