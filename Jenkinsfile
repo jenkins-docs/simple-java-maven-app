@@ -34,7 +34,7 @@ pipeline{
     post{
         always{
             echo "this will execute always"
-            deleteDir()
+           // deleteDir()
         }
         failure{
             echo "sending mail to the concerned person"
