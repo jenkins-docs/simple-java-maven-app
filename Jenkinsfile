@@ -8,6 +8,10 @@ pipeline{
     options {
     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
     }
+    environment{
+        target_user="ubuntu"
+        target_machine="172.31.19.10"
+    }
  
   stages{
 
@@ -32,7 +36,7 @@ pipeline{
         stage('deploy'){
             steps{
                 sshagent(['agent']) {
-                    sh "scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.19.10:/home/ubuntu"
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar $target_user@$target_machine:/home/ubuntu"
                     
                  }
             }
