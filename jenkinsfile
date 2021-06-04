@@ -42,16 +42,16 @@ pipeline{
             }
         }
     }
-    post{
-        always {
-            deleteDir()
-        }
-        failure {
-                echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
-        }
-        success {
-            echo "sucessfull!!!"
-        }
-    }
+    // post{
+    //     always {
+    //         deleteDir()
+    //     }
+    //     failure {
+    //             echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
+    //     }
+    //     success {
+    //         echo "sucessfull!!!"
+    //     }
+    // }
 
 }
