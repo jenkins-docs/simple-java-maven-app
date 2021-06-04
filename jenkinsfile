@@ -34,6 +34,13 @@ pipeline{
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
             }
         }
+        stage('deploy'){
+            steps{
+                sshagent(['agent']) {
+                    sh "scp -o StrictHostKeyChecking=no  /target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.92.86:/home/ubuntu"
+}
+            }
+        }
     }
     post{
         always {
