@@ -1,0 +1,57 @@
+pipeline{
+    agent{
+        label 'agentx'
+    }
+     tools {
+        maven 'maven-new' 
+    }
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+        
+
+    }
+
+    stages{
+        stage('checkout'){
+            steps{
+                checkout scm
+            }
+        }
+        stage('build'){
+            steps{
+                sh "mvn clean install -DskipTests"
+            }
+        }
+        stage('maven-version'){
+            steps{
+                sh "mvn --version"
+            }
+        }
+        stage('Test'){
+            steps{
+             echo "hello from the feature branch"
+            sh "mvn test"
+            junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
+            }
+        }
+        stage('deploy'){
+            steps{
+                sshagent(['agent']) {
+                    sh "scp -o StrictHostKeyChecking=no  target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.92.86:/home/ubuntu"
+}
+            }
+        }
+    }
+    post{
+        always {
+            deleteDir()
+        }
+        failure {
+                echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
+        }
+        success {
+            echo "sucessfull!!!"
+        }
+    }
+
+}
