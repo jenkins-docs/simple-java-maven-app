@@ -2,6 +2,9 @@ pipeline{
     agent{
         label 'agentx'
     }
+     tools {
+        maven 'maven-old' 
+    }
     stages{
         stage('checkout'){
             steps{
@@ -11,6 +14,11 @@ pipeline{
         stage('build'){
             steps{
                 sh "mvn clean install"
+            }
+        }
+        stage('maven-version'){
+            steps{
+                sh "mvn --version"
             }
         }
     }
