@@ -5,6 +5,12 @@ pipeline{
      tools {
         maven 'maven-new' 
     }
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+        timeout(time: 10, unit: 'SECONDS')
+
+    }
+
     stages{
         stage('checkout'){
             steps{
@@ -27,6 +33,17 @@ pipeline{
             sh "mvn test"
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
             }
+        }
+    }
+    post{
+        always {
+            deleteDir()
+        }
+        failure {
+                echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
+        }
+        success {
+            echo "sucessfull!!!"
         }
     }
 
