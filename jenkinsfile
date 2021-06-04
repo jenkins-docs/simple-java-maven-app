@@ -37,21 +37,21 @@ pipeline{
         stage('deploy'){
             steps{
                 sshagent(['agent']) {
-                    sh "scp -o StrictHostKeyChecking=no  /target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.92.86:/home/ubuntu"
+                    sh "scp -o StrictHostKeyChecking=no  target/my-app-1.0-SNAPSHOT.jar ubuntu@172.31.92.86:/home/ubuntu"
 }
             }
         }
     }
-    // post{
-    //     always {
-    //         deleteDir()
-    //     }
-    //     failure {
-    //             echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
-    //     }
-    //     success {
-    //         echo "sucessfull!!!"
-    //     }
-    // }
+    post{
+        always {
+            deleteDir()
+        }
+        failure {
+                echo "Alert !! Alert !!! FAilure !! Alert!! Alert !! "
+        }
+        success {
+            echo "sucessfull!!!"
+        }
+    }
 
 }
