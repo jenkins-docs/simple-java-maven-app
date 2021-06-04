@@ -27,6 +27,7 @@ pipeline{
             sh "mvn test"
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/*xml'
             }
+        }
     }
 
 }
