@@ -3,11 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto8
+      java: openjdk13
   build:
     commands:
       - echo Build started on `date`
-      - mvn test 
+      - mvn test
   post_build:
     commands:
       - echo Build completed on `date`
