@@ -23,3 +23,15 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+   
+    - name: Setup sonarqube
+    - uses: warchant/setup-sonar-scanner@v3
+    - name: Run sonarqube
+      env:
+     # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     run: sonar-scanner
+       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+       -Dsonar.organization=1corp
+       -Dsonar.host.url=https://sonarcloud.io/
+       -Dsonar.projectKey=sonar-scanner-action
