@@ -13,7 +13,7 @@ jobs:
         run: "mvn -B package --file pom.xml"
         name: "Setup sonarqube"
         uses: warchant/setup-sonar-scanner@v3
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GIT_TOKEN }}"
         env: ~
         name: "Run sonarqube"
         run: "sonar-scanner -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=1corp -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.projectKey=sonar-scanner-action"
