@@ -15,6 +15,11 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <properties>
+  <sonar.projectKey>meermansubdar_simple-java-maven-app</sonar.projectKey>
+  <sonar.organization>meermansubdar</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
   <build>
     <plugins>
       <plugin>
