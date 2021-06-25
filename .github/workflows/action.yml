@@ -1,20 +1,21 @@
 env:
   STACK: dotnet
 jobs:
+  runs-on: ubuntu-latest
   build_java_maven:
-    - steps:
-      - name: java
-      if: contains(['java'],env.STACK)
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+    steps:
+    - uses: actions/checkout@v2
+    - name: java
+    if: contains(['java'],env.STACK)
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Build with Maven
+      run: mvn --batch-mode --update-snapshots verify
       
-      - name: .net
-        if: ${{environment.stack == '.net'}}
-        uses: actions
+    - name: .net
+      if: ${{environment.stack == '.net'}}
+      - uses: actions
         run: echo '::set-output name=SELECTED_COLOR::green'
