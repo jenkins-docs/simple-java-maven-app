@@ -10,8 +10,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - if: contains(['java'],env.STACK)
       - name: Set up JDK 11
+        if: contains(['java'],env.STACK)
         uses: actions/setup-java@v2
         with:
           java-version: '11'
