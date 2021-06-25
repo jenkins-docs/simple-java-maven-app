@@ -17,4 +17,5 @@ jobs:
           java-version: '11'
           distribution: 'adopt'      
       - name: Build with Maven
+        if: ${{ env.STACK == 'java' }}
         run: mvn --batch-mode --update-snapshots verify
