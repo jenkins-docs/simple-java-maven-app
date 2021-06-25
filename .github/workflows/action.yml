@@ -14,5 +14,4 @@ jobs:
       
       - name: .net
         if: ${{environment.stack == '.net'}}
-        uses: actions
-		run: echo '::set-output name=SELECTED_COLOR::green'
+        run: echo "Hello, world!"
