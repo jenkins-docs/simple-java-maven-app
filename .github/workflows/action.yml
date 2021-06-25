@@ -11,5 +11,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-      build:
       - uses: ./.github/workflows/maven
