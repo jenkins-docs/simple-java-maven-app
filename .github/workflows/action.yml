@@ -6,17 +6,17 @@ jobs:
       - uses: actions/checkout@v2
       - name: java
       if: ${{ env.stack == 'java' }}
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
+        - name: Set up JDK 11
+          uses: actions/setup-java@v2
+          with:
+            java-version: '11'
+            distribution: 'adopt'
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
     build_dotnet:
       - name: dotnet
       if: ${{ env.stack == 'dotnet' }}
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+        - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+          uses: actions/setup-dotnet@v1.7.2
+          with:
+            dotnet-version: ${{ matrix.dotnet-version }}
