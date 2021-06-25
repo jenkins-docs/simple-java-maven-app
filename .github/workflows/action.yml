@@ -15,7 +15,7 @@ jobs:
           run: mvn --batch-mode --update-snapshots verify
       
       - name: dotnet
-        if: ${{env.stack == 'dotnet'}}
+        #if: ${{env.stack == 'dotnet'}}
         - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
           uses: actions/setup-dotnet@v1.7.2
           with:
