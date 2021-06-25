@@ -19,3 +19,9 @@ jobs:
       - name: Build with Maven
         if: ${{ env.STACK == 'java' }}
         run: mvn --batch-mode --update-snapshots verify
+        
+      - name: Setup .NET 3.x
+        if: ${{ env.STACK == 'dotnet' }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.x'
