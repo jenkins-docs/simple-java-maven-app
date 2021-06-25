@@ -16,5 +16,7 @@ jobs:
       
       - name: dotnet
         if: ${{environment.stack == 'dotnet'}}
-          - name: Run DotNet Build
-            run: echo "Hello, world!"
+          - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+            uses: actions/setup-dotnet@v1.7.2
+            with:
+              dotnet-version: ${{ matrix.dotnet-version }}
