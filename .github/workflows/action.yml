@@ -1,6 +1,6 @@
 env:
   STACK: java_gradle
-  BUILD_TECH: java_gradle
+  BUILD_TECH: java_ant
 
 on: [push]
 
@@ -30,7 +30,9 @@ jobs:
         
     
       ######## Build - Ant ########
-    
+      - name: Build with Ant
+        if: ${{ env.BUILD_TECH == 'java_ant' }}
+        run: ant -noinput -buildfile build.xml
     
     
       ######## Build - Gradle ########
