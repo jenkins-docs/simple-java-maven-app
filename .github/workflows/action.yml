@@ -13,9 +13,9 @@ jobs:
             distribution: 'adopt'
         - name: Build with Maven
           run: mvn --batch-mode --update-snapshots verify
-      
+    build_dotnet:
       - name: dotnet
-        #if: ${{env.stack == 'dotnet'}}
+        if: ${{env.stack == 'dotnet'}}
         - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
           uses: actions/setup-dotnet@v1.7.2
           with:
