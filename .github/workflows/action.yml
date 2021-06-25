@@ -1,6 +1,8 @@
 env:
   STACK: dotnet
-  
+
+on: [push]
+
 jobs:
   build_java_maven:
 
