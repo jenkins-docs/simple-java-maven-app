@@ -1,5 +1,6 @@
 env:
-  STACK: dotnet
+  STACK: java_gradle
+  BUILD_TECH: java_gradle
 
 on: [push]
 
@@ -9,17 +10,41 @@ jobs:
     runs-on: ubuntu-latest 
     
     steps:
+    ######## Checkout code ########
       - uses: actions/checkout@v2
+      
+    
+      ######## Setup JDK 11 ########
       - name: Set up JDK 11
         if: ${{ env.STACK == 'java' }}
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'      
+          distribution: 'adopt'
+          
+    
+      ######## Build - Maven ########
       - name: Build with Maven
-        if: ${{ env.STACK == 'java' }}
+        if: ${{ env.BUILD_TECH == 'java_maven' }}
         run: mvn --batch-mode --update-snapshots verify
         
+    
+      ######## Build - Ant ########
+    
+    
+    
+      ######## Build - Gradle ########
+      - name: Validate Gradle wrapper
+        if: ${{ env.BUILD_TECH == 'java_gradle' }}
+        uses: gradle/wrapper-validation-action@v1
+        
+      - name: Build with Gradle
+        if: ${{ env.BUILD_TECH == 'java_gradle' }}
+        run: ./gradlew build
+    
+    
+    
+      ######## Setuo .Net  ########
       - name: Setup .NET 3.x
         if: ${{ env.STACK == 'dotnet' }}
         uses: actions/setup-dotnet@v1
