@@ -1,9 +1,10 @@
 env:
   STACK: dotnet
-
+  
+runs-on: ubuntu-latest
 jobs:
   build_java_maven:
-  runs-on: ubuntu-latest
+
         
   steps:
   - uses: actions/checkout@v2
