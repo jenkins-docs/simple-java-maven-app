@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        if: contains(['java'],env.STACK)
+        if: ${{ env.STACK == 'dotnet' }}
         uses: actions/setup-java@v2
         with:
           java-version: '11'
