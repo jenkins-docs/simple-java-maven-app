@@ -1,3 +1,5 @@
+env:
+  stack: .net
 jobs:
   build_java_maven:
     - steps:
