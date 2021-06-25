@@ -3,6 +3,11 @@ env:
 jobs:
   runs-on: ubuntu-latest
   build_java_maven:
+  
+  strategy:
+    matrix:
+      dotnet-version: ['3.0', '3.1.x', '5.0.x' ]
+        
     steps:
     - uses: actions/checkout@v2
     - name: java
@@ -17,6 +22,11 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify
       
     - if: ${{environment.stack == '.net'}}
-      name: .net
-      uses: actions
-        run: echo '::set-output name=SELECTED_COLOR::green'
+      name: Setup dotnet ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+        # You can test your matrix by printing the current dotnet version
+
+      name: Display dotnet version
+      run: dotnet --version
