@@ -1,4 +1,10 @@
 --- 
+
+
+defaults:
+  run:
+    working-directory: ./appworkdir
+    
 jobs: 
   build_java1: ~
  # runs-on: ubuntu-latest
