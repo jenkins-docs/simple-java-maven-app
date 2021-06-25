@@ -6,14 +6,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     
-    runs:
-      using: "composite"
-      steps:
-        build:
-        - uses: ./.github/workflows/maven
+      build:
+      - uses: ./.github/workflows/maven
