@@ -1,7 +1,4 @@
-ame: Java CI
-
-on: [push]
-
+Name: Java CI
 jobs:
   build:
     runs-on: ubuntu-latest
