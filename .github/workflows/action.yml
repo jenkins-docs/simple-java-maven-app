@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    working-directory: ./appworkdir
+    
 jobs:
   build_java:
     runs-on: ubuntu-latest
