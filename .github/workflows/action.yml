@@ -1,8 +1,10 @@
+env:
+  STACK: dotnet
 jobs:
   build_java_maven:
     - steps:
       - name: java
-      if: ${{ env.stack }}
+      if: contains(['java'],env.STACK)
       - uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v2
