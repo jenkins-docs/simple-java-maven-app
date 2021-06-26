@@ -62,8 +62,9 @@ jobs:
         with:
           args: >
             -Dsonar.language=java
-            -Dsonar.organization=my-organization
-            -Dsonar.projectKey=simple-java-maven-app
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.organization=pintu-gupta
+            -Dsonar.projectKey=pintu-gupta-github
             -Dsonar.projectName=simple-java-maven-app
             -Dsonar.projectVersion=1.0
         env:
