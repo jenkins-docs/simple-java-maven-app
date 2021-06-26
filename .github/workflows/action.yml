@@ -60,11 +60,12 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
+            -Dsonar.language=java
             -Dsonar.organization=my-organization
             -Dsonar.projectKey=simple-java-maven-app
             -Dsonar.sources=lib/
-            -Dsonar.test.exclusions=tests/**
-            #-Dsonar.tests=tests/
+            -Dsonar.test.exclusions=test/**
+            -Dsonar.tests=test/
             -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
