@@ -53,6 +53,8 @@ jobs:
 
       ######## Sonar Cloud Scan ########
   sonarcloud:
+  
+    runs-on: ubuntu-latest 
     steps:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
