@@ -58,15 +58,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        with:
-          args: >
-            -Dsonar.language=java
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.organization=pintu-gupta
-            -Dsonar.projectKey=pintu-gupta-github
-            -Dsonar.projectName=simple-java-maven-app
-            -Dsonar.projectVersion=1.0
+        run: mvn -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=intu-gupta -Dsonar.projectKey=pintu-gupta-github
+        #uses: sonarsource/sonarcloud-github-action@master
+        #with:
+        #  args: >
+        #    -Dsonar.language=java
+        #    -Dsonar.host.url=https://sonarcloud.io
+        #    -Dsonar.organization=pintu-gupta
+        #    -Dsonar.projectKey=pintu-gupta-github
+        #    -Dsonar.projectName=simple-java-maven-app
+        #    -Dsonar.projectVersion=1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
