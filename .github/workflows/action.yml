@@ -26,7 +26,7 @@ jobs:
       ######## Build - Maven ########
       - name: Build with Maven
         if: ${{ env.BUILD_TECH == 'java_maven' }}
-        run: mvn --batch-mode --update-snapshots verify org.sonarsource.scanner.maven:sonar
+        run: mvn --batch-mode --update-snapshots verify
         
     
       ######## Build - Ant ########
@@ -66,7 +66,6 @@ jobs:
             -Dsonar.projectKey=simple-java-maven-app
             -Dsonar.projectName=simple-java-maven-app
             -Dsonar.projectVersion=1.0
-            -Dsonar.sources=/home/runner/work/simple-java-maven-app/simple-java-maven-app
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
