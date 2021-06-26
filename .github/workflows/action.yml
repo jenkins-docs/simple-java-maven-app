@@ -58,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: SonarCloud Scan
-        run: mvn -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=intu-gupta -Dsonar.projectKey=pintu-gupta-github
+        run: mvn -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pintu-gupta -Dsonar.projectKey=pintu-gupta-github
         #uses: sonarsource/sonarcloud-github-action@master
         #with:
         #  args: >
