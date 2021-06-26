@@ -63,10 +63,9 @@ jobs:
             -Dsonar.language=java
             -Dsonar.organization=my-organization
             -Dsonar.projectKey=simple-java-maven-app
+            -Dsonar.projectName=simple-java-maven-app
+            -Dsonar.projectVersion=1.0
             -Dsonar.sources=lib/
-            -Dsonar.test.exclusions=test/**
-            -Dsonar.tests=test/
-            -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
