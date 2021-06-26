@@ -1,6 +1,6 @@
 env:
-  STACK: java_gradle
-  BUILD_TECH: java_ant
+  STACK: java
+  BUILD_TECH: java_maven
 
 on: [push]
 
@@ -44,11 +44,18 @@ jobs:
         if: ${{ env.BUILD_TECH == 'java_gradle' }}
         run: ./gradlew build
     
-    
-    
       ######## Setuo .Net  ########
       - name: Setup .NET 3.x
         if: ${{ env.STACK == 'dotnet' }}
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.x'
+
+      ######## Sonar Cloud Scan ########
+  sonarcloud:
+    steps:
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
