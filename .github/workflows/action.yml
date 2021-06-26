@@ -64,7 +64,7 @@ jobs:
             -Dsonar.projectKey=simple-java-maven-app
             -Dsonar.sources=lib/
             -Dsonar.test.exclusions=tests/**
-            -Dsonar.tests=tests/
+            #-Dsonar.tests=tests/
             -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
