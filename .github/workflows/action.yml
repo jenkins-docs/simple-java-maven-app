@@ -2,6 +2,8 @@ env:
   STACK: java
   BUILD_TECH: java_maven
   MVN_ARGS: --batch-mode --update-snapshots verify
+  CONTINUE_ON_ERROR: false
+  CONTINUE_ON_ERROR_SETUP: true
 
 #on: [push]
 # Define on which event the pipeline will be triggered
@@ -22,6 +24,7 @@ jobs:
     ######## Checkout code ########
       - name: 'Checkout repository on branch: ${{ github.REF }}'
         uses: actions/checkout@v2
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
         with:
           ref: ${{ github.REF }}
           fetch-depth: 0
@@ -30,6 +33,7 @@ jobs:
       - name: Set up JDK 11
         if: ${{ env.STACK == 'java' }}
         uses: actions/setup-java@v2
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
         with:
           java-version: '11'
           distribution: 'adopt'
@@ -39,27 +43,31 @@ jobs:
       - name: Build with Maven
         if: ${{ env.BUILD_TECH == 'java_maven' }}
         run: mvn ${{ env.MVN_ARGS }}
-        
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
     
       ######## Build - Ant ########
       - name: Build with Ant
         if: ${{ env.BUILD_TECH == 'java_ant' }}
         run: ant -noinput -buildfile build.xml
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
     
     
       ######## Build - Gradle ########
       - name: Validate Gradle wrapper
         if: ${{ env.BUILD_TECH == 'java_gradle' }}
         uses: gradle/wrapper-validation-action@v1
-        
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR_SETUP }}
+
       - name: Build with Gradle
         if: ${{ env.BUILD_TECH == 'java_gradle' }}
         run: ./gradlew build
-    
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
+
       ######## Setuo .Net  ########
       - name: Setup .NET 3.x
         if: ${{ env.STACK == 'dotnet' }}
         uses: actions/setup-dotnet@v1
+        continue-on-error: ${{ env.CONTINUE_ON_ERROR_SETUP }}
         with:
           dotnet-version: '3.x'
 
