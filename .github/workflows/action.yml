@@ -2,8 +2,16 @@ env:
   STACK: java
   BUILD_TECH: java_maven
 
-on: [push]
-
+#on: [push]
+# Define on which event the pipeline will be triggered
+on:
+  push:
+  # and the target with some regex to match specific  branch names
+    branches:
+      - master
+      - 'FEATURE-[0-9]-[0-9]-[0-9]-X-BRANCH'
+      - '[0-9]_[0-9]_x'
+      - '[0-9]-[0-9]-X-BRANCH'
 jobs:
   build_java_maven:
 
@@ -11,8 +19,11 @@ jobs:
     
     steps:
     ######## Checkout code ########
-      - uses: actions/checkout@v2
-      
+      - name: 'Checkout repository on branch: ${{ github.REF }}'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.REF }}
+          fetch-depth: 0
     
       ######## Setup JDK 11 ########
       - name: Set up JDK 11
