@@ -38,6 +38,8 @@ jobs:
 #      - name: show job status
 #        if: always()
 #        run: echo ${{ job.status }}
+      - name: fail the job
+        run: exit 1
       ######## Setup JDK 11 ########
       - name: Set up JDK 11
         id: setup_jdk
