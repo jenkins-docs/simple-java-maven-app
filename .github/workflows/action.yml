@@ -1,6 +1,7 @@
 env:
   STACK: java
   BUILD_TECH: java_maven
+  MVN_ARGS: --batch-mode --update-snapshots verify
 
 #on: [push]
 # Define on which event the pipeline will be triggered
@@ -37,7 +38,7 @@ jobs:
       ######## Build - Maven ########
       - name: Build with Maven
         if: ${{ env.BUILD_TECH == 'java_maven' }}
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn ${{ env.MVN_ARGS }}
         
     
       ######## Build - Ant ########
