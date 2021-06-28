@@ -35,9 +35,9 @@ jobs:
         with:
           ref: ${{ github.REF }}
           fetch-depth: 0
-      - name: show job status
-        if: always()
-        run: echo ${{ job.status }}
+#      - name: show job status
+#        if: always()
+#        run: echo ${{ job.status }}
       ######## Setup JDK 11 ########
       - name: Set up JDK 11
         if: ${{ env.STACK == 'java' }}
