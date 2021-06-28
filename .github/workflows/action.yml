@@ -15,6 +15,13 @@ on:
       - 'FEATURE-[0-9]-[0-9]-[0-9]-X-BRANCH'
       - '[0-9]_[0-9]_x'
       - '[0-9]-[0-9]-X-BRANCH'
+  pull_request:
+    branches:
+      - master
+      - 'FEATURE-[0-9]-[0-9]-[0-9]-X-BRANCH'
+      - '[0-9]_[0-9]_x'
+      - '[0-9]-[0-9]-X-BRANCH'
+
 jobs:
   build_java_maven:
 
@@ -28,7 +35,9 @@ jobs:
         with:
           ref: ${{ github.REF }}
           fetch-depth: 0
-    
+      - name: show job status
+        if: always()
+        run: echo ${{ job.status }}
       ######## Setup JDK 11 ########
       - name: Set up JDK 11
         if: ${{ env.STACK == 'java' }}
