@@ -4,6 +4,7 @@ env:
   MVN_ARGS: --batch-mode --update-snapshots verify
   CONTINUE_ON_ERROR: false
   CONTINUE_ON_ERROR_SETUP: true
+  JOB_STATUS_CODE: 0
 
 #on: [push]
 # Define on which event the pipeline will be triggered
@@ -40,6 +41,11 @@ jobs:
 #        run: echo ${{ job.status }}
       - name: fail the job
         run: exit 1
+        
+      - name: set_step_status
+        if: ${{ job.status == 0 }}
+        run: |
+          echo ::set-env JOB_STATUS_CODE=2
       ######## Setup JDK 11 ########
       - name: Set up JDK 11
         id: setup_jdk
@@ -91,6 +97,7 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
+        if: ${{ job.status == 2 }}
       - name: SonarCloud Scan
         run: mvn -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pintu-gupta-github -Dsonar.projectKey=pintu-gupta-github
         #uses: sonarsource/sonarcloud-github-action@master
