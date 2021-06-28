@@ -48,8 +48,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           
-      - name: Print Setup status
-        run: echo ${{ steps.setup_jdk.outcome }}
+#      - name: Print Setup status
+#        run: echo ${{ steps.setup_jdk.outcome }}
         
       ######## Build - Maven ########
       - name: Build with Maven
