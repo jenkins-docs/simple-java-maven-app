@@ -127,7 +127,7 @@ jobs:
   Deploy-Dev:
     environment: 'Development'
     runs-on: ubuntu-latest
-    needs: Code_Quality_Check
+    needs: Code-Quality-Check
     steps:
     - name: Deploy dev
       run: echo ${{ job.status }}
