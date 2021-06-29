@@ -37,7 +37,7 @@ jobs:
 
       - name: PR comment
         if: failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4
 
         with:
           github-token: ${{secrets.GIT_TOKEN}}
