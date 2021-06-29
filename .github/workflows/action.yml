@@ -36,6 +36,15 @@ jobs:
         with:
           ref: ${{ github.REF }}
           fetch-depth: 0
+          
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Deployment Started
+          notification-color: 17a2b8
+          timezone: America/Denver
 #      - name: show job status
 #        if: always()
 #        run: echo ${{ job.status }}
