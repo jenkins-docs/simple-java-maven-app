@@ -40,7 +40,7 @@ jobs:
         uses: actions/github-script@v3
 
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.GIT_TOKEN}}
           script: |
 
             github.issues.createComment({
