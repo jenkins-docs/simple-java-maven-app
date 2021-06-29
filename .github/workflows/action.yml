@@ -44,7 +44,6 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Deployment Started
           notification-color: 17a2b8
-          timezone: America/Denver
 #      - name: show job status
 #        if: always()
 #        run: echo ${{ job.status }}
@@ -101,7 +100,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: test-results/**/*.xml
+          files: test/**/*.xml
         
       ######## Setuo .Net  ########
       - name: Setup .NET 3.x
