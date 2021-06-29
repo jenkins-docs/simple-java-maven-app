@@ -88,6 +88,12 @@ jobs:
       - name: Test with Maven
         run: mvn -B test --file pom.xml
         
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: test-results/**/*.xml
+        
       ######## Setuo .Net  ########
       - name: Setup .NET 3.x
         if: ${{ env.STACK == 'dotnet' }}
