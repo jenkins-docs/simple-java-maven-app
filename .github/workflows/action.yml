@@ -92,7 +92,7 @@ jobs:
           dotnet-version: '3.x'
 
       ######## Sonar Cloud Scan ########
-  Code Quality Check:
+  Code_Quality_Check:
     needs: Build
   
     runs-on: ubuntu-latest 
