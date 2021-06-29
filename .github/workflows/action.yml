@@ -83,6 +83,11 @@ jobs:
         run: ./gradlew build
         continue-on-error: ${{ env.CONTINUE_ON_ERROR }}
 
+
+      ######## JUnit Test with Maven ########
+      - name: Test with Maven
+        run: mvn -B test --file pom.xml
+        
       ######## Setuo .Net  ########
       - name: Setup .NET 3.x
         if: ${{ env.STACK == 'dotnet' }}
