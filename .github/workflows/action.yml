@@ -164,5 +164,30 @@ jobs:
     - name: Deploy dev
       run: echo ${{ job.status }}
       
-  Regression:
-    runs-on: ubuntu-latest 
+  Functional-Test-Regression:
+    runs-on: ubuntu-latest
+    needs: Deploy-Dev
+    steps:
+    - name: Regression
+      run: echo ${{ job.status }}
+      
+  Functional-Test-Progression:
+    runs-on: ubuntu-latest
+    needs: Deploy-Dev
+    steps:
+    - name: Progression
+      run: echo ${{ job.status }}
+      
+  Performance-Test:
+    runs-on: ubuntu-latest
+    needs: Deploy-Dev
+    steps:
+    - name: Peerformance-Test
+      run: echo ${{ job.status }}
+    
+  Stage-Artifacts:
+    runs-on: ubuntu-latest
+    needs: Deploy-Dev
+    steps:
+    - name: Upload Artifacts to Artifactory
+      run: echo ${{ job.status }}
