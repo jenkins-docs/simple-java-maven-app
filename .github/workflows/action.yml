@@ -187,7 +187,7 @@ jobs:
     
   Stage-Artifacts:
     runs-on: ubuntu-latest
-    needs: Deploy-Dev
+    needs: [Functional-Test-Progression, Functional-Test-Regression]
     steps:
     - name: Upload Artifacts to Artifactory
       run: echo ${{ job.status }}
