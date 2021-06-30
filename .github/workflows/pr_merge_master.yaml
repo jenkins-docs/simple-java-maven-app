@@ -1,17 +1,7 @@
 on:
   push:
     branches:
-      - '238379_Main_Test_Branch_SV'
-env:
-    APPLICATION_NAME: amps-api
-    APPLICATION_ARTIFACTID: amps-api
-    APPLICATION_VERSION: 2021.2.0 ##0.1.37
-    JFROG_URL: https://packages.aa.com/artifactory
-    JFROG_CLI_HOME_DIR: ${{ github.workspace }}/.jfrog
-    JFROG_CLI_JCENTER_REMOTE_SERVER: Default-Server
-    JFROG_CLI_JCENTER_REMOTE_REPO: Jcenter.bintray-proxy
-    JFROG_CLI_OFFER_CONFIG: false
-   
+      - 'master'
 jobs:
    createPullRequest:
     runs-on: ubuntu-latest
