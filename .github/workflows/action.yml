@@ -163,3 +163,6 @@ jobs:
     steps:
     - name: Deploy dev
       run: echo ${{ job.status }}
+      
+  Regression:
+    runs-on: ubuntu-latest 
