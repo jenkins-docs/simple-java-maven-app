@@ -25,30 +25,30 @@ on:
       - '[0-9]-[0-9]-X-BRANCH'
 
 jobs:
-  pre-commit:
-    runs-on: ubuntu-latest 
-      
-    steps:
-      - name: Set up pre-commit cache
-        id: commit_check
-        uses: pre-commit/action@v2.0.0
-        with:
-          extra_args: --files ${{steps.file_changes.outputs.files}}
-
-      - name: PR comment
-        if: failure()
-        uses: actions/github-script@v4
-
-        with:
-          github-token: ${{secrets.GIT_TOKEN}}
-          script: |
-
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: ' Ups, something went wrong. Please checkout the following error:  '
-            });
+#  pre-commit:
+#    runs-on: ubuntu-latest 
+#      
+#    steps:
+#      - name: Set up pre-commit cache
+#        id: commit_check
+#        uses: pre-commit/action@v2.0.0
+#        with:
+#          extra_args: --files ${{steps.file_changes.outputs.files}}
+#
+#      - name: PR comment
+#        if: failure()
+#        uses: actions/github-script@v4
+#
+#        with:
+#          github-token: ${{secrets.GIT_TOKEN}}
+#          script: |
+#
+#            github.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: ' Ups, something went wrong. Please checkout the following error:  '
+#            });
   Build:
     runs-on: ubuntu-latest 
     
