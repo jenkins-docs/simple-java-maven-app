@@ -42,7 +42,6 @@ jobs:
         with:
           github-token: ${{secrets.GIT_TOKEN}}
           run: echo "FAILURE"
-          run: exit 1
 #          script: |
 #            github.issues.createComment({
 #              issue_number: context.issue.number,
