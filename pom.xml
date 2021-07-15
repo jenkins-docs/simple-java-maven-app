@@ -64,6 +64,19 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <version>2.4.0</version>
+          <executions>
+              <execution>
+                  <phase>install</phase>
+                  <goals>
+                      <goal>makeAggregateBom</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin> 
     </plugins>
   </build>
 </project>
