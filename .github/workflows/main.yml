@@ -1,0 +1,21 @@
+on: [push, pull_request]
+name: CI
+jobs:
+  test:
+    strategy:
+      matrix:
+        java-version: [11]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Install Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.go-version }}
+        distribution: 'adopt'
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build with Maven
+      run: mvn -B -DskipTests clean package
+    - name: UnitTest
+      run: mvn test
