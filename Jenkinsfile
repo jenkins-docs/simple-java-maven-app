@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH = "C:\\Users\\rmalewad\\apache-maven-3.8.2-bin\\apache-maven-3.8.2:$PATH"
+        PATH = " C:\Users\rmalewad\Downloads\apache-maven-3.8.1-bin\apache-maven-3.8.1\bin:$PATH"
     }
 
     stages {
