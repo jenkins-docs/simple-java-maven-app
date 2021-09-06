@@ -1,0 +1,19 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+App	src/main/java/com/mycompany/app/App.java	/^    public App() {}$/;"	m	class:App
+App	src/main/java/com/mycompany/app/App.java	/^public class App$/;"	c
+AppTest	src/test/java/com/mycompany/app/AppTest.java	/^public class AppTest$/;"	c
+cleanUpStreams	src/test/java/com/mycompany/app/AppTest.java	/^    public void cleanUpStreams() {$/;"	m	class:AppTest
+com.mycompany.app	src/main/java/com/mycompany/app/App.java	/^package com.mycompany.app;$/;"	p
+com.mycompany.app	src/test/java/com/mycompany/app/AppTest.java	/^package com.mycompany.app;$/;"	p
+getMessage	src/main/java/com/mycompany/app/App.java	/^    private final String getMessage() {$/;"	m	class:App	file:
+main	src/main/java/com/mycompany/app/App.java	/^    public static void main(String[] args) {$/;"	m	class:App
+message	src/main/java/com/mycompany/app/App.java	/^    private final String message = "Hello World!";$/;"	f	class:App	file:
+outContent	src/test/java/com/mycompany/app/AppTest.java	/^    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();$/;"	f	class:AppTest	file:
+setUpStreams	src/test/java/com/mycompany/app/AppTest.java	/^    public void setUpStreams() {$/;"	m	class:AppTest
+testAppConstructor	src/test/java/com/mycompany/app/AppTest.java	/^    public void testAppConstructor() {$/;"	m	class:AppTest
+testAppMain	src/test/java/com/mycompany/app/AppTest.java	/^    public void testAppMain()$/;"	m	class:AppTest
