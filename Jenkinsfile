@@ -16,6 +16,7 @@ pipeline {
                 bat "mvn install"
                 bat "mvn test"
                 bat "mvn package"
+                echo 'build successfull !'
             }
         }
     }
