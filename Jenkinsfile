@@ -7,10 +7,6 @@ def tag = "latest"
 //创建node节点
 node {
 //代码拉取
-    stage('拉取代码') {
+    stage('拉取代码')
     checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${git_auth}", url: "${git_url}"]]]
-    }
-    stage('编译 安装公共实体bean') {
-            sh "mvn clean install -Dmaven.test.skip=true"
-        }
 }
