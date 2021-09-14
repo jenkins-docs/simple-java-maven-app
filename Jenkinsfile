@@ -1,9 +1,7 @@
-
-    agent { docker 'maven:3.3.3' }
-    stages {
+node {
         stage('build') {
             steps {
                 sh 'mvn --version'
             }
         }
-    }
+   }
