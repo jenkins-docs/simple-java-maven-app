@@ -1,3 +1,4 @@
+@Library("shared-library") _
 pipeline {
     agent any
     tools {
@@ -12,11 +13,7 @@ pipeline {
         }
         stage ('build') {
             steps{
-                bat "mvn clean" 
-                bat "mvn install"
-                bat "mvn test"
-                bat "mvn package"
-                echo 'build successfull !'
+               buildMaven()
             }
         }
     }
