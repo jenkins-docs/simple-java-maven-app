@@ -1,6 +1,3 @@
-
-
-
 # simple-java-maven-app
 this is dummy code
 This repository is for the
