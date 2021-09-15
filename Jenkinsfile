@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    name: 'maven', type: 'maven'
+    maven: 'maven'
   }
   stages {  
     stage('CheckouttheCode') {
