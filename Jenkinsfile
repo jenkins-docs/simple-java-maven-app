@@ -19,9 +19,7 @@ pipeline {
         stage("SonarQube analysis") {
             agent any
             steps {
-              withSonarQubeEnv('sonar-localost') {
-                 bat "mvn clean package sonar:sonar"
-              }
+              sonarQube()
             }
           }
     }
