@@ -20,7 +20,7 @@ pipeline {
             agent any
             steps {
               withSonarQubeEnv('sonar-localost') {
-                 bat "sonar:sonar"
+                 bat "mvn clean package sonar:sonar"
               }
             }
           }
