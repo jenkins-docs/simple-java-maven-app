@@ -21,7 +21,14 @@ pipeline {
             steps {
               sonarQube()
             }
-          }
+        }
+        stage("slackNotify") {
+            steps {
+                slackMessage()
+            }
+        }
+        
+        
     }
 
 }
