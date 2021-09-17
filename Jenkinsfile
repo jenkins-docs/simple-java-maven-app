@@ -16,12 +16,14 @@ pipeline {
                buildMaven()
             }
         }
-        stage('sonarqube analysis') {
-            
-            withSonarQubeEnv('sonar-localost') {
-	            bat "sonar:sonar"
+        stage("SonarQube analysis") {
+            agent any
+            steps {
+              withSonarQubeEnv('sonar-localost') {
+                 bat "sonar:sonar"
+              }
+            }
           }
-       }
     }
 
 }
