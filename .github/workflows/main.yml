@@ -1,0 +1,19 @@
+name: snyk-testing
+on: push
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install Snyk CLI (Ubuntu/macOS)
+        if: ${{ matrix.os != 'windows' }}
+        run: sudo npm install -g snyk
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+      
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_CLI_EXECUTABLE: /usr/local/bin/snyk
+          SNYK_DOWNLOAD_DESTINATION: "downloads/snyk"
+        with:
+          args: --severity-threshold=high
