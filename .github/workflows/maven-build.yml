@@ -18,12 +18,7 @@ jobs:
           mvn -B package --file pom.xml
           mkdir staging && cp target/*.jar staging
      
-    - name: step 3 Setting up a cache for Maven
-      uses: actions/cache@v1
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+    
           
     
         
