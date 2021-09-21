@@ -16,7 +16,7 @@ jobs:
     - name: Build with Maven
       run: |
           mvn -B package --file pom.xml
-          mkdir staging && cp target/*.war staging
+          mkdir staging && cp target/*.jar staging
           
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
