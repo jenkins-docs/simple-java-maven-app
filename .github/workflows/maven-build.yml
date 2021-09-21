@@ -18,6 +18,15 @@ jobs:
           mvn -B package --file pom.xml
           mkdir staging && cp target/*.jar staging
           
+    - name: Build and Push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v4
+      with:
+        image: rmalewad/springrepo
+
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+          
     - name: Step 4 - Set up a cache for Maven
       uses: actions/cache@v2
       with:
