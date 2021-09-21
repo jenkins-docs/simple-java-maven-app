@@ -17,18 +17,25 @@ jobs:
       run: |
           mvn -B package --file pom.xml
           mkdir staging && cp target/*.jar staging
+          
+    - name: Step 4 - Set up a cache for Maven
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
      
     
           
     
         
-    - name: step 4 uploading artifacts to git-artifacts
+    - name: step 5 uploading artifacts to git-artifacts
       uses: actions/upload-artifact@v2
       with:
           name: github-actions-artifact
           path: staging
     
-    - name: Report Status
+    - name: step 6 Report Status
       if: always()
       uses: ravsamhq/notify-slack-action@master
       with: 
