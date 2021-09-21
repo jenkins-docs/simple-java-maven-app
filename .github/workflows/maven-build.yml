@@ -1,4 +1,4 @@
-name: maven build
+name: maven build publish
 
 on: [push]
 
@@ -13,14 +13,21 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
+    - name: Build with Maven & copy artifact
       run: |
           mvn -B package --file pom.xml
           mkdir staging && cp target/*.jar staging
+     
+    - name: Step 4 - Set up a cache for Maven
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
           
     
         
-    - name: Persist workflow data as artificats
+    - name: uploading artifacts to git-artifacts
       uses: actions/upload-artifact@v2
       with:
           name: github-actions-artifact
