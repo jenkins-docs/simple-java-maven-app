@@ -14,5 +14,17 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - uses: snyk/actions/setup@master
+      run: |
+          mvn -B package --file pom.xml
+          mkdir staging && cp target/*.war staging
+          
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        
+    - name: Persist workflow data as artificats
+      uses: actions/upload-artifact@v2
+      with:
+          name: github-actions-artifact
+          path: staging
