@@ -1,6 +1,16 @@
 name: maven build publish
 
-on: [push]
+on:
+  repository_dispatch:
+    types: [build_workflow]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch name
+        required: true
+        default: master
+      deploy_message:
+        description: Deploy Description
 
 jobs:
   build:
