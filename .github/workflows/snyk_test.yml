@@ -1,5 +1,15 @@
 name: snyk-testing
-on: push
+on:
+  repository_dispatch:
+    types: [build_workflow]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch name
+        required: true
+        default: dev
+      deploy_message:
+        description: Deploy Description
 jobs:
   security:
     runs-on: ubuntu-latest
