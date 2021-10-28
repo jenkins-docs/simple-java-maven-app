@@ -1,13 +1,30 @@
 pipeline {
-    agent any 
+      agent any
    tools{
        maven "M3"
    }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
-            }
+      stages {
+        stage('Build') {
+          steps {
+            echo 'Building...'
+                            sh 'mvn -B -DskipTests clean package' 
+          }
         }
+        stage('Test') {
+          steps {
+            echo 'Testing...'
+            snykSecurity(
+              snykInstallation: '<Your Snyk Installation Name>',
+              snykTokenId: '<Your Snyk API Token ID>',
+              // place other parameters here
+            )
+          }
+        }
+        stage('Deploy') {
+          steps {
+            echo 'Deploying...'
+          }
+        }
+      }
     }
 }
