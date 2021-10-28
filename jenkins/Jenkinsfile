@@ -1,10 +1,8 @@
 pipeline {
-    agent {
-        any {
-            image 'maven:3.8.1-adoptopenjdk-11' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
+    agent any 
+   tools{
+       maven(M3) 'Apache Maven 3.3'
+   }
     stages {
         stage('Build') { 
             steps {
