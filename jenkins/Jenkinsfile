@@ -10,6 +10,21 @@ pipeline {
                             sh 'mvn clean verify -e sonar:sonar -Dsonar.projectKey=demoappkey -Dsonar.host.url=http://192.168.1.211:9000 -Dsonar.login=03ed6c7ad26a26157b66e49266bb1b636fddec42' 
           }
         }
+  stage('Code Quality Check via SonarQube') {
+   steps {
+       script {
+       def scannerHome = tool 'SQ4';
+           withSonarQubeEnv("SQS3") {
+           sh "${tool("sonarqube")}/bin/sonar-scanner \
+           -Dsonar.projectKey=demoappkey \
+           -Dsonar.sources=. \
+           -Dsonar.css.node=. \
+           -Dsonar.host.url=http://192.168.1.211:9000 
+           -Dsonar.login=03ed6c7ad26a26157b66e49266bb1b636fddec42'
+               }
+           }
+       }
+   }
         stage('Test') {
           steps {
             echo 'Testing...'
