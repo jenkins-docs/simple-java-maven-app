@@ -7,7 +7,9 @@ pipeline {
         stage('Build') {
           steps {
             echo 'Building...'
-                            sh 'mvn clean verify -e sonar:sonar -Dsonar.projectKey=demoappkey -Dsonar.host.url=http://192.168.1.211:9000 -Dsonar.login=03ed6c7ad26a26157b66e49266bb1b636fddec42' 
+                            sh 'mvn clean verify' 
+
+//                             sh 'mvn clean verify -e sonar:sonar -Dsonar.projectKey=demoappkey -Dsonar.host.url=http://192.168.1.211:9000 -Dsonar.login=03ed6c7ad26a26157b66e49266bb1b636fddec42' 
           }
         }
   stage('Code Quality Check via SonarQube') {
@@ -24,7 +26,7 @@ pipeline {
            }
        }
    }
-        stage('Test') {
+        stage('SNYK') {
           steps {
             echo 'Testing...'
             snykSecurity(
