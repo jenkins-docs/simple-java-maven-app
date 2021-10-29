@@ -13,9 +13,8 @@ pipeline {
   stage('Code Quality Check via SonarQube') {
    steps {
        script {
-       def scannerHome = tool 'SQ4';
            withSonarQubeEnv("SQS3") {
-           sh "${tool("sonarqube")}/bin/sonar-scanner \
+           sh "mvn clean package sonar:sonar \
            -Dsonar.projectKey=demoappkey \
            -Dsonar.sources=. \
            -Dsonar.css.node=. \
