@@ -6,14 +6,7 @@ package com.mycompany.app;
 public class App
 {
 
-<<<<<<< HEAD
     private final String message = "Hello Stranger";
-=======
-
-    private final String message = "Hello People";
-
-
->>>>>>> 0df063289004447a98bbf688d796ee274f4a4d06
 
     public App() {}
 
