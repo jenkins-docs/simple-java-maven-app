@@ -9,7 +9,9 @@ The repository contains a simple Java application which outputs the string
 main application works as expected. The results of these tests are saved to a
 JUnit XML report.
 
-一行追加
+一行目追加
+
+二行目追加
 
 The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial and the `scripts` subdirectory
