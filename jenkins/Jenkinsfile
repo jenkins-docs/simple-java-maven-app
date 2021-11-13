@@ -18,6 +18,7 @@ pipeline {
                 sh 'mvn test'
                 sh 'pwd'
                 sh 'ls -lrt'
+                sh 'pwd'
             }
             post {
                 always {
