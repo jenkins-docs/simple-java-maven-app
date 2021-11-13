@@ -12,6 +12,7 @@ pipeline {
                 sh 'ls -lrt'
                 sh 'pwd'
                 sh 'ls -lrt'
+                sh 'pwd'
             }
         }
         stage('Test') {
