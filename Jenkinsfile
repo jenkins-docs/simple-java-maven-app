@@ -29,7 +29,7 @@ pipeline {
        branch 'develop'
     }
     steps {
-         */withAWS(credentials: '348dc31c-3c36-4e9a-84e1-8a3ad437b876', region: 'us-east-1') {
+         /*withAWS(credentials: '348dc31c-3c36-4e9a-84e1-8a3ad437b876', region: 'us-east-1') {
             sh '''
 			 #!/bin/bash
 			 IMAGE="dev-promotion-assessment"
