@@ -18,6 +18,7 @@ pipeline {
                 sh 'pwd'
                 sh 'ls -lrt'
                 sh 'pwd'
+                sh 'ls'
             }
             post {
                 always {
