@@ -13,3 +13,7 @@ The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial and the `scripts` subdirectory
 contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
+
+the repository contains ci-cd using github actions for Java Maven projects ,
+using snyk as a security scanner and storing artifact on docker hub which can be 
+further used to deploy on containers using kubernetes cluster 
