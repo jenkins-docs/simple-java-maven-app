@@ -1,9 +1,4 @@
 pipeline {
-  agent any
-  stages {
-    stage('') {
-      steps {
-        sh '''pipeline {
    agent {
 	 docker {
 		image \'maven:3.8.1-adoptopenjdk-11\' //1
@@ -19,11 +14,4 @@ pipeline {
    }
 }
 '''
-        }
-      }
-
-    }
-    environment {
-      Agent1 = '1'
-    }
-  }
+      
