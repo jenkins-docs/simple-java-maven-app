@@ -15,6 +15,16 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>libs-release</name>
+            <url>http://44.197.189.149:8081/artifactory/libs-release</url>
+        </repository>
+    </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
