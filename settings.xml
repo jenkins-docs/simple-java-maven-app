@@ -4,12 +4,12 @@
   <servers>
     <server>
       <username>${security.getCurrentUsername()}</username>
-      <password>${security.getEscapedEncryptedPassword()!"${secrets.ARTIFACTORY_TOKEN}"}</password>
+      <password>${security.getEscapedEncryptedPassword()!"*** Insert encrypted password here ***"}</password>
       <id>central</id>
     </server>
     <server>
       <username>${security.getCurrentUsername()}</username>
-      <password>${security.getEscapedEncryptedPassword()!"${secrets.ARTIFACTORY_TOKEN}"}</password>
+      <password>${security.getEscapedEncryptedPassword()!"*** Insert encrypted password here ***"}</password>
       <id>snapshots</id>
     </server>
   </servers>
@@ -22,13 +22,13 @@
           </snapshots>
           <id>central</id>
           <name>libs-release</name>
-          <url>http://44.197.189.149:8081/artifactory/libs-release</url>
+          <url>http://34.200.241.76:8081/artifactory/libs-release</url>
         </repository>
         <repository>
           <snapshots />
           <id>snapshots</id>
           <name>libs-snapshot</name>
-          <url>http://44.197.189.149:8081/artifactory/libs-snapshot</url>
+          <url>http://34.200.241.76:8081/artifactory/libs-snapshot</url>
         </repository>
       </repositories>
       <pluginRepositories>
@@ -38,13 +38,13 @@
           </snapshots>
           <id>central</id>
           <name>libs-release</name>
-          <url>http://44.197.189.149:8081/artifactory/libs-release</url>
+          <url>http://34.200.241.76:8081/artifactory/libs-release</url>
         </pluginRepository>
         <pluginRepository>
           <snapshots />
           <id>snapshots</id>
           <name>libs-snapshot</name>
-          <url>http://44.197.189.149:8081/artifactory/libs-snapshot</url>
+          <url>http://34.200.241.76:8081/artifactory/libs-snapshot</url>
         </pluginRepository>
       </pluginRepositories>
       <id>artifactory</id>
@@ -54,5 +54,3 @@
     <activeProfile>artifactory</activeProfile>
   </activeProfiles>
 </settings>
-
-
