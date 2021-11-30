@@ -23,7 +23,7 @@ jobs:
           servers: |
             '[
               {
-                "id": "artifactory",
+                "id": "central",
                 "username": "${env.ARTIFACTORY_USERNAME_REF}",
                 "password": "${env.ARTIFACTORY_TOKEN_REF}"
               }
