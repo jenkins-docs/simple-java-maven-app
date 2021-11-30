@@ -20,8 +20,8 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <id>central</id>
-            <name>libs-release</name>
+            <id>snapshots</id>
+            <name>ip-172-31-9-200.ec2.internal-snapshots</name>
             <url>http://34.200.241.76:8081/artifactory/libs-release</url>
         </repository>
     </repositories>
