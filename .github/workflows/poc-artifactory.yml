@@ -25,8 +25,8 @@ jobs:
       with: # running setup-java again overwrites the settings.xml
         java-version: 1.8
         server-id: snapshots # value of repository/id field of the pom.xml
-        server-username: ARTIFACTORY_USERNAME_REF  # env variable name for username of Artifactory server; value can be anything as it is a transient user
-        server-password: ARTIFACTORY_TOKEN_REF # env variable name for Artifactory access token
+        server-username: ${{ARTIFACTORY_USERNAME}}  # env variable name for username of Artifactory server; value can be anything as it is a transient user
+        server-password: ${{ARTIFACTORY_TOKEN_REF}} # env variable name for Artifactory access token
         # after running this action, the <username> tag contains ${env.ARTIFACTORY_USERNAME_REF} and <password> contains ${env.ARTIFACTORY_TOKEN_REF}
  
     - name: Build with Maven
