@@ -4,12 +4,12 @@
   <servers>
     <server>
       <username>${security.getCurrentUsername()}</username>
-      <password>${security.getEscapedEncryptedPassword()!"*** Insert encrypted password here ***"}</password>
+      <password>${security.getEscapedEncryptedPassword()!"${secrets.ARTIFACTORY_TOKEN}"}</password>
       <id>central</id>
     </server>
     <server>
       <username>${security.getCurrentUsername()}</username>
-      <password>${security.getEscapedEncryptedPassword()!"*** Insert encrypted password here ***"}</password>
+      <password>${security.getEscapedEncryptedPassword()!"${secrets.ARTIFACTORY_TOKEN}"}</password>
       <id>snapshots</id>
     </server>
   </servers>
