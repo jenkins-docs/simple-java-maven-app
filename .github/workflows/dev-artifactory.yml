@@ -5,7 +5,6 @@ on:
     branches: [ "**" ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -29,9 +28,9 @@ jobs:
                 "password": "${env.ARTIFACTORY_TOKEN_REF}"
               }
             ]'
-     - name: Build with Maven
-       env:
+      - name: Build with Maven
+        env:
           ARTIFACTORY_USERNAME_REF: "stream-github-actions"
           ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
           BUILD_ENV: 'github-actions'
-       run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml
