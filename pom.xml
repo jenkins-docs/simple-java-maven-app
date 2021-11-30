@@ -24,6 +24,14 @@
             <name>ip-172-31-9-200.ec2.internal-snapshots</name>
             <url>http://34.200.241.76:8081/artifactory/libs-release</url>
         </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>ip-172-31-9-200.ec2.internal-releases</name>
+            <url>http://34.200.241.76:8081/artifactory/libs-release</url>
+        </repository>
     </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
