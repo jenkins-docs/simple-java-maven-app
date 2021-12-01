@@ -5,6 +5,9 @@ pipeline {
       args '-v /root/.m2:/root/.m2' //2
     }
   }
+  options {
+    skipStagesAfterUnstable()
+  }
   stages {
     stage('Build') { //3
       steps {
@@ -21,5 +24,10 @@ pipeline {
       }
     }
   }
+  stage('Deliver') { //1
+    steps {
+    sh './jenkins/scripts/deliver.sh' //2
+}
+}
 }
 }
