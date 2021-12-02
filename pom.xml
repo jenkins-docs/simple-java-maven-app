@@ -21,8 +21,8 @@
                 <enabled>true</enabled>
             </snapshots>
             <id>artifactory-server</id>
-            <name>libs-release</name>
-            <url>http://44.192.100.5:8081/artifactory/libs-release</url>
+            <name>libs-snapshot</name>
+            <url>http://44.192.100.5:8081/artifactory/libs-snapshot/</url>
         </repository>
     </repositories>
   <properties>
