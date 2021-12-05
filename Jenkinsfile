@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'fonify'}
+    agent any
  environment {
  mvn = '/usr/bin/mvn'
  }
