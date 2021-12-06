@@ -73,8 +73,12 @@ jobs:
                 }
               }
             ]
+            
 
-           
+          active_profiles: >
+            [
+              "artifactory"
+            ]     
       
       
         
