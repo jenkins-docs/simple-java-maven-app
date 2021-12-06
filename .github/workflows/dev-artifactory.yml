@@ -17,17 +17,99 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.2
-      - name: Setup Maven settings.xml
-        uses: whelk-io/maven-settings-xml-action@v11
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
         with:
-          servers: |
-            '[
+          repositories: >
+            [
               {
                 "id": "central",
-                "username": "${env.ARTIFACTORY_USERNAME_REF}",
-                "password": "${env.ARTIFACTORY_TOKEN_REF}"
+                "name": "libs-release",
+                "url": "http://3.218.156.92:8081/artifactory/libs-release",
+                "releases": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                },
+                "snapshots": {
+                  "enabled": "false",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
               }
-            ]'
+            ]
+            [
+              {
+                "id": "snapshots",
+                "name": "libs-snapshot",
+                "url": "http://3.218.156.92:8081/artifactory/libs-snapshot",
+                "releases": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                },
+                "snapshots": {
+                  "enabled": "false",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
+              }
+            ]
+          plugin_repositories: >
+            [
+              {
+                "id": "central",
+                "name": "libs-release",
+                "url": "http://3.218.156.92:8081/artifactory/libs-release",
+                "releases": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                },
+                "snapshots": {
+                  "enabled": "false",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
+              }
+            ]
+            [
+              {
+                "id": "snapshots",
+                "name": "libs-snapshot",
+                "url": "http://3.218.156.92:8081/artifactory/libs-snapshot",
+                "releases": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                },
+                "snapshots": {
+                  "enabled": "false",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
+              }
+            ]
+          servers: >
+            [
+              {
+                "id": "central",
+                "username": "${ARTIFACTORY_USERNAME_REF}",
+                "password": "${ARTIFACTORY_TOKEN_REF}",
+                "configuration": {
+                  "httpConfiguration": {
+                    "all": {
+                      "usePreemptive": "true"
+                    }
+                  }
+                }
+              }
+            ]
+
+           
+      
+      
+        
       - name: Build with Maven
         env:
           ARTIFACTORY_USERNAME_REF: "admin"
