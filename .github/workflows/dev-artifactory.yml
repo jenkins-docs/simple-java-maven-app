@@ -37,24 +37,8 @@ jobs:
                   "checksumPolicy": "fail"
                 }
               }
-            ]
-            [
-              {
-                "id": "snapshots",
-                "name": "libs-snapshot",
-                "url": "http://3.218.156.92:8081/artifactory/libs-snapshot",
-                "releases": {
-                  "enabled": "true",
-                  "updatePolicy": "always",
-                  "checksumPolicy": "fail"
-                },
-                "snapshots": {
-                  "enabled": "false",
-                  "updatePolicy": "always",
-                  "checksumPolicy": "fail"
-                }
-              }
-            ]
+            ] 
+            
           plugin_repositories: >
             [
               {
@@ -73,23 +57,7 @@ jobs:
                 }
               }
             ]
-            [
-              {
-                "id": "snapshots",
-                "name": "libs-snapshot",
-                "url": "http://3.218.156.92:8081/artifactory/libs-snapshot",
-                "releases": {
-                  "enabled": "true",
-                  "updatePolicy": "always",
-                  "checksumPolicy": "fail"
-                },
-                "snapshots": {
-                  "enabled": "false",
-                  "updatePolicy": "always",
-                  "checksumPolicy": "fail"
-                }
-              }
-            ]
+            
           servers: >
             [
               {
