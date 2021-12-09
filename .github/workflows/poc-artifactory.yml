@@ -28,7 +28,7 @@ jobs:
         settings-path: ${{ github.workspace }}/.m2 # after running this action, the <username> tag contains ${env.ARTIFACTORY_USERNAME_REF} and <password> contains ${env.ARTIFACTORY_TOKEN_REF}
         overwrite-settings: false
     - name: Build with Maven
-      run: mvn -B package
+      run: mvn --settings YourOwnSettings.xml package
       env:
         # assign the environment variable env.ARTIFACTORY_TOKEN_REF with the previously configured ARTIFACTORY_TOKEN
         ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
