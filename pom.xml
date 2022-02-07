@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
@@ -64,23 +64,37 @@
           </execution>
         </executions>
       </plugin>
+      <!-- xml formmater -->
+      <plugin>
+        <groupId>au.com.acegi</groupId>
+        <artifactId>xml-format-maven-plugin</artifactId>
+        <version>3.0.7</version>
+        <executions>
+          <execution>
+            <id>xml-format</id>
+            <goals>
+              <goal>xml-format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <!-- google formatter -->
       <plugin>
         <groupId>com.theoryinpractise</groupId>
-	<artifactId>googleformatter-maven-plugin</artifactId>
-	<version>1.7.5</version>
-	<executions>
+        <artifactId>googleformatter-maven-plugin</artifactId>
+        <version>1.7.5</version>
+        <executions>
           <execution>
             <id>reformat-sources</id>
-	    <configuration>
-	       <style>GOOGLE</style>
-	       <maxWidth>140</maxWidth>
-	    </configuration>
-	    <goals>
-	       <goal>format</goal>
-	    </goals>
-	 </execution>
-       </executions>
+            <configuration>
+              <style>GOOGLE</style>
+              <maxWidth>140</maxWidth>
+            </configuration>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
