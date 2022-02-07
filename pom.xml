@@ -64,6 +64,24 @@
           </execution>
         </executions>
       </plugin>
+      <!-- google formatter -->
+      <plugin>
+        <groupId>com.theoryinpractise</groupId>
+	<artifactId>googleformatter-maven-plugin</artifactId>
+	<version>1.7.5</version>
+	<executions>
+          <execution>
+            <id>reformat-sources</id>
+	    <configuration>
+	       <style>GOOGLE</style>
+	       <maxWidth>140</maxWidth>
+	    </configuration>
+	    <goals>
+	       <goal>format</goal>
+	    </goals>
+	 </execution>
+       </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
