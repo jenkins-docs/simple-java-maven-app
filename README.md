@@ -17,3 +17,11 @@ the "Deliver" stage of your Pipeline.
 
 # Reference note
 Build mavn project -> https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/
+
+
+1. Setup base project.
+2. Install Jenkin software
+3. Install Sonarqune software
+4. Install and configure mevan
+5. Create Jenkin pipeline to run build
+6. Enahance Jenkin to run test after build stage
