@@ -25,3 +25,6 @@ Build mavn project -> https://www.jenkins.io/doc/tutorials/build-a-java-app-with
 4. Install and configure mevan
 5. Create Jenkin pipeline to run build
 6. Enahance Jenkin to run test after build stage
+
+
+## Add action to rollback
