@@ -7,7 +7,7 @@ package com.mycompany.app;
 public class CryptoUtil 
 {
 
-    private static string password = "P@%5w0r]>"; /*Literal*/
+    private static String password = "P@%5w0r]>"; /*Literal*/
 
     private static int ivLengthInBytes = 16;
 
