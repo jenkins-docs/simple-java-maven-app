@@ -9,29 +9,5 @@ public class CryptoUtil
  
     private static int KeyLengthInBytes;
 
-    {
-        get
-    
-            {
-    
-                return keyLengthInBits / 8;
-    
-            }
-    
-           }
-    
-               private static string CryptPassword
-    
-          {
-    
-             get
-    
-            {
-    
-              return password;
-            }
-    
-    }
-    
-}
+   
 }
