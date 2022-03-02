@@ -8,8 +8,9 @@ public class CryptoUtil
     private static int keyLengthInBits = 128;
  
     private static int KeyLengthInBytes;
-}
- get
+
+    {
+        get
     
             {
     
@@ -28,8 +29,9 @@ public class CryptoUtil
             {
     
               return password;
-    
             }
     
-            }
-          }
+    }
+    
+}
+}
