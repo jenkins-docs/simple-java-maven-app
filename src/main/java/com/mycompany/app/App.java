@@ -4,7 +4,8 @@ package com.mycompany.app;
  * Hello world!
  */
 
-public class CryptoUtil {
+public class CryptoUtil 
+{
 
     private readonly static string password = "P@%5w0r]>"; /*Literal*/
 
