@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'MAVEN_PATH'
+        maven 'MAVEN_PATH' args '-v $HOME/.m2:/root/.m2'
         jdk 'jdk8'
     }
     environment {
