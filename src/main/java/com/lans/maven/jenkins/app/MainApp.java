@@ -1,17 +1,17 @@
-package com.mycompany.app;
+package com.lans.maven.jenkins.app;
 
 /**
- * Hello world!
+ * Main App
  */
-public class App
-{
+public class MainApp {
 
     private final String message = "Hello World!";
 
-    public App() {}
+    public MainApp() {
+    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getMessage());
+        System.out.println(new MainApp().getMessage());
     }
 
     private final String getMessage() {

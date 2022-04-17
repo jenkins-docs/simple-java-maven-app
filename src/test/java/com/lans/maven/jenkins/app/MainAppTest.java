@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package com.lans.maven.jenkins.app;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -8,9 +8,9 @@ import org.junit.After;
 import static org.junit.Assert.*;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple MainApp.
  */
-public class AppTest
+public class MainAppTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -23,7 +23,7 @@ public class AppTest
     @Test
     public void testAppConstructor() {
         try {
-            new App();
+            new MainApp();
         } catch (Exception e) {
             fail("Construction failed.");
         }
@@ -32,7 +32,7 @@ public class AppTest
     @Test
     public void testAppMain()
     {
-        App.main(null);
+        MainApp.main(null);
         try {
             assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
         } catch (AssertionError e) {
