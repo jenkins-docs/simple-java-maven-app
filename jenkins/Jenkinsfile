@@ -26,5 +26,7 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
+        stage('email notification'){ 
     }
+}
 }
