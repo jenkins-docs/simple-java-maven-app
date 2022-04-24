@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'amd64'
-    }
+    agent any
 
     tools {
           jdk '11.0.15_8'
