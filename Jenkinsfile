@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git credentialsId: 'github-pat', url: 'https://github.com/molnare/simple-java-maven-app.git'
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
