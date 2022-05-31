@@ -6,7 +6,7 @@ package com.mycompany.app;
 // commit test
 public class App
 {
-    //Test
+    //Test 123
     private final String message = "Hello World!";
 
     public App() {}
