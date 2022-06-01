@@ -13,3 +13,30 @@ The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial and the `scripts` subdirectory
 contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
+
+
+pipeline {
+    agent any
+    stages {
+        stage('Preparation') {
+            steps {
+                git 'git@github.com:abhilash0203/simple-java-maven-app.git'
+            }
+        }
+        
+        stage('Clean Work Space'){
+            steps {
+				echo "Hello"
+                sh 'mvn clean'
+				echo "world"
+            }
+        }
+        stage('Build') {
+            steps {
+			    echo "Hello test"
+                sh 'mvn test'
+				echo "world test"
+            }
+        }
+    }
+}
