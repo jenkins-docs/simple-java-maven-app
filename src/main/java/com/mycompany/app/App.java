@@ -15,6 +15,7 @@ public class App
         String test = new App().getMessage();
         System.out.println(new App().getMessage());
         System.out.println(test + System.getProperty("line.separator"));
+        System.out.println("test multiple branch pipeline");
     }
 
     private final String getMessage() {
