@@ -10,10 +10,10 @@ pipeline {
         AWS_ACCOUNT_ID = "345002264488"
         AWS_DEFAULT_REGION = "us-west-2"
         IMAGE_REPO_NAME = "abaqus/allgeo-hello-world"
-        IMAGE_TAG = "latest"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = currentVersion()
-        NEXT_VERSION = nextVersion(writeVersion: true, buildMetadata: "$env.BUILD_NUMBER")
+        NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER")
+        IMAGE_TAG = "${NEXT_VERSION}"
     }
 
     options {
