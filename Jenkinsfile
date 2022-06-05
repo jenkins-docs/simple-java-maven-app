@@ -1,7 +1,7 @@
 pipeline {
 
     agent any
-    
+
     // agent {
     //     docker {
     //         image 'maven:3.8.1-adoptopenjdk-11'
@@ -12,11 +12,11 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = "345002264488"
         AWS_DEFAULT_REGION = "us-west-2"
-        IMAGE_REPO_NAME = "abaqus/allgeo-hello-world"
+        IMAGE_REPO_NAME = "abaqus/allgeo-hello-world-jar"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = currentVersion()
-        NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER",writeVersion: true)
-        IMAGE_TAG = "${NEXT_VERSION}"
+        NEXT_VERSION = nextVersion(writeVersion: true)
+        IMAGE_TAG = "v${NEXT_VERSION}"
     }
 
     options {
@@ -42,7 +42,7 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Deploy') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
             }
