@@ -24,3 +24,11 @@ echo 'The following command runs and outputs the execution of your Java'
 echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 set -x
 java -jar target/${NAME}-${VERSION}.jar
+
+# upload container to ECR
+aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+
+docker build -t abaqus/allgeo-hello-world:${VERSION} --build-arg version=${VERSION} .
+
+docker tag abaqus/allgeo-hello-world:${VERSION} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/abaqus/allgeo-hello-world:${VERSION}
+
