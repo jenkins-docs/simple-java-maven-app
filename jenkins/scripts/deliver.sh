@@ -25,7 +25,7 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 set -x
 java -jar target/${NAME}-${VERSION}.jar
 
-# change + sign to a - so its a valid tag
+# the Semver Jenkins plugin may gives us a version tag like 0.12.0+45, where +45 is a build number - so change + sign to a - so tags is a valid docker tag
 TAG=`echo $VERSION | sed 's/\+/-/g'`
 
 # upload container to ECR
@@ -35,3 +35,4 @@ docker build -t abaqus/allgeo-hello-world:${TAG} --build-arg VERSION=${VERSION} 
 
 docker tag abaqus/allgeo-hello-world:${TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/abaqus/allgeo-hello-world:${TAG}
 
+docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/abaqus/allgeo-hello-world:${TAG}
