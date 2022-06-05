@@ -21,15 +21,11 @@ pipeline {
     }
     stages {
 
-        stage('Hello') {
-            steps {
+    
+        stage('Build') {
+            steps {                
                 echo "current vesion = ${CURRENT_VERSION}"
                 echo "next version = ${NEXT_VERSION}"
-            }
-        }
-
-        stage('Build') {
-            steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
@@ -49,12 +45,4 @@ pipeline {
             }
         }
 
-        // stage('Logging into AWS ECR') {
-        //     steps {
-        //         script {
-        //             sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-        //         }
-        //     }
-        // }        
-    }
 }
