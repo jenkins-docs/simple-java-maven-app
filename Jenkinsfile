@@ -11,9 +11,9 @@ pipeline {
         AWS_DEFAULT_REGION = "us-west-2"
         IMAGE_REPO_NAME = "abaqus/allgeo-hello-world"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-        CURRENT_VERSION = currentVersion()
-        NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER")
-        IMAGE_TAG = "${NEXT_VERSION}"
+        // CURRENT_VERSION = currentVersion()
+        // NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER")
+        IMAGE_TAG = "latest"
     }
 
     options {
@@ -24,8 +24,8 @@ pipeline {
     
         stage('Build') {
             steps {                
-                echo "current vesion = ${CURRENT_VERSION}"
-                echo "next version = ${NEXT_VERSION}"
+                // echo "current vesion = ${CURRENT_VERSION}"
+                // echo "next version = ${NEXT_VERSION}"
                 sh 'mvn -B -DskipTests clean package'
             }
         }
