@@ -4,7 +4,7 @@
   <groupId>com.abaqus.app</groupId>
   <artifactId>simple-maven-app</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.10.1</version>
   <name>simple-maven-app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -35,10 +35,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.2.0</version>
         <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
+          <archive>1.0-SNAPSHOTthPrefix>
               <mainClass>com.mycompany.app.App</mainClass>
             </manifest>
           </archive>
