@@ -64,6 +64,18 @@
           </execution>
         </executions>
       </plugin>
+      <!-- support gitflow RJM 6/4/2022 
+      See https://neoteric.eu/blog/make-jenkins-speak-git-flow/ and
+      https://bitbucket.org/atlassian/jgit-flow/wiki/Home
+      -->
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0-m5.1</version>
+        <configuration>
+            <!-- see goals wiki page for configuration options -->
+        </configuration>
+      </plugin>      
     </plugins>
   </build>
 </project>
