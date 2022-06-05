@@ -12,8 +12,8 @@ pipeline {
         IMAGE_REPO_NAME = "abaqus/allgeo-hello-world"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = currentVersion()
-        NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER")
-        IMAGE_TAG = "latest"
+        NEXT_VERSION = nextVersion(buildMetadata: "$env.BUILD_NUMBER",writeVersion: true)
+        IMAGE_TAG = "${NEXT_VERSION}"
     }
 
     options {
