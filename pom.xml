@@ -4,7 +4,7 @@
   <groupId>com.abaqus.app</groupId>
   <artifactId>simple-maven-app</artifactId>
   <packaging>jar</packaging>
-  <version>0.10.1</version>
+  <version>develop</version>
   <name>simple-maven-app</name>
   <url>http://maven.apache.org</url>
   <dependencies>

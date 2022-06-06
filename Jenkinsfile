@@ -14,7 +14,7 @@ pipeline {
         AWS_DEFAULT_REGION = "us-west-2"
         IMAGE_REPO_NAME = "abaqus/allgeo-hello-world-jar"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-        CURRENT_VERSION = currentVersion()
+        CURRENT_VERSION = "develop"
         NEXT_VERSION = "develop"
         IMAGE_TAG = "develop"
     }
