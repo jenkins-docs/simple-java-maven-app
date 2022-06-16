@@ -25,5 +25,6 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 set -x
 java -jar target/${NAME}-${VERSION}.jar
 
+echo 'This zips a file'
 sudo yum install zip
 zip -r  my-app-1.0-SNAPSHOT.jar.zip  my-app-1.0-SNAPSHOT.jar
