@@ -1,0 +1,17 @@
+name: unix
+
+on:
+ workflow_dispatch:
+  inputs:
+    
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: run shell
+        run: |
+          which ksh
+          
