@@ -26,4 +26,4 @@ set -x
 java -jar target/${NAME}-${VERSION}.jar
 
 sudo yum install zip
-zip -r target/${NAME}-${VERSION}.jar.zip -jar target/${NAME}-${VERSION}.jar
+zip -r  my-app-1.0-SNAPSHOT.jar.zip  my-app-1.0-SNAPSHOT.jar
