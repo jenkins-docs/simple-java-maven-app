@@ -69,8 +69,7 @@ pipeline {
                                 sh "git --version"
 
                                 echo "sonarqube status"
-                                cd /opt/sonarqube/bin/linux-x86-64/
-                                sh "./sonar.sh status"
+                                sh "/opt/sonarqube/bin/linux-x86-64/sonar.sh status"
 
                                echo "sonar scanner version"
                                sh "/opt/sonar-scanner/bin/sonar-scanner -v"
