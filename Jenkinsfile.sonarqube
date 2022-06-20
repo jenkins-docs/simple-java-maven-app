@@ -52,7 +52,7 @@ pipeline {
                         }                                                 
                     }               
                 }
-
+                /*
                 stage("Build Code - Branch 2") {
                     agent {
                         label "sonarqube"
@@ -73,7 +73,7 @@ pipeline {
                             ///opt/sonar-scanner/bin/sonar-scanner -v
                         }
                     }
-                }
+                }*/
             }
         }
     }
