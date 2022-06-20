@@ -70,7 +70,7 @@ pipeline {
                             //./sonar.sh status
 
                             echo "sonar scanner version"
-                            /opt/sonar-scanner/bin/sonar-scanner -v
+                            ///opt/sonar-scanner/bin/sonar-scanner -v
                         }
                     }
                 }
