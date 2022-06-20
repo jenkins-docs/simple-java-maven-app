@@ -66,7 +66,7 @@ pipeline {
                                 uname -a
                                 
                                 echo "github version"
-                               git --version
+                                sh "git --version"
 
                                 //echo "sonarqube status"
                                // cd /opt/sonarqube/bin/linux-x86-64/
