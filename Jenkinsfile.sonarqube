@@ -39,41 +39,19 @@ pipeline {
                             steps {
                                 //sh 'mvn test'
                             }
-                            /*post {
+                            post {
                                 always {
-                                    junit 'target/surefire-reports/*.xml'
+                                   // junit 'target/surefire-reports/*.xml'
                                 }
-                            }*/
+                            }
                         }
                         stage('Deploy') { 
                             steps {
-                                //sh './jenkins/scripts/deliver.sh' 
+                               // sh './jenkins/scripts/deliver.sh' 
                             }
                         }                                                 
                     }               
                 }
-                /*
-                stage("Build Code - Branch 2") {
-                    agent {
-                        label "sonarqube"
-                    }
-                    stages {
-                        stage('Test App for Sonarqube Installed') {
-                            echo "Start"
-                            uname -a
-                            
-                            echo "github version"
-                            //git --version
-
-                            echo "sonarqube status"
-                            cd /opt/sonarqube/bin/linux-x86-64/
-                            //./sonar.sh status
-
-                            //echo "sonar scanner version"
-                            ///opt/sonar-scanner/bin/sonar-scanner -v
-                        }
-                    }
-                }*/
             }
         }
     }
