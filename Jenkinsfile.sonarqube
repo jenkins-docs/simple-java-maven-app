@@ -32,7 +32,7 @@ pipeline {
                             steps {                
                                 echo "current vesion = ${CURRENT_VERSION}"
                                 echo "next version = ${NEXT_VERSION}"
-                                sh 'mvn -B -DskipTests clean package'
+                                //sh 'mvn -B -DskipTests clean package'
                             }
                         }
                         /*stage('Test') {
@@ -51,7 +51,7 @@ pipeline {
                             }
                         }  */                                               
                     }
-                                
+
                 }
             }
         }
