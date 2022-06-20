@@ -56,8 +56,3 @@ pipeline {
         }
     }
 }
-
-
-
-    Jenkinsfile.parallel
-        Jenkinsfile.sonarqube
