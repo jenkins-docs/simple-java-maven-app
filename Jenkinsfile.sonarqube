@@ -63,10 +63,10 @@ pipeline {
                         stage('Test App for Sonarqube Installed') {
                             steps {                
                                 echo "Start"
-                                //uname -a
+                                uname -a
                                 
                                 echo "github version"
-                               // git --version
+                               git --version
 
                                 //echo "sonarqube status"
                                // cd /opt/sonarqube/bin/linux-x86-64/
