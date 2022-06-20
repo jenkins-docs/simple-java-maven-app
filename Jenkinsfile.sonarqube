@@ -69,7 +69,7 @@ pipeline {
                             cd /opt/sonarqube/bin/linux-x86-64/
                             //./sonar.sh status
 
-                            echo "sonar scanner version"
+                            //echo "sonar scanner version"
                             ///opt/sonar-scanner/bin/sonar-scanner -v
                         }
                     }
