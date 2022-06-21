@@ -60,7 +60,7 @@ pipeline {
 
                     stages {
 
-                        stage('Test App for Sonarqube Installed') {
+                        stage('Validate Apps Installed') {
                             steps {                
                                 echo "Start"
                                 sh "uname -a"
@@ -71,11 +71,20 @@ pipeline {
                                 echo "sonarqube status"
                                 sh "/opt/sonarqube/bin/linux-x86-64/sonar.sh status"
 
-                               echo "sonar scanner version"
-                               sh "/opt/sonar-scanner/bin/sonar-scanner -v"
+                                echo "sonar scanner version"
+                                sh "/opt/sonar-scanner/bin/sonar-scanner -v"
+                            }
 
-                               echo "Run sonnar scanner maven"
-                               sh "mvn sonar:sonar -Dsonar.projectKey=tn-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=d0c6d94a4ec6aa637ee0a982c4e5f8ebc98567f0"
+                            stage('Run Sonar Scanner') {
+                            steps {                
+                                echo "Run Sonnar Scanner Maven"
+                                sh "mvn sonar:sonar -Dsonar.projectKey=tn-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=d0c6d94a4ec6aa637ee0a982c4e5f8ebc98567f0"
+                                /*post {
+                                    always {
+                                        junit 'target/surefire-reports/*.xml'
+                                    }
+                                }*/
+                            
                             }
                         }                                             
                     }
