@@ -79,7 +79,7 @@ pipeline {
                         stage('Run Sonar Scanner') {
                             steps {                
                                 echo "Run Sonnar Scanner Maven"
-                                sh "mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://35.87.94.27:9000 -Dsonar.login=1afd7e74dbcc413137d8461f7129d026d9d0b4eb"
+                                sh "mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=1afd7e74dbcc413137d8461f7129d026d9d0b4eb"
                                 /*post {
                                     always {
                                         junit 'target/sonarqube-reports/*.xml'
