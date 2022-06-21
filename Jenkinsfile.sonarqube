@@ -74,8 +74,9 @@ pipeline {
                                 echo "sonar scanner version"
                                 sh "/opt/sonar-scanner/bin/sonar-scanner -v"
                             }
-
-                            stage('Run Sonar Scanner') {
+                        }
+                        
+                        stage('Run Sonar Scanner') {
                             steps {                
                                 echo "Run Sonnar Scanner Maven"
                                 sh "mvn sonar:sonar -Dsonar.projectKey=tn-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=d0c6d94a4ec6aa637ee0a982c4e5f8ebc98567f0"
