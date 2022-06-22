@@ -83,7 +83,7 @@ pipeline {
                                     echo Run Sonnar Scanner Maven
                                     mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=1afd7e74dbcc413137d8461f7129d026d9d0b4eb
                                     echo Generate reports
-                                    cd /jenkins/workspace/test-pipeline/reports
+                                    echo "cd ${env.WORKSPACE}"/reports"
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t 1afd7e74dbcc413137d8461f7129d026d9d0b4eb -p sonar-maven-test
                                 '''  
                             }
