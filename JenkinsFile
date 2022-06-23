@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    
+    stages {
+        //
+        stage("Github") {
+            steps {
+               git 'https://github.com/jenkins-docs/simple-java-maven-app.git' 
+            }
+        }
+        //
+        stage("Build") {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+        //
+        
+        stage("Save Artifact") {
+            steps {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            }
+        }
+    }
+}
+
