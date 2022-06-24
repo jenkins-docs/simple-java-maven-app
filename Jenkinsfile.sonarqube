@@ -91,7 +91,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash
                                     script {
-                                    def dir = "${WORKSPACE}/reports"
+                                    dir = "${WORKSPACE}/reports"
                                     }
                                     echo $dir
                                     
