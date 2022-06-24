@@ -91,7 +91,9 @@ pipeline {
                                 sh '''
                                     #!/bin/bash
 
-                                    def exists = fileExists ${WORKSPACE}"/reports"
+                                    def dir =  ${WORKSPACE}"/reports"
+                                    echo $dir
+                                    def exists = fileExists '${dir}'
                                     if (exists == false) {
                                         sudo mkdir reports
                                     } 
