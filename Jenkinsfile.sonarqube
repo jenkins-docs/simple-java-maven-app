@@ -90,16 +90,18 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
-
-                                    def dir =  "${WORKSPACE}/reports"
+                                    script {
+                                    def dir = "${WORKSPACE}/reports"
+                                    }
                                     echo $dir
-                                    def exists = fileExists '${dir}'
-                                    if (exists == false) {
-                                        sudo mkdir reports
-                                    } 
                                     
-                                    cd ${WORKSPACE}"/reports"
-                                    java -jar /opt/sonarqube/extensions/plugins/sonar-  -report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
+                                    #def exists = fileExists '${dir}'
+                                    #if (exists == false) {
+                                    #    sudo mkdir reports
+                                    #} 
+                                    
+                                    #cd ${WORKSPACE}"/reports"
+                                    #java -jar /opt/sonarqube/extensions/plugins/sonar-  -report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
                                 '''  
                             }
                         }                                            
