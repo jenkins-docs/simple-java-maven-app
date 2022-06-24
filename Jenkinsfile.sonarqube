@@ -101,9 +101,10 @@ pipeline {
                                     echo ${JOB_NAME}
 
                                     folder=BN-${BUILD_NUMBER}-$(date +'%Y-%m-%d')
-                                    
+
+                                    echo ${JOB_NAME}    
                                     echo Create folders
-                                    mkdir $folder
+                                    mkdir -p ${WORKSPACE}/reports/$folder
                                     mkdir -p /efsmnt/workspace/test-pipeline/reports/$folder
                         
                                     cd ${WORKSPACE}"/reports/"$folder
