@@ -89,13 +89,15 @@ pipeline {
                         stage('Generate Reports') {
                             steps { 
                                 script {
-                                def exists = fileExists '${WORKSPACE}/reports'
-                                sh "echo $exists"
-                                  /*if (exists) {
-                                        sh "/reports already exists"
+                                    def folder = '${WORKSPACE}/reports'
+
+                                    // If it doesn't exist
+                                    if( !folder.exists() ) {
+                                        // Create all folders up-to and including B
+                                        sh "sudo mkdir reports"
                                     } else {
-                                         sh "sudo mkdir reports"
-                                    }*/
+                                        sh "folder ./reports already exists"
+                                    }
                                 }
                                 sh '''
                                     #!/bin/bash
