@@ -88,14 +88,14 @@ pipeline {
 
                         stage('Generate Reports') {
                             steps {
-                                script {
-                                    def exists = fileExists '/reports'
-                                    if (exists) {
+                                /*script {
+                                def exists = fileExists '/reports'
+                                  if (exists) {
                                         sh "/reports already exists"
                                     } else {
                                          sh "sudo mkdir reports"
                                     }
-                                }
+                                }*/
 
                                 sh '''
                                     cd /reports"
