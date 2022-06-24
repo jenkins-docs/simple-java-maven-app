@@ -94,7 +94,7 @@ pipeline {
                                     dirPath = "${WORKSPACE}/reports"
                                     exists = fileExists '${dirPath}'
 
-                                    echo $dir
+                                    echo $dirPath
                                     echo $exists
                                     
                                     #
