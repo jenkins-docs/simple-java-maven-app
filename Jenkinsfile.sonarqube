@@ -87,15 +87,18 @@ pipeline {
                         }
 
                         stage('Generate Reports') {
-                            steps { 
+                            steps {
+                                 script {
+                                    def dir = "${WORKSPACE}/reports"
+                                    def exists = fileExists '${dir}'
+                                    } 
                                 sh '''
                                     #!/bin/bash
-                                    script {
-                                    dir = "${WORKSPACE}/reports"
-                                    }
+                                   
                                     echo $dir
+                                    echo $exists
                                     
-                                    #def exists = fileExists '${dir}'
+                                    #
                                     #if (exists == false) {
                                     #    sudo mkdir reports
                                     #} 
