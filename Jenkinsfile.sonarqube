@@ -88,14 +88,15 @@ pipeline {
 
                         stage('Generate Reports') {
                             steps { 
-                                /*script {
+                                script {
                                 def exists = fileExists '/reports'
-                                  if (exists) {
+                                sh "echo $exists"
+                                  /*if (exists) {
                                         sh "/reports already exists"
                                     } else {
                                          sh "sudo mkdir reports"
-                                    }
-                                }*/
+                                    }*/
+                                }
                                 sh '''
                                     #!/bin/bash
 
@@ -110,7 +111,7 @@ pipeline {
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
 
                                     echo Copy files to Jenkins master.                                    
-                                    cp *.md *.csv *.docx *.xlsx  /efsmnt/workspace/${JOB_NAME}/reports/$folder
+                                    cp *.md *.csv *.docx *.xlsx  /efsmnt/workspace/${JOB_NAME}  /reports/$folder
                                 '''  
                             }
                         }                                            
