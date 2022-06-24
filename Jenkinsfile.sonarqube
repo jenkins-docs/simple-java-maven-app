@@ -81,7 +81,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash  
                                     echo Run Sonnar Scanner Maven
-                                    mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=92aa24f4f6ca54874710fee3fdcc77a9d818f2ed
+                                    mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b947047fc366de6095fa0ac8c2b610d7c6cf84d6
                                 '''  
                             }
                         }
@@ -90,8 +90,14 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
+
+                                    def exists = fileExists ${WORKSPACE}"/reports"
+                                    if (exists == false) {
+                                        sudo mkdir reports
+                                    } 
+                                    
                                     cd ${WORKSPACE}"/reports"
-                                    java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t 92aa24f4f6ca54874710fee3fdcc77a9d818f2ed -p sonar-maven-test
+                                    java -jar /opt/sonarqube/extensions/plugins/sonar-  -report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
                                 '''  
                             }
                         }                                            
