@@ -90,9 +90,11 @@ pipeline {
                             steps {
                                 script {
                                     def exists = fileExists '/reports'
-                                    if (exists == false) {
-                                        sh "sudo mkdir reports"
-                                    } 
+                                    if (exists) {
+                                        sh "/reports already exists"
+                                    } else {
+                                         sh "sudo mkdir reports"
+                                    }
                                 }
 
                                 sh '''
