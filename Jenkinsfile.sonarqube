@@ -88,24 +88,14 @@ pipeline {
 
                         stage('Generate Reports') {
                             steps { 
-                                script {
-                                    def folder = '${WORKSPACE}/reports'
-
-                                    // If it doesn't exist
-                                    if( !folder.exists() ) {
-                                        // Create all folders up-to and including B
-                                        sh "sudo mkdir reports"
-                                    } else {
-                                        sh "folder ./reports already exists"
-                                    }
-                                }
                                 sh '''
                                     #!/bin/bash
 
+
                                     folder=BN-${BUILD_NUMBER}-$(date +'%Y-%m-%d')
 
-                                    echo ${JOB_NAME}    
                                     echo Create folders
+                                    mkdir -p ${WORKSPACE}/reports
                                     mkdir -p ${WORKSPACE}/reports/$folder
                                     mkdir -p /efsmnt/workspace/${JOB_NAME}/reports/$folder
                         
