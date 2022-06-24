@@ -89,7 +89,7 @@ pipeline {
                         stage('Generate Reports') {
                             steps {
                                 script {
-                                    def exists = fileExists '${WORKSPACE}/reports'
+                                    def exists = fileExists ${WORKSPACE}'/reports'
                                     if (exists == false) {
                                         sh "sudo mkdir reports"
                                     } 
