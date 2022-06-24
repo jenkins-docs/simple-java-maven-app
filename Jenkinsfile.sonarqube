@@ -89,9 +89,9 @@ pipeline {
                         stage('Generate Reports') {
                             steps {
                                  script {
-                                    def dir = "${WORKSPACE}/reports"
+                                    def dir = ${WORKSPACE}"/reports"
                                     def exists = fileExists '${dir}'
-                                    } 
+                                } 
                                 sh '''
                                     #!/bin/bash
                                    
