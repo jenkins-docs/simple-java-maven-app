@@ -104,7 +104,7 @@ pipeline {
                                     cd ${WORKSPACE}"/reports/"$folder
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
                                     echo Copy files to Jenkins master.
-                                    cp -R "$folder/"*test-pipeline*  /efsmnt/workspace/test-pipeline/reports
+                                    cp -R $folder/*.md *.csv *.docx *.xlsx  /efsmnt/workspace/test-pipeline/reports
                                 '''  
                             }
                         }                                            
