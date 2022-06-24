@@ -99,7 +99,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash
                                     cd ${WORKSPACE}"/reports"
-                                    java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test -d 'YYMMDD HHMMSS'
+                                    java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test -d 'yyyy-MM-dd'
                                     echo Copy files to Jenkins master.
                                     cp ./*simple-maven-app* /efsmnt/workspace/test-pipeline/reports
                                 '''  
