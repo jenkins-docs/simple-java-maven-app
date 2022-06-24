@@ -91,9 +91,9 @@ pipeline {
 
                                 sh '''
                                     #!/bin/bash
-                                    dir = "${WORKSPACE}/reports"
-                                    exists = fileExists '${dir}'
-                                    
+                                    dirPath = "${WORKSPACE}/reports"
+                                    exists = fileExists '${dirPath}'
+
                                     echo $dir
                                     echo $exists
                                     
