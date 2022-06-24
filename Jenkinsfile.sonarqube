@@ -99,12 +99,12 @@ pipeline {
                                 sh '''
                                     #!/bin/bash
                                     cd ${WORKSPACE}"/reports"
-                                    folder=$(date +'%Y-%m-%d-%H-%M-%S')-${BUILD_NUMBER}
+                                    folder=$(date +'%Y-%m-%d-%H-%M-%S')-BN-${BUILD_NUMBER}
                                     mkdir $folder
                                     cd ${WORKSPACE}"/reports/"$folder
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
                                     echo Copy files to Jenkins master.
-                                    cp ./$folder /efsmnt/workspace/test-pipeline/reports
+                                    cp ./$folder -R /efsmnt/workspace/test-pipeline/reports
                                 '''  
                             }
                         }                                            
