@@ -91,7 +91,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash
 
-                                    def dir =  ${WORKSPACE}"/reports"
+                                    def dir =  "${WORKSPACE}/reports"
                                     echo $dir
                                     def exists = fileExists '${dir}'
                                     if (exists == false) {
