@@ -94,9 +94,9 @@ pipeline {
                                     folder=BN-${BUILD_NUMBER}-$(date +'%Y-%m-%d')
 
                                     echo Create folders
-                                    sudo mkdir -p ${WORKSPACE}/reports
-                                    sudo mkdir -p ${WORKSPACE}/reports/$folder
-                                    sudo mkdir -p /efsmnt/workspace/${JOB_NAME}/reports/$folder
+                                    mkdir -p ${WORKSPACE}/reports
+                                    mkdir -p ${WORKSPACE}/reports/$folder
+                                    mkdir -p /efsmnt/workspace/${JOB_NAME}/reports/$folder
 
                                     echo Create reports  
                                     cd ${WORKSPACE}"/reports/"$folder
