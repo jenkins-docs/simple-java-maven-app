@@ -93,9 +93,9 @@ pipeline {
 
                                     cd /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/
                                     sudo java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
-                                    sudo chmod 777 -R /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/*
+                                    archiveArtifacts "*.xml" 
                                 '''
-                                archiveArtifacts "/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml"   
+                                  
                             }
                         }                                               
                     }
