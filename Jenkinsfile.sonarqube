@@ -90,20 +90,17 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
-
-                                    cd /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/
-                                    sudo java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
-                                    archiveArtifacts "*.xml" 
+                                    java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
                                 '''
-                                  
+                    
                             }
                         }                                               
                     }
-                    //post {
-                         //always {
-                           //archiveArtifacts artifacts: "**/reports/*.xml", allowEmptyArchive: true
-                        //}
-                    //}
+                    post {
+                         always {
+                           archiveArtifacts artifacts: "*.xml", allowEmptyArchive: true
+                        }
+                    }
                 }
             }
         }
