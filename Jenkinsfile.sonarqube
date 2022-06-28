@@ -92,16 +92,17 @@ pipeline {
                                     #!/bin/bash
                                     cd /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/
                                     sudo java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
-                                '''  
+                                '''
+                                archiveArtifacts '*.xml'  
                             }
                         }                                           
                     }
 
-                    post {
-                        always {
-                            archiveArtifacts artifacts: '/efsmnt/jobs/#${JOB_NAME}#/builds/#${BUILD_NUMBER}#/*.xml', onlyIfSuccessful: true
-                        }
-                    }
+                   // post {
+                       // always {
+                           // archiveArtifacts artifacts: '/efsmnt/jobs/#${JOB_NAME}#/builds/#${BUILD_NUMBER}#/*.xml', onlyIfSuccessful: true
+                       // }
+                    //}
                 }
             }
         }
