@@ -90,6 +90,7 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
+                                    cd ${WORKSPACE}
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
                                 '''
                     
@@ -98,7 +99,7 @@ pipeline {
                     }
                     post {
                          always {
-                           archiveArtifacts artifacts: "*.xml", allowEmptyArchive: true
+                           archiveArtifacts artifacts: "*.xml", allowEmptyArchive: false    
                         }
                     }
                 }
