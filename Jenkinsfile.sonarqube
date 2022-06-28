@@ -99,7 +99,7 @@ pipeline {
                         
                         stage('Archive') {
                             steps { 
-                                archiveArtifacts('/efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/*${JOB_NAME}*', followSymlinks: false)
+                                archiveArtifacts(artifacts:'/efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/*${JOB_NAME}*', followSymlinks: false)
                             }
                         }                                           
                     }
