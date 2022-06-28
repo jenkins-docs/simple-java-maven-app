@@ -81,7 +81,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash  
                                     echo Run Sonnar Scanner Maven
-                                    mvn sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_NAME -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_PROJECT_KEY
+                                    mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b947047fc366de6095fa0ac8c2b610d7c6cf84d6
                                 '''  
                             }
                         }
@@ -90,19 +90,23 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
-                                    cd /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/
-                                    sudo java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
-                                '''
-                                archiveArtifacts "**/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml"  
-                            }
-                        }                                           
-                    }
 
-                    //post {
-                         //always {
-                           //archiveArtifacts artifacts: "/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml", allowEmptyArchive: true
-                        //}
-                    //}
+                                    folder=BN-${BUILD_NUMBER}-$(date +'%Y-%m-%d')
+
+                                    echo Create folder
+                                    mkdir -p ${WORKSPACE}/reports/$folder
+                                    echo Create reports  
+                                    cd ${WORKSPACE}"/reports/"$folder
+                                    java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
+                                '''  
+                            }
+                        }                                               
+                    }
+                    post {
+                         always {
+                           archiveArtifacts artifacts: "/reports/$folder/*.xml", allowEmptyArchive: true
+                        }
+                    }
                 }
             }
         }
