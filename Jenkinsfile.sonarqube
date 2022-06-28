@@ -81,7 +81,7 @@ pipeline {
                                 sh '''
                                     #!/bin/bash  
                                     echo Run Sonnar Scanner Maven
-                                    mvn sonar:sonar -Dsonar.projectKey=sonar-maven-test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b947047fc366de6095fa0ac8c2b610d7c6cf84d6
+                                    mvn sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_NAME -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_PROJECT_KEY
                                 '''  
                             }
                         }
@@ -99,7 +99,7 @@ pipeline {
                     }
                     post {
                          always {
-                           archiveArtifacts artifacts: "*.xml", allowEmptyArchive: false    
+                           archiveArtifacts artifacts: "*$SONAR_PREFIX_REPORT*", allowEmptyArchive: false    
                         }
                     }
                 }
