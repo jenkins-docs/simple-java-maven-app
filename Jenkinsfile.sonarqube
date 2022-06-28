@@ -99,7 +99,7 @@ pipeline {
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: '/efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/*.xml', onlyIfSuccessful: true
+                            archiveArtifacts artifacts: '/efsmnt/jobs/'${JOB_NAME}'+/builds/'${BUILD_NUMBER}'/*.xml', onlyIfSuccessful: true
                         }
                     }         
                 }
