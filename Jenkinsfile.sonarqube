@@ -96,7 +96,7 @@ pipeline {
                                     echo Create folder
                                     mkdir -p ${WORKSPACE}/reports/$folder
                                     echo Create reports  
-                                    cd ${WORKSPACE}"/reports/"$folder
+                                    cd ${WORKSPACE}"/reports/
                                     java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t b947047fc366de6095fa0ac8c2b610d7c6cf84d6 -p sonar-maven-test
                                 '''  
                             }
@@ -104,7 +104,7 @@ pipeline {
                     }
                     post {
                          always {
-                           archiveArtifacts artifacts: "*/reports/$folder/*.xml", allowEmptyArchive: true
+                           archiveArtifacts artifacts: "*/reports/*.xml", allowEmptyArchive: true
                         }
                     }
                 }
