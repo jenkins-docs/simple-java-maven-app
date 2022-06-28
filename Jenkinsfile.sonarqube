@@ -93,16 +93,16 @@ pipeline {
                                     cd /efsmnt/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/
                                     sudo java -jar /opt/sonarqube/extensions/plugins/sonar-cnes-report-4.1.2.jar -t $SONAR_PROJECT_KEY -p $SONAR_PROJECT_NAME
                                 '''
-                                //archiveArtifacts "/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml"  
+                                archiveArtifacts "/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml"  
                             }
                         }                                           
                     }
 
-                    post {
-                         always {
-                           archiveArtifacts artifacts: "'/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml'", allowEmptyArchive: true
-                        }
-                    }
+                    //post {
+                         //always {
+                           //archiveArtifacts artifacts: "/efsmnt/jobs/$JOB_NAME/builds/$BUILD_NUMBER/*.xml", allowEmptyArchive: true
+                        //}
+                    //}
                 }
             }
         }
