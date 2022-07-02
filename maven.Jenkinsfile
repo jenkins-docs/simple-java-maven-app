@@ -7,7 +7,7 @@ pipeline {
   stages {
        stage('initial') {
       steps {
-       bat "rmdir /s /q simple-java-maven-app"
+      // bat "rmdir /s /q simple-java-maven-app"
        bat "git clone  https://github.com/kasiteja007/simple-java-maven-app.git"
        bat "mvn clean -f simple-java-maven-app"
           
