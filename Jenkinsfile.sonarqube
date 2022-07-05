@@ -99,7 +99,7 @@ pipeline {
                     }
                     post {
                          always {
-                           archiveArtifacts artifacts: "*$SONAR_PREFIX_REPORT*", allowEmptyArchive: false    
+                           archiveArtifacts artifacts: "*", allowEmptyArchive: false    
                         }
                     }
                 }
