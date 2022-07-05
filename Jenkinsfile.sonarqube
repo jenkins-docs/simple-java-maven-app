@@ -10,6 +10,9 @@ pipeline {
         CURRENT_VERSION = "develop"
         NEXT_VERSION = "develop"
         IMAGE_TAG = "develop"
+        SONAR_PROJECT_NAME = "simple-java-maven-app" //sonar project name
+        SONAR_PROJECT_KEY = "df3479c95e99a6c38a2f56e04436a9bf834e7045" //Sonar project name
+        SONAR_PREFIX_REPORT = "simple-maven-app" //sonar prefix to download files that only match the name
     }
 
     options {
