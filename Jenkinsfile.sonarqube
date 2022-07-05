@@ -55,7 +55,7 @@ pipeline {
 
                 stage("Build Code - Branch 2") {
                     agent {
-                        label "sonarqube"
+                        label "sonarqube-ec2plugin"
                     }
 
                     stages {
