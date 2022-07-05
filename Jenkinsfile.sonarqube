@@ -97,10 +97,10 @@ pipeline {
                             }
                         }                                               
                     }
-                    post {
-                         always {
-                           archiveArtifacts artifacts: "*", allowEmptyArchive: false    
-                        }
+                    //post {
+                        // always {
+                         //  archiveArtifacts artifacts: "*", allowEmptyArchive: false    
+                       // }
                     }
                 }
             }
