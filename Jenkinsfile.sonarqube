@@ -83,7 +83,7 @@ pipeline {
                             steps { 
                                 sh '''
                                     #!/bin/bash
-                                    sleep 15 #seconds to wait to run sonar scanner maven.
+                                    sleep 20 #seconds to wait to run sonar scanner maven.
                                     echo Run Sonnar Scanner Maven
                                     mvn sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_NAME -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_PROJECT_KEY
                                 '''  
