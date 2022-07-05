@@ -97,11 +97,11 @@ pipeline {
                             }
                         }                                               
                     }
-                    //post {
-                        // always {
-                         //  archiveArtifacts artifacts: "*", allowEmptyArchive: false    
-                       // }
-                    //}
+                    post {
+                        always {
+                          archiveArtifacts artifacts: "*$SONAR_PREFIX_REPORT*", allowEmptyArchive: false    
+                       }
+                    }
                 }
             }
         }
