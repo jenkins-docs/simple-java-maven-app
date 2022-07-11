@@ -16,8 +16,6 @@ pipeline {
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = "develop"
         NEXT_VERSION = "develop"
-        //CURRENT_VERSION = currentVersion()
-        //NEXT_VERSION = nextVersion(writeVersion: true)
         IMAGE_TAG = "v${NEXT_VERSION}"
     }
 
@@ -51,4 +49,3 @@ pipeline {
         }
     }
 }
-
