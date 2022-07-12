@@ -11,7 +11,6 @@ FILEJSON=/var/tmp/taskdef.json
 #Get latest revision
 REVISION=`aws ecs describe-task-definition --task-definition ${TASK_NAME} --region ${AWS_DEFAULT_REGION} | jq .taskDefinition.revision`
 
-echo ${WORKSPACE}
 aws ecs describe-task-definition --task-definition ${TASK_NAME}:${REVISION} > ${FILEJSON}
 
 #Register the task definition in the repository
