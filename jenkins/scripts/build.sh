@@ -6,7 +6,7 @@ CLUSTER=tn-services-cluster
 FAMILY=tn-hello_world
 TASK_NAME=tn-hello_world
 SERVICE_NAME=tn-hello_world
-FILEJSON=taskdef.json
+FILEJSON=/var/tmp/taskdef.json
 
 #Get latest revision
 REVISION=`aws ecs describe-task-definition --task-definition ${TASK_NAME} --region ${AWS_DEFAULT_REGION} | jq .taskDefinition.revision`
@@ -15,7 +15,7 @@ echo ${WORKSPACE}
 aws ecs describe-task-definition --task-definition ${TASK_NAME}:${REVISION} > ${FILEJSON}
 
 #Register the task definition in the repository
-aws ecs register-task-definition --family ${FAMILY} --cli-input-json file://${WORKSPACE}/${FILEJSON} --region ${AWS_DEFAULT_REGION}
+aws ecs register-task-definition --family ${FAMILY} --cli-input-json file://${FILEJSON} --region ${AWS_DEFAULT_REGION}
 
 #Review services
 SERVICES=`aws ecs describe-services --services ${SERVICE_NAME} --cluster ${CLUSTER} --region ${AWS_DEFAULT_REGION} | jq .failures[]`
