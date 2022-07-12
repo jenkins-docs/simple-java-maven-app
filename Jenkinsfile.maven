@@ -47,5 +47,11 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh' 
             }
         }
+
+        stage('Build') {
+            steps {
+                sh './jenkins/scripts/build.sh'
+            }
+        }
     }
 }
