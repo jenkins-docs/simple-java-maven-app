@@ -31,7 +31,7 @@ TAG=`echo $VERSION | sed 's/\+/-/g'`
 # upload container to ECR
 aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
 
-docker build -t ${IMAGE_REPO_NAME}:${TAG} --build-arg VERSION=develop .
+docker build -t ${IMAGE_REPO_NAME}:${TAG} --build-arg VERSION=${VERSION} .
 
 docker tag ${IMAGE_REPO_NAME}:${TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${TAG}
 
