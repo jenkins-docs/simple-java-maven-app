@@ -25,7 +25,7 @@ pipeline {
     stages {
 
     
-        stage('Build') {
+        stage('Build-Maven') {
             steps {                
                 echo "current vesion = ${CURRENT_VERSION}"
                 echo "next version = ${NEXT_VERSION}"
