@@ -3,9 +3,9 @@ set -x
 
 #Constants
 CLUSTER=tn-services-cluster 
-FAMILY=tn-hello_world
-TASK_NAME=tn-hello_world
-SERVICE_NAME=tn-hello_world
+FAMILY=tn_hello_world
+TASK_NAME=tn_hello_world
+SERVICE_NAME=tn_hello_world
 FILEJSON=/var/tmp/taskdef.json
 
 #Get latest revision

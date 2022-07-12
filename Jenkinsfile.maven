@@ -25,7 +25,7 @@ pipeline {
     stages {
 
     
-        stage('Build-Maven') {
+        stage('Build') {
             steps {                
                 echo "current vesion = ${CURRENT_VERSION}"
                 echo "next version = ${NEXT_VERSION}"
@@ -42,15 +42,15 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') { 
+        stage('Build-ECR') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
             }
         }
 
-        stage('Build') {
+        stage('Deploy') {
             steps {
-                sh './jenkins/scripts/build.sh'
+                sh './jenkins/scripts/deploy.sh'
             }
         }
     }
