@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -x
-#Constants
 
+#Constants
 CLUSTER=tn-services-cluster 
 FAMILY=tn-hello_world
 TASK_NAME=tn-hello_world
@@ -11,7 +11,8 @@ FILEJSON=taskdef.json
 #Get latest revision
 REVISION=`aws ecs describe-task-definition --task-definition ${TASK_NAME} --region ${AWS_DEFAULT_REGION} | jq .taskDefinition.revision`
 
-aws ecs describe-task-definition --task-definition ${TASK_NAME}:${REVISION} > ${FILEJSON}
+echo ${WORKSPACE}
+aws ecs describe-task-definition --task-definition ${TASK_NAME}:${REVISION} > ${WORKSPACE}/${FILEJSON}
 
 #Register the task definition in the repository
 aws ecs register-task-definition --family ${FAMILY} --cli-input-json file://${FILEJSON} --region ${AWS_DEFAULT_REGION}
