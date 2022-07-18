@@ -10,9 +10,11 @@ pipeline {
     // }
 
     environment {
-        AWS_ACCOUNT_ID = "345002264488"
+        //AWS_ACCOUNT_ID = "345002264488" // client abaqus
+        AWS_ACCOUNT_ID = "497903502641" // gm-dev
         AWS_DEFAULT_REGION = "us-west-2"
-        IMAGE_REPO_NAME = "abaqus/allgeo-hello-world-jar"
+        //IMAGE_REPO_NAME = "abaqus/allgeo-hello-world-jar" // client abaqus
+        IMAGE_REPO_NAME = "allgeo/simple-maven" // gm-dev
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = "develop"
         NEXT_VERSION = "develop"
@@ -42,9 +44,15 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') { 
+        stage('Build-ECR') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh './jenkins/scripts/deploy.sh'
             }
         }
     }

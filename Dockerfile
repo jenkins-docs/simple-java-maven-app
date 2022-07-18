@@ -3,5 +3,6 @@
 FROM amazoncorretto:11-alpine-jdk
 ARG VERSION
 LABEL author=RodrigoMurillo
-COPY target/simple-maven-app-${VERSION}.jar simple-maven-app-${VERSION}.jar
-ENTRYPOINT ["java","-jar","/simple-maven-app-${VERSION}.jar"]
+ADD target/simple-maven-app-develop.jar simple-maven-app-develop.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/simple-maven-app-develop.jar"]

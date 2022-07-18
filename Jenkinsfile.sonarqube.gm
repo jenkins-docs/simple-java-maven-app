@@ -3,15 +3,15 @@ pipeline {
     agent none
 
     environment {
-        AWS_ACCOUNT_ID = "345002264488"
+        AWS_ACCOUNT_ID = "497903502641"
         AWS_DEFAULT_REGION = "us-west-2"
-        IMAGE_REPO_NAME = "abaqus/allgeo-hello-world-jar"
+        IMAGE_REPO_NAME = "allgeo-hello-world-jar"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         CURRENT_VERSION = "develop"
         NEXT_VERSION = "develop"
         IMAGE_TAG = "develop"
         SONAR_PROJECT_NAME_KEY = "simple-java-maven-app" //Sonar project name key
-        SONAR_PROJECT_TOKEN = "df3479c95e99a6c38a2f56e04436a9bf834e7045" //Sonar project token to access account
+        SONAR_PROJECT_TOKEN = "b5e32b996cc0446be8a4de737ada906d1af0e561" //Sonar project token to access account
         SONAR_PROJECT_NAME = "simple-maven-app" //Sonar project name
     }
 
