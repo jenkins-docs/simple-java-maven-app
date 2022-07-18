@@ -17,8 +17,15 @@ set +x
 echo 'The following complex command behaves similarly to the previous one but'
 echo 'extracts the value of the <version/> element within <project/> instead.'
 set -x
-VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
+
+git fetch --tags
+
+echo 'The following command get last version tag'
+VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+#VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
 set +x
+
+echo $VERSION
 
 echo 'The following command runs and outputs the execution of your Java'
 echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
