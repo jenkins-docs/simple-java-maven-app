@@ -1,0 +1,39 @@
+# RJM 6/25/22
+# based on https://github.com/bridgecrewio/checkov/blob/master/.github/workflows/security.yaml
+# https://github.com/rmurillo21/terraform-ng/issues/8
+name: security
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+      - develop
+jobs:
+  detect-secrets-trufflehog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: detect secrets
+        uses: edplato/trufflehog-actions-scan@master
+        with:
+          scanArguments: "--regex --entropy=False --exclude_paths .github/exclude-patterns.txt --max_depth=1" 
+  terraform-checks-checkov:
+    # based on https://www.checkov.io/4.Integrations/GitHub%20Actions.html
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Test with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: infra
+          framework: terraform
+          skip_check: CKV2_AWS_28
+          quiet: true # optional: display only failed checks

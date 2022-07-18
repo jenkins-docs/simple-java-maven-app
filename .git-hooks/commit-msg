@@ -1,0 +1,27 @@
+#!/bin/bash
+# RJM 7/2/22
+# enforce conventional commits, and Jira issue code in commit
+# See https://www.conventionalcommits.org/en/v1.0.0/#summary
+# TODO Define scope as a matching group and validate against a list
+
+commit_message=$(cat $1)
+
+issueRegex="\#[A-Z]{1,3}-[0-9]{1,9}"
+messageRegex="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([[:alnum:]._-]+\))?(!)?: ([[:alnum:]])+([[:space:][:print:]]*)"
+
+if ! [[ "$commit_message" =~ $messageRegex ]]; then
+    echo "Error: There is something wrong with your commit message. Your commit was rejected."
+    echo "Valid message pattern: <TYPE>[(<SCOPE>)]: <SUBJECT>"
+    echo "Valid types : 'feat', 'fix', 'perf', 'refactor', 'style', 'test', 'build', 'ops', 'docs', 'chore', 'merge', 'revert'"
+    echo "Valid scopes: *"
+    echo "Your commit will be rejected. You should change your commit message and try again."
+    echo $commit_message
+    exit 1
+fi
+
+if ! [[ $commit_message =~ $issueRegex ]]; then
+    echo Commit message requires JIRA issue code ex: TN-xxx.
+    exit 1
+fi
+
+

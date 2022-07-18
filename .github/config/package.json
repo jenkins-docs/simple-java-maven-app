@@ -1,0 +1,16 @@
+{
+    "name": "config",
+    "version": "1.0.0",
+    "description": "conventional-changelog-action hooks",
+    "main": "config.js",
+    "license": "MIT",
+    "author": {
+      "name": "Soumya Ranjan Mahunt",
+      "email": "soumya.mahunt@gmail.com"
+    },
+    "dependencies": {
+      "@actions/core": "1.9.0",
+      "conventional-changelog-conventionalcommits": "^5.0.0",
+      "semver": "^7.3.7"
+    }
+  }

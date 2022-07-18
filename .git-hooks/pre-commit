@@ -1,0 +1,18 @@
+#!/bin/bash
+# RJM 6/4/2022
+# enforce branch naming
+# Example: feat/ng-1-rm-hello-world-tomcat
+# See https://betterprogramming.pub/how-to-prevent-git-commit-naming-mistakes-a34c8a7c6ae6
+
+# format example: feat/TN-55-rm-curated-aws-ssm-scripts
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+REGEX="^(develop|master|release|((feat|fix|refector|perf|style|test|docs|build|ops|chore)\/TN-[0-9]+-[a-z]+-.+))$"
+
+if ! [[ $BRANCH =~ $REGEX ]]; then
+ echo "There is something wrong with your branch name. Your commit was rejected due to branching name"
+ echo "Branch names in this project must adhere to this contract: $REGEX"
+ echo "Your commit will be rejected. You should rename your branch to a valid name and try again."
+
+ echo "Please rename your branch with $REGEX syntax"
+ exit 1
+fi

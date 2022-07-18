@@ -1,0 +1,106 @@
+# RJM 7/3/22
+# based on https://github.com/TriPSs/conventional-changelog-action
+# https://github.com/rmurillo21/terraform-ng/issues/TN-57
+# Bump version, tag commit and generates changelog with conventional commits.
+
+# this should really only run on main branch
+# Is now on branches
+name: versioning
+
+on:
+  # pull_request:
+  #   branches:
+  #     - '*'
+  # push:
+  #   branches:
+  #     - main
+
+  # Only run versioning action for commits to develop 
+  pull_request:
+    branches: [ develop ]
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Create release
+        required: false
+
+
+jobs:
+  # see https://github.com/mathieudutour/github-tag-action
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+  conventional-changelog:
+    runs-on: ubuntu-latest
+    outputs:
+      skipped: ${{ steps.changelog.outputs.skipped }}
+      clean_changelog: ${{ steps.changelog.outputs.clean_changelog }}
+      tag: ${{ steps.changelog.outputs.tag }}    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        id: checkout
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}        
+          fetch-depth: 0
+      # - name: Create report file
+      #   run: date +%s > report.txt
+      # - name: Commit report
+      #   run: |
+      #     git config --global user.name '${{ github.actor }}'
+      #     git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+      #     git add .
+      #     git commit -m "Automated report"
+      #     git push        
+      
+      - name: Setup action config
+        # see https://github.com/DartBuild/cocoapods-embed-flutter/blob/main/.github/workflows/main.yml
+        run: npm install
+        working-directory: .github/config
+
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.github_token }}
+          git-message: 'chore(CHANGELOG): update for {version}'
+          git-user-name: ${{ github.actor }}
+          git-user-email: rodm@greenmarimba.com
+          output-file: "true"
+          skip-version-file: "true"
+          skip-commit: "false"
+          pre-changelog-generation: '.github/config/pre_changelog_hook.js'
+          config-file-path: '.github/config/config.js'          
+
+          # git-message: 'chore(release): {version}'
+          # git-user-name: 'Awesome Changelog Action'
+          # git-user-email: 'awesome_changelog@github.actions.com'
+          # preset: 'angular'
+          # tag-prefix: 'v'
+          # output-file: "false"
+          # release-count: '10'
+          # skip-on-empty: 'false'
+          # skip-version-file: 'false'
+          # skip-commit: 'true'
+
+      # - name: Create GitHub Release
+      #     if: steps.conventional_changelog.outputs.skipped == 'false'
+      #     uses: ncipollo/release-action@v1
+      #     with:
+      #       token: ${{ github.token }}
+      #       tag: ${{ steps.conventional_changelog.outputs.tag }}
+      #       body: ${{ steps.conventional_changelog.outputs.changelog }}
+      #       artifacts: '*'
