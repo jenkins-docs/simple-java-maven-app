@@ -17,7 +17,8 @@ on:
 
   # Only run versioning action for commits to develop 
   pull_request:
-    branches: [ develop ]
+    branches:
+      - '*'
     paths-ignore:
       - '*.md'
   workflow_dispatch:
