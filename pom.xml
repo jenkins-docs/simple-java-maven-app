@@ -7,6 +7,7 @@
   <version>1.0</version>
   <name>my-app</name>
   <url>http://maven.apache.org</url>
+  <!-- test the code -->
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
