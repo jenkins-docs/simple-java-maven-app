@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
  */
 public class AppTest
 {
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Before
