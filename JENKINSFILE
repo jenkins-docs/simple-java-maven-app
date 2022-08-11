@@ -14,7 +14,7 @@ pipeline {
             steps { 
                 echo "in buid" 
                 sleep 3
-                echo "build version "  ${NEW_VERSION}
+                echo "build version    ${NEW_VERSION}"
             }
         }
         stage('Test'){
