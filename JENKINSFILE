@@ -7,11 +7,13 @@ pipeline {
         stage('Build') { 
             steps { 
                 echo "in buid" 
+                sleep 1s
             }
         }
         stage('Test'){
             steps {
                 echo "in  tessssssssst" 
+                sleep 2s
             }
         }
         stage('Deploy') {
