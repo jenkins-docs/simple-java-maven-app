@@ -1,5 +1,11 @@
 pipeline { 
     agent any 
+    enviroment{
+    
+    NEW_VERSION='10.1'
+    
+    
+    }
     options {
         skipStagesAfterUnstable()
     }
