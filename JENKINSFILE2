@@ -2,7 +2,9 @@ ipeline {
     agent any 
     
 
-    
+    tools{
+    maven 'my-mvn3.8'
+    }
     
     
     parameters{
