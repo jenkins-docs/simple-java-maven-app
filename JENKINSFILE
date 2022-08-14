@@ -3,7 +3,7 @@ pipeline {
     environment {
     
     NEW_VERSION='10.1'
-    //SERVER_CREDENTIALS=credentials('server_credentails')
+   SERVER_CREDENTIALS=credentials('server_credentails')
     
     
     }
@@ -27,8 +27,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
-                //echo" deploy with ${SERVER_CREDENTIALS}"
-                //sh "${SERVER_CREDENTIALS}"
+               echo" deploy with ${SERVER_CREDENTIALS}"
+               sh "${SERVER_CREDENTIALS}"
                
                  }               
                             
