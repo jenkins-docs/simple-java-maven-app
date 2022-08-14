@@ -32,6 +32,7 @@ pipeline {
                 echo "in buid" 
                 sleep 3
                 echo "build version    ${NEW_VERSION}"
+                sh 'mvn package'
             }
         }
         stage('Test'){
