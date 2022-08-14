@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
                echo" deploy with ${SERVER_CREDENTIALS}"
-               sh "${SERVER_CREDENTIALS}"
+              // sh "${SERVER_CREDENTIALS}"
                
                  }               
                             
