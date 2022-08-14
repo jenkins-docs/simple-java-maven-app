@@ -35,7 +35,7 @@ pipeline {
                                 passwordVariable:PWD)
                                 ])
                                 {
-                                sh "echo "hello in d" ${USER} ${PWD}"
+                                sh "echo "hello in  ${USER} ${PWD}"
                                 
                      
             }
