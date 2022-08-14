@@ -32,7 +32,7 @@ ipeline {
         stage('Build_jar') { 
             steps { 
                 echo "in buid" 
-                sh mvn package
+                sh 'mvn package'
               
             }
         }
