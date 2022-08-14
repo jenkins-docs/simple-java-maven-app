@@ -46,8 +46,18 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+            
+            input{
+                   message "Select environemnt to deploy to "
+                   ok "Done"
+                   parameters{
+                    choice(name:'ENV' , choices:[ 'dev','staging','prod' ],description :'env')
+                   }
+   
+                   }
                 echo "in DDDDDDDDDDDDDDDDDeply" 
                  echo "deploy version ::   ${params.VERSION}"
+                 echo "Deploying ENVironment ${ENV}"
                //echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
               
