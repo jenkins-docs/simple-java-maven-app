@@ -3,7 +3,7 @@ pipeline {
     environment {
     
     NEW_VERSION='10.1'
-   //SERVER_CREDENTIALS=credentials('server_credentails')
+   //SERVER_CREDENTIALS=credentials('server_credentials')
     
     
     }
@@ -30,7 +30,7 @@ pipeline {
                //echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
               
-              withCredentials([usernamePassword(credentialsId: 'server_credentails', 
+              withCredentials([usernamePassword(credentialsId: 'server_credentials', 
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
                  // the code here can access $pass and $user
