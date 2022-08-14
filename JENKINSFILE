@@ -8,10 +8,10 @@ pipeline {
     
     
     }
-    tools{
+    //tools{}
     
     
-    }
+    
     
     parameters{
     //string(name:'VERSION' , defaultValue:'',description:' vesrion to deply prod')
