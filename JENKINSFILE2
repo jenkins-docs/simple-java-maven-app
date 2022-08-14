@@ -1,19 +1,7 @@
 ipeline { 
     agent any 
     
-    environment {
-    
-    NEW_VERSION='10.1'
-   //SERVER_CREDENTIALS=credentials('server_credentials')
-    
-    
-    }
-     tools{
-     
-     maven 'Maven'
-     
-     }
-    
+
     
     
     
@@ -51,9 +39,9 @@ ipeline {
                  withCredentials([usernamePassword(credentialsId: 'dcoker-ub', 
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
-               sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
-               sh   " docker login -u $USERNAME -p $PASSWORD "
-               sh ' docker push mahmoudelmadawy/demo-app:mah-1.1 '
+             //  sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
+            //   sh   " docker login -u $USERNAME -p $PASSWORD "
+//sh ' docker push mahmoudelmadawy/demo-app:mah-1.1 '
                                          }
                 
                
