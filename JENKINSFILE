@@ -44,7 +44,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
-                 echo "deploy version ::   ${VERSION}"
+                 echo "deploy version ::   ${params.VERSION}"
                //echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
               
