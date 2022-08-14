@@ -74,7 +74,7 @@ pipeline {
 
              /////////////////////////////////////
 
- withCredentials([usernamePassword(credentialsId: 'dcoker-ub', 
+ withCredentials([usernamePassword(credentialsId: 'docker-hub', 
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
                sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
