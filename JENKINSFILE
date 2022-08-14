@@ -29,16 +29,12 @@ pipeline {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
                 //echo" deploy with ${SERVER_CREDENTIALS}"
                 //sh "${SERVER_CREDENTIALS}"
-                withCredentials([
-                      usernamePassword(credentials:'server_credentials',
-                                usernameVarable:USER,
-                                passwordVariable:PWD)
-                                ])
-                                {
-                            
+               
                                 
+                            
+                             
                      
-            }
+            
         }
     }
     
