@@ -8,7 +8,9 @@ pipeline {
     
     
     }
-    //tools{}
+     tools {
+    maven 'my-mvn3.8'
+    }
     
     
     
