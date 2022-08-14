@@ -2,7 +2,7 @@ ipeline {
     agent any 
     
 
-    tools{
+    tools {
     maven 'my-mvn3.8'
     }
     
@@ -22,7 +22,7 @@ ipeline {
         stage('Build_jar') { 
             steps { 
                 echo "in buid" 
-                sh 'mvn package'
+               // sh 'mvn package'
               
             }
         }
