@@ -77,9 +77,9 @@ pipeline {
  withCredentials([usernamePassword(credentialsId: 'docker-hub', 
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
-               sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
+               sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.3 . '
                sh   " docker login -u $USERNAME -p $PASSWORD "
-          sh ' docker push mahmoudelmadawy/demo-app:mah-1.1 '
+          sh ' docker push mahmoudelmadawy/demo-app:mah-1.3 '
                                          }
                 
                
