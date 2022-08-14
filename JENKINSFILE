@@ -27,7 +27,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
-               echo" deploy with ${SERVER_CREDENTIALS}"
+               echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
                
                  }               
