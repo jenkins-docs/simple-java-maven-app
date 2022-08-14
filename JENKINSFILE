@@ -78,7 +78,7 @@ pipeline {
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
                sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.3 . '
-               sh   " docker login -u $USERNAME -p $PASSWORD "
+               sh   " docker login -u $user -p $pass "
           sh ' docker push mahmoudelmadawy/demo-app:mah-1.3 '
                                          }
                 
