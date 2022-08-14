@@ -45,7 +45,7 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {
+            
             
             input{
                    message "Select environemnt to deploy to "
@@ -55,6 +55,8 @@ pipeline {
                    }
    
                    }
+                   
+                   steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
                  echo "deploy version ::   ${params.VERSION}"
                  echo "Deploying ENVironment ${ENV}"
