@@ -66,16 +66,10 @@ pipeline {
                //echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
               
-              withCredentials([usernamePassword(credentialsId: 'server_credentials', 
+               withCredentials([usernamePassword(credentialsId: 'server_credentials', 
               passwordVariable: 'pass',
               usernameVariable: 'user')]) {
                  // the code here can access $pass and $user
-                                         }
-                                         
-                                          usernameVariable: 'user')]) {
-                sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
-                sh   " docker login -u $USERNAME -p $PASSWORD "
-               sh ' docker push mahmoudelmadawy/demo-app:mah-1.1 '
                                          }
                
                  }               
@@ -86,3 +80,4 @@ pipeline {
         }
     }
     
+
