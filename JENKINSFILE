@@ -71,6 +71,12 @@ pipeline {
               usernameVariable: 'user')]) {
                  // the code here can access $pass and $user
                                          }
+                                         
+                                          usernameVariable: 'user')]) {
+                sh  'docker build -t mahmoudelmadawy/demo-app:mah-1.1 . '
+                sh   " docker login -u $USERNAME -p $PASSWORD "
+               sh ' docker push mahmoudelmadawy/demo-app:mah-1.1 '
+                                         }
                
                  }               
                             
