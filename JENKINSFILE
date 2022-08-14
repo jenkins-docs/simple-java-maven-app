@@ -1,11 +1,22 @@
 pipeline { 
     agent any 
+    
     environment {
     
     NEW_VERSION='10.1'
    //SERVER_CREDENTIALS=credentials('server_credentials')
     
     
+    }
+    tools{
+    
+    
+    }
+    
+    parameters{
+    //string(name:'VERSION' , defaultValue:'',description:' vesrion to deply prod')
+    choice(name:'VERSION' , choices:[ '1.1.0',1.2.0','1.3.0' ,description :' vv')
+    boleanParam(name : 'executeTests' ,defaultValue: true ,description :' tftf'
     }
     options {
         skipStagesAfterUnstable()
@@ -19,6 +30,12 @@ pipeline {
             }
         }
         stage('Test'){
+        
+        when{
+        expression{
+        params.executeTests
+                   }
+          }
             steps {
                 echo "in  tessssssssst" 
                 sleep 5
@@ -27,6 +44,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
+                 echo "deploy version ::   ${VERSION}"
                //echo " deploy with ${SERVER_CREDENTIALS}"
               // sh "${SERVER_CREDENTIALS}"
               
