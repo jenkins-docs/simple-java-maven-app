@@ -3,6 +3,7 @@ pipeline {
     environment {
     
     NEW_VERSION='10.1'
+    //SERVER_CREDENTIALS=credentials('server_credentails')
     
     
     }
@@ -26,6 +27,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
+                //echo" deploy with ${SERVER_CREDENTIALS}"
+                //sh "${SERVER_CREDENTIALS}"
+                withCredentials([
+                      usernamePassword(credentials:'server_credentials',
+                                usernameVarable:USER,
+                                passwordVariable:PWD)
+                                ])
+                                {
+                                sh "echo "hello in d" ${USER} ${PWD}"
+                                
+                     
             }
         }
     }
