@@ -1,7 +1,11 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('PreBuild') {
+            steps {
+               echo "will be error, mvn not installed"
+            }
+        }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
