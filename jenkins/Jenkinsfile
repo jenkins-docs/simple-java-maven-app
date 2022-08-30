@@ -6,6 +6,7 @@ pipeline {
                echo "will be error, mvn not installed"
             }
         }
+        stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
