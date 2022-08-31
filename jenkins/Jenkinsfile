@@ -11,9 +11,10 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Complete') {
+        stage('Merge') {
             steps {
-              echo 'Job Complete!'
+              sh 'git checkout dev'
+              sh 'git merge master'
             }
         }
     }
