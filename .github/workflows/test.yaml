@@ -1,0 +1,17 @@
+name: test
+
+on:
+  pull_request:
+    branches: [ master ] 
+
+env:
+  BUILD_NUMBER: ${{ github.run_number }} # default variable GITHUB_RUN_NUMBER
+
+jobs:
+  build:
+    name: Build Animeal Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print BUILD_NUMBER
+        run: echo "test-${{ env.BUILD_NUMBER }}.apk"
