@@ -1,25 +1,8 @@
-pipeline {
-  agent any
-  tools {
-    maven 'maven'
-    jdk 'jdk'
+node {
+  stage('Build') {
+    sh 'mvn -B -DskipTests clean package'
   }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'mvn clean package'
-        sh 'file 61'
-      }
-    }
-    stage('Test') {
-      steps {
-        sh 'mvn test'
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-        }
-      }
-    }
+  stage('Test') {
+    sh 'mvn test'
   }
 }
