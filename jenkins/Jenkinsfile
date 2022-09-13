@@ -11,6 +11,11 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+	stage('prepare') {
+		steps {
+			sh 'prepare jenkins build'
+		}
+	}
         stage('Test') {
             steps {
                 sh 'mvn test'
