@@ -28,5 +28,10 @@ agent {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
+       stage('complete') {
+            steps {
+                sh 'echo  "complete"'
+            }
+        }
     }
 }
