@@ -1,24 +1,43 @@
 pipeline {
-	  agent any
-	  parameters {
-	    choice(name: 'door_choice',
-	      choices: 'one\ntwo\nthree\nfour',
-	      description: 'What door do you choose?')
-	    booleanParam(name: 'CAN_DANCE',
-	      defaultValue: true,
-	      description: 'Checkbox parameter')
-	    string(name: 'sTrAnGePaRaM',
-	      defaultValue: 'Dance!',
-	      description: 'Do the funky chicken!')
-	  }
-	  stages {
-	    stage('Example') {
-	      steps {
-	        echo 'Hello World!'
-	        echo "Trying: ${params.door_choice}"
-	        echo "We can dance: ${params.CAN_DANCE}"
-	        echo "The DJ says: ${params.sTrAnGePaRaM}"
-	      }
-	    }
-	  }
+    agent any
+
+	tools {
+
+    maven 'maven-3.8'
+
 	}
+    stages {
+        stage("build jar file") {
+            steps {
+                script {
+                    echo "building the application"
+					sh 'mvn package'
+                }
+            }
+        }
+        stage("build image") {
+            steps {
+                script {
+                    echo "building docker image "
+					withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+
+                        sh 'docker build -t omarkhaledmah/omar-repo:java-maven-app545.0  .'
+                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                        sh 'docker push markhaledmah/omar-repo:java-maven-app545.0'
+                }
+
+
+                }
+            }
+        }
+        
+        stage("deploy") {
+            steps {
+                script {
+                    echo "deploying"
+     
+                }
+            }
+        }
+    }   
+}
