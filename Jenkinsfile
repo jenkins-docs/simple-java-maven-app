@@ -23,7 +23,7 @@ pipeline {
 
                         sh 'docker build -t omarkhaledmah/omar-repo:java-maven-app545.0  .'
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                        sh 'docker push markhaledmah/omar-repo:java-maven-app545.0'
+                        sh 'docker push omarkhaledmah/omar-repo:java-maven-app545.0'
                 }
 
 
