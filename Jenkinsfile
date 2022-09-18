@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     echo "building the application"
-					sh 'mvn package'
+		    sh 'mvn package'
                 }
             }
         }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     echo "building docker image "
-					withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+			withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 
                         sh 'docker build -t omarkhaledmah/omar-repo:java-maven-app545.0  .'
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
