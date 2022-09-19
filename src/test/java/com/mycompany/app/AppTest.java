@@ -1,27 +1,48 @@
 package com.mycompany.app;
 
-import static org.junit.Assert.assertEquals;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import org.junit.Before;
 import org.junit.Test;
-import org.apache.log4j.Logger;
+import org.junit.After;
+import static org.junit.Assert.*;
 
-public class AppTest {
-  
-	private Logger log = Logger.getLogger(this.getClass());
-  @Test  
-    public void main(){  
-		try {
-			log.info("Starting execution of main");
- String[] args = null; 
-;
- ;
- App app  =new App(); 
-app.main( args);
-assertTrue(true);
+/**
+ * Unit test for simple App.
+ */
+public class AppTest
+{
 
-		} catch (Exception exception) {
-			log.error("Exception in execution ofmain-"+exception,exception);
-			exception.printStackTrace();
-			assertFalse(false);
-		}
-    }  
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @Test
+    public void testAppConstructor() {
+        try {
+            new App();
+        } catch (Exception e) {
+            fail("Construction failed.");
+        }
+    }
+
+    @Test
+    public void testAppMain()
+    {
+        App.main(null);
+        try {
+            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
+        } catch (AssertionError e) {
+            fail("\"message\" is not \"Hello World!\"");
+        }
+    }
+
+    @After
+    public void cleanUpStreams() {
+        System.setOut(null);
+    }
+
 }
