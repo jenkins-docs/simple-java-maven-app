@@ -1,21 +1,25 @@
-node {
- 
-    stage('Source') {
-      git branch: 'bitwiseman-patch-1', url: 'https://github.com/Hyedra64/simple-java'
+ node {
+     
+ stage('Source') {
+  git branch: 'bitwiseman-patch-1', url: 'https://github.com/Hyedra64/simple-java'
     }
     
-docker.image('maven:3-alpine').inside('-v /root/.m2:/root/.m2') {
-    
-    stage('Build') {
-      sh 'mvn -B -DskipTests clean package'
+ docker.image('maven:3-alpine').inside('-v /root/.m2:/root/.m2') {
+ stage('Build') {
+  sh 'mvn -B -DskipTests clean package'
     }
     
-    stage('Test') {
-      sh 'mvn test -Dmaven.test.failure.ignore=true';junit 'target/surefire-reports/*.xml'
+ stage('Test') {
+  sh 'mvn test -Dmaven.test.failure.ignore=true';junit 'target/surefire-reports/*.xml'
     }
     
-    stage('Deliver') {
-      sh './jenkins/scripts/deliver.sh'
+ stage('Manual Approval') {
+  input "Lanjutkan ke tahap Deploy?"
+  }
+    
+ stage('Deploy') {
+  sh './jenkins/scripts/deliver.sh'
+  sleep time: 1, unit: 'MINUTES'
     }
   }
 }
