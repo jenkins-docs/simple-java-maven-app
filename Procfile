@@ -1,1 +1,1 @@
-app: java -jar Maven-1.0-SNAPSHOT.jar org.maven
+worker: java -jar Maven-1.0-SNAPSHOT.jar org.maven
