@@ -1,1 +1,1 @@
-web: java -jar Maven-1.0-SNAPSHOT.jar org.maven
+web: java -jar my-app-1.0-SNAPSHOT.jar com.mycompany.app
