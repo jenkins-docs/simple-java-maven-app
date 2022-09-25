@@ -1,1 +1,1 @@
-worker: sh target/bin/worker
+worker: sh worker
