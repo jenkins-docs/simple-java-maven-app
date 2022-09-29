@@ -21,10 +21,5 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Compete') {
-            steps {
-                echo 'Job Complete'
-            }
-        }
     }
 }
