@@ -32,7 +32,7 @@ pipeline {
                 stage('target1'){
                     environment {
                         target_user = "ec2-user"
-                        terget_server = ""
+                        terget_server = "172.31.34.21"
                     }
             
                     steps{
