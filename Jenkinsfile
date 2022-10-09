@@ -38,7 +38,7 @@ pipeline {
                     steps{
                         echo "Deploying to the Dev Environment"
                         sshagent(['amazon']) {
-                            sh "sh -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar $targer_user@target_server:/home/ec2-user"
+                            sh "sh -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar $target_user@target_server:/home/ec2-user"
                         }
                     }    
                 }
