@@ -19,8 +19,10 @@ pipeline {
             }
         }
         stage('Test'){
-            sh "mvn test"
-            junit allowEmptyResults: true, testResults: 'target/surfire-reports/*.xml  '
+            steps {
+                sh "mvn test"
+                junit allowEmptyResults: true, testResults: 'target/surfire-reports/*.xml  '
+            }
         }
         stage('Deploy'){
             input {
