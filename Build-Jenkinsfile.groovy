@@ -2,7 +2,7 @@ import jenkins.model.*
 pipeline {
   agent any 
     environment {
-		APP="Order-Management-System"
+		APP="simple-java-maven-app"
 		GITREPO="JFLIT"
 		GIT_BRANCH="${params.GIT_BRANCH}"
         ORG= "JFLIT"
@@ -83,8 +83,8 @@ pipeline {
             	} else {
 			    env.buildmachine_tag = "testing"
 			    }
-            		docker.withRegistry('https://dockerhub-repo', 'DTR'){
-              	docker.image("dtr.tools.cloud.jubl.com/base-images/build-machine:${env.buildmachine_tag}").inside("-v ${env.CACHE}:${env.WORKSPACE}/cache") {			
+            		docker.withRegistry('https://hub.docker.com/repository/docker/magalam87/docker-private', 'DTR'){
+              	docker.image("magalam87/docker-private:docker-slave").inside("-v ${env.CACHE}:${env.WORKSPACE}/cache") {			
 			          withCredentials([usernamePassword(credentialsId: 'jenkins-agent', passwordVariable: 'credsfilevar', usernameVariable: 'username')]) {
             		//dir("common-framework"){
 			        //sh "ls -l"					
