@@ -61,7 +61,7 @@ pipeline {
                		$class: 'GitSCM',
             		branches: [[ name: "${env.GIT_BRANCH}" ]],
             		doGenerateSubmoduleConfigurations: false,
-            		userRemoteConfigs: [[credentialsId: 'Git-access', url: "https://github.com/${ORG}/${APP}.git"]],
+            		userRemoteConfigs: [[credentialsId: 'Git-access', url: "https://github.com/raghugitty/simple-java-maven-app.git"]],
             		extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "app"]]
           		])
 
