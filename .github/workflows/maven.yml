@@ -68,6 +68,6 @@ jobs:
         # Path to lint report json file. https://docs.sonarqube.org/pages/viewpage.action?pageId=11639183
        # lintReport: # optional
       env:
-       token: ${{ secrets.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
      
   
