@@ -35,6 +35,16 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Setup Java 11
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: '11'
+        java-package: jdk
+        architecture: x64
+    - name: set JDK 11 environment variables for kotlin compiler
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      run: echo ::set-env name=JAVA_HOME::$(echo $JAVA_HOME)
     - name: sonarqube scan
    
       uses: vtex/action-sonarqube@v1.1.0
