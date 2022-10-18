@@ -56,7 +56,7 @@ jobs:
         # SonarQube Server URL
         host: http://18.191.232.206:9000/
         # Sonarqube token
-        token: b5507cd231d76993946d25c67dcab91adfd02e98
+        #token: b5507cd231d76993946d25c67dcab91adfd02e98
         # Sonarqube project key. The default key will be 'owner-repository'.
         projectKey: "jdprj" 
         # Sonarqube project name. The default name will be 'owner-repository'.
@@ -67,5 +67,7 @@ jobs:
         githubToken: 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
         # Path to lint report json file. https://docs.sonarqube.org/pages/viewpage.action?pageId=11639183
        # lintReport: # optional
+    env:
+       token: b5507cd231d76993946d25c67dcab91adfd02e98
      
   
