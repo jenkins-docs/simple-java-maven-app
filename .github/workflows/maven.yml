@@ -24,3 +24,22 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: sonarqube scan
+    - name: Action SonarQube
+      uses: vtex/action-sonarqube@v1.1.0
+      with:
+        # SonarQube Server URL
+        host: http://18.191.232.206:9000/
+        # Sonarqube token
+        token: b5507cd231d76993946d25c67dcab91adfd02e98
+        # Sonarqube project key. The default key will be 'owner-repository'.
+        projectKey: "jdprj" 
+        # Sonarqube project name. The default name will be 'owner-repository'.
+        projectName: "jd" 
+        # Sonar project base dir. 
+        #projectBaseDir: # optional, default is .
+        # Github token. https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
+        githubToken: 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
+        # Path to lint report json file. https://docs.sonarqube.org/pages/viewpage.action?pageId=11639183
+       # lintReport: # optional     
+       
