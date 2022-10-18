@@ -54,7 +54,7 @@ jobs:
       with:
         
         # SonarQube Server URL
-        host: http://18.191.232.206:9000/
+        #host: http://18.191.232.206:9000/
         # Sonarqube token
         ##token: b5507cd231d76993946d25c67dcab91adfd02e98
         # Sonarqube project key. The default key will be 'owner-repository'.
@@ -69,5 +69,5 @@ jobs:
        # lintReport: # optional
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-     
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   
