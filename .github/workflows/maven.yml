@@ -45,10 +45,14 @@ jobs:
       env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       run: echo ::set-env name=JAVA_HOME::$(echo $JAVA_HOME)
-    - name: sonarqube scan
-   
-      uses: vtex/action-sonarqube@v1.1.0
+    
+       
+    - name: Official SonarQube Scan
+      # You may pin to the exact commit or the version.
+      # uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
+      uses: SonarSource/sonarqube-scan-action@v1.1.0
       with:
+        
         # SonarQube Server URL
         host: http://18.191.232.206:9000/
         # Sonarqube token
@@ -62,5 +66,6 @@ jobs:
         # Github token. https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
         githubToken: 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
         # Path to lint report json file. https://docs.sonarqube.org/pages/viewpage.action?pageId=11639183
-       # lintReport: # optional     
-       
+       # lintReport: # optional
+     
+  
