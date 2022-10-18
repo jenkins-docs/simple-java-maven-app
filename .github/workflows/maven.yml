@@ -67,7 +67,7 @@ jobs:
         githubToken: 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
         # Path to lint report json file. https://docs.sonarqube.org/pages/viewpage.action?pageId=11639183
        # lintReport: # optional
-    env:
+      env:
        token: ${{ secrets.SONAR_TOKEN }}
      
   
