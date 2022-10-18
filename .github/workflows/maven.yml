@@ -31,7 +31,7 @@ jobs:
     - name: set JDK 11 environment variables for kotlin compiler
       env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      run: echo ::set-env name=JDK_11::$(echo $JAVA_HOME)
+      run: echo ::set-env name=JAVA_HOME::$(echo $JAVA_HOME)
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
