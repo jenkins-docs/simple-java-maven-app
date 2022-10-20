@@ -7,15 +7,31 @@ pipeline {
   }
   stages {
     stage('Build') {
+      environment {
+        BUZZ_NAME = 'Worker bee'
+      }
       steps {
-        sh 'mvn -B -DskipTests clean package'
+        sh '''echo Hola soy $BUZZ_NAME
+mvn -B -DskipTests clean package'''
         archiveArtifacts(artifacts: 'target/*.jar', fingerprint: true)
       }
     }
 
     stage('Test') {
-      steps {
-        sh 'mvn test'
+      parallel {
+        stage('Test') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+
+        stage('Testing B') {
+          steps {
+            sh '''sleep 10
+echo done.'''
+          }
+        }
+
       }
     }
 
