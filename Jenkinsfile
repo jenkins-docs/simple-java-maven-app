@@ -13,6 +13,12 @@ pipeline {
       }
     }
 
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+      }
+    }
+
   }
   tools {
     maven 'mvn3'
