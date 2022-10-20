@@ -19,6 +19,12 @@ pipeline {
       }
     }
 
+    stage('Deploy') {
+      steps {
+        echo 'Despliegue'
+      }
+    }
+
   }
   tools {
     maven 'mvn3'
