@@ -1,23 +1,14 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'linux'
+    }
+
+  }
   stages {
-    stage('Fluffy Build') {
+    stage('Build') {
       steps {
-        echo 'Placeholder'
-        sh 'echo Edited Placeholder.'
-      }
-    }
-
-    stage('Fluffy Test') {
-      steps {
-        sh 'sleep 5'
-        sh 'echo Success!'
-      }
-    }
-
-    stage('Fluffy Deploy') {
-      steps {
-        echo 'Placeholder'
+        sh 'mvn -B -DskipTests clean package'
       }
     }
 
