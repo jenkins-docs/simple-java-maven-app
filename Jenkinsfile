@@ -18,8 +18,20 @@ mvn -B -DskipTests clean package'''
     }
 
     stage('Test') {
-      steps {
-        sh 'mvn test'
+      parallel {
+        stage('Test') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+
+        stage('Testing B') {
+          steps {
+            sh '''sleep 10
+echo done.'''
+          }
+        }
+
       }
     }
 
