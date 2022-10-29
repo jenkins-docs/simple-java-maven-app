@@ -1,8 +1,9 @@
 pipeline {
+    agent any
     
     stages {
         stage('Checkout') {
-        git 'https://github.com/JagdishMane/simple-java-maven-app.git'
+            git 'https://github.com/JagdishMane/simple-java-maven-app.git'
         }
         stage('Build') {
             steps {
