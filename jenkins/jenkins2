@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    
+    tools {
+      maven "maven_360"
+    }
     stages {
         stage('Checkout') {
             steps {
