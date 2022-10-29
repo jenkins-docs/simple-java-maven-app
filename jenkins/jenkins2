@@ -3,7 +3,9 @@ pipeline {
     
     stages {
         stage('Checkout') {
+            steps {
             git 'https://github.com/JagdishMane/simple-java-maven-app.git'
+            }
         }
         stage('Build') {
             steps {
