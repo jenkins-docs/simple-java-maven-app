@@ -40,14 +40,6 @@ public class AppTest
         }
     }
 
-    @Test
-    public void testAppConstructorTest() {
-        try {
-            new App();
-        } catch (Exception e) {
-            fail("Construction failed1.");
-        }
-    }
     @After
     public void cleanUpStreams() {
         System.setOut(null);
