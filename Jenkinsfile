@@ -5,7 +5,7 @@ node {
       }
    stage('build') {
       //build the code
-      def mvnHome = tool name: 'mvn', type: 'maven'
+      def mvnHome = tool name: 'maven', type: 'maven'
       def mvn = "${mvnHome}/bin/mvn"
       sh "${mvn} clean package"
 //      sh "/opt/apache-maven-3.6.3/bin/mvn clean package"
