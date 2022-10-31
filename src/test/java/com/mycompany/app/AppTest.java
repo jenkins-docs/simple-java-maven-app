@@ -41,13 +41,13 @@ public class AppTest
     }
 
      @Test
-    public void testAppMain()
+    public void testAppMainTest()
     {
         App.main(null);
         try {
             assertEquals("Hello DevOps!" + System.getProperty("line.separator"), outContent.toString());
         } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello World!\"");
+            fail("\"message\" is not \"Hello DevOps!\"");
         }
     }   
     @After
