@@ -26,5 +26,10 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
+        stage ('Nexus Storage'){
+            steps {
+                nexusArtifactUploader artifacts: [[artifactId: 'my-app', classifier: '', file: 'target/my-app-1.0-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus3', groupId: 'com.mycompany.app', nexusUrl: '54.158.173.182:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'http://54.158.173.182:8081/repository/Nexus-repository/', version: '1.0-SNAPSHOT'
+            }
+        }   
     }
 }
