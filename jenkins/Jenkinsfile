@@ -1,37 +1,17 @@
-pipeline {
-agent {
-    node {
-        label 'slave'
-    }
-}
-      tools {
-        maven 'maven354' 
-    }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
-       stage('complete') {
-            steps {
-                sh 'echo  "complete"'
-            }
-        }
-    }
+pipeline{
+
+agent{
+ node{
+   label 'slave2'
+ }
+ tools{
+   maven 'maven385'
+ }
+ stages{
+   stage("maven test"){
+    steps{
+	 sh 'mvn test'
+	}
+ }
+ 
 }
