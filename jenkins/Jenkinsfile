@@ -1,24 +1,22 @@
-pipeline{
+pipeline {
+	agent {
+	  node {
+	  label 'slave2'
+	  }
+	}
 
-agent{
-	 node{
-	   label 'slave2'
-	 }
- }
- tools{
-   maven 'maven385'
- }
- stages{
+	tools {
+	  maven 'maven385'
+	}
+stages{
    stage("maven test"){
-    steps{
-	 sh 'mvn test'
+     steps{
+	  sh ' mvn test'
 	 }
-	}
-	stage("maven build"){
-		steps{
-		 sh 'mvn clean package'
-		 }
-	}
- }
- 
+   }
+   stage("maven build"){
+     steps{
+	  sh 'mvn clean package'
+	 }
+   }
 }
