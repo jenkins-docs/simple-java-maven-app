@@ -1,0 +1,8 @@
+multibranchpipeline/branch1
+multibranchpipeline_branch1
+multibranchpipeline/master
+multibranchpipeline_master
+multibranchpipeline1/branch1
+multibranchpipeline1_branch1
+multibranchpipeline1/master
+multibranchpipeline1_master
