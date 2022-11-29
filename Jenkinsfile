@@ -29,7 +29,7 @@ pipeline{
 
         stage("Test"){
             steps{
-                echo "====++++running Test++++===="
+                echo "====++++running Test++++ addedd===="
                 sh 'mvn test'
             }
             post{
