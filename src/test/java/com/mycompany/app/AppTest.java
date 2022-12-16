@@ -1,11 +1,14 @@
 package com.mycompany.app;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.After;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit test for simple App.
@@ -15,7 +18,7 @@ public class AppTest
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
-    @Before
+    @BeforeEach
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
@@ -40,7 +43,7 @@ public class AppTest
         }
     }
 
-    @After
+    @AfterEach
     public void cleanUpStreams() {
         System.setOut(null);
     }
