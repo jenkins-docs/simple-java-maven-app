@@ -1,51 +1,25 @@
 package com.mycompany.app;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest
 {
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
-    @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-    }
-
     @Test
     public void testAppConstructor() {
-        try {
-            new App();
-        } catch (Exception e) {
-            fail("Construction failed.");
-        }
+        App app1 = new App();
+        App app2 = new App();
+        assertEquals(app1.getMessage(), app2.getMessage());
     }
 
     @Test
-    public void testAppMain()
+    public void testAppMessage()
     {
-        App.main(null);
-        try {
-            assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
-        } catch (AssertionError e) {
-            fail("\"message\" is not \"Hello World!\"");
-        }
+        App app = new App();
+        assertEquals("Hello World!", app.getMessage());
     }
-
-    @AfterEach
-    public void cleanUpStreams() {
-        System.setOut(null);
-    }
-
 }
