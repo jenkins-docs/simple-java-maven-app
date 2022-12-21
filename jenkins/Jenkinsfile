@@ -26,5 +26,10 @@ pipeline {
                 echo 'inComplete'
             }
         }
+        stage('newStage') {
+            steps {
+                echo 'newStage'
+            }
+        }
     }
 }
