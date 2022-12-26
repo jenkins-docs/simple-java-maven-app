@@ -6,12 +6,12 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Build Stage') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Test') {
+        stage('Test Stage') {
             steps {
                 sh 'mvn test'
             }
@@ -21,7 +21,7 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Delivery') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
