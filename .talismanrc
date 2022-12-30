@@ -2,4 +2,4 @@ custom_patterns:
 - ^.+\.yml$ 
 custom_severities:
 - detector: HexContent
-  severity: medium
+  severity: low
