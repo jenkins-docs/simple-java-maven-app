@@ -1,2 +1,5 @@
 custom_patterns:
 - ^.+\.yml$ 
+custom_severities:
+- detector: PemFile
+  severity: medium
