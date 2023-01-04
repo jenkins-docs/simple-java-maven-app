@@ -1,12 +1,12 @@
 pipeline {
 	agent {
 	  node {
-	  label 'slave2'
+	  label 'slave1'
 	  }
 	}
 
 	tools {
-	  maven 'maven385'
+	  maven 'maven386'
 	}
 stages{
    stage("maven test"){
@@ -16,7 +16,7 @@ stages{
    }
    stage("maven build"){
      steps{
-	  sh 'mvn clean package'
+	  sh 'mvn package'
 	 }
    }
 }
