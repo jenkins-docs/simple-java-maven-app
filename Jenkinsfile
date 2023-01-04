@@ -11,7 +11,7 @@ pipeline {
     stage('Unit Test') {
       steps {
         sh 'mvn test'
-        junit '**/target/surefire-reports/TEST-*.xml'
+        junit '/var/lib/jenkins/workspace/simple-java-maven-app_pipeline/target/surefire-reports/TEST-*.xml'
       }
     }
 
