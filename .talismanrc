@@ -1,7 +1,7 @@
 custom_patterns:
 - username
 - password
-- token
+- Token
 custom_severities:
 - detector: OpenVPNFile
   severity: high
