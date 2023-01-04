@@ -14,5 +14,14 @@ pipeline {
       }
     }
 
+    stage('Static Analysis') {
+      steps {
+        sh '''mvn clean verify sonar:sonar \\
+  -Dsonar.projectKey=Simple-Java-Maven-New \\
+  -Dsonar.host.url=http://3.110.235.71:9000 \\
+  -Dsonar.login=sqp_73791b0c81677e7fd093e4901b78740dd8d4174a'''
+      }
+    }
+
   }
 }
