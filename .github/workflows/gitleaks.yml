@@ -10,5 +10,5 @@ jobs:
         fetch-depth: '1'
     - uses: gitleaks/gitleaks-action@v2
       env:
-          GITLEAKS_CONFIG: config/.gitleaks.toml
+          #GITLEAKS_CONFIG: config/.gitleaks.toml
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}}
