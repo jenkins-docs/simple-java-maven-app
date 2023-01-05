@@ -1,7 +1,7 @@
 [[rules]]
 	description = "API Key"
 	regex = '''[a-zA-z_0-9]*(?i)(api_key|token|apikey|db_pass|db_password)["']*(\s)*[=:](\s)*["'][a-zA-z+0-9_/!+=]+['"]'''
-	tags = ["key", "APIKEY"]
+	tags = ["key", "api_key","APIKEY"]
 		[rules.allowlist]
 		description = "ignore non sensitive key"
 		regexes = [
