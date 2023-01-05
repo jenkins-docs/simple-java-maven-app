@@ -12,7 +12,7 @@ jobs:
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@main
         with:
-          path: .github/workflows/trufflehog.yml
+          path: ./
           base: ${{ github.event.before }}
           head: HEAD
-          extra_args: --debug --only-verified 
+          #extra_args: --debug --only-verified 
