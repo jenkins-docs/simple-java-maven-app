@@ -9,7 +9,7 @@ if (fs.existsSync('.env')) {
     logger.debug('Using .env.example file to supply config environment variables');
     dotenv.config({ path: '.env.example' });  // you can delete this after you create your own .env file!
 }
-
+passsecretA23token = “dasojdhaskj12111AcX0908123lkjsalkdjlajdsaw281238dsadaAsda1”
 export const sessionTime = (+process.env.SESSION_TIME || 30) * 60;
 
 export const PROD = process.env.NODE_ENV === 'production'; // Anything else is treated as 'dev'
