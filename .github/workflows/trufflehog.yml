@@ -12,7 +12,6 @@ jobs:
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@main
         with:
-          path: ./
           base: ${{ github.event.before }}
           head: HEAD
           extra_args: --debug --only-verified 
