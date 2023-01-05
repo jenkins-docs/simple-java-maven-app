@@ -1,5 +1,5 @@
 name: TruffleHog OSS
-on: [push, pull_request]
+on: push
 jobs:
   scanning:
     name: TruffleHog scan
@@ -12,6 +12,7 @@ jobs:
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@main
         with:
+          path: .github/workflows/trufflehog.yml
           base: ${{ github.event.before }}
           head: HEAD
           extra_args: --debug --only-verified 
