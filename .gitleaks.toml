@@ -1,0 +1,22 @@
+[[rules]]
+	description = "API Key"
+	regex = '''[a-zA-z_0-9]*(?i)(api_key|token|apikey|db_pass|db_password)["']*(\s)*[=:](\s)*["'][a-zA-z+0-9_/!+=]+['"]'''
+	tags = ["key", "APIKEY"]
+		[rules.allowlist]
+		description = "ignore non sensitive key"
+		regexes = [
+		    '''(?i)(TEST_TOKEN|DUMMY_KEY)["'a-z\sA-z0-9_=]*'''
+		]	
+		[[rules.Entropies]]
+			Min = "4.3"
+			Max = "8.0"
+
+[[rules]]
+          description = "Slack"
+          regex = '''xox[baprs]-([0-9a-zA-Z]{10,48})?'''
+          tags = ["key", "Slack"]
+
+
+[allowlist]
+          description = "global allowlist. whitelisting paths"
+          paths = ['''test/*''']
