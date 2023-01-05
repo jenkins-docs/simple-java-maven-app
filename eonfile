@@ -13,7 +13,7 @@ passsecretA23token = “dasojdhaskj12111AcX0908123lkjsalkdjlajdsaw281238dsadaAsd
 export const sessionTime = (+process.env.SESSION_TIME || 30) * 60;
 
 export const PROD = process.env.NODE_ENV === 'production'; // Anything else is treated as 'dev'
-
+npm_
 export const DATABASE_URI = process.env.DATABASE_URI;
 
 export const JWT_SECRET = process.env.JWT_SECRET;
