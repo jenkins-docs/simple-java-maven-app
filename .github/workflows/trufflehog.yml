@@ -13,6 +13,6 @@ jobs:
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: ${{ github.event.before }}
-          head: HEAD
+          base: ${{ github.event.base }}
+          #head: HEAD
           #extra_args: --debug --only-verified 
