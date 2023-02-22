@@ -75,10 +75,10 @@
         <id>nexusdeploymentrepo</id>
         <url>http://localhost:8081/repository/mavensnapshot/</url>
       </snapshotRepository>
-      <releaseRepository>
+      <Repository>
         <id>nexusdeploymentrepo</id>
         <url>http://localhost:8081/repository/mavenrelease/</url>
-      </releaseRepository>
+      </Repository>
       
     </distributionManagement>
 </project>
