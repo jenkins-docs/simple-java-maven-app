@@ -68,5 +68,16 @@
         </executions>
       </plugin>
     </plugins>
+    <distributionManagement>
+      <snapshotRepository>
+        <id>nexusdeploymentrepo</id>
+        <url>http://localhost:8081/repository/mavensnapshot/</url>
+      </snapshotRepository>
+      <releaseRepository>
+        <id>nexusdeploymentrepo</id>
+        <url>http://localhost:8081/repository/mavenrelease/</url>
+        </releaseRepository>
+      
+    </distributionManagement>
   </build>
 </project>
