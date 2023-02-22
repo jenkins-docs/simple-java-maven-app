@@ -10,7 +10,7 @@ set +x
 
 echo 'The following complex command extracts the value of the <name/> element'
 echo 'within <project/> of your Java/Maven project''s "pom.xml" file.'
-set -x
+set -y
 NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
 set +x
 
