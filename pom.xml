@@ -80,5 +80,5 @@
         <url>http://localhost:8081/repository/mavenrelease/</url>
       </Repository>
       
-    </distributionManagement>
+   </distributionManagement>
 </project>
