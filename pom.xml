@@ -78,7 +78,7 @@
       <releaseRepository>
         <id>nexusdeploymentrepo</id>
         <url>http://localhost:8081/repository/mavenrelease/</url>
-        </releaseRepository>
+      </releaseRepository>
       
     </distributionManagement>
 </project>
