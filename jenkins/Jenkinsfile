@@ -2,7 +2,7 @@ pipeline {
     agent {
          label 'j-node' 
         }
-    }
+    
     stages {
         stage('Build') {
             steps {
@@ -30,4 +30,4 @@ pipeline {
     }
 }
     }
-}
+
