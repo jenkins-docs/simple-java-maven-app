@@ -5,7 +5,7 @@ node {
     notifyStarted()
     def mvnHome
     stage('checkout') { // for display purposes
-        // Get some code from a GitHub repository
+        // Getting the code from a GitHub repository
         git 'https://github.com/pramilahalyal/simple-java-maven-app.git'
         // Get the Maven tool.
         // ** NOTE: This 'M3' Maven tool must be configured
