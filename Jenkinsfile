@@ -1,11 +1,9 @@
-
-
 node {
     try {
     notifyStarted()
     def mvnHome
     stage('checkout') { // for display purposes
-      
+        // Get some code from a GitHub repository
         git 'https://github.com/pramilahalyal/simple-java-maven-app.git'
         // Get the Maven tool.
         // ** NOTE: This 'M3' Maven tool must be configured
@@ -14,7 +12,6 @@ node {
     }
     stage('Build') {
         // Run the maven build
-        //getting maven home path
         withEnv(["MVN_HOME=$mvnHome"]) {
             if (isUnix()) {
                 sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
@@ -38,11 +35,12 @@ node {
    
   
     stage('Code gate check'){
-        timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+        timeout(time: 5, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
          def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
         if (qg.status != 'OK') {
             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-               
+        
+        
             }
     
         }
@@ -98,4 +96,3 @@ def notifyFailed() {
       recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
 }
-
