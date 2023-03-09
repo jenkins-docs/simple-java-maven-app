@@ -14,7 +14,9 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                IMAGE_NAME = "${DOCKER_REGISTRY}hello-world:${TAG}"
+                script {
+                    IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
+                }
             }
         }
 
