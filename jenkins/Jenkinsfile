@@ -18,7 +18,8 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    println(env.CHANGE_ID)
+                    println("BRANCH - ${BRANCH_NAME}")
+                    println("PRID - ${env.CHANGE_ID}")
                     if (BRANCH_NAME == 'master') {
                         TAG = 'latest'
                     } else {
@@ -71,9 +72,12 @@ pipeline {
             }
         }
 
-        stage('Deliver') {
+        stage('Push image') {
             steps {
-                sh "docker run -it --rm ${FINAL_IMAGE_NAME}"
+                withCredentials([usernamePassword(credentialsId: 'github_registry', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
+                    sh "docker push ${FINAL_IMAGE_NAME}"
+                }
             }
         }
     }
