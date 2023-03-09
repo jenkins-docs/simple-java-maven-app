@@ -1,10 +1,4 @@
 pipeline {
-    // agent {
-    //     docker {
-    //         image 'maven:3-alpine'
-    //         args '-v /var/run/docker.sock:/var/run/docker.sock'
-    //     }
-    // }
 
     agent { label 'master' }
     
@@ -79,6 +73,12 @@ pipeline {
                     sh "docker push ${FINAL_IMAGE_NAME}"
                 }
             }
+        }
+    }
+
+    post { 
+        always { 
+            cleanWS()
         }
     }
 }
