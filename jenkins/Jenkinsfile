@@ -23,7 +23,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir(APP_PATH) {
-                    sh 'docker build -t ${IMAGE_NAME} -f Dockerfile .'
+                    sh "docker build -t ${IMAGE_NAME} -f Dockerfile ."
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir(APP_PATH) {
-                    sh 'docker run ${IMAGE_NAME} mvn test'
+                    sh "docker run ${IMAGE_NAME} mvn test"
                 }
             }
 
