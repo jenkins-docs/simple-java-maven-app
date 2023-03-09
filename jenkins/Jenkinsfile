@@ -2,25 +2,31 @@ pipeline {
     agent { label "jenkins-agent" }
     
     tools {
-        maven '3.9.0'
+        dockerTool 'docker'
     }
 
     environment {
         APP_PATH = "apps/hello-world"
+        DOCKER_REGISTRY = "ghcr.io/dos11-onl"
+        TAG = "latest"
     }
     
     stages {
+        stage('Prepare') {
+            steps {
+                IMAGE_NAME = "${DOCKER_REGISTRY}hello-world:${TAG}"
+        }
         stage('Build') {
             steps {
                 dir(APP_PATH) {
-                    sh 'mvn -B -DskipTests clean package'
+                    sh 'docker build -t ${IMAGE_NAME} -f Dockerfile .'
                 }
             }
         }
         stage('Test') {
             steps {
                 dir(APP_PATH) {
-                    sh 'mvn test'
+                    sh 'docker run ${IMAGE_NAME} mvn test'
                 }
             }
 
