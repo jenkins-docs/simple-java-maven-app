@@ -18,7 +18,15 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
+                    println(env.CHANGE_ID)
+                    if (BRANCH_NAME == 'master') {
+                        TAG = 'latest'
+                    } else {
+                        TAG = env.CHANGE_ID
+                    }
+                    IMAGE_NAME = "hello-world:${TAG}"
+                    FINAL_IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
+                    CONTAINER_NAME = "hello"
                 }
             }
         }
@@ -45,10 +53,28 @@ pipeline {
             // }
         }
 
-        // stage('Deliver') {
-        //     steps {
-        //         sh './jenkins/scripts/deliver.sh'
-        //     }
-        // }
+        stage('Create image') {
+            when { expression { BRANCH_NAME == 'master'}}
+            steps {
+                script {
+                    dir(APP_PATH) {
+                        sh"""
+                        mkdir target
+                        docker create --name ${CONTAINER_NAME} ${IMAGE_NAME}
+                        docker cp ${CONTAINER_NAME}:/app/target/my-app-1.0-SNAPSHOT.jar target/
+                        ls -la target/
+                        docker rm -f ${CONTAINER_NAME}
+                        docker build -t ${FINAL_IMAGE_NAME} -f Dockerfile-create .
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Deliver') {
+            steps {
+                sh "docker run -it --rm ${FINAL_IMAGE_NAME}"
+            }
+        }
     }
 }
