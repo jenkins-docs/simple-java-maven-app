@@ -2,7 +2,7 @@ node {
     try {
     notifyStarted()
     def mvnHome
-    stage('checkout') { // for display purposes
+    stage('SCM checkout') { // for display purposes
         // Get some code from a GitHub repository
         git 'https://github.com/pramilahalyal/simple-java-maven-app.git'
         // Get the Maven tool.
@@ -20,7 +20,7 @@ node {
             }
         }
     }
-    stage('Results') {
+    stage('Test Results') {
         junit '**/target/surefire-reports/TEST-*.xml'
         archiveArtifacts 'target/*.jar'
     }
