@@ -10,6 +10,7 @@ pipeline {
     environment {
         APP_PATH = "apps/hello-world"
         DOCKER_REGISTRY = "ghcr.io/dos11-onl"
+        DOCKER_CRED = 'github_PAT'
         TAG = "latest"
     }
     
@@ -73,7 +74,7 @@ pipeline {
 
         stage('Push image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github_registry', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
                     sh "docker push ${FINAL_IMAGE_NAME}"
                 }
