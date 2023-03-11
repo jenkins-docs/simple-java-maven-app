@@ -46,12 +46,16 @@ pipeline {
                     sh "docker run ${IMAGE_NAME} mvn test"
                 }
             }
-
-            // post {
-            //     always {
-            //         junit 'target/surefire-reports/*.xml'
-            //     }
-            // }
+            post {
+                always {
+                    sh """
+                        [[ -d target ]] || mkdir target
+                        docker create --name ${CONTAINER_NAME} ${IMAGE_NAME}
+                        docker cp ${CONTAINER_NAME}:/app/target/surefire-reports/*.xml target/"
+                    """
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
         }
 
         stage('Create image') {
@@ -60,7 +64,7 @@ pipeline {
                 script {
                     dir(APP_PATH) {
                         sh"""
-                        mkdir target
+                        [[ -d target ]] || mkdir target
                         docker create --name ${CONTAINER_NAME} ${IMAGE_NAME}
                         docker cp ${CONTAINER_NAME}:/app/target/my-app-1.0-SNAPSHOT.jar target/
                         ls -la target/
@@ -73,6 +77,7 @@ pipeline {
         }
 
         stage('Push image') {
+            when { expression { BRANCH_NAME == 'master'}}
             steps {
                 withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
