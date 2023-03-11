@@ -43,17 +43,19 @@ pipeline {
         stage('Test') {
             steps {
                 dir(APP_PATH) {
-                    sh "docker run ${IMAGE_NAME} mvn test"
+                    sh """
+                    [ -d target ] || mkdir target
+                    docker run --name ${CONTAINER_NAME} ${IMAGE_NAME} mvn test &&
+                    docker cp ${CONTAINER_NAME}:/app/target/surefire-reports/ target/surefire-reports/
+                    docker rm -f ${CONTAINER_NAME}
+                    """
                 }
             }
             post {
                 always {
-                    sh """
-                        [[ -d target ]] || mkdir target
-                        docker create --name ${CONTAINER_NAME} ${IMAGE_NAME}
-                        docker cp ${CONTAINER_NAME}:/app/target/surefire-reports/*.xml target/"
-                    """
-                    junit 'target/surefire-reports/*.xml'
+                    dir(APP_PATH) {
+                        junit 'target/surefire-reports/*.xml'
+                    }
                 }
             }
         }
@@ -64,7 +66,7 @@ pipeline {
                 script {
                     dir(APP_PATH) {
                         sh"""
-                        [[ -d target ]] || mkdir target
+                        [ -d target ] || mkdir target
                         docker create --name ${CONTAINER_NAME} ${IMAGE_NAME}
                         docker cp ${CONTAINER_NAME}:/app/target/my-app-1.0-SNAPSHOT.jar target/
                         ls -la target/
