@@ -1,6 +1,11 @@
 pipeline {
 
-    agent { label 'master' }
+    agent {
+        docker {
+            image 'docker:dind'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     
     environment {
         APP_PATH = "apps/hello-world"
