@@ -1,3 +1,23 @@
+def stagePrepare(apps) {
+    buildStageList = []
+    buildParallelMap = [:]
+    apps.each { app. value ->
+        buildParallelMap.put(app, stageCreate(app, value))
+    }
+    buildStageList.add(buildParallelMap)
+    return buildStageList
+}
+
+def stageCreate (app, value) {
+    return {
+        stage(app) {
+            dir(value.path) {
+                sh "docker build -t ${app} -f Dockerfile ."
+            }
+        }
+    }
+}
+
 pipeline {
 
     agent {
@@ -30,6 +50,7 @@ pipeline {
                     // FINAL_IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
                     // CONTAINER_NAME = "hello"
                     apps = readJSON file: SERVICES_FILE
+                    buildStages = stagePrepare(apps)
                 }
             }
         }
@@ -37,10 +58,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    apps.each { app, value ->
-                        dir(value.path) {
-                            sh "docker build -t ${app} -f Dockerfile ."
-                        }
+                    buildStages.each { build ->
+                        parallel build
                     }
                 }
             }
