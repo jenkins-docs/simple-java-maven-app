@@ -33,6 +33,8 @@ pipeline {
         DOCKER_CRED = 'github_PAT'
         TAG = "latest"
         SERVICES_FILE = "devops/services.json"
+        TELEGRAM_CRED = 'telegram-token'
+        CHAT_ID = '-1001926338613'
     }
     
     stages {
@@ -131,6 +133,14 @@ pipeline {
     post { 
         always { 
             cleanWs()
+            withCredentials([string(credentialsId: TELEGRAM_CRED, variable: 'TOKEN')]) {
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage
+                    -d chat_id=${CHAT_ID}
+                    -d parse_mode=markdown
+                    -d text='*${env.JOB_NAME}* *BRANCH:* ${env.BRANCH_NAME} *BUILD:* ${currentBuild.currentResult}'
+                """
+            }
         }
     }
 }
