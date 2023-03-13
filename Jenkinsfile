@@ -39,12 +39,15 @@ node {
          def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
         if (qg.status != 'OK') {
             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        
-        
+                
             }
-    
         }
     }
+    
+        stage('Nexus Upload'){
+            nexusArtifactUploader artifacts: [[artifactId: 'my-app', classifier: '', file: 'target/my-app-1.0-SNAPSHOT', type: 'jar']], credentialsId: '35c318a1-5c2d-47fe-8483-a2213cacd3ab', groupId: 'com.mycompany.app', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'test_snapshot', version: '1.0-SNAPSHOT'
+        }
+      
     notifySuccessful()
 
      } catch (e) {
