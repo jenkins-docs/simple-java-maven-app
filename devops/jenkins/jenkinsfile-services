@@ -36,9 +36,11 @@ pipeline {
 
         stage('Build') {
             steps {
-                apps.each { app, value ->
-                    dir(value.path) {
-                        sh "docker build -t ${app} -f Dockerfile ."
+                script {
+                    apps.each { app, value ->
+                        dir(value.path) {
+                            sh "docker build -t ${app} -f Dockerfile ."
+                        }
                     }
                 }
             }
@@ -46,14 +48,16 @@ pipeline {
 
         stage('Test') {
             steps {
-                apps.each { app, value ->
-                    dir(value.path) {
-                        sh """
-                        [ -d target ] || mkdir target
-                        docker run --name ${app} ${app} mvn test &&
-                        docker cp ${app}:/app/target/surefire-reports/ target/surefire-reports/
-                        docker rm -f ${app}
-                        """
+                script {
+                    apps.each { app, value ->
+                        dir(value.path) {
+                            sh """
+                            [ -d target ] || mkdir target
+                            docker run --name ${app} ${app} mvn test &&
+                            docker cp ${app}:/app/target/surefire-reports/ target/surefire-reports/
+                            docker rm -f ${app}
+                            """
+                        }
                     }
                 }
             }
@@ -91,10 +95,12 @@ pipeline {
         stage('Push image') {
             when { expression { BRANCH_NAME == 'master'}}
             steps {
-                withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
-                    sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
-                    apps.each { app, value ->
-                        sh "docker push ${app}:${TAG}"
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
+                        sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
+                        apps.each { app, value ->
+                            sh "docker push ${app}:${TAG}"
+                        }
                     }
                 }
             }
