@@ -45,7 +45,7 @@ node {
     }
     
         stage('Nexus Upload'){
-            nexusArtifactUploader artifacts: [[artifactId: 'my-app', classifier: '', file: 'MavenJob/target/my-app-1.0-SNAPSHOT', type: 'jar']], credentialsId: '35c318a1-5c2d-47fe-8483-a2213cacd3ab', groupId: 'com.mycompany.app', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'test_snapshot', version: '1.0-SNAPSHOT'
+            nexusArtifactUploader artifacts: [[artifactId: 'my-app', classifier: '', file: 'Scripted_Pipeline/target/my-app-1.0-SNAPSHOT', type: 'jar']], credentialsId: '35c318a1-5c2d-47fe-8483-a2213cacd3ab', groupId: 'com.mycompany.app', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'test_snapshot', version: '1.0-SNAPSHOT'
         }
       
     notifySuccessful()
