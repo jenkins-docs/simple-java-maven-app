@@ -1,7 +1,7 @@
 def stagePrepare(apps) {
     buildStageList = []
     buildParallelMap = [:]
-    apps.each { app. value ->
+    apps.each { app, value ->
         buildParallelMap.put(app, stageCreate(app, value))
     }
     buildStageList.add(buildParallelMap)
