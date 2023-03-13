@@ -1,0 +1,109 @@
+pipeline {
+
+    agent {
+        docker {
+            image 'docker:dind'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    
+    environment {
+        APP_PATH = "apps/hello-world"
+        DOCKER_REGISTRY = "ghcr.io/dos11-onl"
+        DOCKER_CRED = 'github_PAT'
+        TAG = "latest"
+        SERVICES_FILE = "devops/services.json"
+    }
+    
+    stages {
+        stage('Prepare') {
+            steps {
+                script {
+                    println("BRANCH - ${BRANCH_NAME}")
+                    println("PRID - ${env.CHANGE_ID}")
+                    if (BRANCH_NAME == 'master') {
+                        TAG = 'latest'
+                    } else {
+                        TAG = env.CHANGE_ID
+                    }
+                    // IMAGE_NAME = "hello-world:${TAG}"
+                    // FINAL_IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
+                    // CONTAINER_NAME = "hello"
+                    apps = readJSON file: SERVICES_FILE
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                apps.each { app, value ->
+                    dir(value.path) {
+                        sh "docker build -t ${app} -f Dockerfile ."
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                apps.each { app, value ->
+                    dir(value.path) {
+                        sh """
+                        [ -d target ] || mkdir target
+                        docker run --name ${app} ${app} mvn test &&
+                        docker cp ${app}:/app/target/surefire-reports/ target/surefire-reports/
+                        docker rm -f ${app}
+                        """
+                    }
+                }
+            }
+            post {
+                always {
+                    apps.each { app, value ->
+                        dir(value.path) {
+                            junit 'target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Create image') {
+            when { expression { BRANCH_NAME == 'master'}}
+            steps {
+                script {
+                    apps.each { app, value ->
+                        dir(value.path) {
+                            sh"""
+                            [ -d target ] || mkdir target
+                            docker create --name ${app} ${app}
+                            docker cp ${app}:/app/target/my-app-1.0-SNAPSHOT.jar target/
+                            ls -la target/
+                            docker rm -f ${app}
+                            docker build -t ${app}:${TAG} -f Dockerfile-create .
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Push image') {
+            when { expression { BRANCH_NAME == 'master'}}
+            steps {
+                withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
+                    apps.each { app, value ->
+                        sh "docker push ${app}:${TAG}"
+                    }
+                }
+            }
+        }
+    }
+
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+}
