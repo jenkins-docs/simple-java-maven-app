@@ -86,7 +86,7 @@ pipeline {
                             docker cp ${app}:/app/target/my-app-1.0-SNAPSHOT.jar target/
                             ls -la target/
                             docker rm -f ${app}
-                            docker build -t ${app}:${TAG} -f Dockerfile-create .
+                            docker build -t ${DOCKER_REGISTRY}/${app}:${TAG} -f Dockerfile-create .
                             """
                         }
                     }
@@ -101,7 +101,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: DOCKER_CRED, passwordVariable: 'pass', usernameVariable: 'user')]) {
                         sh "echo ${pass} | docker login ghcr.io -u ${user} --password-stdin"
                         apps.each { app, value ->
-                            sh "docker push ${app}:${TAG}"
+                            sh "docker push ${DOCKER_REGISTRY}/${app}:${TAG}"
                         }
                     }
                 }
