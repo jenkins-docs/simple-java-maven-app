@@ -63,9 +63,11 @@ pipeline {
             }
             post {
                 always {
-                    apps.each { app, value ->
-                        dir(value.path) {
-                            junit 'target/surefire-reports/*.xml'
+                    script {
+                        apps.each { app, value ->
+                            dir(value.path) {
+                                junit 'target/surefire-reports/*.xml'
+                            }
                         }
                     }
                 }
