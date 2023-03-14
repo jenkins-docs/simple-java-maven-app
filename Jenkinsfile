@@ -1,6 +1,10 @@
 pipeline {
 	agent {
-		label 'maven'
+		label 'ubuntu'
+	}
+	
+	tools {
+		maven 'maven3.8.6'
 	}
 
 	stages {
@@ -8,6 +12,10 @@ pipeline {
 			steps {
 				sh 'mvn clean install'
 			}
+		}
+		
+		stage('Test') {
+			sh 'mvn test'
 		}
 	}
 }
