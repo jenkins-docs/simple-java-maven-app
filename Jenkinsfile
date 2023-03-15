@@ -26,6 +26,15 @@ pipeline {
 				sh 'mvn test'
 			}
 		}
+
+		stage('Deploy') {
+			steps {
+				echo "Deploying to DEV environment..."
+				sshagent(['ssh-agent-key']) {
+				    sh 'scp target/*.jar centos@172.31.6.122:/home/centos'
+				}
+			}
+		}
 	}
 
 	post {
