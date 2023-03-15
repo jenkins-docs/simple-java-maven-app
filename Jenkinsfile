@@ -31,7 +31,7 @@ pipeline {
 			steps {
 				echo "Deploying to DEV environment..."
 				sshagent(['ssh-agent-key']) {
-				    sh 'scp target/*.jar centos@172.31.6.122:/home/centos'
+				    sh 'scp -o StrictHostKeyChecking=no target/*.jar centos@172.31.6.122:/home/centos'
 				}
 			}
 		}
