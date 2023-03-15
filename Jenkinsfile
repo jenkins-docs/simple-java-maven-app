@@ -27,4 +27,20 @@ pipeline {
 			}
 		}
 	}
+
+	post {
+		always {
+			// delete workspace dir in agent
+			deleteDir()
+		}
+
+		success {
+			echo "Job successful..."
+		}
+
+		failure {
+			echo "sendmail -s Maven Job Failed contact@company.com"
+		}
+
+	}
 }
