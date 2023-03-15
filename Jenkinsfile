@@ -7,6 +7,11 @@ pipeline {
 		maven 'maven3.8.6'
 	}
 
+	environment {
+		TARGET_USER = "centos"
+		TARGET_SERVER = "172.31.6.122"
+	}
+
 	options {
 		timestamps()
 		timeout(10)
@@ -31,7 +36,7 @@ pipeline {
 			steps {
 				echo "Deploying to DEV environment..."
 				sshagent(['ssh-agent-key']) {
-				    sh 'scp -o StrictHostKeyChecking=no target/*.jar centos@172.31.6.122:/home/centos'
+				    sh 'scp -o StrictHostKeyChecking=no target/*.jar ${TARGET_USER}@${TARGET_SERVER}:/home/centos'
 				}
 			}
 		}
