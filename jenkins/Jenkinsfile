@@ -7,8 +7,7 @@ pipeline {
             }
              post {
                  always {
-                     // previous to version 2.0.0 you must provide parameters to this command (see below)!
-                     jiraSendBuildInfo() 
+                     jiraSendBuildInfo site: 'magdeline22.atlassian.net', branch: 'TEST-123-awesome-feature'
                  }
              }
         }
