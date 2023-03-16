@@ -1,18 +1,22 @@
-def stagePrepare(apps) {
+def stagePrepare(apps, parallelExecuteCount) {
     buildStageList = []
     buildParallelMap = [:]
-    apps.each { app, value ->
-        buildParallelMap.put(app, stageCreate(app, value))
+    apps.eachWithIndex { app, value, i ->
+        Integer lock_id = i % parallelExecuteCount
+        println lock_id
+        buildParallelMap.put(app, stageCreate(app, value, lock_id))
     }
     buildStageList.add(buildParallelMap)
     return buildStageList
 }
 
-def stageCreate (app, value) {
+def stageCreate (app, value, lock_id) {
     return {
         stage(app) {
-            dir(value.path) {
-                sh "docker build -t ${app} -f Dockerfile ."
+            lock("Build-lock-${lock_id}") {
+                dir(value.path) {
+                    sh "docker build -t ${app} -f Dockerfile ."
+                }
             }
         }
     }
@@ -48,11 +52,12 @@ pipeline {
                     } else {
                         TAG = env.CHANGE_ID
                     }
+                    Integer parallelExecuteCount = 2
                     // IMAGE_NAME = "hello-world:${TAG}"
                     // FINAL_IMAGE_NAME = "${DOCKER_REGISTRY}/hello-world:${TAG}"
                     // CONTAINER_NAME = "hello"
                     apps = readJSON file: SERVICES_FILE
-                    buildStages = stagePrepare(apps)
+                    buildStages = stagePrepare(apps, parallelExecuteCount)
                 }
             }
         }
