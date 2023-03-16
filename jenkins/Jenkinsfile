@@ -7,7 +7,7 @@ pipeline {
             }
              post {
                  always {
-                     jiraSendBuildInfo site: 'magdeline22.atlassian.net', branch: 'TEST-12837-awesome-feature'
+                     jiraSendBuildInfo site: 'magdeline22.atlassian.net', branch: 'TEST-12837-awesomes-feature'
                  }
              }
         }
