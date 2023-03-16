@@ -22,6 +22,42 @@ def stageCreate (app, value, lock_id) {
     }
 }
 
+def getPrId(branch) {
+    if (branch =~ /PR-*/) {
+        prId = env.CHANGE_ID
+    } else {
+        prId = "None"
+    }
+    return prId
+}
+
+def httpRequestGet (requestURL, auth) {
+    try {
+        def url = new URL(requestURL)
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection()
+        // conn = new URL(requestURL).openConnection()
+        conn.setRequestMethod("GET")
+        conn.setRequestProperty("Accept", "application/vnd.github+json")
+        conn.setRequestProperty("Authorization", "Bearer ${auth}")
+        conn.setRequestProperty("X-GitHub-Api-Version", "2022-11-28")
+
+        def getRC = conn.getResponseCode()
+        println ("Responce Code: ${getRC}")
+        if (getRC.equals(200)) {
+            data = conn.getInputStream().getText()
+            // def jsonSlurper = new JsonSlurper()
+            // def object = jsonSlurper.parseText(resp)
+            // query = object['data'][vault_field]
+        }
+        // conn.connect()
+        // data = conn.content.text
+    } catch (err) {
+        println "Failure get data from requestURL (${err.getMessage()})"
+    }
+    // conn.close()
+    return data
+}
+
 pipeline {
 
     agent {
@@ -39,6 +75,8 @@ pipeline {
         SERVICES_FILE = "devops/services.json"
         TELEGRAM_CRED = 'telegram-token'
         CHAT_ID = '-1001926338613'
+        REPO_OWNER = 'DOS11-onl'
+        REPO = 'simple-java-maven-app'
     }
     
     stages {
@@ -58,6 +96,22 @@ pipeline {
                     // CONTAINER_NAME = "hello"
                     apps = readJSON file: SERVICES_FILE
                     buildStages = stagePrepare(apps, parallelExecuteCount)
+                }
+            }
+        }
+
+        stage('Get diff') {
+            steps {
+                script {
+                    PR_DIFF = []
+                    PR_ID = getPrId(env.BRANCH_NAME)
+                    requestURL="https://api.github.com/repos/${REPO_OWNER}/${REPO}/pulls/${PR_ID}/files"
+                    withCredentials([usernamePassword(credentialsId: 'github_PAT', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                        PR_DIFF_DATA  = httpRequestGet(requestURL, pass)
+                    }
+
+                    COMMIT_ID = sh(returnStdout: true, script: "git log -1").trim()
+                    DIFF = sh(returnStdout: true, script: "git diff HEAD..${COMMIT_ID}").trim()
                 }
             }
         }
