@@ -25,7 +25,11 @@ pipeline {
                 sh 'mvn clean package'
                
             }
-        }  
+        }
+         stage('Nexus upload') {
+          sh 'curl -v -u KnowYourChallan:KnowYourChallan --upload-file /var/jenkins_home/workspace/test4/target/KnowYourChallan.war http://10.246.82.163/repository/KnowYourChallan/$(date +%Y-%m-%d-%H-%M)/KnowYourChallan.war'
+        }
+        
       
     }
 }
