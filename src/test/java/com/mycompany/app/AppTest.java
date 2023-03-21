@@ -39,6 +39,17 @@ public class AppTest
             fail("\"message\" is not \"Hello World!\"");
         }
     }
+    
+    @Test
+    public void testAppMain_sub()
+    {
+        App.main(null);
+        try {
+            assertEquals("Welcome to Jenkins Webinar!" + System.getProperty("line.separator"), outContent.toString());
+        } catch (AssertionError e) {
+            fail("\"message\" is not \"Welcome to Jenkins Webinar!\"");
+        }
+    }
 
     @After
     public void cleanUpStreams() {
