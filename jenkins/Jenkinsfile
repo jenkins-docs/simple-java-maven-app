@@ -24,11 +24,6 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }        
-        stage('2nd Build') {
-            steps {
-                echo "Finish"
-            }
-        }
-        
+    
     }
 }
