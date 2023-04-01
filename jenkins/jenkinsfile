@@ -5,6 +5,10 @@ pipeline {
             steps {
                 echo 'complete'
             }
+        stage('complete 2') {
+            steps {
+                echo 'complete 2'
+            }
         
         }
     }
