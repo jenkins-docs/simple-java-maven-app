@@ -1,0 +1,8 @@
+pipeline {
+    agent any
+    stages {
+        stage ('git checkout') {
+            git url: 'https://github.com/mohandevops1869/simple-java-maven-app.git'
+        }
+    }
+}
