@@ -6,15 +6,15 @@ pipeline {
                git url: 'https://github.com/mohandevops1869/simple-java-maven-app.git'
             }   
         }
-    }
-    stage ('maven build'){
-        steps {
-            script {
-                sh"""
-                ls -lrt
-                cd simple-java-maven-app
-                mvn install
-                """ 
+        stage ('maven build') {
+            steps {
+                script {
+                    sh """
+                       ls -lrt
+                       cd simple-java-maven-app
+                       mvn install
+                    """
+                }
             }
         }
     }
