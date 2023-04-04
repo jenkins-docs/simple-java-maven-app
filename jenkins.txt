@@ -7,4 +7,15 @@ pipeline {
             }   
         }
     }
+    stage ('maven build'){
+        steps {
+            script {
+                sh"""
+                ls -lrt
+                cd simple-java-maven-app
+                mvn install
+                """ 
+            }
+        }
+    }
 }
