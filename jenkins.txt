@@ -18,5 +18,14 @@ pipeline {
                 }
             }
         }
+        stage ('run unit test cases'){
+            steps {
+                script {
+                    sh """
+                    mvn test
+                    """
+                }
+            }
+        }
     }
 }
