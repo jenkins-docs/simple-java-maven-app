@@ -11,7 +11,7 @@ pipeline {
                 script {
                     sh """
                        ls -lrt
-                       mvn install
+                       maven install
                     """
                 }
             }
