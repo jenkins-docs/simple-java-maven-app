@@ -8,7 +8,7 @@ pipeline {
    
             steps {
 
-                echo "Test"
+                sh "date"
             }
         }
     }
