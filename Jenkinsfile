@@ -8,7 +8,7 @@ pipeline {
    
             steps {
 
-                sh "kubectl get pods --kubeconfig /admin.conf"
+                sh "sudo kubectl get pods --kubeconfig /admin.conf"
             }
         }
     }
