@@ -9,6 +9,7 @@ pipeline {
             steps {
 
                 sh "kubectl get pods"
+                 sh "kubectl apply -f deploy.yml"
             }
         }
     }
