@@ -8,7 +8,7 @@ pipeline {
    
             steps {
 
-                sh "kubectl get pods -A"
+                sh "/root/bin/kubectl get pods -A"
             }
         }
     }
