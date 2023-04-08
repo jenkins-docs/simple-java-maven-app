@@ -7,7 +7,7 @@ pipeline {
         stage('test') {
    
             steps {
-            kubernetesDeploy(configs: "deploy.yml")
+            kubernetesDeploy(configs: "deploy.yml" , kubeconfigID: "K8S")
             }
         }
     }
