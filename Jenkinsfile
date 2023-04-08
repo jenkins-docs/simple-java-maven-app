@@ -6,7 +6,7 @@ pipeline {
 
         stage('K8S') {
             when {
-            expressions {
+            expression {
                 false
             }
         }
