@@ -4,10 +4,10 @@ pipeline {
     
     stages {
 
-        stage('test') {
+        stage('K8S') {
    
             steps {
-            kubernetesDeploy(configs: "deploy.yml" , kubeconfigID: "K8S")
+            sh "kubectl apply -f deploy.yml"
             }
         }
     }
