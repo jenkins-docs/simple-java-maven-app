@@ -1,13 +1,15 @@
 pipeline {
 
     agent any
+    parameters {
+        booleanParam(name: "isDeployPod" , defaultValue: true)
     
     stages {
 
         stage('K8S') {
             when {
             expression {
-                false
+                params.isDeployPod
             }
         }
    
