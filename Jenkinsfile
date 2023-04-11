@@ -2,10 +2,6 @@ pipeline {
 
 agent any
 
-tools {
-        maven 'maven 1.0'
-        sonarqube 'Sonar Scanner'
-    }
 stages{
     stage("Checkout"){
         steps{
@@ -16,17 +12,23 @@ stages{
         }
     }
 
-        
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('Sonar Scanner') {
-                    sh 'mvn sonar:sonar'
+    
+    stage('Build') {
+        steps {
+            withMaven(maven: 'maven 1.0') {
+            sh 'mvn clean package'
                 }
             }
-        }      
+        }
+
         
-        
-        
+    stage('SonarQube analysis') {
+        steps{
+            withSonarQubeEnv('sonarqube-8.9.10') { 
+            sh "mvn sonar:sonar"
+            }
+        }
+    }    
         
 }
         
