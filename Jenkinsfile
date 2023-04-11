@@ -14,7 +14,7 @@ stages{
             sh "pwd"
         }
     }
-}
+
     stage('Build') {
         steps {
             withMaven(maven: 'maven 1.0') {
@@ -23,4 +23,5 @@ stages{
             }
         }
 
+}
 }
