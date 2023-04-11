@@ -4,6 +4,7 @@ agent any
 
 tools {
         maven 'maven 1.0'
+        sonarqube 'SonarQube Scanner'
     }
 stages{
     stage("Checkout"){
@@ -23,5 +24,20 @@ stages{
             }
         }
 
+        
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Sonar Scanner') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }      
+        
+        
+        
+        
 }
+        
+        
+        
 }
