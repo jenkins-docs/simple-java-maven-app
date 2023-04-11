@@ -16,14 +16,6 @@ stages{
         }
     }
 
-    stage('Build') {
-        steps {
-            withMaven(maven: 'maven 1.0') {
-            sh 'mvn clean package'
-                }
-            }
-        }
-
         
         stage('SonarQube Analysis') {
             steps {
