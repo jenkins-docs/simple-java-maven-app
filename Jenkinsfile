@@ -4,13 +4,16 @@ pipeline {
     stages{
         stage("Checkout"){
             steps{
-                deleteDir()
-                initializeJob()
                 script{
                     echo "Hi"
                 }
             }
         }
+
+
+
+
     }
+
 
 }
