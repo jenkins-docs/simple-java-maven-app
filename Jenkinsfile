@@ -4,7 +4,7 @@ agent any
 
 tools {
         maven 'maven 1.0'
-        sonarqube 'SonarQube Scanner'
+        sonarqube 'Sonar Scanner'
     }
 stages{
     stage("Checkout"){
