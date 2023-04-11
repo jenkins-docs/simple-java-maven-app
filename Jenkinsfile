@@ -1,6 +1,10 @@
 pipeline {
 
 agent any
+
+tools {
+        maven 'maven 1.0'
+    }
 stages{
     stage("Checkout"){
         steps{
@@ -11,5 +15,12 @@ stages{
         }
     }
 }
+    stage('Build') {
+        steps {
+            withMaven(maven: 'maven 1.0') {
+            sh 'mvn clean package'
+                }
+            }
+        }
 
 }
