@@ -32,7 +32,7 @@ pipeline {
         }
         stage('New branch') {
             steps {
-                echo 'I'm the new branch'
+                echo "I'm the new branch"
             }
         }
     }
