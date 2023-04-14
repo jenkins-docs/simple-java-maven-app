@@ -30,9 +30,9 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Complete') {
+        stage('New branch') {
             steps {
-                echo 'Job Completed'
+                echo 'I'm the new branch'
             }
         }
     }
