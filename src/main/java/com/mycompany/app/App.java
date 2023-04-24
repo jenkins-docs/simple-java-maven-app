@@ -1,4 +1,4 @@
-package com.mycompany.app;
+ package com.mycompany.app;
 
 /**
  * Hello world!
@@ -6,7 +6,7 @@ package com.mycompany.app;
 public class App {
 
 
-    private static final String MESSAGE = "Hello World! Edited from Team A";
+    private static final String MESSAGE = "Hello World! Edited from Team A and edited by lakshmi";
 
 
     public App() {}
