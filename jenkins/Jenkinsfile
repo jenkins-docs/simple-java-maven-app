@@ -16,6 +16,10 @@ pipeline {
                                 }
                             }
                 }
-    
+        satge ('complete'){
+            step {
+                echo 'Stage completed'
+            }
+        }
     }
 }
