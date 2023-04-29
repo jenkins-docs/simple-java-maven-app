@@ -16,8 +16,8 @@ pipeline {
                                 }
                             }
                 }
-        satge ('complete'){
-            step {
+        stage ('complete'){
+            steps {
                 echo 'This is a complete stage'
             }
         }
