@@ -2,7 +2,6 @@ pipeline {
     agent {
 
         docker {
-            label 'my-docker-agent'
             image 'maven:3.9.0'
         }
 
