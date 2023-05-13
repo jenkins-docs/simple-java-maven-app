@@ -1,0 +1,38 @@
+name: Maven build with JaCoCo
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Build with Maven
+      run: mvn package
+
+    - name: Generate JaCoCo report
+      run: mvn jacoco:report
+
+    - name: Publish JaCoCo report
+      uses: actions/upload-artifact@v2
+      with:
+        name: jacoco-report
+        path: target/site/jacoco/index.html
+
+    - name: Display JaCoCo report
+      uses: actions/github-pages@v3
+      with:
+        branch: gh-pages
+        folder: target/site/jacoco/
