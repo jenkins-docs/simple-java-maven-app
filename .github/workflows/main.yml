@@ -31,8 +31,8 @@ jobs:
         name: jacoco-report
         path: target/site/jacoco/index.html
 
-    - name: Display JaCoCo report
-      uses: actions/github-pages@v3
+    - name: Publish JaCoCo report
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        branch: gh-pages
-        folder: target/site/jacoco/
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/site/jacoco
