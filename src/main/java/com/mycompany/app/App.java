@@ -5,7 +5,7 @@ package com.mycompany.app;
  */
 public class App {
 
-    private static final String MESSAGE = "Hi All this is my multibranch project";
+    private static final String MESSAGE = "Hi All this is my jenkins project";
 
     public App() {}
 
