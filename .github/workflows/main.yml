@@ -33,6 +33,14 @@ jobs:
       with:
         name: jacoco-report
         path: target/site/jacoco/index.html
+        
+    - name: Publish JaCoCo report
+      uses: actions/download-artifact@v3
+      with:
+        name: jacoco-report
+    - name: check
+      run: |
+        ls -ltr
 
     - name: Publish JaCoCo report
       uses: peaceiris/actions-gh-pages@v3
