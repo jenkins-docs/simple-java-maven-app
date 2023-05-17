@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Prepare') {
+            steps {
+                sh 'ls -la'
+            }
+        }        
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
