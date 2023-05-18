@@ -42,9 +42,10 @@ jobs:
       run: |
         ls -ltr
 
-    - name: Publish JaCoCo report
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Add coverage to PR
+      uses: madrapps/jacoco-report@v1.3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/site/jacoco
-        destination_dir: ${{ steps.extract_branch.outputs.branch }}
+          paths: ${{ github.workspace }}/target/site/jacoco//jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
