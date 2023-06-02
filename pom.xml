@@ -16,7 +16,7 @@
     </dependency>
   <dependency>
     <groupId>com.example</groupId>
-    <artifactId>HelloWorld-jar</artifactId>
+    <artifactId>local-jar</artifactId>
     <version>0.7</version>
   </dependency>
 </dependencies>
@@ -85,7 +85,7 @@
           <configuration>
             <file>https://github.com/slawomir0rhode/simple-java-maven-app/blob/master/HelloWorld-0.7.0.jar</file>
             <groupId>com.example</groupId>
-            <artifactId>HelloWorld-jar</artifactId>
+            <artifactId>local-jar</artifactId>
             <version>0.7</version>
             <packaging>jar</packaging>
           </configuration>
