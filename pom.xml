@@ -26,6 +26,21 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.10.1</version>
         </plugin>
+        
+        <execution>
+            <id>install-local-jar</id>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>HelloWorld-0.7.0.jar</file>
+              <groupId></groupId>
+              <artifactId>HelloWorld-jar</artifactId>
+              <version>0.7</version>
+            <packaging>jar</packaging>
+          </configuration>
+        </execution>
+        
       </plugins>
     </pluginManagement>
     <plugins>
@@ -65,19 +80,6 @@
               </rules>
             </configuration>
           </execution>
-          <execution>
-            <id>install-local-jar</id>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <configuration>
-              <file>HelloWorld-0.7.0.jar</file>
-              <groupId></groupId>
-              <artifactId>HelloWorld-jar</artifactId>
-              <version>0.7</version>
-            <packaging>jar</packaging>
-          </configuration>
-        </execution>
         </executions>
       </plugin>
     </plugins>
