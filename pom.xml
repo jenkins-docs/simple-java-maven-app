@@ -14,8 +14,6 @@
       <version>5.9.1</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
-  <dependencies>
   <dependency>
     <groupId>com.example</groupId>
     <artifactId>.HelloWorld-0.7.0.jar</artifactId>
