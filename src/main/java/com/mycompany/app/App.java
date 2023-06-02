@@ -1,5 +1,5 @@
 package com.mycompany.app;
-import HelloWorld-0.7.0
+import HelloWorld-0.7.0;
 /**
  * Hello world!
  */
