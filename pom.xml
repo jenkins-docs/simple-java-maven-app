@@ -14,11 +14,6 @@
       <version>5.9.1</version>
       <scope>test</scope>
     </dependency>
-  <dependency>
-    <groupId>com.example</groupId>
-    <artifactId>local-jar</artifactId>
-    <version>0.7</version>
-  </dependency>
 </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
