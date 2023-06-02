@@ -33,7 +33,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>HelloWorld-0.7.0.jar</file>
+              <file>.HelloWorld-0.7.0.jar</file>
               <groupId></groupId>
               <artifactId>HelloWorld-jar</artifactId>
               <version>0.7</version>
