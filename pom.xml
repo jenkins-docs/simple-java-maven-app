@@ -15,6 +15,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <dependencies>
+  <dependency>
+    <groupId>com.example</groupId>
+    <artifactId>.HelloWorld-0.7.0.jar</artifactId>
+    <version>0.7</version>
+  </dependency>
+</dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -78,10 +85,10 @@
             <goal>install-file</goal>
           </goals>
           <configuration>
-            <file>/path/to/local/jar/file.jar</file>
+            <file>.HelloWorld-0.7.0.jar</file>
             <groupId>com.example</groupId>
             <artifactId>local-jar</artifactId>
-            <version>1.0</version>
+            <version>0.7</version>
             <packaging>jar</packaging>
           </configuration>
         </execution>
