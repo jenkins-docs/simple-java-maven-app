@@ -78,7 +78,7 @@
             <goal>install-file</goal>
           </goals>
           <configuration>
-            <file>https://github.com/slawomir0rhode/simple-java-maven-app/blob/master/HelloWorld-0.7.0.jar</file>
+            <file>https://github.com/slawomir0rhode/simple-java-maven-app/blob/master/h2-1.4.199.jar</file>
             <groupId>com.example</groupId>
             <artifactId>local-jar</artifactId>
             <version>0.7</version>
