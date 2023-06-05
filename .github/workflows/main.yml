@@ -22,5 +22,6 @@ jobs:
       run: mvn package  # Replace with your Maven build command
 
     - name: Publish to GitHub Packages
-     
-      run: mvn deploy -DskipTests --settings .github/workflows/settings.xml
+      uses: elgohr/Publish-Maven-Github-Packages@v1
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
