@@ -1,28 +1,29 @@
-name: Maven CI/CD
-
+name: Publish to Nexus
 on:
- push:
-    branches: [ master ]
- pull_request:
-    branches: [ master ]
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
-  build_and_test:
-
+  publish:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1
+    - name: Set up JDK
+      uses: actions/setup-java@v2
       with:
-        java-version: 17
+        java-version: 17  # Adjust the Java version as per your project requirements
 
-    - name: Build with Maven
-      run: mvn package  # Replace with your Maven build command
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Upload Release Asset
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-app.jar  # Set the name of your artifact file
-        path: target/my-app.jar  # Set the path to your built artifact file
+    - name: Build and Publish
+      run: mvn clean deploy --settings settings.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
