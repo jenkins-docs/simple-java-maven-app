@@ -19,7 +19,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '17'  # Set the appropriate Java version
+        java-version: 17  # Set the appropriate Java version
 
     - name: Build with Maven
       run: mvn package  # Replace with your Maven build command
