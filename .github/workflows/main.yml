@@ -6,26 +6,26 @@ on:
     
  pull_request:
     branches: [ master ]
-
+    
 
 jobs:
-  build_and_test:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1
-      with:
-        java-version: 17
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Build project with Maven
-      run: mvn -B package --file pom.xml
-      
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v2
       with:
-       name: my-artifact
-       path: ./src
-       retention-days: 5
+        java-version: '17'  # Set the appropriate Java version
+
+    - name: Build with Maven
+      run: mvn package  # Replace with your Maven build command
+
+    - name: Publish to GitHub Packages
+      run: mvn deploy -DskipTests --settings .github/settings.xml
+
+
+
