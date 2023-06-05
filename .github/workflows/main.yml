@@ -21,7 +21,8 @@ jobs:
     - name: Build with Maven
       run: mvn package  # Replace with your Maven build command
 
-    - name: Publish to GitHub Packages
-      uses: elgohr/Publish-Maven-Github-Packages@v1
+    - name: Upload Release Asset
+      uses: actions/upload-artifact@v2
       with:
-        githubToken: ${{ secrets.TOKEN }}
+        name: my-app.jar  # Set the name of your artifact file
+        path: target/my-app.jar  # Set the path to your built artifact file
