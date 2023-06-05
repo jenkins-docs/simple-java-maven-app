@@ -22,4 +22,5 @@ jobs:
       run: mvn package  # Replace with your Maven build command
 
     - name: Publish to GitHub Packages
+      run: chmod +x .github/workflows/settings.xml
       run: mvn deploy -DskipTests --settings .github/workflows/settings.xml
