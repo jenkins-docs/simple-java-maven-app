@@ -24,4 +24,4 @@ jobs:
     - name: Publish to GitHub Packages
       uses: elgohr/Publish-Maven-Github-Packages@v1
       with:
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
+        githubToken: ${{ secrets.TOKEN }}
