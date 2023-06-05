@@ -1,0 +1,9 @@
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR_GITHUB_USERNAME</username>
+      <password>YOUR_PAT</password>
+    </server>
+  </servers>
+</settings>
