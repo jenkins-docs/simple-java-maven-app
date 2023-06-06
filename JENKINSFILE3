@@ -24,22 +24,23 @@ pipeline {
             steps {
                 echo "in  builing image " 
                 
-                                                       }
+                  }
                 
                
             }
-      stage('TEST'){
-         expression{
-            params.executeTests
-                   }
+        stage('TEST'){
+           when {expression{
+               params.executeTests
+                    } 
+               }
           }
             steps {
                 echo "TEST TEST TEST " 
                 
-                                                       }
+                 }
                 
                
-            }
+            
       
         stage('Deploy') {
             
