@@ -3,7 +3,14 @@ pipeline {
     environment{
     NEW_VERSION= '1.5'
     }
+    parameters{
+    //string(name:'VERSION' , defaultValue:'',description:' vesrion to deply prod')
+    choice(name:'VERSION' , choices:[ '1.1.0','1.2.0','1.3.0' ],description :'vv')
+    booleanParam(name : 'executeTests' ,defaultValue: true ,description :' enabletest')
+    booleanParam(name : 'sec-test' ,defaultValue: true ,description :' secuirty test')
+
     
+    }
     stages {
         stage('Build_jar') { 
             steps { 
@@ -16,6 +23,18 @@ pipeline {
         stage('buil image'){
             steps {
                 echo "in  builing image " 
+                
+                                                       }
+                
+               
+            }
+      stage('TEST'){
+         expression{
+            params.executeTests
+                   }
+          }
+            steps {
+                echo "TEST TEST TEST " 
                 
                                                        }
                 
