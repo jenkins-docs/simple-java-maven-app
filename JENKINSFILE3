@@ -28,19 +28,21 @@ pipeline {
                 
                
             }
-        stage('TEST'){
+
+
+        stage('test2'){
            when {expression{
                params.executeTests
                     } 
                }
-          }
+          
             steps {
                 echo "TEST TEST TEST " 
                 
                  }
                 
                
-            
+        }    
       
         stage('Deploy') {
             
