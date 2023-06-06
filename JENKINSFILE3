@@ -1,0 +1,33 @@
+pipeline { 
+    agent any 
+    
+    stages {
+        stage('Build_jar') { 
+            steps { 
+                echo "in buid" 
+              
+            }
+        }
+        
+        
+        stage('buil image'){
+            steps {
+                echo "in  builing image " 
+                
+                                                       }
+                
+               
+            }
+      
+        stage('Deploy') {
+            
+                                         
+             steps {
+                echo "in DDDDDDDDDDDDDDDDDeply" 
+                 
+                             
+                  }   
+            
+        }
+    }
+}
