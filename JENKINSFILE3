@@ -5,7 +5,7 @@ pipeline {
         stage('Build_jar') { 
             steps { 
                 echo "in buid" 
-                 sh ' npm -v'
+                 date 
             }
         }
         
