@@ -1,5 +1,8 @@
 pipeline { 
     agent any 
+    environment{
+    NEW_VERSION= '1.5'
+    }
     
     stages {
         stage('Build_jar') { 
@@ -20,17 +23,14 @@ pipeline {
             }
       
         stage('Deploy') {
-               when {expression  
-                   {
-                     BRANCH_NAME=='master'
-                   }
-            }
+            
         
         
             
                                          
              steps {
                 echo "in DDDDDDDDDDDDDDDDDeply" 
+                echo " VERSIOn : ${NEW_VERSION} "
                  
                              
                   }   
