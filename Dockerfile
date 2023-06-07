@@ -18,10 +18,10 @@ WORKDIR /myapp
 COPY . /myapp
 
 # Compile the Java program
-RUN javac src/main/App.java
+RUN javac src/main/java/com/mycompany/app/App.java
 
 # Set the entry point command to run the Java program
-CMD ["java", "src/main/App.java"]
+CMD ["java", "src/main/java/com/mycompany/app/App.java"]
 
 
 
