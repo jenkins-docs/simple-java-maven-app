@@ -24,10 +24,10 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-                stage('Finish') {
-                    steps {
-                        echo 'Koniec'
-                    }
-                }
+        stage('Finish') {
+            steps {
+                echo 'Koniec fazy'
+            }
+        }
     }
 }
