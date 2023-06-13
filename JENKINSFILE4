@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        stage("exx") {
+           steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+        
+        
         stage("deploy") {
             steps {
                 script {
