@@ -30,7 +30,7 @@ pipeline {
            steps {
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 
-              }
+              sh 'sleep 10 '
             }
         }
         
