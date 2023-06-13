@@ -29,6 +29,9 @@ pipeline {
         stage("exx") {
            steps {
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
             }
         }
         
