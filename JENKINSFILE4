@@ -10,7 +10,7 @@ pipeline {
     
     
     parameters {
-    choice(name:'AppVersion',choices[ '1.1','1.2' ,2],description:'')
+    choice(name:'AppVersion',choices:[ '1.1','1.2' ,2],description:'')
     booleanParam(name:'runTest',defaultValue: true )
     }
     stages {
