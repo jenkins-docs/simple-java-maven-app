@@ -10,7 +10,7 @@ pipeline {
     
     
     parameters {
-    booleanParam(name:'runTest',defaultValue: true,description:' ' )
+    booleanParam(name:'runTest',defaultValue: true )
     }
     stages {
         stage("init") {
@@ -41,16 +41,20 @@ pipeline {
            
                 when {
                     expression {
-                              params.runTest
+                              params.runTest==false
                               }
                      }         
-                   
-                
-             steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-                sh 'sleep 10 '
-                 sh ' mvn test '
+               teps {
+                script {
+                    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                    sh 'sleep 10 '
+                    sh ' mvn test '
+                }
             }
+                
+           
+               
+         
         }
         
         
