@@ -49,6 +49,7 @@ pipeline {
         success{
             echo " done done"
         }
+        failure{ echo " faileeee" }
         
     }
 }
