@@ -9,7 +9,7 @@ pipeline {
     }
     
     
-    paramaters {
+    parameters {
     boleanParms(name:'runTest',defaultValue:True,description:' TEST mvn ' )
     }
     stages {
