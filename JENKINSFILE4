@@ -2,6 +2,10 @@ def gv
 
 pipeline {
     agent any
+    
+    tools{
+       maven 'my-mvn'
+    }
     stages {
         stage("init") {
             steps {
@@ -15,6 +19,7 @@ pipeline {
                 script {
                     echo "building jar"
                     //gv.buildJar()
+                    sh ' mvn test '
                 }
             }
         }
