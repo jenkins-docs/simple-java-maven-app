@@ -44,7 +44,7 @@ pipeline {
                               params.runTest==false
                               }
                      }         
-               teps {
+               steps {
                 script {
                     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                     sh 'sleep 10 '
