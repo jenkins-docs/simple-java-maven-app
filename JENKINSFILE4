@@ -3,8 +3,14 @@ def gv
 pipeline {
     agent any
     
+    
     tools{
        maven 'my-mvn'
+    }
+    
+    
+    paramaters {
+    boleanParms(name:'runTest',defaultValue:True,description:' TEST mvn ' )
     }
     stages {
         stage("init") {
@@ -19,7 +25,7 @@ pipeline {
                 script {
                     echo "building jar"
                     //gv.buildJar()
-                    sh ' mvn test '
+                
                 }
             }
         }
@@ -31,11 +37,19 @@ pipeline {
                 }
             }
         }
-        stage("exx") {
-           steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+        stage("Test Stage ") {
+           
+                when {
+                    expression {
+                              params.runTest
+                              }
+                     }         
+                   
                 
-              sh 'sleep 10 '
+             steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'sleep 10 '
+                 sh ' mvn test '
             }
         }
         
