@@ -10,7 +10,7 @@ pipeline {
     
     
     parameters {
-    booleanParam(name:'runTest',defaultValue:True,description:' TEST mvn ' )
+    booleanParam(name:'runTest',defaultValue: true,description:' ' )
     }
     stages {
         stage("init") {
