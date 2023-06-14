@@ -43,5 +43,12 @@ pipeline {
                 }
             }
         }
-    }   
+    } 
+     post{
+        always{}
+        success{
+            echo " done done"
+        }
+        failure{}
+    }
 }
