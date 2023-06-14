@@ -10,7 +10,7 @@ pipeline {
     
     
     parameters {
-    choice(name:'Version',choices[ '1.1','1.2' ,2],description:'')
+    choice(name:'AppVersion',choices[ '1.1','1.2' ,2],description:'')
     booleanParam(name:'runTest',defaultValue: true )
     }
     stages {
@@ -62,7 +62,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying version ${params.Version}"
+                    echo "deploying version ${params.AppVersion}"
                    
                     
                    gv.deployApp()
