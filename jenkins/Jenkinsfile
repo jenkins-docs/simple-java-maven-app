@@ -24,10 +24,5 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Finish') {
-            steps {
-                echo 'Koniec skryptu w nowym1'
-            }
-        }
     }
 }
