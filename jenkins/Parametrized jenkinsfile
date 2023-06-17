@@ -1,0 +1,25 @@
+pipeline{
+    agent any
+    parameters{
+        string(name: 'Imię', defaultValue: 'Michał', description: 'Podaj swoje imię')
+        string(name: 'Nazwisko', defaultValue: 'Kowalski', description: 'Podaj swoje nazwisko')
+        booleanParam(name: 'kotki', defaultValue: true, description: 'Czy masz kotki?')
+    }
+    stages{
+        stage('Build'){
+            steps{
+                echo 'Building... $(params.Imię) $(params.Nazwisko)
+            }
+        }
+        stage('Test'){
+            steps{
+                echo 'Testing... czy masz kotki? $(params.kotki)'
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo 'Deploying...'
+            }
+        }
+    }
+}
