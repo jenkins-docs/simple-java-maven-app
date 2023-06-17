@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Finish') {
             steps {
-                echo 'Koniec skryptu w nowym'
+                echo 'Koniec skryptu w nowym1'
             }
         }
     }
