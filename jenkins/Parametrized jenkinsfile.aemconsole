@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    parameters{
+        string(name: 'firstName', defaultValue: 'Michał', description: 'Podaj swoje imię')
+        string(name: 'name', defaultValue: 'Kowalski', description: 'Podaj swoje nazwisko')
+        booleanParam(name: 'isCats', defaultValue: true, description: 'Czy masz kotki?')
+    }
+    environment {
+        def myGlobalString = 'Przykładowa zmienna globalna'
+        def nameBoolean = true
+    }
+    stages{
+        stage('Clean up'){
+            steps{
+                script {
+                    def myInterbalString = "To jest zmienna widoczna tylko w środku"
+                }
+                deleteDir()
+                exampleFunction("Przykładowy tekst jako atrybut funkcji")
+            }
+        }
+        stage('Test'){
+            steps{
+                script{
+                    if (params.isCats) {
+                        echo "Udało się, wartość isCats to: ${params.isCats}"
+                        currentBuild.result = "SUCCESS"
+                    } else {
+                        currentBuild.result = "FAILURE"
+                        error("Nie udało się, bo wartość isCats to: ${params.isCats}")
+                    }
+                }
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo "Deploying...${firstName} ${name} - Gratuję posiadania kotków!!!"
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                if (currentBuild.result == 'SUCCESS') {
+                    echo "Build zakończył się sukcesem"
+                } else if (currentBuild.result == 'FAILURE') {
+                    echo "Build zakończyłsię błedem"
+                }
+            }
+        }
+    }
+}
+
+def exampleFunction(String text){
+    def myString = text
+    echo "z funkcji exampleFunction jest wyświetlany: ${text}"
+}
+
