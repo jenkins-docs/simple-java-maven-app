@@ -8,7 +8,6 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "sed -i 's/3.8.6/3.6.8/g' pom.txt"
                 sh 'mvn test'
             }
             post {
