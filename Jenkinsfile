@@ -9,8 +9,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "echo $PATH"
-                sh "java --version"
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
@@ -21,5 +19,14 @@ pipeline {
                 }
             }
         }
+
+        stage('SonarQube') {
+            steps {
+                withSonarQubeEnv('CalypsoBinarSonarQubeScanner') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        
     }
 }
