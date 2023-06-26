@@ -2,14 +2,15 @@ pipeline {
     agent any
 
     tools {
-          jdk '11.0.15_8'
-          maven 'Maven-3.8.5'
+          jdk 'OpenJDK-17.0.7-LTS-AArch46'
+          maven 'Maven-3.9.2'
     }
 
     stages {
         stage('Build') {
-
             steps {
+                sh "echo $PATH"
+                sh "java --version"
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
