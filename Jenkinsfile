@@ -22,7 +22,7 @@ pipeline {
 
         stage('SonarQube') {
             steps {
-                withSonarQubeEnv('CalypsoBinarSonarQubeScanner') {
+                withSonarQubeEnv('Calypso Binar SonarQube Server') {
                     sh 'mvn sonar:sonar'
                 }
             }
