@@ -5,6 +5,16 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    stage('Snyk') {
+      steps {
+        echo 'Testing Snyk...'
+        snykSecurity(
+          snykInstallation: 'Snyk@latest',
+          snykTokenId: 'organisation-snyk-api-token',
+          // place other parameters here
+            )
+          }
+        }
     stages {
         stage('Build') {
             steps {
@@ -52,16 +62,6 @@ pipeline {
                 '''
             }
         }
-    stage('Snyk') {
-      steps {
-        echo 'Testing Snyk...'
-        snykSecurity(
-          snykInstallation: 'Snyk@latest',
-          snykTokenId: 'organisation-snyk-api-token',
-          // place other parameters here
-        )
-      }
-    }
         }
     }
 }
