@@ -52,6 +52,16 @@ pipeline {
                 '''
             }
         }
+    stage('Snyk') {
+      steps {
+        echo 'Testing Snyk...'
+        snykSecurity(
+          snykInstallation: 'Snyk@latest',
+          snykTokenId: '75cddc4a-a754-411a-9afd-75acf46fa37b',
+          // place other parameters here
+        )
+      }
+    }
         }
     }
 }
