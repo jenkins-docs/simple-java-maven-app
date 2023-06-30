@@ -12,14 +12,14 @@ pipeline {
             }
         }
         stage('Snyk') {
-      steps {
-        echo 'Testing Snyk...'
-        snykSecurity(
-          snykInstallation: 'Snyk@latest',
-          snykTokenId: 'organisation-snyk-api-token',
-          // place other parameters here
-            )
-          }
+              steps {
+                echo 'SNYK...............'
+                snykSecurity(
+                  snykInstallation: 'Snyk@latest',
+                  snykTokenId: 'organisation-snyk-api-token',
+                  // place other parameters here
+                )
+              }
         }
         stage('Test') {
             steps {
