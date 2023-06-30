@@ -5,7 +5,13 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
-    stage('Snyk') {
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Snyk') {
       steps {
         echo 'Testing Snyk...'
         snykSecurity(
@@ -14,12 +20,6 @@ pipeline {
           // place other parameters here
             )
           }
-        }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
         }
         stage('Test') {
             steps {
