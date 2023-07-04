@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
-  IMAGE_NAME: your-docker-registry/your-image-name
+  IMAGE_NAME: orcarmeli/simple-java-maven-app:1.0.0
 
 jobs:
   build:
