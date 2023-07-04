@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
+          java-package: 'jdk'
 
       - name: Increase version patch
         run: |
@@ -30,17 +31,16 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Docker image
-        run: docker build -t myimage:latest .
-
-      - name: Log in to container registry
-        uses: docker/login-action@v1
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v2
         with:
-          registry: <registry-url>
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: Push Docker image
-        run: |
-          docker tag myimage:latest <registry-url>/myimage:latest
-          docker push <registry-url>/myimage:latest
+          context: .
+          file: Dockerfile
+          push: true
+          tags: <registry-url>/myimage:latest
+          platforms: linux/amd64
+          builder: ${{ secrets.REGISTRY_USERNAME }}/builder
+          distribution: ubuntu
+        env:
+          DOCKER_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
