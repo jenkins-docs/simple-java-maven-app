@@ -1,5 +1,5 @@
 # Build Stage
-FROM maven:latest-openjdk-11 AS build
+FROM maven:3.6.3-openjdk-11 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
