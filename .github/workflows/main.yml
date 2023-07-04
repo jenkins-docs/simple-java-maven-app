@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Increase version patch
+        run: |
+          current_version=$(grep -oP '(?<=version>).*?(?=</version>)' pom.xml)
+          new_version=$(echo $current_version | awk -F. -v OFS=. '{$NF = $NF + 1;} 1')
+          mvn versions:set -DnewVersion=$new_version
+
+      - name: Build JAR
+        run: mvn package -DskipTests
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+
+      - name: Build Docker image
+        run: docker build -t myimage:latest .
+
+      - name: Log in to container registry
+        uses: docker/login-action@v1
+        with:
+          registry: <registry-url>
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Push Docker image
+        run: |
+          docker tag myimage:latest <registry-url>/myimage:latest
+          docker push <registry-url>/myimage:latest
