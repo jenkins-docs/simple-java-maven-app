@@ -42,6 +42,9 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME }}${{ steps.increase_version.outputs.new_version }}
+          args: |
+            -X
+            -e
 
       - name: Push Docker Image
         uses: docker/build-push-action@v2
