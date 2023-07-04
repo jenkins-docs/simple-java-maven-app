@@ -16,11 +16,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: Set up JDK 11 and Maven
         uses: actions/setup-java@v3
         with:
           java-version: 11
           distribution: 'adopt'
+          maven-version: '3.9.3'
 
       - name: Increase Version Patch
         run: |
@@ -40,19 +41,3 @@ jobs:
         with:
           context: .
           file: Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_NAME }}${{ steps.increase_version.outputs.new_version }}
-          args: |
-            -X
-            -e
-
-      - name: Push Docker Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.increase_version.outputs.new_version }}
-          registry: new-repo
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
