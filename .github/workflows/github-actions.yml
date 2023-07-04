@@ -1,0 +1,25 @@
+name: GitHub Actions Demo
+on:
+  push:
+jobs:
+  Java-Maven-Release:
+    name: Java Maven release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Increment patch version
+        id: semver
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: 'patch'
+
+      - name: Set new version in environment variable
+        run: echo "NEW_VERSION=${{ steps.semver.outputs.new_tag }}" >> $GITHUB_ENV
+
+      - name: Java Maven release
+        uses: qcastel/github-actions-maven-release@v1.12.31
+        with:
+          version: '${{ env.NEW_VERSION }}'
