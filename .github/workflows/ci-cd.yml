@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  IMAGE_NAME: orcarmeli/simple-java-maven-app:1.0.0
+  IMAGE_NAME: new-repo/simple-java-maven-app:1.0.0
 
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
           context: .
           file: Dockerfile
           push: false
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.increase_version.outputs.new_version }}
+          tags: ${{ env.IMAGE_NAME }}${{ steps.increase_version.outputs.new_version }}
 
       - name: Push Docker Image
         uses: docker/build-push-action@v2
