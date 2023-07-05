@@ -70,7 +70,7 @@ jobs:
           
       - name: Create Pull Request
         id: cpr
-        uses: maiyehezkel/create-pull-request@v5
+        uses: simple-java-maven-app/create-pull-request@v5
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
