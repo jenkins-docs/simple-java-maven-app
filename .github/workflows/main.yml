@@ -24,8 +24,26 @@ jobs:
           # Build the project
           mvn clean install
           
-          # Increment the patch version
-          mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DgenerateBackupPoms=false -DnewVersion=1.0.\${{ github.run_number }}
-          
-          # Set the version as an environment variable
-          echo "VERSION=1.0.${{ github.run_number }}" >> $GITHUB_ENV
+      # Increment the patch version
+      - name: Update Version
+        id: update_version
+        run: |
+          # Get the current version from the pom.xml file
+          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Current Version: $current_version"
+
+          # Increment the version number
+          IFS='.' read -ra version_parts <<< "$current_version"
+          patch_version=$((version_parts[2] + 1))
+          new_version="${version_parts[0]}.${version_parts[1]}.$patch_version"
+          echo "New Version: $new_version"
+
+          # Update the version in the pom.xml file
+          mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DnewVersion=$new_version -DgenerateBackupPoms=false
+
+          # Output the new version
+          echo "::set-output name=version::$new_version"
+
+      - name: Print Version
+        run: |
+          echo "Updated Version: ${{ steps.update_version.outputs.version }}"
