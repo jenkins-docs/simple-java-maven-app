@@ -24,6 +24,7 @@ jobs:
           maven-version: '3.9.3'
 
       - name: Increase Version Patch
+        id: version
         run: |
           version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           major=$(echo $version | cut -d. -f1)
@@ -31,13 +32,15 @@ jobs:
           patch=$(echo $version | cut -d. -f3)
           new_patch=$((patch + 1))
           new_version="$major.$minor.$new_patch"
-          echo "##[set-output name=new_version;]$new_version"
+          echo "::set-output name=new_version::$new_version"
 
       - name: Build and Package
         run: mvn package -DskipTests
 
-      - name: Build Docker Image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
