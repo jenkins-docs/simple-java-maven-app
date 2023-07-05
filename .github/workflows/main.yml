@@ -19,28 +19,3 @@ jobs:
           java-version: '11'
           java-package: 'jdk'
 
-      - name: Increase version patch
-        run: |
-          current_version=$(grep -oP '(?<=version>).*?(?=</version>)' pom.xml)
-          new_version=$(echo $current_version | awk -F. -v OFS=. '{$NF = $NF + 1;} 1')
-          mvn versions:set -DnewVersion=$new_version
-
-      - name: Build JAR
-        run: mvn package -DskipTests
-
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: <registry-url>/myimage:latest
-          platforms: linux/amd64
-          builder: ${{ secrets.REGISTRY_USERNAME }}/builder
-          distribution: ubuntu
-        env:
-          DOCKER_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
