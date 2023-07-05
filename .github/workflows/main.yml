@@ -47,5 +47,7 @@ jobs:
       
       - name: Commit and Push Changes
         run: |
+          git config --local user.email "maiyehezkel105@gmail.com"
+          git config --local user.name "maiyehezkel"
           git commit -a -m "Update version in pom.xml"
           git push
