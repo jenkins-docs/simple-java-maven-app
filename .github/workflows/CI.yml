@@ -70,7 +70,12 @@ jobs:
           
       - name: Create Pull Request
         id: cpr
-        uses: simple-java-maven-app/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: development
+          target_branch: master
+          title: My pull request
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
