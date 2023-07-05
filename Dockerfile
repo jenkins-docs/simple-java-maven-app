@@ -4,7 +4,7 @@ WORKDIR /project
 
 COPY ./src /project
 
-COPY pom.xml /project
+COPY ./pom.xml /project
 
 RUN mvn -DskipTests clean package
 
