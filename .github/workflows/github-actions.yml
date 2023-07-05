@@ -9,18 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.4.3
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build -t image .
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.3
+      - uses: actions/checkout@v3
       - name: Run Docker container
         id: docker-run
         run: |
-          output=$(sudo docker run -it 3a91)
+          output=$(sudo docker run -it image)
           echo "::set-output name=output::$output"
         shell: bash
 
