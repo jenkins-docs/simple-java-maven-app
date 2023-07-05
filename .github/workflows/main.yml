@@ -67,7 +67,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_project:${{ env.new_version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_project:${{ env.NEW_VERSION }}
           
           #Test
 
