@@ -4,7 +4,7 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1.1</version>
   <name>my-app</name>
   <url>https://maven.apache.org</url>
 
@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.9.3</version>
+      <version>1.1.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -62,7 +62,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>1.1.1</version>
         </plugin>
 
         
@@ -70,12 +70,12 @@
           <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>build-helper-maven-plugin</artifactId>
-      <version>3.2.0</version>
+      <version>1.1.1</version>
   </plugin>
   <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>versions-maven-plugin</artifactId>
-      <version>2.8.1</version>
+      <version>1.1.1</version>
   </plugin>
 
 <!-- end -->
@@ -87,7 +87,7 @@
         <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>1.1.1</version>
         <configuration>
           <archive>
             <manifest>
@@ -101,7 +101,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>1.1.1</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -111,10 +111,10 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>[3.8.6,)</version>
+                  <version>1.1.1</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[11,)</version>
+                  <version>1.1.1</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
