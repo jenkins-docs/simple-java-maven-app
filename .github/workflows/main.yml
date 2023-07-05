@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,13 +19,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Build and Test
+        run: mvn clean install
 
-      - name: Build and Increment Version
-        run: |
-          # Build the project
-          mvn clean install
-          
-      # Increment the patch version
       - name: Update Version
         id: update_version
         run: |
@@ -41,9 +38,9 @@ jobs:
           # Update the version in the pom.xml file
           mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DnewVersion=$new_version -DgenerateBackupPoms=false
 
-          # Output the new version
-          echo "::set-output name=version::$new_version"
+          # Store the new version in an environment file
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
       - name: Print Version
         run: |
-          echo "Updated Version: ${{ steps.update_version.outputs.version }}"
+          echo "Updated Version: ${{ env.NEW_VERSION }}"
