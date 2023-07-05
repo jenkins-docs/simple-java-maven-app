@@ -32,6 +32,13 @@ jobs:
       
       - name: Update pom.xml
         run: |
-          NEW_VERSION="1.2.$((PATCH_VERSION + 1))"
+          NEW_VERSION="1.1.$((PATCH_VERSION + 1))"
           sed -i "s/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
+        
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "nmor786@gmail.com"
+          git config --local user.name "MorNetanel"
+          git commit -a -m "Update version in pom.xml"
+          git push
 
