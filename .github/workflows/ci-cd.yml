@@ -44,3 +44,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME }}
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
