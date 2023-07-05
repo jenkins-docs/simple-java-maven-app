@@ -23,7 +23,9 @@ jobs:
         run: |
           # Build the project
           mvn clean install
-
+          
           # Increment the patch version
           mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DgenerateBackupPoms=false -DnewVersion=1.0.\${{ github.run_number }}
-
+          
+          # Set the version as an environment variable
+          echo "VERSION=1.0.${{ github.run_number }}" >> $GITHUB_ENV
