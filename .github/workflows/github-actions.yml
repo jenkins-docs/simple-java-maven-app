@@ -29,7 +29,6 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: tamarshnirer/helloworld:latest
-          
       -
         name: Run
         run: |
