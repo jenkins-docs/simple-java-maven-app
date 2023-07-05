@@ -2,27 +2,30 @@ name: Increment Patch Version and Build Jar
 on:
   push:
     branches:
-      - master
+      - development
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set Java 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-
-      - name: Increment Patch Version
-        id: version
+      - uses: action/checkout@v2
+      - name: build
+        run: docker build -t image . 
+        
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Run Docker container
+        id: docker-run
         run: |
-          CURRENT_VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)
-          NEXT_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
-          echo "::set-output name=next_version::$NEXT_VERSION"
+          output=$(sudo docker run -it 3a91)
+          echo "::set-output name=output::$output"
 
-      - name: Build Jar
-        run: mvn package
-
+      - name: Check Container Output
+        run: |
+          if [[ "${{ steps.docker-run.outputs.output }}" == "Hello World!" ]]; then
+            echo "Output is correct!"
+          else
+            echo "Output is not correct!"
+          fi
