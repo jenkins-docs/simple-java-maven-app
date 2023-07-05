@@ -33,6 +33,7 @@ jobs:
       - name: Update pom.xml
         run: |
           NEW_VERSION="1.1.$((PATCH_VERSION + 1))"
+          sed -i '0,/<version>.*<\/version>/s//<version>$NEW_VERSION<\/version>/' pom.xml
           
         
       - name: Commit and Push Changes
