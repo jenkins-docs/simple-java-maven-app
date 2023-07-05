@@ -1,56 +1,57 @@
 name: CI/CD Pipeline
 
-on:
+on: 
   push:
-    branches:
-      - master
-
-env:
-  IMAGE_NAME: new-repo/simple-java-maven-app:1.0.0
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
 
-      - name: Set up JDK 11 and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          maven-version: '3.9.3'
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+    - name: Test
+      run: mvn test
 
-      - name: Increase Version Patch
-        id: version
-        run: |
-          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          major=$(echo $version | cut -d. -f1)
-          minor=$(echo $version | cut -d. -f2)
-          patch=$(echo $version | cut -d. -f3)
-          new_patch=$((patch + 1))
-          new_version="$major.$minor.$new_patch"
-          echo "::set-output name=new_version::$new_version"
+    - name: Increase the Patch part of the jar version
+      run: mvn versions:set -DnewVersion=$(mvn -Dexec.executable=echo -Dexec.args='${project.version}' exec:exec | awk -F'.' -v OFS='.' 'NF==1{print ++$NF}; NF>1{$NF++; print}')
 
-      - name: Build and Package
-        run: mvn package -DskipTests
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_NAME }}
-        env:
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/simple-java-maven-app:latest
 
-
+  pull-request:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: Increase version
+        title: Increase version
+        body: Increase the Patch part of the jar version.
+        branch: increase-version
