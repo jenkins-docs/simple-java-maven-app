@@ -2,7 +2,7 @@ name: Increment Patch Version and Build Jar
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
