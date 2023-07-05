@@ -41,4 +41,7 @@ jobs:
           git config --local user.name "MorNetanel"
           git commit -a -m "Update version in pom.xml"
           git push
+      
+      - name: Run Docker file
+        run : echo 'hello world'
 
