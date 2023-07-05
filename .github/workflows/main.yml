@@ -53,5 +53,6 @@ jobs:
           
       - name: Build Docker image
         run: |
-          sudo apt install docker.io
+          sudo apt update
+          sudo apt install -y docker.io
           docker build .
