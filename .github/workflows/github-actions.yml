@@ -32,7 +32,7 @@ jobs:
       -
         name: Run
         run: |
-          output=$(sudo docker run -it tamarshnirer/helloworld:latest)
+          output=$(sudo docker run tamarshnirer/helloworld:latest)
           echo "::set-output name=output::$output"          
       
       - name: Check Container Output
