@@ -29,16 +29,20 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: tamarshnirer/helloworld:latest
-      -
-        name: Run
-        run: |
-          output=$(sudo docker run tamarshnirer/helloworld:latest)
-          echo "::set-output name=output::$output"          
-      
-      - name: Check Container Output
-        run: |
-          if [[ "${{ steps.Run.outputs.output }}" == "Hello World!" ]]; then
-            echo "Output is correct!"
-          else
-            echo "Output is not correct!"
-          fi
+          
+      - 
+       name: Run Docker container
+       id: docker-run
+       run: |
+         sudo docker run -d tamarshnirer/helloworld
+         output=$(sudo docker logs tamarshnirer/helloworld)
+         echo "::set-output name=output::$output"
+         
+      - 
+       name: Check Container Output
+       run: |
+            if [[ "${{ steps.docker-run.outputs.output }}" == "Hello World!" ]]; then
+              echo "Output is correct!"
+            else
+              echo "Output is not correct!"
+            fi
