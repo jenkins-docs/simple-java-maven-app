@@ -19,8 +19,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Build and 
+      - name: Build
         run: mvn clean install
+        
+      - name: Test
+        run: mvn test
 
       - name: Update Version
         id: update_version
