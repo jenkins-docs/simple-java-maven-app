@@ -43,14 +43,15 @@ jobs:
 
           # Store the new version in an environment file
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
-
-      - name: Print Version
-        run: |
-          echo "Updated Version: ${{ env.NEW_VERSION }}"
       
-      - name: Commit and Push Changes
+      - name: Commit and Push Changes 
         run: |
           git config --local user.email "maiyehezkel105@gmail.com"
           git config --local user.name "maiyehezkel"
           git commit -a -m "Update version in pom.xml"
           git push
+          
+      - name: Build Docker image
+        run: |
+          apt install docker.io
+          docker build .
