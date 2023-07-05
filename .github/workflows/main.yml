@@ -25,19 +25,13 @@ jobs:
       - name: Test
         run: mvn test        
 
-      - name: Extract and set patch version
-        id: patch-version
+      - name: Extract patch version
         run: |
-          # Extract the patch version from pom.xml using grep
-          patch_version=$(grep -oP '(?<=<version>).*?(?=</version>)' pom.xml | grep -oP '\d+\.\d+\.\K\d+')
-
-          # Set the patch version as an environment variable
-          echo "PATCH_VERSION=$patch_version" >> $GITHUB_ENV
-
+          export PATCH_VERSION=$(xmlstarlet sel -t -v "/project/version" pom.xml | cut -d. -f3)
+          echo "PATCH_VERSION=$PATCH_VERSION" >> $GITHUB_ENV
+      
       - name: Update pom.xml
         run: |
-          # Get the patch version from the environment variable
-          patch_version=${{ env.PATCH_VERSION }}
+          NEW_VERSION="1.2.$((PATCH_VERSION + 1))"
+          sed -i "s/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
 
-          # Update the pom.xml file with the new version using sed
-          sed -i "s/<version>.*<\/version>/<version>${patch_version}<\/version>/" pom.xml
