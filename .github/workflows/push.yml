@@ -37,3 +37,12 @@ jobs:
         context: .
         push: true
         tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/simple-java-maven-app:latest
+
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: Increase version
+        title: Increase version
+        body: Increase the Patch part of the jar version.
+        branch: increase-version
