@@ -1,3 +1,10 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
 env:
   IMAGE_NAME: new-repo/simple-java-maven-app:1.0.0
 
