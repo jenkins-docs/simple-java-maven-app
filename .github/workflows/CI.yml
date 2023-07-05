@@ -68,7 +68,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ env.NEW_VERSION }}
           
-      - name: Create Pull Request
+      - name: Create Pull Request.
         id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
