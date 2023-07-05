@@ -34,8 +34,8 @@ jobs:
        name: Run Docker container
        id: docker-run
        run: |
-         sudo docker run -d tamarshnirer/helloworld
-         output=$(sudo docker logs tamarshnirer/helloworld)
+         sudo docker run -d -t helloworld tamarshnirer/helloworld
+         output=$(sudo docker logs helloworld)
          echo "::set-output name=output::$output"
          
       - 
