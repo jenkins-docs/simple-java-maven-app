@@ -25,5 +25,5 @@ jobs:
           mvn clean install
 
           # Increment the patch version
-          mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DgenerateBackupPoms=false -DnewVersion=\${{ github.run_number }}.0.0
+          mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DgenerateBackupPoms=false -DnewVersion=1.0.\${{ github.run_number }}
 
