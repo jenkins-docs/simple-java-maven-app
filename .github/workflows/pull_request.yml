@@ -19,3 +19,4 @@ jobs:
         title: Increase version
         body: Increase the Patch part of the jar version.
         branch: increase-version
+
