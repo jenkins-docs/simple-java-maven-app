@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   build:
@@ -67,4 +67,12 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ env.NEW_VERSION }}
-
+          
+      - name: Create Pull Request
+        id: cpr
+        uses: maiyehezkel/create-pull-request@v5
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
