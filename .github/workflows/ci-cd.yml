@@ -1,10 +1,3 @@
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches:
-      - master
-
 env:
   IMAGE_NAME: new-repo/simple-java-maven-app:1.0.0
 
@@ -44,6 +37,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME }}
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
