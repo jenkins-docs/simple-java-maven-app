@@ -34,6 +34,7 @@ jobs:
 
           # Set the patch version as an environment variable
           echo "PATCH_VERSION=$patch_version" >> $GITHUB_ENV
+        shell: bash
 
       - name: Update pom.xml
         run: |
