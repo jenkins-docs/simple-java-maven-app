@@ -25,7 +25,7 @@ jobs:
       run: mvn test
 
     - name: Increase the Patch part of the jar version
-      run: mvn versions:set -DnewVersion=$(mvn -Dexec.executable=echo -Dexec.args='${project.version}' exec:exec | awk -F'.' -v OFS='.' 'NF==1{print ++$NF}; NF>1{$NF++; print}')
+      run: mvn versions:set -DnewVersion=$(echo $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec) | awk -F. -v OFS=. '{$3++; print}')
 
     - name: Login to DockerHub
       uses: docker/login-action@v1
