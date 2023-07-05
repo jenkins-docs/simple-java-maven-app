@@ -25,16 +25,24 @@ jobs:
       - name: Test
         run: mvn test        
 
-      - name: Extract patch version
+      - name: Update Version
+        id: update_version
         run: |
-          export PATCH_VERSION=$(xmlstarlet sel -t -v "/project/version" pom.xml | cut -d. -f3)
-          echo "PATCH_VERSION=$PATCH_VERSION" >> $GITHUB_ENV
-      
-      - name: Update pom.xml
-        run: |
-          NEW_VERSION="1.1.$((PATCH_VERSION + 1))"
-          sed -i '0,/<version>.*<\/version>/s//<version>1.2.3<\/version>/' pom.xml
-          
+          # Get the current version from the pom.xml file
+          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Current Version: $current_version"
+
+          # Increment the version number
+          IFS='.' read -ra version_parts <<< "$current_version"
+          patch_version=$((version_parts[2] + 1))
+          new_version="${version_parts[0]}.${version_parts[1]}.$patch_version"
+          echo "New Version: $new_version"
+
+          # Update the version in the pom.xml file
+          mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
+
+          # Store the new version in an environment file
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
         
       - name: Commit and Push Changes
         run: |
