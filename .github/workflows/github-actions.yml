@@ -1,25 +1,24 @@
-name: GitHub Actions Demo
+name: CI/CD
 on:
   push:
+    branches:
+      - master
+
 jobs:
-  Java-Maven-Release:
-    name: Java Maven release
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Increment patch version
-        id: semver
-        uses: mathieudutour/github-tag-action@v5
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: 'patch'
+          java-version: 11
 
-      - name: Set new version in environment variable
-        run: echo "NEW_VERSION=${{ steps.semver.outputs.new_tag }}" >> $GITHUB_ENV
-
-      - name: Java Maven release
-        uses: qcastel/github-actions-maven-release@v1.12.31
-        with:
-          version: '${{ env.NEW_VERSION }}'
+      - name: Increment Patch Version
+        run: |
+          # Increment patch version
+          mvn versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}
+          mvn versions:commit
