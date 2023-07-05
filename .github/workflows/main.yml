@@ -13,7 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-        
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
@@ -22,5 +21,8 @@ jobs:
 
       - name: Build with Maven
         run: mvn package
+        
+      - name: Test
+        run: mvn test
 
 
