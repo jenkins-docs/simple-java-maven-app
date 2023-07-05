@@ -24,10 +24,26 @@ jobs:
         run: mvn package
         
       - name: Test
-        run: mvn test
+        run: mvn test        
+
+      - name: Extract and set patch version
+        id: patch-version
+        run: |
+          # Extract the patch version from pom.xml using grep
+          patch_version=$(grep -oP '(?<=<version>).*?(?=</version>)' pom.xml | grep -oP '\d+\.\d+\.\K\d+')
+
+          # Set the patch version as an environment variable
+          echo "PATCH_VERSION=$patch_version" >> $GITHUB_ENV
+
+      - name: Update pom.xml
+        run: |
+          # Get the patch version from the environment variable
+          patch_version=${{ env.PATCH_VERSION }}
+
+          # Update the pom.xml file with the new version using sed
+          sed -i "s/<version>.*<\/version>/<version>${patch_version}<\/version>/" pom.xml
+
         
-        #... change patch
-        
-      - name: Build Docker 
+    
 
 
