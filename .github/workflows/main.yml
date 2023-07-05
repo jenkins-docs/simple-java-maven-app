@@ -36,7 +36,7 @@ jobs:
           echo "New Version: $new_version"
 
           # Update the version in the pom.xml file
-          mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DnewVersion=$new_version -DgenerateBackupPoms=false
+          mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
 
           # Store the new version in an environment file
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
@@ -44,3 +44,8 @@ jobs:
       - name: Print Version
         run: |
           echo "Updated Version: ${{ env.NEW_VERSION }}"
+      
+      - name: Commit and Push Changes
+        run: |
+          git commit -a -m "Update version in pom.xml"
+          git push
