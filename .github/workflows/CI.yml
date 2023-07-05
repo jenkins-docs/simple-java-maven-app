@@ -73,8 +73,11 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          title: Update version in pom.xml
+          body: |
+            This pull request updates the version in the pom.xml file.
           branch: master
-          title: pull-request
+          labels: automated
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
