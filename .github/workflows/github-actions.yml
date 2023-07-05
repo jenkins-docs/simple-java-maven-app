@@ -27,13 +27,3 @@ jobs:
       - name: Build Jar
         run: mvn package
 
-      - name: Rename Jar File
-        run: |
-          NEXT_VERSION=${{ steps.version.outputs.next_version }}
-          mv target/my-app-1.0-SNAPSHOT.jar target/my-app-$NEXT_VERSION.jar
-
-      - name: Publish Jar Artifac
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-app-jar
-          path: target/my-app-$NEXT_VERSION.jar
