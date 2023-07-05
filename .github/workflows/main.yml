@@ -44,5 +44,5 @@ jobs:
           git push
       
       - name: Run Docker file
-        run : echo 'hello world dddd'
+        run : echo 'hello world '
 
