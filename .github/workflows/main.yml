@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
       - name: Checkout code
         uses: actions/checkout@v3
         
@@ -34,7 +33,6 @@ jobs:
 
           # Set the patch version as an environment variable
           echo "PATCH_VERSION=$patch_version" >> $GITHUB_ENV
-        shell: bash
 
       - name: Update pom.xml
         run: |
@@ -43,8 +41,3 @@ jobs:
 
           # Update the pom.xml file with the new version using sed
           sed -i "s/<version>.*<\/version>/<version>${patch_version}<\/version>/" pom.xml
-
-        
-    
-
-
