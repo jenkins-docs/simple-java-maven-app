@@ -75,9 +75,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: Update version in pom.xml
           body: |
-            This pull request updates the version in the pom.xml file.
+            This pull request updates the version.
           branch: master
           labels: automated
+          
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
