@@ -26,7 +26,7 @@ jobs:
         run: mvn test
 
       - name: Increase patch version
-        run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\$((\${parsedVersion.patchVersion}+1)) -f your-project-directory/pom.xml
+        run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\$((\${parsedVersion.patchVersion}+1)) -f pom.xml
 
 
 
