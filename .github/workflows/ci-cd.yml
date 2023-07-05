@@ -46,4 +46,3 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}
         env:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
