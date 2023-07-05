@@ -42,6 +42,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/simple-java-maven-app:1.0.0
+          JAVA_HOME: /opt/hostedtoolcache/Java_Adopt_jdk/11.0.19-7/x64
+          JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Adopt_jdk/11.0.19-7/x64
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
