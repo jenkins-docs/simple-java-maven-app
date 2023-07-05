@@ -10,5 +10,5 @@ FROM openjdk:11
 
 COPY --from=builder /project/target/*.jar /home/ubuntu/*.jar
 
-CMD ["java","-jar","/home/ubuntu/*.jar"]
+CMD ["java","-jar","/home/ubuntu/*.jar",">>","/home/output.txt"]
 
