@@ -31,14 +31,26 @@ jobs:
        id: docker-run
        run: |
          sudo docker run -d --name helloworld tamarshnirer/helloworld
+         sleep(10)
          output=$(sudo docker logs helloworld)
          echo "::set-output name=output::$output"
          
       - 
        name: Check Container Output
        run: |
-            if [[ "${{ steps.docker-run.outputs.output }}" == "Hello World!" ]]; then
+            if: "${{ steps.docker-run.outputs.output }}" = *"Hello World!"*  ]]; then
               echo "Output is correct!"
             else
               echo "Output is not correct!"
             fi
+      - 
+        name: Log in to Docker Hub
+        env:
+          DOCKER_USER: tamarshnirer
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          docker login -u tamarshnirer -p $DOCKER_PASSWORD 
+      -
+       name: Push to Dockerhub
+       run: docker push tamarshnirer/helloworld
+     
