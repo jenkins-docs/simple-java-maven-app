@@ -12,6 +12,31 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
+        
+      - name: Bump version and push the tag
+        id: tag_action
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INITIAL_VERSION: 1.0.0
+          WITH_V: false
+          DEFAULT_BUMP: patch
+          DRY_RUN: false
+
+      - name: Set tag version as environment variable
+        run: echo "TAG_VERSION=${{ steps.bump_version.outputs.new_tag }}" >> $GITHUB_ENV
+
+      - name: Update version in pom.xml
+        run: |
+          mvn versions:set -DnewVersion=${{ steps.tag_action.outputs.new_tag }}
+          git config --global user.name "action@github.com"
+          git config --global user.email "GitHub Action"
+          git commit -a -m "Update version in pom.xml"
+          git push
+
+      - name: Validate and Test with Maven
+        run: mvn -B package --file pom.xml
+
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -34,22 +59,7 @@ jobs:
          docker ps 
          docker logs helloworld || true 
          docker stop helloworld || true
-      
-      -
-       name: Update patch
-       env:
-         TAG: ${{vars.TAG}}
-       run: |
-          IFS='.' read -ra version_parts <<< "$TAG"
-          ((version_parts[2]++))
-          new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
-          echo "$TAG=$new_version" >> $GITHUB_ENV
-
-      -
-       name: Add tag
-       env:
-         TAG: ${{vars.TAG}}
-       run: docker tag tamarshnirer/helloworld tamarshnirer/helloworld:$TAG
+         
       - 
         name: Log in to Docker Hub
         env:
@@ -58,17 +68,8 @@ jobs:
         run: |
           docker login -u tamarshnirer -p $DOCKER_PASSWORD 
       -
-       name: Push to Dockerhub
-       run: docker push tamarshnirer/helloworld
-     
-     
-      -
-       name: Add tag
-       uses: richardsimko/update-tag@v1
-       with:
-         tag_name: ${{vars.TAG}}
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       
+        name: Push to Dockerhub
+        run: docker push tamarshnirer/helloworld
+   
 
      
