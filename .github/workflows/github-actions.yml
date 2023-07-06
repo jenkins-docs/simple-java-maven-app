@@ -70,6 +70,14 @@ jobs:
       -
         name: Push to Dockerhub
         run: sudo docker push tamarshnirer/helloworld
+      - name: Create PR to master (deployment) branch
+        if: success()
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "master"
+          pr_title: "CI updates"
+          pr_body: "Updates from CI to deploy"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
    
 
      
