@@ -34,7 +34,17 @@ jobs:
          docker ps 
          docker logs helloworld || true 
          docker stop helloworld || true
-         
+      
+      -
+       name: Update patch
+       env:
+         TAG: ${{vars.TAG}}
+       run: |
+          IFS='.' read -ra version_parts <<< "$version"
+          ((version_parts[2]++))
+          new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
+          echo "$TAG=$new_version" >> $GITHUB_ENV
+
       -
        name: Add tag
        env:
@@ -50,6 +60,14 @@ jobs:
       -
        name: Push to Dockerhub
        run: docker push tamarshnirer/helloworld
+     
+      -
+       name: Add tag
+       uses: richardsimko/update-tag@v1
+       with:
+         tag_name: ${{vars.TAG}}
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        
 
      
