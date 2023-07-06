@@ -1,0 +1,15 @@
+name: learn-github-actions
+
+on:
+  pull_request:
+    types: [closed, submitted]
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        run: |
+          sudo docker run natimor/github_project:1.0.15
