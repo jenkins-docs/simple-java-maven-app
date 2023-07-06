@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:      
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+        HOSTNAME: ${{ secrets.HOSTNAME }}
+        USER_NAME: ${{ secrets.USER_NAME }}
