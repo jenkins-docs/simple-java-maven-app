@@ -31,7 +31,7 @@ jobs:
        id: docker-run
        run: |
          sudo docker run -d --name helloworld tamarshnirer/helloworld
-         sleep(10)
+         sleep 10 
          output=$(sudo docker logs helloworld)
          echo "::set-output name=output::$output"
          
