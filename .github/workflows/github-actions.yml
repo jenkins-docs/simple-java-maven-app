@@ -63,13 +63,12 @@ jobs:
       - 
         name: Log in to Docker Hub
         env:
-          DOCKER_USER: tamarshnirer
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
-          docker login -u tamarshnirer -p $DOCKER_PASSWORD 
+          sudo docker login -u tamarshnirer -p $DOCKER_PASSWORD 
       -
         name: Push to Dockerhub
-        run: docker push tamarshnirer/helloworld
+        run: sudo docker push tamarshnirer/helloworld
    
 
      
