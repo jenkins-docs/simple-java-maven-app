@@ -70,11 +70,13 @@ jobs:
           
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v5
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
-          title: pull-request
+          destination_branch: "master"
+          pr_title: "CI updates"
+          pr_body: "Updates from CI"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+               
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
