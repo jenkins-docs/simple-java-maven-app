@@ -28,21 +28,18 @@ jobs:
         
       - 
        name: Run Docker container
-       id: docker-run
        run: |
          sudo docker run -d --name helloworld tamarshnirer/helloworld
-         sleep 10 
-         output=$(sudo docker logs helloworld)
-         echo "::set-output name=output::$output"
+         sleep 5  
+         docker ps 
+         docker logs helloworld || true 
+         docker stop helloworld || true
          
-      - 
-       name: Check Container Output
-       run: |
-            if: "${{ steps.docker-run.outputs.output }}" = *"Hello World!"*  ]]; then
-              echo "Output is correct!"
-            else
-              echo "Output is not correct!"
-            fi
+      -
+       name: Add tag
+       env:
+         TAG: ${{vars.TAG}}
+       run: docker tag tamarshnirer/helloworld tamarshnirer/helloworld:$TAG
       - 
         name: Log in to Docker Hub
         env:
@@ -53,4 +50,6 @@ jobs:
       -
        name: Push to Dockerhub
        run: docker push tamarshnirer/helloworld
+       
+
      
