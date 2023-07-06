@@ -32,6 +32,7 @@ jobs:
           git config --global user.name "action@github.com"
           git config --global user.email "GitHub Action"
           git commit -a -m "Update version in pom.xml"
+          git pull
           git push
 
       - name: Validate and Test with Maven
