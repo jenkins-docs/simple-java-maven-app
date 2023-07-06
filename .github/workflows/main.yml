@@ -1,9 +1,9 @@
 name: learn-github-actions
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [closed, submitted]
+    branches: master
 
 jobs:
   build:
