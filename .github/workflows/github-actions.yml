@@ -40,7 +40,7 @@ jobs:
        env:
          TAG: ${{vars.TAG}}
        run: |
-          IFS='.' read -ra version_parts <<< "$version"
+          IFS='.' read -ra version_parts <<< "$TAG"
           ((version_parts[2]++))
           new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
           echo "$TAG=$new_version" >> $GITHUB_ENV
