@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:      
-    - name: Deploy to Server
+    - name: Deploy to EC2
       uses: easingthemes/ssh-deploy@main
       env:
         PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
