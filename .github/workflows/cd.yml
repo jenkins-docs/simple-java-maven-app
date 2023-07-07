@@ -1,16 +1,18 @@
 name: cd
 
 on:
-  pull_request:
+  push:
     branches:
       - "master"
-      
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Deploy
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run pipeline on pull request close
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         env:
           DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
