@@ -1,7 +1,7 @@
 name: cd
 
 on:
-  push:
+  pull_request:
     branches:
       - "master"
       
@@ -14,8 +14,8 @@ jobs:
         env:
           DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker pull tamarshnirer/helloworld
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker stop $(sudo docker ps -aq) || true
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker rm $(sudo docker ps -aq) || true'
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker run --name test_container -d -p 5000:5000 tamarshnirer/helloworld
+          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
+          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker pull tamarshnirer/helloworld
+          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker stop $(sudo docker ps -aq) || true
+          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker rm $(sudo docker ps -aq) || true'
+          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker run --name test_container -d -p 5000:5000 tamarshnirer/helloworld
