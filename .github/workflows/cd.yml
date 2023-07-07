@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - 
-        name: Connect to sshDOCKERHUB_CREDENTIALS_PSW
+        name: Deploy
+        env:
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
           ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker pull tamarshnirer/helloworld
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker stop $(sudo docker ps -aq) || true'
+          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker stop $(sudo docker ps -aq) || true
           ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker rm $(sudo docker ps -aq) || true'
-          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker run --name test_container --rm -d -p 5000:5000 tamarshnirer/testDOCKERHUB_CREDENTIALS_PSW
+          ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.26.62 sudo docker run --name test_container -d -p 5000:5000 tamarshnirer/helloworld
