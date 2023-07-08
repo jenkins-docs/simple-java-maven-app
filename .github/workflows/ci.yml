@@ -62,7 +62,7 @@ jobs:
          docker stop helloworld || true
          
       - 
-        name: Log in to Docker hub
+        name: Login to Docker hub
         env:
           DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
