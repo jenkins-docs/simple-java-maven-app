@@ -30,7 +30,7 @@ jobs:
           EC2_INSTANCE_IP: ${{secrets.EC2_INSTANCE_IP}}
           DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
-          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker login -u tamarshnirer -p $DOCKER_PASSWORD 
           ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker pull tamarshnirer/helloworld
           ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker stop $(sudo docker ps -aq) || true
           ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker rm $(sudo docker ps -aq) || true
