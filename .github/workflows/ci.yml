@@ -22,7 +22,7 @@ jobs:
           DEFAULT_BUMP: patch
           DRY_RUN: false
 
-      - name: Set tag version as environment var
+      - name: Set tag version as environment variable
         run: echo "TAG_VERSION=${{ steps.bump_version.outputs.new_tag }}" >> $GITHUB_ENV
 
       - name: Update version in pom.xml
