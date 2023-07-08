@@ -20,7 +20,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan $EC2_INSTANCE_IP >> ~/.ssh/known_hosts
-      - name: Connect to EC2 instance
+      - name: Connect to EC2 instance and deploy
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           EC2_INSTANCE_IP: ${{secrets.EC2_INSTANCE_IP}}
