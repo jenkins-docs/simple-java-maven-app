@@ -1,5 +1,4 @@
 name: cd
-
 on:
   pull_request:
     types:
