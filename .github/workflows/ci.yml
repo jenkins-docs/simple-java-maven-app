@@ -9,10 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-        
+     
       - name: Bump version and push the tag
         id: tag_action
         uses: anothrNick/github-tag-action@1.64.0
@@ -78,6 +77,3 @@ jobs:
           pr_title: "CI updates"
           pr_body: "Updates from CI to deploy"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-   
-
-     
