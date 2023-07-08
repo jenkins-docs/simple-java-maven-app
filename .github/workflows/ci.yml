@@ -70,7 +70,7 @@ jobs:
       -
         name: Push to Dockerhub
         run: sudo docker push tamarshnirer/helloworld
-      - name: Create PR to master (deployment) branch
+      - name: Create PR to master branch
         if: success()
         uses: repo-sync/pull-request@v2
         with:
