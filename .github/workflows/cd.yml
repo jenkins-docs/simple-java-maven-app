@@ -8,19 +8,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Run pipeline on pull request close
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: |
+          echo "pipeline triggered"
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup SSH
         env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          EC2_INSTANCE_IP: ${{secrets.EC2_INSTANCE_IP}}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan $EC2_INSTANCE_IP >> ~/.ssh/known_hosts
+      - name: Connect to EC2 instance
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          EC2_INSTANCE_IP: ${{secrets.EC2_INSTANCE_IP}}
           DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
-          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
-          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker pull tamarshnirer/helloworld
-          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker stop $(sudo docker ps -aq) || true
-          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker rm $(sudo docker ps -aq) || true'
-          ssh -o StrictHostKeyChecking=no -l ubuntu 18.222.86.229 sudo docker run --name test_container -d -p 5000:5000 tamarshnirer/helloworld
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker login -u tamarshnirer -p "$DOCKER_PASSWORD" 
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker pull tamarshnirer/helloworld
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker stop $(sudo docker ps -aq) || true
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker rm $(sudo docker ps -aq) || true
+          ssh -i ~/.ssh/id_rsa ubuntu@$EC2_INSTANCE_IP sudo docker run --name helloworld -d -p 5000:5000 tamarshnirer/helloworld
