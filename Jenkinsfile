@@ -4,7 +4,6 @@ pipeline {
     tools {
           jdk 'OpenJDK-17.0.7-LTS-AArch46'
           maven 'Maven-3.9.2'
-          docker 'docker'
     }
 
     stages {
@@ -26,7 +25,9 @@ pipeline {
                 label 'master'
             }
             steps {
-                sh "docker build . -t springtest"
+                script{
+                    app = docker.build("springtest")
+                }
             }
         }
 
