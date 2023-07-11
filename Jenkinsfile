@@ -4,6 +4,7 @@ pipeline {
     tools {
           jdk 'OpenJDK-17.0.7-LTS-AArch46'
           maven 'Maven-3.9.2'
+          docker 'docker'
     }
 
     stages {
@@ -20,20 +21,20 @@ pipeline {
             }
         }
 
-        stage('SonarQube') {
-            steps {
-                withSonarQubeEnv('Calypso Binar SonarQube Server') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-
         stage('Docker') {
             agent {
                 label 'master'
             }
             steps {
                 sh "docker build . -t springtest"
+            }
+        }
+
+        stage('SonarQube') {
+            steps {
+                withSonarQubeEnv('Calypso Binar SonarQube Server') {
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
         
