@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'master'
+    }
 
     tools {
           jdk 'OpenJDK-17.0.7-LTS-AArch46'
@@ -21,9 +23,6 @@ pipeline {
         }
 
         stage('Docker') {
-            agent {
-                label 'master'
-            }
             steps {
                 sh "docker build . -t hello-world-spring"
             }
