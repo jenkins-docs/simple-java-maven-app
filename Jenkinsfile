@@ -25,9 +25,7 @@ pipeline {
                 label 'master'
             }
             steps {
-                script{
-                    app = docker.build("springtest")
-                }
+                sh "docker build . -t hello-world-spring"
             }
         }
 
