@@ -22,9 +22,15 @@ pipeline {
             }
         }
 
-        stage('Docker') {
+        stage('Docker build') {
             steps {
                 sh "docker build . -t hello-world-spring"
+            }
+        }
+
+        stage('Docker run') {
+            steps {
+                sh "docker run -it -d --rm -p 8081:8080 hello-world-spring"
             }
         }
 

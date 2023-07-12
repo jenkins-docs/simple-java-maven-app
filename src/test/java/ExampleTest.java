@@ -13,7 +13,7 @@ public class ExampleTest {
     @Test
     public void homeTestValue() {
         Example example = new Example();
-        assertEquals(example.home(), "Hello World - v3!");
+        assertEquals(example.home(), "Hello World - v4!");
     }
 
 //    @Test
