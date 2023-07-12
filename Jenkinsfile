@@ -30,7 +30,8 @@ pipeline {
 
         stage('Docker run') {
             steps {
-                sh "docker run -it -d --rm -p 8081:8080 hello-world-spring"
+                sh "docker stop hello-world-spring || true"
+                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
             }
         }
 
