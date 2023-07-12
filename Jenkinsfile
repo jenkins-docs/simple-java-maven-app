@@ -21,6 +21,9 @@ pipeline {
         }
 
         stage('Docker') {
+            agent {
+                label 'master'
+            }
             steps {
                 sh "docker build . -t hello-world-spring"
             }
