@@ -2,9 +2,6 @@
 
 A Hello World Spring Boot app.
 
-![Build Status](https://calypso-binar.com/jenkins/buildStatus/icon?job=simple-java-maven-app%2Ffeature%252Fspring)
-
-
 How to run:
 
 ```sh
