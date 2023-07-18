@@ -19,8 +19,7 @@ pipeline {
         stage('Set Version') {
             steps {
                 script {
-                    def branch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$branch"
+                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$BRANCH_NAME"
                 }
             }
         }
