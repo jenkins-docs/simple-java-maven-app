@@ -21,20 +21,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Docker build') {
-            steps {
-                sh "docker build . -t hello-world-spring"
-            }
-        }
-
-        stage('Docker run') {
-            steps {
-                sh "docker stop hello-world-spring || true"
-                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
-            }
-        }
-
         stage('SonarQube') {
             steps {
                 withSonarQubeEnv('Calypso Binar SonarQube Server') {
@@ -42,6 +28,19 @@ pipeline {
                 }
             }
         }
-        
+        stage('Docker build') {
+            steps {
+                sh "docker build . -t hello-world-spring"
+            }
+        }
+        stage('Docker run') {
+            when {
+                branch "master"
+            }
+            steps {
+                sh "docker stop hello-world-spring || true"
+                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
+            }
+        }
     }
 }
