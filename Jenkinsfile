@@ -16,6 +16,14 @@ pipeline {
     }
 
     stages {
+        stage('Set Version') {
+            steps {
+                script {
+                    def branch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$branch"
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
