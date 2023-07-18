@@ -2,7 +2,7 @@
 
 A Hello World Spring Boot app.
 
-![Build Status](https://calypso-binar.com/jenkins/job/simple-java-maven-app/job/feature%252Fspring/24/badge/icon)
+![Build Status](https://calypso-binar.com/jenkins/buildStatus/icon?job=simple-java-maven-app%2Ffeature%252Fspring)
 
 
 How to run:
