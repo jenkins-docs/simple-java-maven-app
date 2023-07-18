@@ -7,7 +7,7 @@ if (BRANCH_NAME == "master") {
 
 pipeline {
     agent {
-        label BRANCH_NAME
+        label agentLabel
     }
 
     tools {
