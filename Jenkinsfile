@@ -1,6 +1,13 @@
+def agentLabel
+if (BRANCH_NAME == "master") {
+    agentLabel = "master"
+} else {
+    agentLabel = "worker"
+}
+
 pipeline {
     agent {
-        label 'master'
+        label BRANCH_NAME
     }
 
     tools {
