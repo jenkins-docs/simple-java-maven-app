@@ -28,25 +28,33 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube') {
-            steps {
-                withSonarQubeEnv('Calypso Binar SonarQube Server') {
-                    sh 'mvn sonar:sonar'
+        stage('Parallel Stages') {
+            parallel {
+                stage('SonarQube') {
+                    steps {
+                        withSonarQubeEnv('Calypso Binar SonarQube Server') {
+                            sh 'mvn sonar:sonar'
+                        }
+                    }
                 }
-            }
-        }
-        stage('Docker build') {
-            steps {
-                sh "docker build . -t hello-world-spring"
-            }
-        }
-        stage('Docker run') {
-            when {
-                branch "master"
-            }
-            steps {
-                sh "docker stop hello-world-spring || true"
-                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
+                stage ('Docker build and run') {
+                    stages{
+                        stage('Docker build') {
+                            steps {
+                                sh "docker build . -t hello-world-spring"
+                            }
+                        }
+                        stage('Docker run') {
+                            when {
+                                branch "master"
+                            }
+                            steps {
+                                sh "docker stop hello-world-spring || true"
+                                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
+                            }
+                        }
+                    }
+                }
             }
         }
     }
