@@ -19,7 +19,7 @@ pipeline {
         stage('Set Version') {
             steps {
                 script {
-                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$BRANCH_NAME"
+                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${BRANCH_NAME//[^[:alnum:]]/_}"
                 }
             }
         }
