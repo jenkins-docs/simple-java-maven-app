@@ -16,6 +16,13 @@ public class ExampleTest {
         assertEquals(example.home(), "Hello World - v5!");
     }
 
+    @Test
+    public void dateTestReturnClass() {
+        Example example = new Example();
+        assertEquals(example.home().getClass(), String.class);
+    }
+
+
 //    @Test
 //    public void testAppMain() {
 //        Example.main(new String[] {});
