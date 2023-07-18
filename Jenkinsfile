@@ -19,7 +19,8 @@ pipeline {
         stage('Set Version') {
             steps {
                 script {
-                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${BRANCH_NAME//[^[:alnum:]]/_}"
+                    def newVersion = BRANCH_NAME.replaceAll(/[^a-zA-Z0-9]/, '_')
+                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$newVersion"
                 }
             }
         }
