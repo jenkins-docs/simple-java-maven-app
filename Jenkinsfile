@@ -21,6 +21,11 @@ pipeline {
                 }
             }
         }
+    stage('Manual'){
+            steps{
+                input message: 'Lanjutkan ke Tahap Deploy?'
+            }
+    }    
     stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
