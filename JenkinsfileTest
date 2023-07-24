@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    options { skipDefaultCheckout() }
+    tools {
+        maven 'mvn3.9.3'
+	jdk 'javadefault'
+    }
+    stages {
+	stage ('Initialize') {
+	    steps {
+		sh '''
+		    echo "PATH = ${PATH}"
+		    echo "M2_HOME = ${M2_HOME}"
+		'''
+	    }
+	}
+      stage("Checkout SCM") {
+			  steps {
+				cleanWs()
+				echo 'checkout scm'
+				checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rakesh635/spring-petclinic.git']])
+			}
+		}
+		
+		stage("Unit Test") {
+		  steps {
+				cleanWs()
+				checkout scm
+				echo 'Unit Test Stage'
+				sh 'mvn test'
+				junit 'target\\surefire-reports\\*.xml'	
+			}
+		}
+  }
+}
