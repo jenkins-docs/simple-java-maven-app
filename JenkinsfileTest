@@ -14,22 +14,41 @@ pipeline {
 		'''
 	    }
 	}
-      stage("Checkout SCM") {
-			  steps {
-				cleanWs()
-				echo 'checkout scm'
-				checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rakesh635/spring-petclinic.git']])
-			}
+      	stage("Checkout SCM") {
+		steps {
+			cleanWs()
+			echo 'checkout scm'
+			checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rakesh635/spring-petclinic.git']])
 		}
+	}
 		
-		stage("Unit Test") {
-		  steps {
-				cleanWs()
-				checkout scm
-				echo 'Unit Test Stage'
-				sh 'mvn test'
-				junit 'target\\surefire-reports\\*.xml'	
-			}
+	stage("Unit Test") {
+		steps {
+			cleanWs()
+			checkout scm
+			echo 'Unit Test Stage'
+			sh 'mvn test'
+			junit 'target\\surefire-reports\\*.xml'	
 		}
-  }
+	}
+    }
+    post{
+        success{
+            setBuildStatus("Build succeeded", "SUCCESS");
+        }
+
+        failure {
+            setBuildStatus("Build failed", "FAILURE");
+        } 
+    }
+}
+
+void setBuildStatus(String message, String state) {
+    step([
+        $class: "GitHubCommitStatusSetter",
+        reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/rakesh635/simple-java-maven-app/"],
+        contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+        errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+        statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]
+    ]);
 }
