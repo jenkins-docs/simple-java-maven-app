@@ -22,7 +22,7 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Final Stage') {
+        stage('Last Stage') {
             steps {
                 echo "Successfull done with the poll scm"
             }
