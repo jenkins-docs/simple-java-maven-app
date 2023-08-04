@@ -1,13 +1,9 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any
     stages {
         stage('Build') {
             steps {
+                sh "sed -i 's/3.8.6/3.6.3/g' pom.xml"
                 sh 'mvn -B -DskipTests clean package'
             }
         }
@@ -24,6 +20,11 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
+            }
+        }
+        stage('Final Stage') {
+            steps {
+                echo "Successfull done with the poll scm"
             }
         }
     }
