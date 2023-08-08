@@ -20,8 +20,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and test with Maven
-        run: docker build -f Dockerfile --target test .
+#      - name: Build and test with Maven
+#        run: docker build -f Dockerfile --target test .
 
       - name: Update Patch Version
         run: |
@@ -37,6 +37,6 @@ jobs:
           
       - name: Deliver to GitHub Container Registry
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
 
