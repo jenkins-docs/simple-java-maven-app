@@ -21,11 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test with Maven
-        run: docker build -f Dockerfile --target maven-test .
+#      - name: Test with Maven
+#        run: docker build -f Dockerfile --target  .
         
-      - name: Build with Maven
-        run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f Dockerfile --target maven-build .
+      - name: Build and Test with Maven
+        run: docker build -f Dockerfile --target maven-test .
 
       - name: Update Patch Version
         run: |
@@ -41,5 +41,6 @@ jobs:
           
       - name: Deliver to GitHub Container Registry
         run: |
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f Dockerfile --target maven-build .
           docker push ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
