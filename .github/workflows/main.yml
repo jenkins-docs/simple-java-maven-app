@@ -8,7 +8,7 @@ on:
 env:
   IMAGE_TAG: latest
 #  GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
-#  GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PATCH_VERSION_SCRIPT: ./update_version.sh
   IMAGE_NAME: hello-world
 #  REPO_NAME: simple-java-maven-app 
