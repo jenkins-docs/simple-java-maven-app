@@ -11,6 +11,7 @@ env:
   GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
   PATCH_VERSION_SCRIPT: ./update_version.sh
   IMAGE_NAME: hello-world
+  REPO_NAME: simple-java-maven-app 
 
 jobs:
   increment-and-build-and-deliver:
@@ -20,8 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and test with Maven
-        run: docker build -f Dockerfile --target test .
+      - name: Test with Maven
+        run: docker build -f Dockerfile --target maven-test .
+        
+      - name: Build with Maven
+        run: docker build -f Dockerfile --target builder .
 
       - name: Update Patch Version
         run: |
@@ -33,8 +37,10 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ GHCR_TOKEN }}
           
       - name: Deliver to GitHub Container Registry
-        run: docker push ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        run: |
+          docker tag  ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
