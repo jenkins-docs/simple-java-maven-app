@@ -41,13 +41,8 @@ jobs:
           $PATCH_VERSION_SCRIPT
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
           
       - name: Deliver to GitHub Container Registry
-        run: |
-          docker push ghcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
