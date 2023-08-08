@@ -12,6 +12,3 @@ else
 fi
 
 echo $NEW_VERSION
-
-mvn -q versions:set -DnewVersion="${{steps.version.outputs.NEW_VERSION}}"
-
