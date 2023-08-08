@@ -6,7 +6,6 @@ on:
       - master
 
 env:
-  IMAGE_TAG: latest
   IMAGE_NAME: ghcr.io/caesarh287/hello-world
   PROD_IP: 52.90.41.120
   
@@ -43,7 +42,7 @@ jobs:
         run: docker build --target maven-test .
         
       - name: Build with Maven
-        run: docker build --target production -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .     
+        run: docker build --target production -t ${{ env.IMAGE_NAME }}:${{steps.image_name.outputs.image_name}} .     
           
       - name: Update Patch Version
         run: |
