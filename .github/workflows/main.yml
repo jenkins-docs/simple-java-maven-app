@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  IMAGE_TAG: latest
+  GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+  GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+  PATCH_VERSION_SCRIPT: ./update_version.sh
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Build with Maven
+        run: mvn package
+
+      - name: Update Patch Version
+        run: |
+          chmod +x $PATCH_VERSION_SCRIPT
+          $PATCH_VERSION_SCRIPT
+
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+
+      - name: Tag Docker image
+        run: docker tag your-image-name:latest ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
+
+      - name: Push Docker image to GHCR
+        run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
