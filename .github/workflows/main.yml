@@ -6,9 +6,10 @@ on:
       - master
 
 env:
+  IMAGE_TAG: latest
   IMAGE_NAME: ghcr.io/caesarh287/hello-world
   PROD_IP: 52.90.41.120
-  
+
 
 jobs:
   build-and-deploy:
@@ -17,19 +18,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Get new version
-        id: version
-        run: echo "new_version=$(./update_version.sh)" >> $GITHUB_OUTPUT
-
-      - name: Set image name
-        id: image_name
-        run: echo "image_name=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout):${{steps.version.outputs.new_version}}" >> $GITHUB_OUTPUT
-        
-      - name: Bump new version
-        run: |
-          REPO="https://$GITHUB_ACTOR:$TOKEN@github.com/$GITHUB_REPOSITORY.git"
-          mvn -q versions:set -DnewVersion="${{steps.version.outputs.new_version}}"        
         
       - uses: docker-practice/actions-setup-docker@master
         timeout-minutes: 5
@@ -42,17 +30,13 @@ jobs:
         run: docker build --target maven-test .
         
       - name: Build with Maven
-        run: docker build --target production -t ${{ env.IMAGE_NAME }}:${{steps.image_name.outputs.image_name}} .     
-          
+        run: docker build --target production -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+                  
       - name: Update Patch Version
-        run: |
-          git config --global user.email "<>"
-          git config --global user.name "${{github.actor}}"
-          git add ./pom.xml
-          git commit -m "Release ${{steps.version.outputs.new_version}}"
-          git tag ${{steps.version.outputs.new_version}}
-          git push --follow-tags
-          git push --tags
+        id: update
+        uses: nnichols/maven-version-bump-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Login and Publish to GitHub Container Registry
         run: |
