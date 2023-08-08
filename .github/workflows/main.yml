@@ -11,6 +11,7 @@ env:
 #  GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #  PATCH_VERSION_SCRIPT: ./update_version.sh
   IMAGE_NAME: ghcr.io/caesarh287/hello-world
+  PROD_IP: 52.90.41.120
 #  REPO_NAME: simple-java-maven-app 
 
 jobs:
@@ -47,9 +48,21 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Login to GitHub Container Registry
-        run: docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Deliver to GitHub Container Registry
-        run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      - name: Login and Deliver to GitHub Container Registry
+        run: |
+          docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy to EC2 with SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ env.PROD_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo docker kill prod-app &>/dev/null || true
+            sudo docker rm prod-app &>/dev/null || true
+            sudo docker pull ghcr.io/caesarh287/hello-world
+            sudo docker run -d --name prod-app ${{ env.IMAGE_NAME }}
+
 

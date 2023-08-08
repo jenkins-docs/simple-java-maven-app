@@ -1,14 +1,17 @@
 #!/bin/bash
 
-current_version=$(awk -F'[<>]' '/<artifactId>my-app<\/artifactId>/{getline; getline; print $3}' pom.xml)
+curr_version=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
+parts=( ${curr_version//./ } )
+string=( ${curr_version//-/ } )
+bv=$((parts[2] + 1))
 
-IFS='.-' read -ra version_parts <<< "$current_version"
-major_version="${version_parts[0]}"
-minor_version="${version_parts[1]}"
-patch_version="${version_parts[2]}"
+if [[ -z ${string[1]} ]]; then
+  NEW_VERSION="${parts[0]}.${parts[1]}.${bv}"
+else
+  NEW_VERSION="${parts[0]}.${parts[1]}.${bv}-${string[1]}"
+fi
 
-patch_version=$((patch_version + 1))
+echo $NEW_VERSION
 
-new_version="$major_version.$minor_version.$patch_version-SNAPSHOT"
+mvn -q versions:set -DnewVersion="${{steps.version.outputs.NEW_VERSION}}"
 
-sed -i "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" pom.xml
