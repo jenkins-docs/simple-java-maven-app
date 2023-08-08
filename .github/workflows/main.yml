@@ -49,5 +49,5 @@ jobs:
           
       - name: Deliver to GitHub Container Registry
         run: |
-          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ghcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
