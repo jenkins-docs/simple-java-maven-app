@@ -22,8 +22,9 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Check Docker Version          
-        uses: docker-practice/actions-setup-docker@master
-        run: |
+      - uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 5
+      - run: |
           set -x
           docker version
 
