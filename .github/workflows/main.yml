@@ -11,15 +11,21 @@ env:
 #  GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PATCH_VERSION_SCRIPT: ./update_version.sh
   IMAGE_NAME: hello-world
-  REPO_NAME: simple-java-maven-app 
+#  REPO_NAME: simple-java-maven-app 
 
 jobs:
-  increment-and-build-and-deliver:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Check Docker Version          
+        uses: docker-practice/actions-setup-docker@master
+        run: |
+          set -x
+          docker version
 
       - name: Test with Maven
         run: docker build --target maven-test .
