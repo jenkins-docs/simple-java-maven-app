@@ -10,6 +10,7 @@ env:
   GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
   GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
   PATCH_VERSION_SCRIPT: ./update_version.sh
+  IMAGE_NAME: hello-world
 
 jobs:
   build-and-push:
@@ -36,11 +37,7 @@ jobs:
         run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
       - name: Tag Docker image
-        run: docker tag your-image-name:latest ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
 
       - name: Push Docker image to GHCR
         run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
