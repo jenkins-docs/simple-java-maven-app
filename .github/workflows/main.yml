@@ -13,15 +13,15 @@ env:
   IMAGE_NAME: hello-world
 
 jobs:
-  increment-and-build-and-push:
+  increment-and-build-and-deliver:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Build and test with Maven
-#        run: docker build -f Dockerfile --target test .
+      - name: Build and test with Maven
+        run: docker build -f Dockerfile --target test .
 
       - name: Update Patch Version
         run: |
