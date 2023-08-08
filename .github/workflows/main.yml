@@ -40,6 +40,7 @@ jobs:
 #          chmod +x $PATCH_VERSION_SCRIPT
 #          $PATCH_VERSION_SCRIPT
           
+          
       - name: Update Patch Version
         id: update
         uses: nnichols/maven-version-bump-action@v3
