@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_TAG: latest
-  GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+#  GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
   GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
   PATCH_VERSION_SCRIPT: ./update_version.sh
   IMAGE_NAME: hello-world
@@ -36,7 +36,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Deliver to GitHub Container Registry
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
+        run: docker push ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
