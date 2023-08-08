@@ -40,4 +40,7 @@ jobs:
 
       - name: Push Docker image to GHCR
         run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/simple-java-maven-app:${{ env.IMAGE_TAG }}
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
