@@ -41,6 +41,6 @@ jobs:
           
       - name: Deliver to GitHub Container Registry
         run: |
-          docker tag  ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag  ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push ghcr.io/caesarh287/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
