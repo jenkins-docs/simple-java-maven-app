@@ -1,15 +1,13 @@
-FROM maven:3.8.6-openjdk-11-slim as builder
+FROM adoptopenjdk/maven-openjdk11:latest AS maven-build
 
 WORKDIR /app
-COPY pom.xml .
-RUN mvn verify --fail-never
 COPY . .
 
-RUN mvn clean package -Dmaven.test.skip
+RUN mvn clean package
 
 
 FROM maven:3.8.6-openjdk-11-slim AS maven-test
 WORKDIR /app
-COPY --from=builder /app .
+COPY --from=maven-build /app .
 RUN mvn clean test
 
