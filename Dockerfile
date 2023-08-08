@@ -9,4 +9,3 @@ WORKDIR /app
 COPY --from=build /app .
 RUN mvn clean test
 
-
