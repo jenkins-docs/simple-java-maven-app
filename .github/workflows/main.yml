@@ -20,7 +20,7 @@ jobs:
         
       - name: Get new version
         id: version
-        run: echo "new_version=$(./bump_patch.sh)" >> $GITHUB_OUTPUT
+        run: echo "new_version=$(./update_version.sh)" >> $GITHUB_OUTPUT
 
       - name: Set image name
         id: image_name
@@ -54,7 +54,7 @@ jobs:
           git push --follow-tags
           git push --tags
           
-      - name: Login and Deliver to GitHub Container Registry
+      - name: Login and Publish to GitHub Container Registry
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
           docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
