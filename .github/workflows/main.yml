@@ -19,12 +19,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 5
-      - run: |
-          set -x
-          docker version
-          docker run --rm hello-world
+      - name: Update Patch Version
+        id: update
+        uses: nnichols/maven-version-bump-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test with Maven
         run: docker build --target maven-test .
@@ -32,12 +31,6 @@ jobs:
       - name: Build with Maven
         run: docker build --target production -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
                   
-      - name: Update Patch Version
-        id: update
-        uses: nnichols/maven-version-bump-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          
       - name: Login and Publish to GitHub Container Registry
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
