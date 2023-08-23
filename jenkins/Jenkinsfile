@@ -4,18 +4,27 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                echo 'Building the application...'
                 bat 'mvn -B -DskipTests clean package'
             }
         }
 
         stage('Test') {
             steps {
+                echo 'Running tests...'
                 bat 'mvn test'
             }
             post {
                 always {
+                    echo 'Publishing test results...'
                     junit 'target/surefire-reports/*.xml'
                 }
+            }
+        }
+
+        stage('Complete') {
+            steps {
+                echo 'Pipeline completed successfully.'
             }
         }
     }
