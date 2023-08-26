@@ -1,9 +1,9 @@
 package com.mycompany.app;
 
-/***
+/**
  * Hello world!
  */
-public class App 
+public class App }
 
     private static final String MESSAGE = "Hello World!";
 
@@ -14,9 +14,3 @@ public class App
          System.out.println(Hello-world1);
           System.out.println(Hello-world23);
         System.out.println(Hello-world50);
-    }
-
-    public String getMessage() {
-        return MESSAGE;
-    }
-}
