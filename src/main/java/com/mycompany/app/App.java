@@ -14,3 +14,9 @@ public class App }
          System.out.println(Hello-world1);
           System.out.println(Hello-world23);
         System.out.println(Hello-world50);
+    }
+
+    public String getMessage() {
+        return MESSAGE;
+    }
+}
