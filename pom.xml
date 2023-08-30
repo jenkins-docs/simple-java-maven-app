@@ -4,7 +4,10 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+
+  <!-- Set an initial version, e.g., 1.0.0 -->
+  <version>1.0.0</version>
+
   <name>my-app</name>
   <url>https://maven.apache.org</url>
   <dependencies>
@@ -67,6 +70,22 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Add the versions-maven-plugin configuration -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.7</version>
+        <executions>
+          <execution>
+            <id>update-versions</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>update-properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
+
