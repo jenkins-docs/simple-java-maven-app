@@ -39,8 +39,7 @@ jobs:
           chmod 600 deploy_key.pem
           scp -i deploy_key.pem -o StrictHostKeyChecking=no ./scripts/deployment-script.sh ec2-user@35.180.61.1:/tmp/
           # Change permissions of the deployment script on the remote server
-    	  ssh -i deploy_key.pem -o StrictHostKeyChecking=no ec2-user@35.180.61.1 "chmod +x /tmp/deployment-script.sh"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ec2-user@35.180.61.1 "chmod +x /tmp/deployment-script.sh"
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ec2-user@35.180.61.1 "/tmp/deployment-script.sh"
           rm -f deploy_key.pem
-
 
