@@ -38,7 +38,6 @@ jobs:
           echo "$PRIVATE_KEY" > deploy_key.pem
           chmod 600 deploy_key.pem
           scp -i deploy_key.pem -o StrictHostKeyChecking=no ./scripts/deployment-script.sh ec2-user@35.180.61.1:/tmp/
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ec2-user@35.180.61.1 "/tmp/deployment-script.sh"
-          sudo chmod +x /tmp/deployment-script.sh
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ec2-user@35.180.61.1 "sudo chmod +x /tmp/deployment-script.sh /tmp/deployment-script.sh"
           rm -f deploy_key.pem
 
