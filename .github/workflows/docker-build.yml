@@ -26,8 +26,8 @@ jobs:
 
 
       - name: Bump version
-          id: bump
-          uses: mickem/gh-action-bump-maven-version@v1
+        id: bump
+        uses: mickem/gh-action-bump-maven-version@v1
 
 
       - name: Build Docker Image
