@@ -22,11 +22,7 @@ jobs:
           settings-path: ${{ github.workspace }}
 
       - name: Increase Patch Version
-        run: |
-          mvn versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\$((\${parsedVersion.patchVersion} + 1))
-          git commit -am "Bump patch version"
-          git push origin main
-
+        run: ./bump-version.sh
 
       - name: Build Docker Image
         run: |
