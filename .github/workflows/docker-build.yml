@@ -24,12 +24,9 @@ jobs:
       - name: Build JAR
         run: mvn clean install
 
-      - name: Copy Dockerfile
-        run: cp /home/parallels/GithubActionProject/simple-java-maven-app/Dockerfile ${{ github.workspace }}/Dockerfile
-
       - name: Build Docker Image
         run: |
-          docker build -t roybidani/simple-java-maven-app:${{ github.sha }} -f Dockerfile .
+          docker build -t roybidani/simple-java-maven-app:${{ github.sha }} .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push roybidani/simple-java-maven-app:${{ github.sha }}
 
