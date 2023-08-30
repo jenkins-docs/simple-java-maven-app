@@ -21,8 +21,14 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Increase Patch Version
-        run: ./bump-version.sh
+#      - name: Increase Patch Version
+#        run: ./bump-version.sh
+
+
+      - name: Bump version
+          id: bump
+          uses: mickem/gh-action-bump-maven-version@v1
+
 
       - name: Build Docker Image
         run: |
