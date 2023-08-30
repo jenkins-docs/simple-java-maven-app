@@ -25,7 +25,7 @@ jobs:
         run: mvn clean install
 
       - name: Copy Dockerfile
-        run: cp /simple-java-maven-app/Dockerfile ${{ github.workspace }}/Dockerfile
+        run: cp /home/parallels/GithubActionProject/simple-java-maven-app/Dockerfile ${{ github.workspace }}/Dockerfile
 
       - name: Build Docker Image
         run: |
