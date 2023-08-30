@@ -1,0 +1,21 @@
+name: Bump Version
+
+on:
+  workflow_run:
+    workflows: ["Build and Deploy Docker Image"]
+    types:
+      - completed
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Bump Version
+        uses: anothrnick/github-tag-action@v4
+        with:
+          bump: patch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
