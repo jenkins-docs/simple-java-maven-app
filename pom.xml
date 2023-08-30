@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
 
   <!-- Set an initial version, e.g., 1.0.0 -->
-  <version>1.0.1</version>
+  <version>1</version>
   <name>my-app</name>
   <url>https://maven.apache.org</url>
   <dependencies>
