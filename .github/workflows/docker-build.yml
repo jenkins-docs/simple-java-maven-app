@@ -23,6 +23,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t your-dockerhub-username/simple-java-maven-app:${{ github.sha }} .
+          docker build -t roybidani/simple-java-maven-app:${{ github.sha }} .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push your-dockerhub-username/simple-java-maven-app:${{ github.sha }}
+          docker push roybidani/simple-java-maven-app:${{ github.sha }}
