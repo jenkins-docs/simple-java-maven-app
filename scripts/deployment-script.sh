@@ -1,6 +1,6 @@
 #!/bin/bash
 # Define Docker image details
-DOCKER_IMAGE="roybidani/simple-java-maven-app:${{ github.sha }}"
+DOCKER_IMAGE="roybidani/simple-java-maven-app:latest"
 # Pull the latest Docker image
 docker pull $DOCKER_IMAGE
 # Stop and remove the existing container (if it exists)

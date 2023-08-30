@@ -27,9 +27,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t roybidani/simple-java-maven-app:${{ github.sha }} .
+          docker build -t roybidani/simple-java-maven-app:latest .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push roybidani/simple-java-maven-app:${{ github.sha }}
+          docker push roybidani/simple-java-maven-app:latest
           
       - name: Deploy to EC2
         env:
