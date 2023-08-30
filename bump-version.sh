@@ -8,5 +8,5 @@ current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdou
 new_version=$(echo $current_version | awk -F. '{$3++; OFS="."; print $0}')
 mvn versions:set -DnewVersion=$new_version
 git commit -am "Bump patch version"
-git push origin main
+git push origin master
 
