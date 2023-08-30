@@ -1,0 +1,28 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Build JAR
+        run: mvn clean install
+
+      - name: Build Docker Image
+        run: |
+          docker build -t your-dockerhub-username/simple-java-maven-app:${{ github.sha }} .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push your-dockerhub-username/simple-java-maven-app:${{ github.sha }}
