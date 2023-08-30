@@ -4,6 +4,7 @@
 git config user.email "you@example.com"
 git config user.name "Your Name"
 
+#increases the patch version number by 1 
 current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 new_version=$(echo $current_version | awk -F. '{$3++; OFS="."; print $0}')
 mvn versions:set -DnewVersion=$new_version
