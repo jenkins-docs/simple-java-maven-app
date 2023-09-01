@@ -12,6 +12,7 @@ public class App {
     public static void main(String[] args) {
         System.out.println(MESSAGE);
         System.out.println("Hello Midfielder");
+        System.out.println("New changes in new branch");
     }
 
     public String getMessage() {
