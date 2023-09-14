@@ -10,9 +10,9 @@ pipeline{
 		disableConcurrentBuilds()
 	}
 	triggers{
-		pollSCM("H/5 * * * *")
+		pollSCM("* * * * *")
 	}
-	credentials{
+	environment{
 		MY_CRED = credentials("TEST")
 	}
 	parameters{
@@ -51,17 +51,17 @@ pipeline{
 				}
 			}
 		}
-		stage("Parellel demo") {
-			parellel{
+		stage("parallel demo") {
+			parallel{
 				steps{
 					retry(3){
-						echo "First parellel step"
+						echo "First parallel step"
 						sleep 10
 						error "Throwing an error"
 					}
 				}
 				steps{
-					echo "Second parellel step"
+					echo "Second parallel step"
 					sleep 10
 				}
 			}
