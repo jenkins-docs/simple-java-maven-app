@@ -29,7 +29,7 @@ pipeline{
 			steps{
 				script {
 					def name = params.Branch
-					if ($name != "Dev"){
+					if (name != "Dev"){
 						sh "mvn clean package"
 						echo "My creds is ${MY_CRED}"
 					}
