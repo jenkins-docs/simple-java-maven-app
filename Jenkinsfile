@@ -31,7 +31,7 @@ pipeline{
 					def name = params.Branch
 					if (name == "Dev"){
 						sh "mvn clean package"
-						echo "My creds is ${MY_CRED}"
+						println "My creds is ${MY_CRED}"
 					}
 				}
 			}
