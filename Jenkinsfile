@@ -53,16 +53,20 @@ pipeline{
 		}
 		stage("parallel demo") {
 			parallel{
-				steps{
-					retry(3){
-						echo "First parallel step"
-						sleep 10
-						error "Throwing an error"
+				stage("First"){
+					steps{
+						retry(3){
+							echo "First parallel step"
+							sleep 10
+							error "Throwing an error"
+						}
 					}
 				}
-				steps{
-					echo "Second parallel step"
-					sleep 10
+				stage("Second"){
+					steps{
+						echo "Second parallel step"
+						sleep 10
+					}
 				}
 			}
 		}
