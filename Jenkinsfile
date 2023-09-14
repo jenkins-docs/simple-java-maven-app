@@ -28,7 +28,7 @@ pipeline{
 		stage("Build") {
 			steps{
 				script {
-					def name = ${params.Branch}
+					def name = params.Branch
 					if ($name != "Dev"){
 						sh "mvn clean package"
 						echo "My creds is ${MY_CRED}"
