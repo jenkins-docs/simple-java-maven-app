@@ -28,10 +28,10 @@ pipeline{
 		stage("Build") {
 			steps{
 				script {
-					def name = $Branch
+					def name = ${params.Branch}
 					if ($name == "Dev"){
 						sh "mvn clean package"
-						echo "My creds is $MY_CRED"
+						echo "My creds is ${MY_CRED}"
 					}
 				}
 			}
@@ -39,7 +39,7 @@ pipeline{
 		stage("Test") {
 			when {
 				expression {
-					$Test == true
+					${params.Test} == true
 				}
 			}
 			steps {
