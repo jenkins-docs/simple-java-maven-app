@@ -28,7 +28,8 @@ pipeline {
         stage("Complete"){
             steps {
                 dir("simple-java-maven-app") {
-                    echo "COMPLETED!"
+                    echo "working on aws resources......"
+                    echo "Iac NOT COMPLETED!"
                 }
             }
         }
