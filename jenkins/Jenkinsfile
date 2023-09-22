@@ -1,35 +1,28 @@
 pipeline {
-    /* agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }*/
     agent any
     stages {
-        stage('Build') {
+        stage("Clean Up"){
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                deleteDir()
             }
         }
-        stage('Test') {
+        stage("Clone Repo"){
             steps {
-                sh 'mvn test'
+                sh "git clone https://github.com/hafmoham/simple-java-maven-app.git"
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+        }
+        stage("Build"){
+            steps {
+                dir("simple-java-maven-app") {
+                    sh "mvn clean install"
                 }
             }
         }
-        stage('Deliver') {
+        stage("Test"){
             steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
-        stage('Complete') {
-            steps {
-                echo 'Completed!'
+                dir("simple-java-maven-app") {
+                    sh "mvn test"
+                }
             }
         }
     }
