@@ -1,0 +1,21 @@
+pipeline {
+   agent any
+   tools{
+       maven 'maven394'
+   }
+   
+    stages {
+      stage("Test code"){
+        steps{
+        sh 'mvn test'
+    }
+    }
+    stage("Build artifact"){
+        steps{
+            sh 'mvn package'
+        
+        }
+    }
+    }
+    
+}
