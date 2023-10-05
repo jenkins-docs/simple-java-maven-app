@@ -9,9 +9,6 @@ pipeline{
 		skipDefaultCheckout()
 		disableConcurrentBuilds()
 	}
-	triggers{
-		pollSCM("* * * * *")
-	}
 	environment{
 		MY_CRED = credentials("TEST")
 	}
