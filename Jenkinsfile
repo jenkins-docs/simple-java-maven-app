@@ -6,7 +6,6 @@ pipeline{
 	options{
 		timeout(time: 1, unit: "HOURS")
 		timestamps()
-		skipDefaultCheckout()
 		disableConcurrentBuilds()
 	}
 	environment{
@@ -17,11 +16,6 @@ pipeline{
 		booleanParam(name: "Test", defaultValue: true, description: "Want to test the code?")
 	}
 	stages{
-		stage("Checkout code"){
-			steps{
-				checkout scm
-			}
-		}
 		stage("Build") {
 			steps{
 				script {
