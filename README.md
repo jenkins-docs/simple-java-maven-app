@@ -25,3 +25,15 @@ SMTP Details from Gmail
 		○ SMTP port : 465
 		○ Reply to address : noreply@gmail.com(optional)
 Charset : UTF-8 (by default it is UTF-8)![image](https://github.com/vcjain/simple-java-maven-app/assets/4056148/c8dfdbb4-baaf-450f-8e40-a170c71d5ba3)
+
+
+-----
+
+## How to create a Gmail password for Jenkins
+	- Generate App Password for Google
+		○ Navigate to Google account
+		○ Select Security and Enable 2 factor authentication if you have not done it
+		○ Once 2MFA is enable navigate back to security Tab and click on 2 Step Verification in Right Pane
+		○ On bottom of the page you will find App Password
+Create a new App password for Jenkins ![image](https://github.com/vcjain/simple-java-maven-app/assets/4056148/3c9fd9e9-92fd-41a0-9128-1743c2b72323)
+
