@@ -6,4 +6,4 @@ cmd ["mkdir" , "/usr/app"]
 copy ./target/my-app-1.0-SNAPSHOT.jar /usr/app
 workdir /usr/app
 
-entrypoint ["java" , "-jar", "my-app-1.0-SNAPSHOT.jar"]
+entrypoint ["java" , "-jar", "/usr/app/my-app-1.0-SNAPSHOT.jar"]
