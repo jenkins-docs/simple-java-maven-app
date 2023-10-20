@@ -6,10 +6,7 @@ pipeline {
 
   }
   stages {
-    stage('Build') {
-      environment {
-        BUZZ_NAME = 'Worker bee'
-      }
+    stage('Build') {      
       steps {        
 mvn -B -DskipTests clean package'''
         archiveArtifacts(artifacts: 'target/*.jar', fingerprint: true)
