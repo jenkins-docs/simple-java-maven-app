@@ -10,8 +10,7 @@ pipeline {
       environment {
         BUZZ_NAME = 'Worker bee'
       }
-      steps {
-        sh '''echo Hola soy $BUZZ_NAME
+      steps {        
 mvn -B -DskipTests clean package'''
         archiveArtifacts(artifacts: 'target/*.jar', fingerprint: true)
       }
