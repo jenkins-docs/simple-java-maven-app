@@ -15,12 +15,13 @@ pipeline {
         }
         stage("build jar") {
 
-            when {
+            
+            steps {
+                when {
                 expression {
                     BRANCH_NAME == 'master'
                 }
             }
-            steps {
                 script {
                     echo " building the jarfile"
                     sh 'mvn package'
