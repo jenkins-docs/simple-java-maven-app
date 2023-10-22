@@ -61,10 +61,8 @@ pipeline {
                 script {
                     gv.deployApp()
                 }
-                withCredentials([
-                    usernamePassword(credentials(credentialsId: 'github-credentials', usernameVariable : 'USER' , passwordVariable : 'PASS'))
-                ]) {
-                    echo "some script ${USER} ${PASS}"
+                withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    echo "some script ${USERNAME} ${PASSWORD}"
                 }
             }
          
