@@ -47,12 +47,13 @@ pipeline {
         }
 
         stage("deploy") {
-            when {
+            
+            steps {
+                when {
                 expression {
                     BRANCH_NAME == 'master'
                 }
             }
-            steps {
                 script {
                     echo "deploying the application ... "
                 }
