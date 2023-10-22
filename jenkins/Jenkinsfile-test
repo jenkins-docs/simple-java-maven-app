@@ -1,30 +1,85 @@
+// CODE_CHANGES = getGitChanges()
+def gv
+
 pipeline {
   
   agent any
+//   environment {
+//     NEW_VERSION = '1.3.0'
+//   } setting up global environment variables
+
+//   tools {
+//     maven 'maven-3.9'
+//   } // setting up build tools
+
+  parameters {
+    choice(name: 'VERSION', choices: ['1.1.0' , '1.2.0', '1.3.0'], description: '')
+    booleanParam(name: 'executeTests', defaultValue: true, description: '')
+  }
 
   stages {
+
+      stage ("Init") {
+
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+      }
       stage("build") {
-        
-        steps {
-          echo "Building the project"
-        }
+
+            // when {
+            //     BRANCH_NAME == "dev" && CODE_CHANGES == true
+            // }
+            steps {
+                script {
+                    gv.buildApp()
+                }
+            }
         
       }
 
        stage("test") {
-         
-        steps {
-          echo "Testing the project"
-        }
+
+            when {
+                expression {
+                    params.executeTests
+                }
+            }
+            steps {
+                script {
+                    gv.testApp()
+                }
+            }
          
       }
 
        stage("deploy") {
-         
-        steps {
-          echo "Deploying the project"
-        }
+
+            steps {
+                script {
+                    gv.deployApp()
+                }
+                withCredentials([
+                    usernamePassword(credentials('github-credentials', usernameVariable : USER , passwordVariable : PASS))
+                ]) {
+                    echo "some script ${USER} ${PWD}"
+                }
+            }
          
       }
   }
+
+//   post {
+//     always {
+//         // will be executed no matter the outcome of stages
+//     }
+//     success {
+//         // in case of success
+//     }
+//     failure {
+//         //in case of failure
+//     }
+//   }
 }
