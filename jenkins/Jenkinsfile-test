@@ -23,7 +23,7 @@ pipeline {
 
             steps {
                 script {
-                    gv = load "jenkins/script.groovy"
+                    gv = load "script.groovy"
                 }
             }
       }
@@ -56,14 +56,22 @@ pipeline {
       }
 
        stage("deploy") {
-
+            
+            input {
+                message "Select the environment to deploy to"
+                ok "Done"
+                prameters {
+                    choice(name: 'ENV' , choices: ['dev', 'staging', 'prod'], description: '')
+                }
+            }
             steps {
                 script {
                     gv.deployApp()
+                    echo "Deploying to ${ENV}"
                 }
-                withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                 withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "some script ${USERNAME} ${PASSWORD}"
-                }
+                } 
             }
          
       }
