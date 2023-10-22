@@ -4,7 +4,22 @@ pipeline {
         maven 'maven-3.9'
     }
     stages {
+
+        stage("test"){
+            steps{
+                script {
+                    echo "testing the application"
+                    echo "Executing pipeline for branch $BRANCH_NAME"
+                }
+            }
+        }
         stage("build jar") {
+
+            when {
+                expression {
+                    BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 script {
                     echo " building the jarfile"
@@ -15,9 +30,14 @@ pipeline {
 
         stage("build image") {
             steps {
+                when {
+                expression {
+                    BRANCH_NAME == 'master'
+                }
+            }
                 script {
                     echo " building the image ..."
-                    withCredentials([usernamePassword(credentialsId:'docker-hub', usernameVariable: 'USERNAME', passwordVariable:'PASSWORD')]){
+                    withCredentials([usernamePassword(credentialsId:'docker-hub',usernameVariable: 'USERNAME', passwordVariable:'PASSWORD' )]){
                         sh 'docker build -t walidelbir/devops-bootcamp:jma-2.0 .'
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                         sh 'docker push walidelbir/devops-bootcamp:jma-2.0'
@@ -27,6 +47,11 @@ pipeline {
         }
 
         stage("deploy") {
+            when {
+                expression {
+                    BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 script {
                     echo "deploying the application ... "
