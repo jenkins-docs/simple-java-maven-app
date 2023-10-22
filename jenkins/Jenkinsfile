@@ -1,29 +1,36 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent any 
+    tools {
+        maven 'maven-3.9'
     }
-    stages {
-        stage('Build') {
+    stage {
+        stage("build jar") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                script {
+                    echo " building the jarfile"
+                    sh 'mvn package'
                 }
             }
         }
-        stage('Deliver') {
+
+        stage("build image") {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                script {
+                    echo " building the image ..."
+                    withCredentials([usernamePassword(credentialsId:'docker-hub', passwordVariable:'PASSWORD', usernameVarible: 'USERNAME')]){
+                        sh 'docker build -t walidelbir/devops-bootcamp:jma-2.0'
+                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                        sh 'docker push walidelbir/devops-bootcamp:jma-2.0'
+                    }
+                }
+            }
+        }
+
+        stage("deploy") {
+            steps {
+                script {
+                    echo "deploying the application ... "
+                }
             }
         }
     }
