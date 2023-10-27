@@ -19,7 +19,7 @@ pipeline {
         stage('Build image') {
             steps {
                 echo "building the image...."
-                withCredentials([string(credentialsId: 'Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'docker build -t schkoda/push-from-jenkins:my-app-2.0 .'
                     sh 'echo $PASS | docker login -u $USER --password-stdin'
                     sh 'docker push schkoda/push-from-jenkins:my-app-2.0'
