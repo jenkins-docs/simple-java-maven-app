@@ -1,3 +1,5 @@
+@Library('jenkins-shared-library')_
+
 pipeline {
     agent any
     tools {
@@ -11,28 +13,20 @@ pipeline {
             }
         }
         stage('Build jar') {
-            when {
-                expression {
-                    BRANCH_NAME == 'master'
-                }
-            }
+           
             steps {
-                echo "building the app...."
-                sh 'mvn package'
+                script {
+                    buildJar()
+                }
             }
         }
-        stage('Build image') {
-            when {
-                expression {
-                    BRANCH_NAME == 'master'
-                }
-            }
+        stage('Build and push image') {
+            
             steps {
-                echo "building the image...."
-                withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh 'docker build -t schkoda/push-from-jenkins:my-app-2.0 .'
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh 'docker push schkoda/push-from-jenkins:my-app-2.0'
+                script {
+                    buildImage 'schkoda/push-from-jenkins:my-app-4.0'
+                    dockerLogin()
+                    dockerPush 'schkoda/push-from-jenkins:my-app-4.0'
                 }
             }
         }
