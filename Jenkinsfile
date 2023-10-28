@@ -11,12 +11,22 @@ pipeline {
             }
         }
         stage('Build jar') {
+            when {
+                expression {
+                    BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 echo "building the app...."
                 sh 'mvn package'
             }
         }
         stage('Build image') {
+            when {
+                expression {
+                    BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 echo "building the image...."
                 withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
