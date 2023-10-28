@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 script {
-                    buildImage()
+                    buildImage() 'schkoda/push-from-jenkins:my-app:3.0'
                 }
             }
         }
