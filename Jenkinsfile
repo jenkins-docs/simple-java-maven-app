@@ -13,11 +13,7 @@ pipeline {
             }
         }
         stage('Build jar') {
-            when {
-                expression {
-                    BRANCH_NAME == 'jenkins-shared-lib'
-                }
-            }
+           
             steps {
                 script {
                     buildJar()
@@ -25,11 +21,7 @@ pipeline {
             }
         }
         stage('Build and push image') {
-            when {
-                expression {
-                    BRANCH_NAME == 'jenkins-shared-lib'
-                }
-            }
+            
             steps {
                 script {
                     buildImage 'schkoda/push-from-jenkins:my-app-4.0'
