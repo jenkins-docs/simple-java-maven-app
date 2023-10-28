@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-        stage('Build image') {
+        stage('Build and push image') {
             when {
                 expression {
                     BRANCH_NAME == 'jenkins-shared-lib'
@@ -32,7 +32,9 @@ pipeline {
             }
             steps {
                 script {
-                    buildImage 'schkoda/push-from-jenkins:my-app-3.0'
+                    buildImage 'schkoda/push-from-jenkins:my-app-4.0'
+                    dockerLogin()
+                    dockerPush 'schkoda/push-from-jenkins:my-app-4.0'
                 }
             }
         }
