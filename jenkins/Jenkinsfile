@@ -1,30 +1,40 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any
+
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                // Assuming you are using Git. Adjust for other VCS.
+                git 'https://github.com/thedevopsdays/Demo-Project.git'
             }
         }
-        stage('Test') {
+
+        stage('Maven Compile') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                // You may need to adjust the path to your pom.xml file.
+                script {
+                    def mvnHome = tool 'Maven'
+                    def mavenHome = "${mvnHome}/bin/"
+
+                    // Use 'sh' for Unix-like systems, 'bat' for Windows.
+                    if (isUnix()) {
+                        sh "${mavenHome}/mvn clean compile"
+                    } else {
+                        bat "${mavenHome}\\mvn clean compile"
+                    }
                 }
             }
         }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
+    }
+
+    post {
+        success {
+            echo 'Build and compilation successful!'
+            // Add additional steps or notifications for successful build
+        }
+        failure {
+            echo 'Build failed! Check the Jenkins console output for details.'
+            // Add additional steps or notifications for failed build
         }
     }
 }
