@@ -22,8 +22,11 @@ public class App {
         sr.setSeed(123456L);
         int v = sr.nextInt(32);
         System.out.println(v);
-  System.out.println(v);
 
+        return message;
+    }
+
+    public String getAnotherMessage(String message) {
         return message;
     }
 }

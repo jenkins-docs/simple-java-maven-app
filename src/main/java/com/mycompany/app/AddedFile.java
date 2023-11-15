@@ -5,9 +5,9 @@ import java.util.Random;
 /**
  * Hello world!
  */
-public class App {
+public class AddedFile {
 
-    public App() {}
+    public AddedFile() {}
 
     public static void main(String[] args) {
         System.out.println("Test");
@@ -22,21 +22,7 @@ public class App {
         sr.setSeed(123456L);
         int v = sr.nextInt(32);
         System.out.println(v);
-  System.out.println(v);
 
         return message;
-    }
-    public String getMessage(String message) {
-        Random random = new Random();
-        int rValue = random.nextInt();
-        System.out.println(rValue);
-        
-        SecureRandom sr = new SecureRandom();
-        sr.setSeed(123456L);
-        int v = sr.nextInt(32);
-        System.out.println(v);
-  System.out.println(v);
-
-        return message;
-    }
+    } 
 }
