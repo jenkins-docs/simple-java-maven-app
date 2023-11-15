@@ -26,4 +26,17 @@ public class App {
 
         return message;
     }
+    public String getMessage(String message) {
+        Random random = new Random();
+        int rValue = random.nextInt();
+        System.out.println(rValue);
+        
+        SecureRandom sr = new SecureRandom();
+        sr.setSeed(123456L);
+        int v = sr.nextInt(32);
+        System.out.println(v);
+  System.out.println(v);
+
+        return message;
+    }
 }
