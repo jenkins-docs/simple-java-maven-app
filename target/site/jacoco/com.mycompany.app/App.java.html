@@ -23,11 +23,16 @@ public class App {
 <span class="fc" id="L23">        int v = sr.nextInt(32);</span>
 <span class="fc" id="L24">        System.out.println(v);</span>
 
-<span class="fc" id="L26">        return message;</span>
+<span class="fc" id="L26">        SecureRandom sr1 = new SecureRandom();</span>
+<span class="fc" id="L27">        sr1.setSeed(123456L);</span>
+<span class="fc" id="L28">        int v1 = sr1.nextInt(32);</span>
+<span class="fc" id="L29">        System.out.println(v1);</span>
+
+<span class="fc" id="L31">        return message;</span>
     }
 
     public String getAnotherMessage(String message) {
-<span class="fc" id="L30">        return message;</span>
+<span class="fc" id="L35">        return message;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

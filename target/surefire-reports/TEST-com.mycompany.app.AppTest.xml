@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.mycompany.app.AppTest" time="0.086" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.mycompany.app.AppTest" time="0.106" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IN"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/21.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire/surefirebooter-20231115114440417_3.jar /Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire 2023-11-15T11-44-40_314-jvmRun1 surefire-20231115114440417_1tmp surefire_0-20231115114440417_2tmp"/>
+    <property name="sun.java.command" value="/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire/surefirebooter-20231123073708061_3.jar /Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire 2023-11-23T07-37-07_945-jvmRun1 surefire-20231123073708061_1tmp surefire_0-20231123073708061_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/test-classes:/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/classes:/Users/kunalm/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.3/junit-jupiter-api-5.9.3.jar:/Users/kunalm/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/kunalm/.m2/repository/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.jar:/Users/kunalm/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -28,7 +28,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire/surefirebooter-20231115114440417_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/kunalm/Documents/demo-repos/simple-java-maven-app/target/surefire/surefirebooter-20231123073708061_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.1"/>
     <property name="user.name" value="kunalm"/>
@@ -55,21 +55,25 @@
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testAppMessagew" classname="com.mycompany.app.AppTest" time="0.06">
-    <system-out><![CDATA[1608711860
-1
+  <testcase name="testAppMessagew" classname="com.mycompany.app.AppTest" time="0.073">
+    <system-out><![CDATA[1546503592
+25
+22
 ]]></system-out>
   </testcase>
-  <testcase name="testAppConstructor" classname="com.mycompany.app.AppTest" time="0.001">
-    <system-out><![CDATA[1320907639
-24
-1686371600
+  <testcase name="testAppConstructor" classname="com.mycompany.app.AppTest" time="0.002">
+    <system-out><![CDATA[43987684
 17
+6
+-389441707
+1
+23
 ]]></system-out>
   </testcase>
-  <testcase name="testAppMessage" classname="com.mycompany.app.AppTest" time="0.001">
-    <system-out><![CDATA[357131788
-18
+  <testcase name="testAppMessage" classname="com.mycompany.app.AppTest" time="0.002">
+    <system-out><![CDATA[-430135255
+19
+26
 ]]></system-out>
   </testcase>
 </testsuite>
