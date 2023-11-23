@@ -23,6 +23,11 @@ public class App {
         int v = sr.nextInt(32);
         System.out.println(v);
 
+        SecureRandom sr1 = new SecureRandom();
+        sr1.setSeed(123456L);
+        int v1 = sr1.nextInt(32);
+        System.out.println(v1);
+
         return message;
     }
 
