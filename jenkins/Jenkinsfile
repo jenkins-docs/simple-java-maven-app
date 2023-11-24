@@ -21,11 +21,5 @@ pipeline {
                 echo "Done because otherwise you get error"
             }
         }
-        stage('Complete'){
-            steps {
-                echo 'Job Complete!'
-            }
-                
-    }
-} 
+    } 
 }
