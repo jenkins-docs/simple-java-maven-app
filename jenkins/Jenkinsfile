@@ -1,29 +1,29 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
+            image 'maven:3.9.0'  // Use the desired Maven version
+            args '-v /path/to/local/.m2/repository:/root/.m2/repository'  // Adjust volume mount if needed
         }
     }
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean install -Pproduction'  // Use appropriate Maven goals and profiles
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn verify'  // Adjust test command as needed
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit 'target/surefire-reports/*.xml'  // Verify test report path
                 }
             }
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh './jenkins/scripts/deploy.sh'  // Adjust the delivery script path and content
             }
         }
     }
