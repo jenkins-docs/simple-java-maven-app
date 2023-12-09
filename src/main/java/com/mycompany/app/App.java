@@ -9,6 +9,8 @@ public class App {
 
   public static void main(String[] args) {
     System.out.println(new App().getMessage());
+    //System.out.println(new App().getMessage());
+    //var i=0;
   }
 
   private final String getMessage() {
