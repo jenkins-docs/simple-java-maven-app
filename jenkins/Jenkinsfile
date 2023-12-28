@@ -3,11 +3,13 @@ pipeline{
     stages{
         stage("Build"){
             steps{
-                sh'mvn -B -DskipTests clean package'
+                echo 'This is from my feature branch'
+		sh'mvn -B -DskipTests clean package'
             }
         }
         stage("Test"){
             steps{
+	        echo 'This is from my feature branch' 
                 sh'mvn test'
             }
             post{
@@ -18,7 +20,8 @@ pipeline{
         }
         stage("Deliver"){
             steps{
-                sh'./jenkins/scripts/deliver.sh'
+                echo 'This is from my feature branch'
+		sh'./jenkins/scripts/deliver.sh'
             }
         }
     }
