@@ -9,6 +9,7 @@ RUN mvn test
 RUN mvn clean package
 RUN mvn install 
 
+# Stage 2
 FROM openjdk:11-jre-slim
 
 COPY --from=build /app/target/my-app-1.0-SNAPSHOT.jar /app/target/my-app-1.0-SNAPSHOT.jar
