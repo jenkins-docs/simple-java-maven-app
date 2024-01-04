@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Deploy to Server 1
-        uses: easingthemes/ssh-action@main
+        uses: appleboy/ssh-action@main
         env:
           host: 54.164.199.123
           key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
