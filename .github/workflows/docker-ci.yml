@@ -48,5 +48,4 @@ jobs:
           REMOTE_HOST: 54.164.199.123
           REMOTE_USER: ubuntu
           TARGET: ./app
-          run: |
-            sudo docker run joska99/java-maven:${{ github.run_number }}
+          run: sudo docker run joska99/java-maven:${{ github.run_number }}
