@@ -4,7 +4,7 @@
   become: true
   vars:
     default_container_name: docker
-    default_container_image: joska99/weather-app:type1
+    default_container_image: joska99/java-maven:latest
 
   tasks:
     #* Docker installation

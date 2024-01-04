@@ -53,11 +53,11 @@ jobs:
       #   steps:
       - name: Set permissions for private key
         run: |
-          echo "${{ env.AWS_PRIVATE_KEY }}" > joska.pem
+          echo "${{ secrets.SSH_KEY_JOSKA_EC2 }}" > joska.pem
           chmod 400 joska.pem
       - name: Deploy with Ansible
         run:
-          ansible-playbook --key-file joska.pem -i '${{ secrets.SSH_KEY_JOSKA_EC2 }},'  playbook.yaml -b
+          ansible-playbook --key-file joska.pem -i '54.164.199.123,'  playbook.yaml -b
 
           # - name: Deploy to Server 1
       #   uses: appleboy/ssh-action@master
