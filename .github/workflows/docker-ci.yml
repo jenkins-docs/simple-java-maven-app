@@ -51,4 +51,4 @@ jobs:
           host: 54.164.199.123
           key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
           username: ubuntu
-          script: sudo docker run joska99/java-maven:${{ github.run_number }}
+          script: sudo docker run -d -n java-app joska99/java-maven:${{ github.run_number }}
