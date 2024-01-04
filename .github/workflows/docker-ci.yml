@@ -47,4 +47,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
           REMOTE_HOST: 54.164.199.123
           REMOTE_USER: ubuntu
-        #   TARGET: ${ { secrets.TARGET_DIR }}
+          TARGET: /app
+          run: |
+            sudo docker run joska99/java-maven:${{ github.run_number }}
