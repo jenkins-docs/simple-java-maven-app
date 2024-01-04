@@ -4,10 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn validate
-RUN mvn test
-RUN mvn clean package
-RUN mvn install 
+RUN mvn validate test
+RUN mvn package install 
 
 # Stage 2
 FROM openjdk:11-jre-slim
