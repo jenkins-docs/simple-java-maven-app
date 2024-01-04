@@ -14,7 +14,7 @@ env:
   TAG_VERSION: 0.0.${{ github.run_number }}
 
 jobs:
-  build-push-deploy:
+  build-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,11 +41,14 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
+        uses: easingthemes/ssh-action@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
-          REMOTE_HOST: 54.164.199.123
-          REMOTE_USER: ubuntu
-          TARGET: ./app
-          run: sudo docker run joska99/java-maven:${{ github.run_number }}
+          host: 54.164.199.123
+          key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
+          username: ubuntu
+          script: sudo docker run joska99/java-maven:${{ github.run_number }}
