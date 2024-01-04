@@ -1,5 +1,5 @@
 - name: Deploy docker weather-app
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   vars:
