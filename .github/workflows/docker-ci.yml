@@ -52,7 +52,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
           port: 22
-          script: sudo docker run -d joska99/java-maven:${{ github.run_number }}
+          script: sudo docker run -d joska99/java-maven:0.0.${{ github.run_number }}
 
           # - name: Deploy to Server 1
           #   uses: appleboy/ssh-action@master
