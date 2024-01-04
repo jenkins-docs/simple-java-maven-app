@@ -41,13 +41,13 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      #   deploy:
+      # deploy:
       # runs-on: ubuntu-latest
 
-      # steps:
+      #   steps:
       - name: Deploy to Server 1
         uses: appleboy/ssh-action@master
-        env:
+        with:
           host: 54.164.199.123
           key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
           username: ubuntu
