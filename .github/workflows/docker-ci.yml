@@ -43,12 +43,15 @@ jobs:
 
       # deploy:
       # runs-on: ubuntu-latest
-
       #   steps:
-      - name: Deploy to Server 1
-        uses: appleboy/ssh-action@master
-        with:
-          host: 54.164.199.123
-          key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
-          username: ubuntu
-          script: sudo docker run -d -n java-app joska99/java-maven:${{ github.run_number }}
+      - name: SSH into EC2 and update container
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY_JOSKA_EC2 }} ec2-user@54.164.199.123 "sudo docker run joska99/java-naven:latest"
+
+        # - name: Deploy to Server 1
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: 54.164.199.123
+      #     key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
+      #     username: ubuntu
+      #     script: sudo docker run -d -n java-app joska99/java-maven:${{ github.run_number }}
