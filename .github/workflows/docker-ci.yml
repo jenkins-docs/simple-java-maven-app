@@ -41,10 +41,10 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-  deploy:
-    runs-on: ubuntu-latest
+      #   deploy:
+      # runs-on: ubuntu-latest
 
-    steps:
+      # steps:
       - name: Deploy to Server 1
         uses: appleboy/ssh-action@master
         env:
