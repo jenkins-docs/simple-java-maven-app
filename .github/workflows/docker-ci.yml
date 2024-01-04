@@ -21,6 +21,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install Ansible
+        run: pip install ansible
+
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with: # Add login credentials to the repository secrets
@@ -46,13 +53,13 @@ jobs:
       #   steps:
       - name: Set permissions for private key
         run: |
-          echo "${{ secrets.SSH_KEY_JOSKA_EC2 }}" > key.pem
-          chmod 400 key.pem
-      - name: SSH into EC2 and update container
-        run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@54.164.199.123 "sudo docker run joska99/java-naven:latest"
+          echo "${{ env.AWS_PRIVATE_KEY }}" > joska.pem
+          chmod 00 joska.pem
+      - name: Deploy with Ansible
+        run:
+          ansible-playbook --key-file joska.pem -i ${{ secrets.SSH_KEY_JOSKA_EC2 }},  playbook.yaml
 
-        # - name: Deploy to Server 1
+          # - name: Deploy to Server 1
       #   uses: appleboy/ssh-action@master
       #   with:
       #     host: 54.164.199.123

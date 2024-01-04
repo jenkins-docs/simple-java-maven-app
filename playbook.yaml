@@ -1,0 +1,39 @@
+- name: Deploy docker weather-app
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  vars:
+    default_container_name: docker
+    default_container_image: joska99/weather-app:type1
+
+  tasks:
+    #* Docker installation
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    #* Docker Deploy
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "{{ default_container_image }}"
+        source: pull
+
+    - name: Create default containers
+      community.docker.docker_container:
+        name: "{{ default_container_name }}"
+        image: "{{ default_container_image }}"
+        ports: 80:5000
+        detach: yes
+        auto_remove: yes
