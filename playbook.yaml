@@ -34,6 +34,5 @@
       community.docker.docker_container:
         name: "{{ default_container_name }}"
         image: "{{ default_container_image }}"
-        ports: 80:5000
         detach: yes
         auto_remove: yes

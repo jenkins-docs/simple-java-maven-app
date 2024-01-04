@@ -14,7 +14,4 @@ FROM openjdk:11-jre-slim
 
 COPY --from=build /app/target/my-app-1.0-SNAPSHOT.jar /app/target/my-app-1.0-SNAPSHOT.jar
 
-EXPOSE 8080
-
 CMD ["java","-jar","/app/target/my-app-1.0-SNAPSHOT.jar"]
-# CMD ["sleep", "4000"]

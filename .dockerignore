@@ -1,7 +1,7 @@
-./jenkins/
 ./github/
-./workflows/
+./jenkins/
+./target/
 .gitignore
 .gitattributes
-/target/
+playbook.yaml
 README.md
