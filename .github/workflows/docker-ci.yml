@@ -1,18 +1,20 @@
-name: CI - Build and Push Docker Image to joska99/flask-app
+name: CI/CD - Build and Push Docker Image, then deploy to EC2
 
 on:
   push:
     branches:
-      - master # Replace with your desired branch
-    paths: # Trigers only by changes in those files/directories
-      - "dockerfile"
+      # Replace with your desired branch
+      - master
+    # Trigers only by changes in those files/directories
+    # paths:
+    #   - "dockerfile"
 
 env:
   IMAGE_NAME: joska99/java-maven
   TAG_VERSION: 0.0.${{ github.run_number }}
 
 jobs:
-  build-and-push:
+  build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,3 +40,11 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
+          REMOTE_HOST: 54.164.199.123
+          REMOTE_USER: ubuntu
+        #   TARGET: ${ { secrets.TARGET_DIR }}

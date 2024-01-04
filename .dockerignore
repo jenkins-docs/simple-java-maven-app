@@ -3,3 +3,4 @@
 .gitignore
 .gitattributes
 /target/
+README.md
