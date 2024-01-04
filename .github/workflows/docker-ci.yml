@@ -51,13 +51,22 @@ jobs:
       # deploy:
       # runs-on: ubuntu-latest
       #   steps:
-      - name: Set permissions for private key
-        run: |
-          echo "${{ secrets.SSH_KEY_JOSKA_EC2 }}" > joska.pem
-          chmod 400 joska.pem
-      - name: Deploy with Ansible
-        run:
-          ansible-playbook --key-file joska.pem -i '54.164.199.123,'  playbook.yaml -b
+      # - name: Set permissions for private key
+      #   run: |
+      #     echo "${{ secrets.SSH_KEY_JOSKA_EC2 }}" > joska.pem
+      #     chmod 400 joska.pem
+      # - name: Deploy with Ansible
+      #   run:
+      #     ansible-playbook --key-file joska.pem -i '54.164.199.123,'  playbook.yaml -b
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: 54.164.199.123
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
+          port: 22
+          script: sudo docker run -d -n java-app joska99/java-maven:${{ github.run_number }}
 
           # - name: Deploy to Server 1
       #   uses: appleboy/ssh-action@master
