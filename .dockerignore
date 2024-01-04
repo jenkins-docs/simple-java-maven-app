@@ -1,2 +1,5 @@
 ./jenkins/
 ./github/
+.gitignore
+.gitattributes
+/target/
