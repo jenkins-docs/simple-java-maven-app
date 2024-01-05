@@ -1,8 +1,11 @@
+[![CI/CD - Build and Push Docker Image, then deploy to EC2](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml)
+
 # Requirements:
 
 - EC2 instance
 - SSH key for EC2 instance
-- Repo secrets
+- DockerHub Repository
+- Repository secrets
 
 # Provide secrets:
 

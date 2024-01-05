@@ -1,4 +1,4 @@
-name: CI/CD - Build and Push Docker Image, then deploy to EC2
+name: CI - Build and Push Docker Image
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
-  TAG_VERSION: 0.0.${{ github.run_number }}
+  TAG_VERSION: ${{ github.sha }}
 
 jobs:
   build-push:
@@ -42,14 +42,14 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
-          port: ${{ secrets.SSH_PORT }}
-          script: sudo docker run -d joska99/java-maven:0.0.${{ github.run_number }}
+      # - name: executing remote ssh commands using password
+      #   uses: appleboy/ssh-action@v1.0.2
+      #   with:
+      #     host: ${{ secrets.EC2_IP }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     script: sudo docker run -d joska99/java-maven:0.0.${{ github.run_number }}
 
   # deploy:
   #   runs-on: ubuntu-latest

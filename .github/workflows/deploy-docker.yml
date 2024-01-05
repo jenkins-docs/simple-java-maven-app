@@ -1,0 +1,24 @@
+name: CD -Deploy Docker container to EC2 with Ansible
+
+on:
+  workflow_run:
+    workflows: ["CI - Build and Push Docker Image"]
+
+env:
+  IMAGE_NAME: joska99/java-maven
+  TAG_VERSION: latest
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Ansible playbook
+        uses: dawidd6/action-ansible-playbook@v2.6.1
+        with:
+          directory: ./
+          playbook: playbook.yml
+          key: ${{ secrets.SSH_KEY_JOSKA_EC2}}
+          inventory: |
+            [all]
+            54.164.199.123
