@@ -4,7 +4,7 @@
   become: true
   vars:
     default_container_name: app
-    default_container_image: joska99/java-maven:${{ github.sha }}
+    default_container_image: joska99/java-maven:latest
 
   tasks:
     #* Docker installation
