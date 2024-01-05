@@ -1,4 +1,4 @@
-name: CD -Deploy Docker container to EC2 with Ansible
+name: CD - Deploy Docker container to EC2 with Ansible
 
 on:
   workflow_run:
