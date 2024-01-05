@@ -1,8 +1,10 @@
 ![Sample SVG](https://github.com/Joska99/simple-java-maven-app/blob/master/diagram.drawio.svg)
-<img src="https://github.com/Joska99/simple-java-maven-app/blob/master/diagram.drawio.svg" alt="Sample SVG">
 
-[![CI - Build and Push Docker Image](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml) <br />
-[![CD - Deploy Docker container to EC2 with Ansible](https://github.com/Joska99/simple-java-maven-app/actions/workflows/deploy-docker.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/deploy-docker.yml) <br />
+[![CI - Build and Push Docker Image](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml)
+<br />
+
+[![CD - Deploy Docker container to EC2 with Ansible](https://github.com/Joska99/simple-java-maven-app/actions/workflows/deploy-docker.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/deploy-docker.yml)
+<br />
 
 # Requirements:
 
