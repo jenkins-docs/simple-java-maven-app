@@ -15,12 +15,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.6.1
         with:
           directory: ./
           playbook: playbook.yaml
-          key: ${{ secrets.SSH_KEY_JOSKA_EC2}}
+          key: ${{ secrets.SSH_KEY_JOSKA_EC2 }}
           inventory: |
             [all]
-            54.164.199.123
+            ${{ secrets.EC2_IP }}
