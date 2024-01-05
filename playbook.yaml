@@ -3,7 +3,7 @@
   remote_user: ubuntu
   become: true
   vars:
-    default_container_name: docker
+    default_container_name: app
     default_container_image: joska99/java-maven:latest
 
   tasks:
@@ -32,7 +32,7 @@
 
     - name: Create default containers
       community.docker.docker_container:
-        # name: "{{ default_container_name }}"
+        name: "{{ default_container_name }}"
         image: "{{ default_container_image }}"
         detach: yes
-        # auto_remove: yes
+        auto_remove: yes
