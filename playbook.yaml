@@ -1,5 +1,5 @@
 - name: Deploy docker weather-app
-  hosts: localhost
+  hosts: all
   remote_user: ubuntu
   become: true
   vars:
@@ -35,4 +35,4 @@
         name: "{{ default_container_name }}"
         image: "{{ default_container_image }}"
         detach: yes
-        auto_remove: yes
+        # auto_remove: yes
