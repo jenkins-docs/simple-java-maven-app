@@ -17,7 +17,7 @@ env:
   IMAGE_NAME: joska99/java-maven
   ASIGNEES_PR_TO: Joska99
   LABEL_PR: enhancement
-  PR_FROM: origin/develop
+  PR_FROM: develop
   PR_TO: master
 
 jobs:
@@ -27,10 +27,10 @@ jobs:
     steps:
 #* Pull github repository  
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # checkout the correct branch name
-          ref: origin/develop
+          ref: develop
           # fetch the whole repo history
           fetch-depth: 0                
           persist-credentials: false
