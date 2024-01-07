@@ -11,6 +11,7 @@ on:
             - playbook.yaml
             - pom.xml
             - ./.github/workflows/docker-ci.yml
+            - ./.github/workflows/docker-cd.yml
 
 env:
   IMAGE_NAME: joska99/java-maven

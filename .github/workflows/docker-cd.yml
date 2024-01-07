@@ -40,5 +40,5 @@ jobs:
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.previous-version }}
           name: Docker-Release ${{ steps.version.outputs.version }}
