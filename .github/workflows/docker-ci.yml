@@ -94,5 +94,5 @@ jobs:
             ${{ env.LABEL_PR }}
           assignees: ${{ env.ASIGNEES_PR_TO }}
           token: ${{ secrets.MY_GITHUB_TOKEN }}
-          delete-branch: true
+          delete-branch: false
 
