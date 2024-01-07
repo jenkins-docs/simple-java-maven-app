@@ -33,7 +33,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          repository: Joska99
+          repository: Joska99/simple-java-maven-app
           path: develop
           # fetch the whole repo history
           fetch-depth: 0
