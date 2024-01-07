@@ -4,26 +4,24 @@ on:
   push:
     branches:
       - master
-  # workflow_run:
-  #   workflows: ["CI - Build and Push Docker Image"]
-  #   types:
-  #     - completed
 
 env:
   IMAGE_NAME: joska99/java-maven
-  TAG_VERSION: latest
+  BRANCH: master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+#* Pull github repository
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{env.BRANCH }}
           fetch-depth: 0 
 
+#* Deploy by ansble
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.6.1
         with:
@@ -34,15 +32,14 @@ jobs:
             [all]
             ${{ secrets.EC2_IP }}
 
-
-
-      #* Get last Tag and increase Patch( +0.0.1 )
+#* Get last Tag and increase Patch( +0.0.1 )
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
 
+#* Creates GitHub release
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.version.outputs.version }}
-          name: Release ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.previous-version }}
+          name: Docker-Release ${{ steps.version.outputs.previous-version }}

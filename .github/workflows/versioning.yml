@@ -1,27 +1,26 @@
 name: Versioning
-
-on: 
-    push:
-        branches:
-        # Replace with your desired branch
-            - dev
-        # Trigers only by changes in those files/directories
-        paths:
-            - dockerfile
-            - playbook.yaml
-            - pom.xml
-            - ./src/*
-            - ./.github/workflows/*.yml
+on:
+  push:
+    branches:
+      # Replace with your desired branch
+      - develop
+    # Trigers only by changes in those files/directories
+    paths:
+      - dockerfile
+      - playbook.yaml
+      - pom.xml
+      - .github/workflows/docker-cd.yml
+      - .github/workflows/docker-ci.yml
 
 jobs:
   versioning_job:
     runs-on: ubuntu-latest
-
     name: RainMachine Parsers versioning
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          ref: develop
           persist-credentials: false
           fetch-depth: 0
 
@@ -29,25 +28,17 @@ jobs:
         id: version
         uses: codacy/git-version@2.7.1
 
+      - name: Create
+        run: |
+          cat .github/workflows/docker-ci-pr.yml
+
       - name: Create local changes
         run: |
-            echo "tag_version: ${{ steps.version.outputs.version }}" > .env
-
-      - name: Check local changes
-        run: |
-            cat .env
+          echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-            branch: "master"
-            message: "Versioning automatic push"
-            github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-
-    #   - name: Use the version
-    #     run: |
-    #       echo ${{ steps.version.outputs.version }}
-
-    #   - name: Use the previous version
-    #     run: |
-    #       echo ${{ steps.version.outputs.previous-version }}
+          branch: "develop"
+          message: "Versioning automatic push"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}

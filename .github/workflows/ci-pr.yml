@@ -1,0 +1,117 @@
+name: CI - Build and Push Docker Image, Then open PR
+
+on:
+  workflow_run:
+    workflows: ["Versioning"]
+    types:
+      - completed
+    # push:
+    #     branches:
+    #     # Replace with your desired branch
+    #         - develop
+    #     # Trigers only by changes in those files/directories
+    #     paths:
+    #         - dockerfile
+    #         - playbook.yaml
+    #         - pom.xml
+    #         - .github/workflows/docker-cd.yml
+    #         - .github/workflows/docker-ci.yml
+
+env:
+  IMAGE_NAME: joska99/java-maven
+  ASIGNEES_PR_TO: Joska99
+  LABEL_PR: enhancement
+  PR_FROM: develop
+  PR_TO: master
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      #* Pull github repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: Joska99/simple-java-maven-app
+          path: develop
+          # fetch the whole repo history
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create
+        run: |
+          cat .github/workflows/docker-ci.yml
+
+      #* Login to DockerHub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PSWD }}
+
+      #* Get last Tag and increase Patch( +0.0.1 )
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
+
+      # #* Vrite new Version to ".env"
+      #       - name: Create local changes
+      #         run: |
+      #           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+
+      #* Push to DockerHub commit Hash
+      - name: Build and push Docker image tag from build number
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+      #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
+      - name: Build and push Docker image tag from last tag
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
+
+      #* Push to DockerHub Latest
+      - name: Build and push Docker image tag LATEST
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+
+      # - name: Open PR
+      #   id: open_pr
+      #   uses: rematocorp/open-pull-request-action@v1
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     repository: simple-java-maven-app
+      #     repository-owner: Joska99
+      #     from-branch: ${{ env.PR_FROM }}
+      #     to-branch: ${{ env.PR_TO }}
+
+      # #* Commit and Push to dev changes made in this action
+      #       - name: Commit & Push changes
+      #         uses: actions-js/push@master
+      #         with:
+      #             branch: "origin/develop"
+      #             message: "CI-Versioning automatic push after update of '.env'"
+      #             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+
+      # * Open "PULL REQUEST" from "dev" to "master"
+      - name: Create Pull Request!
+        uses: peter-evans/create-pull-request@v5.0.2
+        with:
+          branch: ${{ env.PR_FROM }}
+          base: ${{ env.PR_TO }}
+          title: "New Docker Image Tested and Pushed"
+          commit-message: "CI passed succsessfuly"
+          labels: |
+            ${{ env.LABEL_PR }}
+          assignees: ${{ env.ASIGNEES_PR_TO }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          delete-branch: false
