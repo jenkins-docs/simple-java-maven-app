@@ -29,7 +29,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: develop
+          repository: Joska99/simple-java-maven-app
+          path: simple-java-maven-app
           persist-credentials: false
           fetch-depth: 0
 
@@ -82,14 +83,6 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
-
-      # #* Commit and Push to dev changes made in this action
-      #       - name: Commit & Push changes
-      #         uses: actions-js/push@master
-      #         with:
-      #             branch: "origin/develop"
-      #             message: "CI-Versioning automatic push after update of '.env'"
-      #             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
       # * Open "PULL REQUEST" from "dev" to "master"
       - name: Create Pull Request!
