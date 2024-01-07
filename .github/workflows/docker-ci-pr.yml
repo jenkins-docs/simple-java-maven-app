@@ -29,8 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: Joska99/simple-java-maven-app
-          path: develop
+          ref: develop
           persist-credentials: false
           fetch-depth: 0
 
