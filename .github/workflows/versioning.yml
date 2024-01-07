@@ -17,7 +17,7 @@ jobs:
         run: echo "{name}={value}" >> $GITHUB_STATE
 
       - name: Save state2
-        run: echo $GITHUB_STATE
+        run: echo ${GITHUB_STATE}
 
     #   - name: Automatic Versioning
     #     uses: nicupavel/action-files-version-increment@v3
