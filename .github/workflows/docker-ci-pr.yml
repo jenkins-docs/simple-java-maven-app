@@ -83,23 +83,6 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      #   with:
-      #     ref: develop
-      #     persist-credentials: false
-      #     fetch-depth: 0
-
-      # - name: Open PR
-      #   id: open_pr
-      #   uses: rematocorp/open-pull-request-action@v1
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     repository: simple-java-maven-app
-      #     repository-owner: Joska99
-      #     from-branch: ${{ env.PR_FROM }}
-      #     to-branch: ${{ env.PR_TO }}
-
       # #* Commit and Push to dev changes made in this action
       #       - name: Commit & Push changes
       #         uses: actions-js/push@master
