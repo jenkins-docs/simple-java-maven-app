@@ -29,8 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          # checkout the correct branch name
-          ref: develop
           # fetch the whole repo history
           fetch-depth: 0                
           persist-credentials: false
