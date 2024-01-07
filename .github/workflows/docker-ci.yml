@@ -32,7 +32,7 @@ jobs:
           # checkout the correct branch name
           ref: ${{ github.head_ref }}   
           # fetch the whole repo history
-          fetch-depth: 0                
+          # fetch-depth: 0                
           persist-credentials: false
 
 #* Login to DockerHub
