@@ -1,21 +1,21 @@
 name: CI - Build and Push Docker Image
 
 on:
-  workflow_run:
-    workflows: ["Versioning"]
-    types:
-      - completed
-    # push:
-    #     branches:
-    #     # Replace with your desired branch
-    #         - develop
-    #     # Trigers only by changes in those files/directories
-    #     paths:
-    #         - dockerfile
-    #         - playbook.yaml
-    #         - pom.xml
-    #         - .github/workflows/docker-cd.yml
-    #         - .github/workflows/docker-ci.yml
+  # workflow_run:
+  #   workflows: ["Versioning"]
+  #   types:
+  #     - completed
+  push:
+    branches:
+      # Replace with your desired branch
+      - develop
+    # Trigers only by changes in those files/directories
+    paths:
+      - dockerfile
+      - playbook.yaml
+      - pom.xml
+      - .github/workflows/docker-cd.yml
+      - .github/workflows/docker-ci.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -28,17 +28,33 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
 
+    name: RainMachine Parsers versioning
     steps:
-      #* Pull github repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          # repository: Joska99/simple-java-maven-app
-          # path: develop
           ref: develop
-          # fetch the whole repo history
-          fetch-depth: 0
           persist-credentials: false
+          fetch-depth: 0
+
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
+
+      - name: Create local changes
+        run: |
+          echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+
+      # - name: Create local changes
+      #   run: |
+      #       awk -F '[-:]' '{print $1 $2}' .env > .env
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: "develop"
+          message: "Versioning automatic push"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Create
         run: |
@@ -51,10 +67,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PSWD }}
 
-      #* Get last Tag and increase Patch( +0.0.1 )
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.7.1
+      # #* Get last Tag and increase Patch( +0.0.1 )
+      # - name: Git Version
+      #   id: version
+      #   uses: codacy/git-version@2.7.1
 
       # #* Vrite new Version to ".env"
       #       - name: Create local changes
