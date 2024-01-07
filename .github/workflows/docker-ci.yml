@@ -12,7 +12,7 @@ on:
 env:
   IMAGE_NAME: joska99/java-maven
   TAG_VERSION: ${{ github.sha }}
-  VERSION: ${{ vars.VERSION }}
+  # VERSION: ${{ vars.VERSION }}
 
 jobs:
   build-push:
@@ -20,7 +20,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}   # checkout the correct branch name
+          fetch-depth: 0                # fetch the whole repo history
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
