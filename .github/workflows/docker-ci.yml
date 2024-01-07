@@ -45,6 +45,10 @@ jobs:
         id: version
         uses: codacy/git-version@2.7.1
 
+#* Vrite new Version to ".env"
+      - name: Create local changes
+        run: |
+          cat .github/workflows/docker-ci.yml
 # #* Vrite new Version to ".env"
 #       - name: Create local changes
 #         run: |
