@@ -1,17 +1,21 @@
 name: CI - Build and Push Docker Image
 
 on: 
-    push:
-        branches:
-        # Replace with your desired branch
-            - develop
-        # Trigers only by changes in those files/directories
-        paths:
-            - dockerfile
-            - playbook.yaml
-            - pom.xml
-            - .github/workflows/docker-cd.yml
-            - .github/workflows/docker-ci.yml
+  workflow_run:
+    workflows: ["Versioning"]
+    types:
+      - completed
+    # push:
+    #     branches:
+    #     # Replace with your desired branch
+    #         - develop
+    #     # Trigers only by changes in those files/directories
+    #     paths:
+    #         - dockerfile
+    #         - playbook.yaml
+    #         - pom.xml
+    #         - .github/workflows/docker-cd.yml
+    #         - .github/workflows/docker-ci.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
