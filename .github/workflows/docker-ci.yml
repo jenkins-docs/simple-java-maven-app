@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}   # checkout the correct branch name
           fetch-depth: 0                # fetch the whole repo history
@@ -61,12 +61,12 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:latest
 
       #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
-      - name: Build and push Docker image tag LATEST2
+      - name: Build and push Docker image tag from last
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: "${{ env.IMAGE_NAME }}:{{ tag_version }}"
+          tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
 
       - name: Commit & Push changes
         uses: actions-js/push@master
