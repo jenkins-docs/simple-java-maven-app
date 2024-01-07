@@ -7,9 +7,6 @@ COPY . .
 RUN mvn validate test
 RUN mvn package install 
 
-
-
-
 # Stage 2        
 FROM openjdk:11-jre-slim
 
