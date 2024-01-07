@@ -94,7 +94,7 @@ jobs:
           # commit-message: "CI passed succsessfuly"
           labels: |
             ${{ env.LABEL_PR }}
-          assignees: ${{ env.ASIGNEES_TO }}
+          assignees: ${{ env.ASIGNEES_PR_TO }}
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           delete-branch: true
 
