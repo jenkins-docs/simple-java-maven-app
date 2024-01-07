@@ -13,11 +13,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Easy Versioning
-        uses: Langsdorf/easy-versioning@1.0.1    
-        id: versioning
-        with:
-            input: '1.0.0'
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
+      
+      - name: Use the version
+        run: |
+          echo ${{ steps.version.outputs.version }}
+      - name: Use the previous version
+        run: |
+          echo ${{ steps.version.outputs.previous-version }}
+
+    #   - name: Easy Versioning
+    #     uses: Langsdorf/easy-versioning@1.0.1    
+    #     id: versioning
+    #     with:
+    #         value: 1
+    #         increment: patch
+    #         input: '1.0.0'
 
 
     #   - name: Generate Version
