@@ -20,16 +20,7 @@ jobs:
       - name: Use the version
         run: |
           echo ${{ steps.version.outputs.version }}
+
       - name: Use the previous version
         run: |
           echo ${{ steps.version.outputs.previous-version }}
-
-    #   - name: Easy Versioning
-    #     uses: Langsdorf/easy-versioning@1.0.1    
-    #     id: versioning
-    #     with:
-    #         value: 1
-    #         increment: patch
-    #         input: '1.0.0'
-
-    

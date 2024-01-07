@@ -29,6 +29,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PSWD }}
 
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
+      
+      # - name: Use the version
+      #   run: |
+      #     echo ${{ steps.version.outputs.version }}
+
+      # - name: Use the previous version
+      #   run: |
+      #     echo ${{ steps.version.outputs.previous-version }}
+
+
       - name: Build and push Docker image tag from build number
         uses: docker/build-push-action@v2
         with:
@@ -48,4 +61,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: "${{ env.IMAGE_NAME }}:${{ vars.VERSION }}"
+          tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
