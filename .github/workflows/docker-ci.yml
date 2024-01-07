@@ -32,7 +32,7 @@ jobs:
           # checkout the correct branch name
           ref: ${{ github.head_ref }}   
           # fetch the whole repo history
-          # fetch-depth: 0                
+          fetch-depth: 0                
           persist-credentials: false
 
 #* Login to DockerHub
@@ -76,13 +76,13 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-# #* Commit and Push to dev changes made in this action
-#       - name: Commit & Push changes
-#         uses: actions-js/push@master
-#         with:
-#             branch: "develop"
-#             message: "CI-Versioning automatic push after update of '.env'"
-#             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+#* Commit and Push to dev changes made in this action
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+            branch: "origin/develop"
+            message: "CI-Versioning automatic push after update of '.env'"
+            github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
 #* Open "PULL REQUEST" from "dev" to "master"
       - name: Create Pull Request
