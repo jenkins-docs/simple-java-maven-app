@@ -66,7 +66,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
+          tags: "${{ env.IMAGE_NAME }}:{{ tag_version }}"
 
       - name: Commit & Push changes
         uses: actions-js/push@master
