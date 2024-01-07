@@ -83,12 +83,12 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-          persist-credentials: false
-          fetch-depth: 0
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: develop
+      #     persist-credentials: false
+      #     fetch-depth: 0
 
       # - name: Open PR
       #   id: open_pr
