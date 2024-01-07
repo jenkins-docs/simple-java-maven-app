@@ -62,5 +62,7 @@ jobs:
           branch: dev
           base: master
           token: ${{ secrets.MY_GITHUB_TOKEN }}
+          title: 'Test passed and pushed new image'
+          commit-message: "CI passed succsessfuly"
           delete-branch: false
 
