@@ -11,7 +11,7 @@ on:
       - playbook.yaml
       - pom.xml
       - .github/workflows/docker-cd.yml
-      - .github/workflows/docker-ci.yml
+      - .github/workflows/docker-ci-pr.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -42,12 +42,12 @@ jobs:
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-      - name: Commit & Push changes
-        uses: actions-js/push@master
-        with:
-          branch: "develop"
-          message: "Versioning automatic push"
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+      # - name: Commit & Push changes
+      #   uses: actions-js/push@master
+      #   with:
+      #     branch: "develop"
+      #     message: "Versioning automatic push"
+      #     github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Create
         run: |
