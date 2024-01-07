@@ -1,13 +1,6 @@
 name: CI - Build and Push Docker Image
 
 on:
-  # push:
-  #   branches:
-  #     # Replace with your desired branch
-  #     - master
-  #   # Trigers only by changes in those files/directories
-  #   # paths:
-  #   #   - "dockerfile"
   workflow_run:
     workflows: ["Versioning"]
     types:

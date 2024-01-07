@@ -1,6 +1,13 @@
 name: Versioning
 
-on: [push]
+on: 
+    push:
+        branches:
+        # Replace with your desired branch
+            - master
+  # Trigers only by changes in those files/directories
+  # paths:
+  #   - "dockerfile"
 
 jobs:
   versioning_job:
@@ -29,6 +36,8 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
+            branch: "master"
+            message: "Versioning automatic push"
             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
     #   - name: Use the version
