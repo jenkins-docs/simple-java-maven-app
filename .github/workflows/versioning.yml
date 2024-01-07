@@ -32,22 +32,4 @@ jobs:
     #         increment: patch
     #         input: '1.0.0'
 
-
-    #   - name: Generate Version
-    #     id: versioning
-    #     uses: sceccotti89/Github-Action-Versioning@v1.0.5
-    #   - name: Get the output version
-    #     run: echo "Version = ${{ steps.versioning.outputs.version }}"
-
-    #   - name: Save state
-    #     run: echo "{name}={value}" >> $GITHUB_STATE
-
-        #   - name: Automatic Versioning
-    #     uses: nicupavel/action-files-version-increment@v3
-
-    #   - name: Get the output time
-    #     run: echo "The time was ${{ steps.versioning_job.outputs.time }}"
-
-    #   - name: Get list of modified files
-    #     run: echo "Modified files ${{ steps.versioning_job.outputs.modified_files }}"
     
