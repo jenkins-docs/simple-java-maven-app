@@ -15,7 +15,6 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
-  INNER_TAG_VERSION: ${{ github.sha }}
 
 jobs:
   build-push:
@@ -50,7 +49,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ env.INNER_TAG_VERSION }}
+          tags: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
 
       #* Push to DockerHub Latest
       - name: Build and push Docker image tag LATEST
@@ -61,7 +60,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:latest
 
       #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
-      - name: Build and push Docker image tag from last
+      - name: Build and push Docker image tag from last tag
         uses: docker/build-push-action@v2
         with:
           context: .
