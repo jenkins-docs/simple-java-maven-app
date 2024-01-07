@@ -22,7 +22,7 @@ env:
   ASIGNEES_PR_TO: Joska99
   LABEL_PR: enhancement
   PR_FROM: develop
-  PR_TO: master
+  PR_TO: origin/master
 
 jobs:
   build-push:
@@ -91,10 +91,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          # branch: ${{ env.PR_FROM }}
-          # base: ${{ env.PR_TO }}
+          branch: ${{ env.PR_FROM }}
+          base: ${{ env.PR_TO }}
           title: 'New Docker Image Tested and Pushed'
-          # commit-message: "CI passed succsessfuly"
+          commit-message: "CI passed succsessfuly"
           labels: |
             ${{ env.LABEL_PR }}
           assignees: ${{ env.ASIGNEES_PR_TO }}
