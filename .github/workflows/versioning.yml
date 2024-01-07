@@ -1,39 +1,43 @@
-  name: Versioning
-  on: 
-      push:
-          branches:
-          # Replace with your desired branch
-              - develop
-          # Trigers only by changes in those files/directories
-          paths:
-            - dockerfile
-            - playbook.yaml
-            - pom.xml
-            - .github/workflows/docker-cd.yml
-            - .github/workflows/docker-ci.yml
+name: Versioning
+on:
+  push:
+    branches:
+      # Replace with your desired branch
+      - develop
+    # Trigers only by changes in those files/directories
+    paths:
+      - dockerfile
+      - playbook.yaml
+      - pom.xml
+      - .github/workflows/docker-cd.yml
+      - .github/workflows/docker-ci.yml
 
-  jobs:
-    versioning_job:
-      runs-on: ubuntu-latest
-      name: RainMachine Parsers versioning
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            persist-credentials: false
-            fetch-depth: 0
+jobs:
+  versioning_job:
+    runs-on: ubuntu-latest
+    name: RainMachine Parsers versioning
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
-        - name: Git Version
-          id: version
-          uses: codacy/git-version@2.7.1
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
 
-        - name: Create local changes
-          run: |
-              echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+      - name: Create
+        run: |
+          cat .github/workflows/docker-ci.yml
 
-        - name: Commit & Push changes
-          uses: actions-js/push@master
-          with:
-              branch: "develop"
-              message: "Versioning automatic push"
-              github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+      - name: Create local changes
+        run: |
+          echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: "develop"
+          message: "Versioning automatic push"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
