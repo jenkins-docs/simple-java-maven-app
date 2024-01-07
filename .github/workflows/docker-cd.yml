@@ -16,7 +16,7 @@ jobs:
     steps:
 #* Pull github repository
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{env.BRANCH }}
           fetch-depth: 0 
