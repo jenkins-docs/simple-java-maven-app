@@ -4,7 +4,7 @@ on:
     push:
         branches:
         # Replace with your desired branch
-            - dev
+            - develop
         # Trigers only by changes in those files/directories
         paths:
             - dockerfile
