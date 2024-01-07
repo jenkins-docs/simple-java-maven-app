@@ -10,8 +10,7 @@ on:
             - dockerfile
             - playbook.yaml
             - pom.xml
-            - ./src/*
-            - ./.github/workflows/*.yml
+            - ./.github/workflows/docker-ci.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -24,8 +23,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}   # checkout the correct branch name
-          fetch-depth: 0                # fetch the whole repo history
+          # checkout the correct branch name
+          ref: ${{ github.head_ref }}   
+          # fetch the whole repo history
+          fetch-depth: 0                
           persist-credentials: false
 
       - name: Login to Docker Hub
@@ -34,16 +35,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PSWD }}
 
-      #* Get last Tag and increase Patch( +0.0.1 )
+#* Get last Tag and increase Patch( +0.0.1 )
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
 
+#* Vrite new Version to ".env"
       - name: Create local changes
         run: |
-            echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+          echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-      #* Push to DockerHub commit Hash
+#* Check ne version in ".env"
+      - name: Check local changes
+        run: |
+            cat .env
+
+#* Push to DockerHub commit Hash
       - name: Build and push Docker image tag from build number
         uses: docker/build-push-action@v2
         with:
@@ -51,7 +58,7 @@ jobs:
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
 
-      #* Push to DockerHub Latest
+#* Push to DockerHub Latest
       - name: Build and push Docker image tag LATEST
         uses: docker/build-push-action@v2
         with:
@@ -59,7 +66,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
+#* Push to DockerHub Last Tag + Patch ( + 0.0.1)
       - name: Build and push Docker image tag from last tag
         uses: docker/build-push-action@v2
         with:
@@ -67,6 +74,7 @@ jobs:
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
 
+#* Commit and Push to dev changes made in this action
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
@@ -74,6 +82,7 @@ jobs:
             message: "Versioning automatic push"
             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
+#* Open PULL REQUEST from "dev" to "master"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
