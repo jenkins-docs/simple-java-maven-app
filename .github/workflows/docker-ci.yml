@@ -60,3 +60,4 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           branch: master
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
