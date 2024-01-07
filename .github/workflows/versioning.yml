@@ -30,7 +30,7 @@ jobs:
 
       - name: Create
         run: |
-          cat .github/workflows/docker-ci.yml
+          cat .github/workflows/docker-ci-pr.yml
 
       - name: Create local changes
         run: |
