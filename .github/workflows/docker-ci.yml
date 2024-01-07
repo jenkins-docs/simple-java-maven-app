@@ -33,6 +33,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          ref: ${{ github.base_ref }}
           # fetch the whole repo history
           fetch-depth: 0                
           persist-credentials: false
@@ -91,8 +92,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: ${{ env.PR_TO }}
-          base: ${{ env.PR_FROM }}
+          branch: ${{ env.PR_FROM }}
+          base: ${{ env.PR_TO }}
           title: 'New Docker Image Tested and Pushed'
           commit-message: "CI passed succsessfuly"
           labels: |
