@@ -6,8 +6,12 @@ on:
         # Replace with your desired branch
             - master
   # Trigers only by changes in those files/directories
-  # paths:
-  #   - "dockerfile"
+        paths:
+            - dockerfile
+            - playbook.yaml
+            - pom.xml
+            - ./src/*
+            - ./.github/workflows/*
 
 jobs:
   versioning_job:
