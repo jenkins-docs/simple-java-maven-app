@@ -90,10 +90,10 @@ jobs:
 
 #* Open "PULL REQUEST" from "dev" to "master"
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v5.0.2
         with:
           branch: ${{ env.PR_FROM }}
-          base: ${{ env.PR_TO }}
+          # base: ${{ env.PR_TO }}
           title: 'New Docker Image Tested and Pushed'
           commit-message: "CI passed succsessfuly"
           labels: |
