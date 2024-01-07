@@ -1,10 +1,6 @@
 name: CI - Build and Push Docker Image
 
 on:
-  # workflow_run:
-  #   workflows: ["Versioning"]
-  #   types:
-  #     - completed
   push:
     branches:
       # Replace with your desired branch
