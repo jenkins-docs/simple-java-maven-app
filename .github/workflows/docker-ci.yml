@@ -33,6 +33,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          repository: Joska99
+          path: develop
           # fetch the whole repo history
           fetch-depth: 0
           persist-credentials: false
