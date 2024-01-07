@@ -79,28 +79,6 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      # #* Commit and Push to dev changes made in this action
-      #       - name: Commit & Push changes
-      #         uses: actions-js/push@master
-      #         with:
-      #             branch: "origin/develop"
-      #             message: "CI-Versioning automatic push after update of '.env'"
-      #             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-
-      #* Open "PULL REQUEST" from "dev" to "master"
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v5.0.2
-      #   with:
-      #     branch: develop
-      #     base: master
-      #     title: 'New Docker Image Tested and Pushed'
-      #     commit-message: "CI passed succsessfuly"
-      #     labels: |
-      #       ${{ env.LABEL_PR }}
-      #     assignees: ${{ env.ASIGNEES_PR_TO }}
-      #     token: ${{ secrets.MY_GITHUB_TOKEN }}
-      #     delete-branch: false
-
       - name: Open PR
         id: open_pr
         uses: rematocorp/open-pull-request-action@v1
@@ -110,3 +88,25 @@ jobs:
           repository-owner: Joska99
           from-branch: ${{ env.PR_FROM }}
           to-branch: ${{ env.PR_TO }}
+
+          # #* Commit and Push to dev changes made in this action
+          #       - name: Commit & Push changes
+          #         uses: actions-js/push@master
+          #         with:
+          #             branch: "origin/develop"
+          #             message: "CI-Versioning automatic push after update of '.env'"
+          #             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+
+          #* Open "PULL REQUEST" from "dev" to "master"
+          # - name: Create Pull Request
+          #   uses: peter-evans/create-pull-request@v5.0.2
+          #   with:
+          #     branch: develop
+          #     base: master
+          #     title: 'New Docker Image Tested and Pushed'
+          #     commit-message: "CI passed succsessfuly"
+          #     labels: |
+          #       ${{ env.LABEL_PR }}
+          #     assignees: ${{ env.ASIGNEES_PR_TO }}
+          #     token: ${{ secrets.MY_GITHUB_TOKEN }}
+          #     delete-branch: false
