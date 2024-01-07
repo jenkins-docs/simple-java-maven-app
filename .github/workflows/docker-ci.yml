@@ -10,8 +10,8 @@ on:
             - dockerfile
             - playbook.yaml
             - pom.xml
-            - ./.github/workflows/docker-ci.yml
-            - ./.github/workflows/docker-cd.yml
+            - .github/workflows/docker-cd.yml
+            - .github/workflows/docker-ci.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           # checkout the correct branch name
-          # ref: ${{ github.head_ref }}   
+          ref: ${{ github.head_ref }}   
           # fetch the whole repo history
           fetch-depth: 0                
           persist-credentials: false
@@ -76,13 +76,13 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-# #* Commit and Push to dev changes made in this action
-#       - name: Commit & Push changes
-#         uses: actions-js/push@master
-#         with:
-#             branch: "dev"
-#             message: "CI-Versioning automatic push after update of '.env'"
-#             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+#* Commit and Push to dev changes made in this action
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+            branch: "dev"
+            message: "CI-Versioning automatic push after update of '.env'"
+            github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
 #* Open "PULL REQUEST" from "dev" to "master"
       - name: Create Pull Request

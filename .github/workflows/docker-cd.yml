@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
-  # TAG: $(awk '{print $2}' .env)
+  BRANCH: master
 
 jobs:
   deploy:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{env.BRANCH }}
           fetch-depth: 0 
 
 #* Deploy by ansble
