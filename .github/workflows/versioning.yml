@@ -32,9 +32,9 @@ jobs:
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-          - name: Create local changes
+      - name: Create local changes
         run: |
-            awk -F '[-:]' '{print $1 $2}' .env > .env
+          awk -F '[-:]' '{print $1 $2}' .env > .env
 
       - name: Commit & Push changes
         uses: actions-js/push@master
