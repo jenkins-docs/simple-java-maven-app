@@ -1,10 +1,13 @@
 name: CD - Deploy Docker container to EC2 with Ansible
 
 on:
-  workflow_run:
-    workflows: ["CI - Build and Push Docker Image"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+  # workflow_run:
+  #   workflows: ["CI - Build and Push Docker Image"]
+  #   types:
+  #     - completed
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -17,6 +20,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0 
 
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.6.1
@@ -27,3 +33,16 @@ jobs:
           inventory: |
             [all]
             ${{ secrets.EC2_IP }}
+
+
+
+      #* Get last Tag and increase Patch( +0.0.1 )
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}

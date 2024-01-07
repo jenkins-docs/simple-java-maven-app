@@ -55,3 +55,8 @@ jobs:
           context: .
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: master
