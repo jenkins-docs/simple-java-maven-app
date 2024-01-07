@@ -37,4 +37,4 @@
         name: "{{ default_container_name }}"
         image: "{{ default_container_image }}"
         detach: yes
-        auto_remove: yes
+        # auto_remove: yes
