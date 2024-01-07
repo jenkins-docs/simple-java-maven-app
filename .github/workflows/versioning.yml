@@ -11,7 +11,7 @@ on:
             - playbook.yaml
             - pom.xml
             - ./src/*
-            - ./.github/workflows/*
+            - ./.github/workflows/*.yml
 
 jobs:
   versioning_job:
