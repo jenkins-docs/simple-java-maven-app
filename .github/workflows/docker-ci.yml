@@ -60,4 +60,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           branch: dev
+          base: master
           token: ${{ secrets.MY_GITHUB_TOKEN }}
+          delete-branch: false
+
