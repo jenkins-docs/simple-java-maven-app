@@ -5,7 +5,7 @@ on:
         branches:
         # Replace with your desired branch
             - master
-  # Trigers only by changes in those files/directories
+        # Trigers only by changes in those files/directories
         paths:
             - dockerfile
             - playbook.yaml
