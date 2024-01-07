@@ -1,4 +1,4 @@
-name: CI - Build and Push Docker Image
+name: CI - Build and Push Docker Image, Then open PR
 
 on:
   workflow_run:
