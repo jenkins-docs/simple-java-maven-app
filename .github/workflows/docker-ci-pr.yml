@@ -33,8 +33,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          repository: Joska99/simple-java-maven-app
-          path: develop
+          # repository: Joska99/simple-java-maven-app
+          # path: develop
+          ref: develop
           # fetch the whole repo history
           fetch-depth: 0
           persist-credentials: false
