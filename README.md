@@ -22,4 +22,5 @@
    > EC2_IP\
    > EC2_USER\
    > SSH_KEY_JOSKA_EC2\
-   > SSH_PORT
+   > SSH_PORT\
+   > GITHUB_TOKEN

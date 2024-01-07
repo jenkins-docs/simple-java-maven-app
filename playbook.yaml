@@ -2,9 +2,11 @@
   hosts: all
   remote_user: ubuntu
   become: true
+  vars_files:
+    - .env
   vars:
     default_container_name: app
-    default_container_image: joska99/java-maven:latest
+    default_container_image: joska99/java-maven:{{ tag_version }}
 
   tasks:
     #* Docker installation

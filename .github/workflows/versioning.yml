@@ -1,6 +1,6 @@
 name: Versioning
 
-# on: [push]
+on: [push]
 
 jobs:
   versioning_job:
@@ -16,11 +16,20 @@ jobs:
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
-      
-      - name: Use the version
-        run: |
-          echo ${{ steps.version.outputs.version }}
 
-      - name: Use the previous version
+      - name: Create local changes
         run: |
-          echo ${{ steps.version.outputs.previous-version }}
+            echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    #   - name: Use the version
+    #     run: |
+    #       echo ${{ steps.version.outputs.version }}
+
+    #   - name: Use the previous version
+    #     run: |
+    #       echo ${{ steps.version.outputs.previous-version }}
