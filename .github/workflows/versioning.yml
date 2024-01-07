@@ -1,6 +1,6 @@
 name: Versioning
 
-on: [push]
+# on: [push]
 
 jobs:
   versioning_job:
