@@ -1,10 +1,17 @@
 name: CI - Build and Push Docker Image
 
-on:
-  workflow_run:
-    workflows: ["Versioning"]
-    types:
-      - completed
+on: 
+    push:
+        branches:
+        # Replace with your desired branch
+            - dev
+        # Trigers only by changes in those files/directories
+        paths:
+            - dockerfile
+            - playbook.yaml
+            - pom.xml
+            - ./src/*
+            - ./.github/workflows/*.yml
 
 env:
   IMAGE_NAME: joska99/java-maven
@@ -20,6 +27,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}   # checkout the correct branch name
           fetch-depth: 0                # fetch the whole repo history
+          persist-credentials: false
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -31,6 +39,10 @@ jobs:
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
+
+      - name: Create local changes
+        run: |
+            echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
       #* Push to DockerHub commit Hash
       - name: Build and push Docker image tag from build number
@@ -56,11 +68,18 @@ jobs:
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
 
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+            branch: "dev"
+            message: "Versioning automatic push"
+            github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: master
-          base: dev
+          # branch: master
+          base: master
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           title: 'Test passed and pushed new image'
           commit-message: "CI passed succsessfuly"

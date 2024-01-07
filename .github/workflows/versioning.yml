@@ -1,54 +1,54 @@
-name: Versioning
+# name: Versioning
 
-on: 
-    push:
-        branches:
-        # Replace with your desired branch
-            - dev
-        # Trigers only by changes in those files/directories
-        paths:
-            - dockerfile
-            - playbook.yaml
-            - pom.xml
-            - ./src/*
-            - ./.github/workflows/*.yml
+# on: 
+#     push:
+#         branches:
+#         # Replace with your desired branch
+#             - dev
+#         # Trigers only by changes in those files/directories
+#         paths:
+#             - dockerfile
+#             - playbook.yaml
+#             - pom.xml
+#             - ./src/*
+#             - ./.github/workflows/*.yml
 
-jobs:
-  versioning_job:
-    runs-on: ubuntu-latest
+# jobs:
+#   versioning_job:
+#     runs-on: ubuntu-latest
 
-    name: RainMachine Parsers versioning
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+#     name: RainMachine Parsers versioning
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#         with:
+#           persist-credentials: false
+#           fetch-depth: 0
 
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.7.1
+#       - name: Git Version
+#         id: version
+#         uses: codacy/git-version@2.7.1
 
-      - name: Create local changes
-        run: |
-            echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+#       - name: Create local changes
+#         run: |
+#             echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-      - name: Check local changes
-        run: |
-            cat .env
+#       - name: Check local changes
+#         run: |
+#             cat .env
 
-      - name: Commit & Push changes
-        uses: actions-js/push@master
-        with:
-            branch: "dev"
-            message: "Versioning automatic push"
-            github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+#       - name: Commit & Push changes
+#         uses: actions-js/push@master
+#         with:
+#             branch: "dev"
+#             message: "Versioning automatic push"
+#             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-            
-    #   - name: Use the version
-    #     run: |
-    #       echo ${{ steps.version.outputs.version }}
 
-    #   - name: Use the previous version
-    #     run: |
-    #       echo ${{ steps.version.outputs.previous-version }}
+#     #   - name: Use the version
+#     #     run: |
+#     #       echo ${{ steps.version.outputs.version }}
+
+#     #   - name: Use the previous version
+#     #     run: |
+#     #       echo ${{ steps.version.outputs.previous-version }}
