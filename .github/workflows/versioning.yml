@@ -1,8 +1,11 @@
+name: Versioning
+
 on: [push]
 
 jobs:
   versioning_job:
     runs-on: ubuntu-latest
+
     name: RainMachine Parsers versioning
     steps:
       - name: Checkout
@@ -10,12 +13,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Automatic Versioning
-        uses: nicupavel/action-files-version-increment@v3
+      - name: Save state
+        run: echo "{name}={value}" >> $GITHUB_STATE
 
-      - name: Get the output time
-        run: echo "The time was ${{ steps.versioning_job.outputs.time }}"
-        
-      - name: Get list of modified files
-        run: echo "Modified files ${{ steps.versioning_job.outputs.modified_files }}"
+    #   - name: Automatic Versioning
+    #     uses: nicupavel/action-files-version-increment@v3
+
+    #   - name: Get the output time
+    #     run: echo "The time was ${{ steps.versioning_job.outputs.time }}"
+
+    #   - name: Get list of modified files
+    #     run: echo "Modified files ${{ steps.versioning_job.outputs.modified_files }}"
     
