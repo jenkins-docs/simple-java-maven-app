@@ -6,11 +6,12 @@
               - develop
           # Trigers only by changes in those files/directories
           paths:
-              - dockerfile
-              - playbook.yaml
-              - pom.xml
-              - ./src/*
-              - ./.github/workflows/*.yml
+            - dockerfile
+            - playbook.yaml
+            - pom.xml
+            - .github/workflows/docker-cd.yml
+            - .github/workflows/docker-ci.yml
+
   jobs:
     versioning_job:
       runs-on: ubuntu-latest
