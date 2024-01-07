@@ -59,8 +59,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: dev
-          base: master
+          branch: master
+          base: dev
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           title: 'Test passed and pushed new image'
           commit-message: "CI passed succsessfuly"
