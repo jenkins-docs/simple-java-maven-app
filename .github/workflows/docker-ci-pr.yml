@@ -41,7 +41,7 @@ jobs:
 
       - name: Create
         run: |
-          cat .github/workflows/docker-ci.yml
+          cat .github/workflows/docker-ci-pr.yml
 
       #* Login to DockerHub
       - name: Login to Docker Hub
