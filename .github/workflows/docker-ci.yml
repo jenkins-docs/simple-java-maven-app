@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           # checkout the correct branch name
-          ref: ${{ github.head_ref }}   
+          # ref: ${{ github.head_ref }}   
           # fetch the whole repo history
           fetch-depth: 0                
           persist-credentials: false
