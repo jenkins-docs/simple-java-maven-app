@@ -45,10 +45,10 @@ jobs:
         id: version
         uses: codacy/git-version@2.7.1
 
-#* Vrite new Version to ".env"
-      - name: Create local changes
-        run: |
-          echo "tag_version: ${{ steps.version.outputs.version }}" > .env
+# #* Vrite new Version to ".env"
+#       - name: Create local changes
+#         run: |
+#           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
 #* Push to DockerHub commit Hash
       - name: Build and push Docker image tag from build number
