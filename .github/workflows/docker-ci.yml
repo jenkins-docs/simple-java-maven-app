@@ -15,12 +15,17 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
+  ASIGNEES_PR_TO: Joska99
+  LABEL_PR: enhancement
+  PR_FROM: dev
+  PR_TO: master
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
 
     steps:
+#* Pull github repository
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
@@ -30,6 +35,7 @@ jobs:
           fetch-depth: 0                
           persist-credentials: false
 
+#* Login to DockerHub
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -46,11 +52,6 @@ jobs:
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-#* Check ne version in ".env"
-      - name: Check local changes
-        run: |
-            cat .env
-
 #* Push to DockerHub commit Hash
       - name: Build and push Docker image tag from build number
         uses: docker/build-push-action@v2
@@ -58,14 +59,6 @@ jobs:
           context: .
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
-
-#* Push to DockerHub Latest
-      - name: Build and push Docker image tag LATEST
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
 
 #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
       - name: Build and push Docker image tag from last tag
@@ -75,22 +68,33 @@ jobs:
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
 
+#* Push to DockerHub Latest
+      - name: Build and push Docker image tag LATEST
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+
 #* Commit and Push to dev changes made in this action
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
             branch: "dev"
-            message: "Versioning automatic push"
+            message: "CI-Versioning automatic push after update of '.env'"
             github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-#* Open PULL REQUEST from "dev" to "master"
+#* Open "PULL REQUEST" from "dev" to "master"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: dev
-          base: master
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
-          title: 'Test passed and pushed new image'
+          branch: ${{ env.PR_FROM }}
+          base: ${{ env.PR_TO }}
+          title: 'New Docker Image Tested and Pushed'
           commit-message: "CI passed succsessfuly"
+          labels: |
+            ${{ env.LABEL_PR }}
+          assignees: ${{ env.ASIGNEES_TO }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
           delete-branch: false
 
