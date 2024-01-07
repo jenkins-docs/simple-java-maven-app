@@ -41,10 +41,6 @@ jobs:
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-      # - name: Create local changes
-      #   run: |
-      #       awk -F '[-:]' '{print $1 $2}' .env > .env
-
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
@@ -62,16 +58,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PSWD }}
-
-      # #* Get last Tag and increase Patch( +0.0.1 )
-      # - name: Git Version
-      #   id: version
-      #   uses: codacy/git-version@2.7.1
-
-      # #* Vrite new Version to ".env"
-      #       - name: Create local changes
-      #         run: |
-      #           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
       #* Push to DockerHub commit Hash
       - name: Build and push Docker image tag from build number
