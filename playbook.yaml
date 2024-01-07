@@ -29,7 +29,8 @@
       community.docker.docker_image:
         name: "{{ default_container_image }}"
         source: pull
-        # state: got
+        # As 'latest' usually already is present, we need to enable overwriting of existing tags:
+        force_tag: true
 
     - name: Create default containers
       community.docker.docker_container:
