@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
+  # TAG: $(awk '{print $2}' .env)
 
 jobs:
   deploy:
@@ -41,4 +42,4 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.version.outputs.previous-version }}
-          name: Docker-Release ${{ steps.version.outputs.version }}
+          name: Docker-Release ${{ steps.version.outputs.previous-version }}
