@@ -17,7 +17,7 @@ env:
   IMAGE_NAME: joska99/java-maven
   ASIGNEES_PR_TO: Joska99
   LABEL_PR: enhancement
-  PR_FROM: dev
+  PR_FROM: develop
   PR_TO: master
 
 jobs:
