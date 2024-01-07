@@ -12,6 +12,7 @@ on:
 env:
   IMAGE_NAME: joska99/java-maven
   TAG_VERSION: ${{ github.sha }}
+  VERSION: ${{ vars.VERSION }} + 1
 
 jobs:
   build-push:
@@ -28,7 +29,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PSWD }}
 
-          # TODO: use no idempotence module to pull always latest
       - name: Build and push Docker image tag from build number
         uses: docker/build-push-action@v2
         with:
@@ -42,3 +42,10 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
+
+      - name: Build and push Docker image tag LATEST2
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: "${{ env.IMAGE_NAME }}:${{ vars.VERSION }}"
