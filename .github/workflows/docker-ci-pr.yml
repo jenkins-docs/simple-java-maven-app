@@ -72,35 +72,36 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
+      #* Push updatet repo to master
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          branch: "develop"
+          branch: "master"
           message: "Versioning automatic push"
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-  PR:
-    needs: build-push
-    runs-on: ubuntu-latest
-    name: PR
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-          persist-credentials: false
-          fetch-depth: 0
+  # PR:
+  #   needs: build-push
+  #   runs-on: ubuntu-latest
+  #   name: PR
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: develop
+  #         persist-credentials: false
+  #         fetch-depth: 0
 
-      # * Open "PULL REQUEST" from "dev" to "master"
-      - name: Create Pull Request!
-        uses: peter-evans/create-pull-request@v5.0.2
-        with:
-          branch: create-pr
-          base: master
-          title: "New Docker Image Tested and Pushed"
-          commit-message: "CI passed succsessfuly"
-          labels: |
-            ${{ env.LABEL_PR }}
-          assignees: ${{ env.ASIGNEES_PR_TO }}
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
-          delete-branch: true
+  #     # * Open "PULL REQUEST" from "dev" to "master"
+  #     - name: Create Pull Request!
+  #       uses: peter-evans/create-pull-request@v5.0.2
+  #       with:
+  #         branch: create-pr
+  #         base: master
+  #         title: "New Docker Image Tested and Pushed"
+  #         commit-message: "CI passed succsessfuly"
+  #         labels: |
+  #           ${{ env.LABEL_PR }}
+  #         assignees: ${{ env.ASIGNEES_PR_TO }}
+  #         token: ${{ secrets.MY_GITHUB_TOKEN }}
+  #         delete-branch: true
