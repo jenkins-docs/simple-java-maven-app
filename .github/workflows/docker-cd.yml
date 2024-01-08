@@ -3,11 +3,11 @@ name: CD - Deploy Docker container to EC2 with Ansible
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   IMAGE_NAME: joska99/java-maven
-  BRANCH: master
+  BRANCH: main
 
 jobs:
   deploy:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: master
+          ref: ${{ env.BRANCH }}
           fetch-depth: 0
 
       #* Deploy by ansble
