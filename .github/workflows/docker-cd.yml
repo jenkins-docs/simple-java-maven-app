@@ -3,6 +3,8 @@ name: CD - Deploy Docker container to EC2 with Ansible
 on:
   workflow_run:
     workflows: ["CI - Build and Push Docker Image"]
+    types:
+      - completed
 
 env:
   IMAGE_NAME: joska99/java-maven
