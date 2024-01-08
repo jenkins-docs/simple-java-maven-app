@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_NAME: joska99/java-maven
-  BRANCH: main
+  BRANCH: develop
 
 jobs:
   deploy:
