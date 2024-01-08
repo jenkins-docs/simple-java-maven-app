@@ -24,7 +24,7 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
 
-    name: RainMachine Parsers versioning
+    name: Build Push, increment .env
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -83,16 +83,20 @@ jobs:
           message: "Versioning automatic push"
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      # # * Open "PULL REQUEST" from "dev" to "master"
-      # - name: Create Pull Request!
-      #   uses: peter-evans/create-pull-request@v5.0.2
-      #   with:
-      #     branch: ${{ env.PR_FROM }}
-      #     base: ${{ env.PR_TO }}
-      #     title: "New Docker Image Tested and Pushed"
-      #     # commit-message: "CI passed succsessfuly"
-      #     labels: |
-      #       ${{ env.LABEL_PR }}
-      #     assignees: ${{ env.ASIGNEES_PR_TO }}
-      #     token: ${{ secrets.MY_GITHUB_TOKEN }}
-      #     delete-branch: false
+  PR:
+    runs-on: ubuntu-latest
+    name: PR
+    steps:
+      # * Open "PULL REQUEST" from "dev" to "master"
+      - name: Create Pull Request!
+        uses: peter-evans/create-pull-request@v5.0.2
+        with:
+          branch: ${{ env.PR_FROM }}
+          base: ${{ env.PR_TO }}
+          title: "New Docker Image Tested and Pushed"
+          # commit-message: "CI passed succsessfuly"
+          labels: |
+            ${{ env.LABEL_PR }}
+          assignees: ${{ env.ASIGNEES_PR_TO }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          delete-branch: false
