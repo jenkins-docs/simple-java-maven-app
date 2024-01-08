@@ -103,7 +103,7 @@ jobs:
       - name: Create Pull Request!
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          branch: create PR
+          branch: create-pr
           # base: ${{ env.PR_TO }}
           title: "New Docker Image Tested and Pushed"
           commit-message: "CI passed succsessfuly"
@@ -111,4 +111,4 @@ jobs:
             ${{ env.LABEL_PR }}
           assignees: ${{ env.ASIGNEES_PR_TO }}
           token: ${{ secrets.MY_GITHUB_TOKEN }}
-          delete-branch: false
+          delete-branch: true
