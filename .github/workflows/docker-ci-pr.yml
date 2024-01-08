@@ -41,13 +41,6 @@ jobs:
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
-      # - name: Commit & Push changes
-      #   uses: actions-js/push@master
-      #   with:
-      #     branch: "develop"
-      #     message: "Versioning automatic push"
-      #     github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-
       - name: Create
         run: |
           cat .github/workflows/docker-ci-pr.yml
@@ -96,3 +89,10 @@ jobs:
           assignees: ${{ env.ASIGNEES_PR_TO }}
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           delete-branch: false
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: "develop"
+          message: "Versioning automatic push"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
