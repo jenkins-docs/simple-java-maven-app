@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: joska99/java-maven
   ASIGNEES_PR_TO: Joska99
   LABEL_PR: enhancement
+  BRANCH: develop
   PR_FROM: develop
   PR_TO: master
 
@@ -26,17 +27,20 @@ jobs:
 
     name: Build Push, increment .env
     steps:
+      #* Pull devlop branch
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: develop
+          ref: ${{ env.BRANCH }}
           persist-credentials: false
           fetch-depth: 0
 
+      #* Module to get last tag and increment version
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
 
+      #* Increment version in .env by last repo tag
       - name: Create local changes, increment version
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
@@ -56,7 +60,7 @@ jobs:
           push: true
           tags: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
 
-      #* Push to DockerHub Last Tag + Patch ( + 0.0.1)
+      #* Push to DockerHub Last Tag + Patch ( + 0.0.1 )
       - name: Build and push Docker image tag from last tag
         uses: docker/build-push-action@v2
         with:
@@ -72,19 +76,20 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
-      #* Push updatet repo to master
+      #* Push updatet repo to develop
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          branch: "develop"
+          branch: ${{ env.BRANCH }}
           message: "Versioning automatic push"
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
   PR:
     needs: build-push
     runs-on: ubuntu-latest
-    name: PR
+    name: open PR to master
     steps:
+      # * Pull develop branch
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -92,6 +97,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      # * Open "PULL REQUEST" from "dev" to "master"
       - name: create pull request
         run: gh pr create -B master -H develop --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
         env:
