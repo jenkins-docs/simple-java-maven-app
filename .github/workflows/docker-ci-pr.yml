@@ -76,7 +76,7 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          branch: "master"
+          branch: "main"
           message: "Versioning automatic push"
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
 
