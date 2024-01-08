@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN mvn validate test
+
 RUN mvn package install 
 
 # Stage 2        

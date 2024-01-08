@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#* Pull github repository
+      #* Pull github repository
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{env.BRANCH }}
-          fetch-depth: 0 
+          ref: master
+          fetch-depth: 0
 
-#* Deploy by ansble
+      #* Deploy by ansble
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.6.1
         with:
@@ -32,12 +32,12 @@ jobs:
             [all]
             ${{ secrets.EC2_IP }}
 
-#* Get last Tag and increase Patch( +0.0.1 )
+      #* Get last Tag and increase Patch( +0.0.1 )
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
 
-#* Creates GitHub release
+      #* Creates GitHub release
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:

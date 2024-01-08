@@ -1,8 +1,5 @@
 ![Sample SVG](https://github.com/Joska99/simple-java-maven-app/blob/master/diagram.drawio.svg)
 
-[![Versioning](https://github.com/Joska99/simple-java-maven-app/actions/workflows/versioning.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/versioning.yml)
-<br />
-
 [![CI - Build and Push Docker Image](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Joska99/simple-java-maven-app/actions/workflows/docker-ci.yml)
 <br />
 

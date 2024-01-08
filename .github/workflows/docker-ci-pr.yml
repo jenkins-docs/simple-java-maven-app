@@ -37,7 +37,7 @@ jobs:
         id: version
         uses: codacy/git-version@2.7.1
 
-      - name: Create local changes
+      - name: Create local changes, increment version
         run: |
           echo "tag_version: ${{ steps.version.outputs.version }}" > .env
 
@@ -76,6 +76,13 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: "develop"
+          message: "Versioning automatic push"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+
       # # * Open "PULL REQUEST" from "dev" to "master"
       # - name: Create Pull Request!
       #   uses: peter-evans/create-pull-request@v5.0.2
@@ -89,10 +96,3 @@ jobs:
       #     assignees: ${{ env.ASIGNEES_PR_TO }}
       #     token: ${{ secrets.MY_GITHUB_TOKEN }}
       #     delete-branch: false
-
-      - name: Commit & Push changes
-        uses: actions-js/push@master
-        with:
-          branch: "develop"
-          message: "Versioning automatic push"
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
