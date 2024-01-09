@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                // Perform your build steps here
+                sh 'npm install' // Example for Node.js project
+                sh 'npm run build' // Example for Node.js project
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Run your tests here
+                sh 'npm run test' // Example for Node.js project
+                
+                // Optionally, you can publish test results using JUnit or other plugins
+                junit 'path/to/test/reports/**/*.xml' // Example for JUnit test reports
+            }
+        }
+        
+        stage('Deliver') {
+            steps {
+                // Perform your deployment or delivery steps here
+                // For example, you can deploy to a server or push artifacts to a repository
+                
+                // Example deployment command using rsync
+                sh 'rsync -avz path/to/artifacts/ user@server:/path/to/deploy'
+                
+                // Example publishing to a Maven repository
+                sh 'mvn deploy'
+            }
+        }
+    }
+}
