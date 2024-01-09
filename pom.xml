@@ -18,7 +18,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Optional URL to server. Default value is http://localhost:9000 -->
-    <sonar.host.url>http://localhost:9120</sonar.host.url>
+    <sonar.host.url>https://259181c2c054.ngrok.app/</sonar.host.url>
   </properties>
   <build>
     <pluginManagement>
