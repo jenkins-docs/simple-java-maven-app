@@ -16,4 +16,8 @@ public class App {
     public String getMessage() {
         return MESSAGE;
     }
+
+    public String getMessageTwo(){
+        return MESSAGE;
+    }
 }
