@@ -17,6 +17,8 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Optional URL to server. Default value is http://localhost:9000 -->
+    <sonar.host.url>http://localhost:9120</sonar.host.url>
   </properties>
   <build>
     <pluginManagement>
