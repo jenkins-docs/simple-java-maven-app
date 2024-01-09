@@ -14,7 +14,9 @@ pipeline {
                 always {
                     junit 'target/surefire-reports/*.xml'
                 }
-         stage('Test') {
+                }
+}
+         stage('Complete') {
             steps {
                 echo "task is completed"
             }
