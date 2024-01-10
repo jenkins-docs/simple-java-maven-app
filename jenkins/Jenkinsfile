@@ -18,7 +18,6 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh ls' target/'.jar file
                 sh './jenkins/scripts/deliver.sh'
             }
         }
