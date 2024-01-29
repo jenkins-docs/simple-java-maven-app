@@ -2,28 +2,29 @@
 pipeline {
   agent any
 options {
-    skipStagesAfterunstable()
+    skipStagesAfterUnstable()
 }
   stages {
-    stage('Build'){
-      steps{
+    stage('Build') {
+      steps {
         sh'/opt/apache-maven-3.9.6/bin/mvn -B -DskipTest clean package'
       }
     }
 stage('Test') {
-  steps {
-      sh '/opt/apache-maven-3.9.6/bin/mvn test'
+    steps {
+        sh '/opt/apache-maven-3.9.6/bin/mvn test'
   }
   post {
       always {
           junit 'target/surefire-reports/*.xml'
+        }
       }
   }
 stage('Deliver') {
     steps {
-      sh 'export MAVEN_HOME=/opt/apache-maven-3.9.6;export
-      M2_HOME=$MAVEN_HOME;export
-      PATH=$MAVEN_HOME/bib:$PATH;./jenkins/scripts/deliver.sh'
+        sh 'export MAVEN_HOME=/opt/apache-maven-3.9.6;export
+        M2_HOME=$MAVEN_HOME;export
+        PATH=$MAVEN_HOME/bib:$PATH;./jenkins/scripts/deliver.sh'
       }
     }
   }
