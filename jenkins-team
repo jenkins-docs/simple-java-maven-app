@@ -1,6 +1,5 @@
 pipeline {
-    agent {
-        docker {
+    agent {docker ('ubuntu:latest')} {
         }
     }
 
