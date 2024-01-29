@@ -1,11 +1,6 @@
 pipeline {
     agent {
         docker {
-            // Use an official Jenkins agent Docker image
-            image 'jenkins/inbound-agent:4.7-1'
-
-            // Set up a custom Docker image if needed
-            // customImage 'your-custom-docker-image:tag'
         }
     }
 
