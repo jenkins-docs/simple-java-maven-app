@@ -1,6 +1,9 @@
 //this is deliver//
 pipeline {
   agent any
+options {
+    skipStagesAfterunstable()
+}
   stages {
     stage('Build'){
       steps{
