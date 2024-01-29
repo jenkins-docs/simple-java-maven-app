@@ -1,0 +1,41 @@
+pipeline {
+    agent {
+        docker {
+            // Use an official Jenkins agent Docker image
+            image 'jenkins/inbound-agent:4.7-1'
+
+            // Set up a custom Docker image if needed
+            // customImage 'your-custom-docker-image:tag'
+        }
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                // Add build steps here
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Add test steps here
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                // Add deployment steps here
+            }
+        }
+
+        stage('Release') {
+            steps {
+                echo 'Creating a release...'
+                // Add release steps here
+            }
+        }
+    }
+}
