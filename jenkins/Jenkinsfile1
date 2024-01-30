@@ -1,0 +1,28 @@
+pipeline {
+    agent {
+        kubernetes {
+            // Define the pod template
+            podTemplate {
+                label 'custom-label'
+                containers {
+                    containerTemplate {
+                        name 'maven'
+                        image 'maven:3.8.4-jdk-11'
+                        command '/usr/local/bin/jenkins-slave'
+                        args '${JENKINS_SECRET} ${JENKINS_NAME}'
+                    }
+                }
+            }
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                container('maven') {
+                    // Your build steps here
+                    sh 'mvn clean install'
+                }
+            }
+        }
+    }
+}
