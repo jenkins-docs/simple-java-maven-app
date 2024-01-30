@@ -1,17 +1,11 @@
 pipeline {
-    agent {
+   agent {
         kubernetes {
-            // Define the pod template
-            podTemplate {
-                label 'custom-label'
-                containers {
-                    containerTemplate {
-                        name 'maven'
-                        image 'maven:3.8.4-jdk-11'
-                        command '/usr/local/bin/jenkins-slave'
-                        args '${JENKINS_SECRET} ${JENKINS_NAME}'
-                    }
-                }
+            containerTemplate {
+                name 'maven'
+                image 'maven:3.6.3-jdk-11'
+                ttyEnabled true
+                command 'cat'
             }
         }
     }
