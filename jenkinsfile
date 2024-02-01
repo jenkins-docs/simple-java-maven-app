@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Cloning from git') {
+            steps {
+                echo 'Hello World'
+                git credentialsId: 'github', url: 'https://github.com/jenkins-docs/simple-java-maven-app.git'
+            }
+        }
+        stage('Maven build') {
+            steps {
+                echo 'Building mvn'
+                sh 'mvn clean install'
+            }
+        }
+        stage('Tomcat deploy') {
+            steps {
+                echo 'deploying in tomcat'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.60.10.114:8080/')], contextPath: 'simple', war: '**/*.war'
+            }
+        }
+    }
+}
