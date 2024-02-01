@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+         stages {
+        stage('Install Snyk') {
+            steps {
+                sh "curl -sL https://raw.githubusercontent.com/snyk/snyk/master/tools/install.sh | bash"
+            }
+        }
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
@@ -23,5 +29,11 @@ pipeline {
 
     }
 }
+stage("Snyk Scan") {
+            steps {
+                sh "snyk monitor --file package.json"  // Adjust command based on your project
+            }
+        }
+
     }
 }
