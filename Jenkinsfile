@@ -1,7 +1,7 @@
 pipeline {
     agent any
+    
     stages {
-         stages {
         stage('Install Snyk') {
             steps {
                 sh "curl -sL https://raw.githubusercontent.com/snyk/snyk/master/tools/install.sh | bash"
