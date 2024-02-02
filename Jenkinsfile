@@ -30,7 +30,7 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh '.jenkins/scripts/develop.sh'
+                sh '.jenkins/scripts/deliver.sh'
             }
        }
 

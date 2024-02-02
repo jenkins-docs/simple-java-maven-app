@@ -1,1 +1,0 @@
-echo " Production of the APP"

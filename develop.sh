@@ -1,1 +1,0 @@
-echo " Delivery of APP"
