@@ -34,14 +34,6 @@ pipeline {
             }
        }
 
-       stage(" Deploy for production ") {
-        when {
-                branch 'prod'
-            }
-            steps {
-                sh 'deployment.sh'
-            }
-       }
 
     }
 }
