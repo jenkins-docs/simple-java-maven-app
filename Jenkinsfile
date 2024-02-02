@@ -26,9 +26,7 @@ pipeline {
     }
 }
      stage(" Delivering the app ") {
-        when {
-                branch 'develop'
-            }
+
             steps {
                 sh '.jenkins/scripts/deliver.sh'
             }
