@@ -25,12 +25,22 @@ pipeline {
 
     }
 }
-     stage(" Snyk ") {
-       steps {
-        sh "curl -sL https://raw.githubusercontent.com/snyk/snyk/master/tools/install.sh | bash"
-        sh "snyk test --file pom.xml" // Use pom.xml for Maven projects
-        failureThreshold 0 // Optional: Fail pipeline if vulnerabilities found
-        }
+     stage(" Delivering the app ") {
+        when {
+                branch 'develop'
+            }
+            steps {
+                sh 'develop.sh'
+            }
+       }
+
+       stage(" Deploy for production ") {
+        when {
+                branch 'prod'
+            }
+            steps {
+                sh 'deployment.sh'
+            }
        }
 
     }
