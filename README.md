@@ -16,24 +16,60 @@ the "Deliver" stage of your Pipeline.
 # 
 ---- 
 
+# Email Notification
+There are 2 plugins to send email notification. Email Notification and Extended Email. We will prefer to use Email extended as it provides more features and control on Email notification.
 
-SMTP Details from Gmail
-		○ smtp server : smtp.gmail.com
-		○ default user email suffix : @gmail.com
-		○ username : (Your gmail id)
-		○ password : (application specific password generated from previous step)
-		○ SMTP port : 465
-		○ Reply to address : noreply@gmail.com(optional)
-Charset : UTF-8 (by default it is UTF-8)![image](https://github.com/vcjain/simple-java-maven-app/assets/4056148/c8dfdbb4-baaf-450f-8e40-a170c71d5ba3)
+Follow below steps to configure and send email notification
+
+## Setup Google Account to generate App Password
+For integrating google email with jenkins, we need to generate a App password. The normal password for gmail will not work with integration. 
+To generate google app password, we need to enable 2 MFA. Please follow below steps to generate a app password.
+
+```
+- Navigate to Google account --> Profile Pic --> Manage Account
+- Select Security and Enable 2 factor authentication if you have not done it
+	○ You can follow instruction and choose different option instead of phone number
+	○ It will give you option to prompt on your device after login
+	○ If you device doesn't appear on page, then Add your google account in your mobile phone
+- Once 2MFA is enable navigate back to security Tab and click on 2 Step Verification in Right Pane
+- On bottom of the page you will find App Password
+- Create a new App password for Jenkins
+```
+## Setup Jenkins Email Extended Plugin
+Navigate to Manage Jenkins--> System--> Extended Email and add following details
+
+```
+smtp server : smtp.gmail.com
+Smtp port : 465
+- Advance
+	□ Add Credentials for Google username and App password generated above
+	□ Use SSL
+Default user email suffix : @gmail.com
+ListID : Leave it blank
+Default Recipients : vcjain.training1@gmail.com
+Reply To List : noreply@gmail.com
+Leave everything as Default
+Chose Appropriate Default Triggers
+```
+
+## Setup Jenkins Email Notification Plugin
+
+Navigate to Manage Jenkins--> System--> Email Notification and add following details
+```
+smtp server : smtp.gmail.com
+Default user email suffix : @gmail.com
+- Advance 
+Use SMTP Authentication
+Add Credentials for Google username and App password generated above
+Use SSL
+SMTP Port : 465
+Reply To List : noreply@gmail.com
+Charset : UTF-8 (by default it is UTF-8)
+Test e-mail recipient : <enter recipient email id >
+```
+## Configure Job to send Email
+- Add Extended Email as post Build action to receive emails
+- Select Always Triggers
 
 
 -----
-
-## How to create a Gmail password for Jenkins
-	- Generate App Password for Google
-		○ Navigate to Google account
-		○ Select Security and Enable 2 factor authentication if you have not done it
-		○ Once 2MFA is enable navigate back to security Tab and click on 2 Step Verification in Right Pane
-		○ On bottom of the page you will find App Password
-Create a new App password for Jenkins ![image](https://github.com/vcjain/simple-java-maven-app/assets/4056148/3c9fd9e9-92fd-41a0-9128-1743c2b72323)
-
