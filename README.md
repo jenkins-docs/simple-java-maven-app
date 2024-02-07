@@ -91,6 +91,15 @@ To send Slack notifications from Jenkins, you can use the "Slack Notification" p
 9. On top of same page, under section "OAuth Tokens for your workspace" --> click on "Install to workspace" button to generate token
 10. Click Allow
 11. On slack workspace add a public channel as "Notification"
+
+OR
+
+We can add a existing Jenkins CI app.
+1. Navigate to workspace in Slack-->Settings & adminstration--> Manage apps
+2. Search "Jenkins CI" in the search App Directory box on top of the page
+3. Click on Add to Slack button
+4. Choose channel from the dropdown box --> Click on Add Jenkins Ci Integration
+
 ```
 ## Jenkins Configuration
 ```
