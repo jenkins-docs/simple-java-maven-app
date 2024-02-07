@@ -73,3 +73,39 @@ Test e-mail recipient : <enter recipient email id >
 
 
 -----
+
+# Slack Notification
+
+To send Slack notifications from Jenkins, you can use the "Slack Notification" plugin. We will configuration at both end Slack and Jenkins. In slack we will need to setup an app and generates token for it. This token will be used in Jenkins to connect with Slack and send notification.
+
+## Slack Configuration
+```
+1. Create a Slack account if you don't have one. Set up a Slack workspace if you haven't already.
+2. To create an app in slack you have required permissions, otherwise you will not be able to see app options
+3. Navigate to workspace in Slack-->Settings & adminstration--> Manage apps
+4. Click on Build button on top right corner of the page, to create a new App
+5. Click on Create New App --> From Scratch --> Provide your prefered name and select your worksace --> Create App
+6. You will be landed on the Basic Information page, navigate to "OAuth & Permissions" menu item on left pane
+7. On OAuth & Permissions page, under User Token Scope --> click on Add an OAuth Scope
+8. Type and select chat:write
+9. On top of same page, under section "OAuth Tokens for your workspace" --> click on "Install to workspace" button to generate token
+10. Click Allow
+11. On slack workspace add a public channel as "Notification"
+```
+## Jenkins Configuration
+```
+1. Install "Slack Notification" plugin
+2. Navigate to Manage Jenkins --> System
+3. Under Slack section, Add workspace name. The workspace name can find from your workspace url, like if your workspace url is https://training-7u81625.slack.com, then your workspace name will be training-7u81625
+4. Add your slack token, generated above, as secret text credentials in Jenkins
+5. Specify channel name, created above.
+12. Check the checkbox "Custom slack app bot user"
+13. Apply and Save
+```
+## Configuring Jenkins Job
+```
+1. Add a PostBuild Action --> Select Slack notification
+2. Check "Notify Build Start" & "Notify Success" --> Apply & Save
+```
+
+That's it! You should now have Jenkins configured to send Slack notifications for your builds.
