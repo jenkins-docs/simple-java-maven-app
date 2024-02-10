@@ -46,7 +46,7 @@ Smtp port : 465
 	□ Use SSL
 Default user email suffix : @gmail.com
 ListID : Leave it blank
-Default Recipients : vcjain.training1@gmail.com
+Default Recipients : ****@gmail.com
 Reply To List : noreply@gmail.com
 Leave everything as Default
 Chose Appropriate Default Triggers
