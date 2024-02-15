@@ -1,8 +1,8 @@
 package com.mycompany.app;
 
-/**
- * Hello world!
- */
+
+  Hello world!
+ 
 public class App {
 
     private static final String MESSAGE = "Hello World!";
