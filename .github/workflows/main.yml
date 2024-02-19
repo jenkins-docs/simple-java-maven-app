@@ -1,0 +1,24 @@
+name: Deploy Jenkins on Kubernetes
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      ENVIRONMENT:
+        type: choice
+        description: Choose environment to deploy
+        required: true
+        default: 'dev'
+        options:
+          - dev
+          - test
+
+jobs:
+  deploy:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Apply updated YAML
+      run: |
+        echo "Test"
