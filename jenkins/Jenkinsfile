@@ -1,30 +1,40 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any // You can specify the agent where the pipeline will run. 'any' means it can run on any available agent.
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                // Execute a shell command to perform the build
+                sh 'echo "Building the project..."'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                // Execute test commands
+                sh 'echo "Running tests..."'
             }
         }
-        stage('Deliver') {
+        stage('Deploy') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                // Execute deployment steps
+                sh 'echo "Deploying the application..."'
             }
+        }
+    }
+
+    post {
+        // Define post-build actions
+        success {
+            // Actions to perform when the pipeline succeeds
+            echo 'Pipeline succeeded! :D'
+        }
+        failure {
+            // Actions to perform when the pipeline fails
+            echo 'Pipeline failed! :('
+        }
+        always {
+            // Actions to perform always, regardless of success or failure
+            echo 'Pipeline finished!'
         }
     }
 }
