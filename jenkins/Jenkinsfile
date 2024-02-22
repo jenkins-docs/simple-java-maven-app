@@ -11,7 +11,8 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/jenkins-docs/simple-java-maven-app-amit.git'
-
+                credentialsId: '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'
+                
                 // Run Maven on a Unix agent.
                 // sh "mvn -Dmaven.test.failure.ignore=true clean package"
 
