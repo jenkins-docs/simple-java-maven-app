@@ -23,7 +23,7 @@ pipeline {
         }
         stage('SonarAnalysis') {
             steps {
-                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=my-first-sonar -Dsonar.projectName=my-first-sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_2d8a6da47992f643090c96ef29bb0d7cc31ca2cb'
+                sh 'mvn clean verify sonar:sonar -X -Dsonar.projectKey=my-first-sonar -Dsonar.projectName=my-first-sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_2d8a6da47992f643090c96ef29bb0d7cc31ca2cb'
             }
         }
         stage('Deliver') {
