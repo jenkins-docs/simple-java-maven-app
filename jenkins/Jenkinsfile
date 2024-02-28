@@ -23,9 +23,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv() {
-                 sh "mvn clean verify sonar:sonar -Dsonar.projectKey=my-first-sonarqube -Dsonar.projectName='my-first-sonarqube'"
-             }   
+                 sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonarqube-jenkins -Dsonar.projectName='sonarqube-jenkins' -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.token=sqp_5dd85b0849347d966d786689d42f579338cfd7fd" 
             }    
         }
         stage('Deliver') {
