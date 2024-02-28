@@ -1,3 +1,4 @@
+//This is my application
 package com.mycompany.app;
 
 /**
