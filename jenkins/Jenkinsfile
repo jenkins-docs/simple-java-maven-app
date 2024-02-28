@@ -22,9 +22,11 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            withSonarQubeEnv() {
+            steps {
+                withSonarQubeEnv() {
                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=my-first-sonarqube -Dsonar.projectName='my-first-sonarqube'"
-             }
+             }   
+            }    
         }
         stage('Deliver') {
             steps {
