@@ -21,6 +21,11 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                 sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonarqube-jenkins -Dsonar.projectName='sonarqube-jenkins' -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.token=sqp_5dd85b0849347d966d786689d42f579338cfd7fd" 
+            }    
+        }
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
