@@ -23,7 +23,7 @@ pipeline {
         }
         stage('complete') {
             steps {
-                echo 'task completedddd'
+                echo 'task completed'
             }
         }
         stage('Deliver') {
