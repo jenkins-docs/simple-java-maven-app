@@ -18,7 +18,12 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                echo 'unknown step'
+            }
+        }
+        stage('Complete){
+            steps{
+                echo 'Job Completed'
             }
         }
     }
