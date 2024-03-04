@@ -26,5 +26,12 @@ pipeline {
                 echo 'Job Completed'
             }
         }
+        stage('New pipeline test')
+        {
+            steps
+            {
+                echo 'testing'
+            }
+        }
     }
 }
