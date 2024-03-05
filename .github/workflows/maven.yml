@@ -31,4 +31,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/arm64,linux/amd64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
