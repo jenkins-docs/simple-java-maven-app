@@ -32,4 +32,4 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/arm64,linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
