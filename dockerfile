@@ -3,4 +3,4 @@ ARG VERSION=1.0.0
 COPY pom.xml /app/
 WORKDIR /app
 COPY src/ /app/src
-RUN mvn -B -DskipTests package
+RUN mvn -B -DskipTests clean package
