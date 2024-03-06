@@ -30,4 +30,5 @@ jobs:
       uses: docker/build-push-action@v4
       with:
           push: true
-          tags: guyedri/github-actions:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/java_app:1.0.${{ github.run_number }}
+          build-args: "VERSION=1.0.${{ github.run_number }}"
