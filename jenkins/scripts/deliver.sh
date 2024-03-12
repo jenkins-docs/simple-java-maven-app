@@ -17,7 +17,8 @@ set +x
 echo 'The following command behaves similarly to the previous one but'
 echo 'extracts the value of the <version/> element within <project/> instead.'
 set -x
-VERSION=`mvn -q -DforceStdout help:evaluate -Dexpression=project.version`
+# VERSION=`mvn -q -DforceStdout help:evaluate -Dexpression=project.version`
+VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version | tr -d '\n')
 set +x
 
 echo 'The following command runs and outputs the execution of your Java'
