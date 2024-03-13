@@ -1,0 +1,17 @@
+sonarcloud:
+  organization: "hackdossier"
+  projectKey: "hackdossier"
+  token:
+    secure: "yec9cdb38d5e716f14385f39185bd601de93c0ae1"
+
+steps:
+  - name: SonarCloud Scan
+    uses: SonarSource/sonarcloud-github-action@master
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+on: 
+  push:
+    branches:
+      - master
