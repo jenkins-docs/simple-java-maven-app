@@ -6,11 +6,11 @@ pipeline {
                 sh 'mvn install'
             }
         }
-        stage("Test") {
+        //stage("Test") {
             steps {
                 sh "mvn test"
             }
-        }
+        }//
         stage("CompiledandRunSonarAnalysis") {
             steps{
                 sh 'mvn clean verify sonar:sonar -Dsonar.projectkey=hackdossier -Dsonar.organization=hackdossier -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.login=ec9cdb38d5e716f14385f39185bd601de93c0ae1'
