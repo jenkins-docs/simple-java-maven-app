@@ -13,11 +13,11 @@ pipeline {
       steps {
         script {
           // Download Maven zip
-          sh 'curl -O https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip'
+          bat 'curl -O https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip'
           // Extract Maven zip
-          sh 'Expand-Archive -Path \'C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/apache-maven-3.8.4-bin.zip\' -DestinationPath \'C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/\''
+          bat 'Expand-Archive -Path \'C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/apache-maven-3.8.4-bin.zip\' -DestinationPath \'C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/\''
           // Move Maven to desired directory
-          sh 'mv apache-maven-3.8.4 \'C:/Program Files/Apache/maven\''
+          bat 'mv apache-maven-3.8.4 \'C:/Program Files/Apache/maven\''
         }
       }
     }
