@@ -7,7 +7,7 @@ pipeline:
     PATH: "$PATH:$MAVEN_HOME//bin"  // Add Maven bin directory to PATH
 
   stages:
-    - stage: Install_Maven
+    - stage: 'Install_Maven'
       steps:
         - script:
             name: 'Download and Install Maven'
