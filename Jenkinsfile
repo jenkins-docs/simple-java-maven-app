@@ -15,7 +15,7 @@ pipeline {
                     // Download and Install Maven
                     bat '''
                     curl -O https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip
-                    tar -xf apache-maven-3.8.4-bin.zip
+                    Expand-Archive -Path 'apache-maven-3.8.4-bin.zip' -DestinationPath 'C:\\Program Files\\Apache\\maven'
                     mv apache-maven-3.8.4 'C:\\Program Files\\Apache\\maven'
                     '''
                 }
