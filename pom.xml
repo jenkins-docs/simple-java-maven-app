@@ -30,7 +30,6 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.3.0</version>
@@ -63,6 +62,24 @@
                   <version>[11,)</version>
                 </requireJavaVersion>
               </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- OWASP Dependency-Check plugin -->
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>6.5.1</version> <!-- Use the latest version -->
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <!-- Configuration to fail the build on a CVSS score of 7 or higher -->
+              <failBuildOnCVSS>7</failBuildOnCVSS>
             </configuration>
           </execution>
         </executions>
