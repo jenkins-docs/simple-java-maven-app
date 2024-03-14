@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh 'mvn install'
+                bat 'mvn install'
             }
         }
         stage("Test") {
             steps {
-                sh "mvn test"
+                bat "mvn test"
             }
         }
         stage("CompiledandRunSonarAnalysis") {
