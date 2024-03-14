@@ -3,8 +3,8 @@ pipeline:
     label: 'windows'  // Use a Windows agent
 
   environment:
-    MAVEN_HOME: 'C:\Program Files\apache\maven'  # Path to Maven installation directory
-    PATH: "$PATH:$MAVEN_HOME\\bin"  # Add Maven bin directory to PATH
+    MAVEN_HOME: 'C:\Program Files\apache\maven'  // Path to Maven installation directory
+    PATH: "$PATH:$MAVEN_HOME\\bin"  // Add Maven bin directory to PATH
 
   stages:
     - stage: Install_Maven
