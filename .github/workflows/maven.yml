@@ -48,13 +48,18 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
-      - name: Run SonarQube Scan
+      - name: Run SonarCloud Scan
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: SonarSource/sonarqube-scan-action@master
+        uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectKey: "your_project_key"
-          sonarHost: "https://your_sonarqube_server"
-          sonarToken: ${{ secrets.SONAR_TOKEN }}
+          args: >
+            -Dsonar.projectKey=eilaytal_simple-java-maven-app
+            -Dsonar.organization=eilaytal
+            -Dsonar.sources=.
+            -Dsonar.java.binaries=target
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Push Docker image
         if: success()
