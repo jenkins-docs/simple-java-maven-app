@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven and Docker Operations
 
 on:
   push:
@@ -7,9 +7,8 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-and-sign:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,8 +26,6 @@ jobs:
           -Dsonar.organization=eilaytal \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -55,6 +52,13 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
+
+      - name: Install Cosign
+        run: |
+          COSIGN_VERSION="v2.2.3"
+          wget https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64 -O cosign
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/cosign
 
       - name: Sign Docker Image with Cosign
         run: |
