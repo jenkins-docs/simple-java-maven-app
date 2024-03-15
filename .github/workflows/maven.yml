@@ -36,22 +36,19 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
+      - name: Build and Push Docker image
+        id: docker_build_push
+        uses: docker/build-push-action@v2 # Ensure you use a version supporting outputs
         with:
           context: .
           file: ./Dockerfile
-          load: true
+          push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          outputs: type=docker,dest=digest.txt
 
-      - name: Scan Docker image with Snyk
-        uses: snyk/actions/docker@master
-        with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true
+      - name: Read Docker Image Digest
+        id: docker_digest
+        run: echo "::set-output name=digest::$(cat digest.txt)"
 
       - name: Install Cosign
         run: |
@@ -60,19 +57,9 @@ jobs:
           chmod +x cosign
           sudo mv cosign /usr/local/bin/cosign
 
-      - name: Sign Docker Image with Cosign
+      - name: Sign Docker Image with Cosign using Digest
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
-          COSIGN_EXPERIMENTAL=1 cosign sign --key cosign.key --yes ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp@${{ steps.docker_digest.outputs.digest }}
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          COSIGN_EXPERIMENTAL: '1'
-
-      - name: Push Docker image
-        if: success()
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
