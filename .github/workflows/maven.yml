@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven and Docker Operations
 
 on:
   push:
@@ -7,51 +7,51 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Set up JDK 20
+
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: '20'
+          java-version: '11'
           distribution: 'adopt'
-          
-      # Static code analysis is triggered on merge to main branch
+
+      - name: Maven Build
+        run: mvn clean install
+
+      # Scan Dockerfile with Snyk before building the image (Preventive measure)
+      - name: Scan Dockerfile with Snyk
+        uses: snyk/actions/docker@master
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
+          command: test --file=Dockerfile
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        run: |
+          export DOCKER_CONTENT_TRUST=1
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
+        env:
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
+
+      # Only run SonarCloud analysis on merge to the main branch
       - name: SonarCloud Scan
         if: github.ref == 'refs/heads/main'
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectKey: eilaytal_simple-java-maven-app
           organization: eilaytal
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      # Scan Dockerfile before building the image
-      - name: Scan Dockerfile with Snyk
-        uses: snyk/actions/docker@master
-        with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
-          command: snyk test --file=Dockerfile
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true # Fails the step if vulnerabilities are found
-        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Build, Sign, and Push Docker image
-        run: |
-          export DOCKER_CONTENT_TRUST=1
-          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPO_PASSPHRASE }}
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
-        env:
-          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPO_PASSPHRASE }}
+          sonarToken: ${{ secrets.SONAR_TOKEN }}
