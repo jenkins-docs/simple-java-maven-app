@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-sign:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,22 +38,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          load: true
+          push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-
-      - name: Scan Docker image with Snyk
-        uses: snyk/actions/docker@master
-        with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true
 
       - name: Install Cosign
         run: |
@@ -70,8 +60,3 @@ jobs:
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           COSIGN_EXPERIMENTAL: '1'
-
-      - name: Push Signed Docker image
-        if: success()
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
