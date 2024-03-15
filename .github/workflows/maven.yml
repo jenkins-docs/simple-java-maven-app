@@ -48,13 +48,15 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
-      - name: Run SonarQube Scan
+      - name: Run SonarCloud Scan
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: SonarSource/sonarqube-scan-action@master
+        uses: sonarsource/sonarcloud-github-action@master
         with:
-          projectKey: "eilaytal_simple-java-maven-app"
-          sonarHost: "https://sonarcloud.io"
-          sonarToken: ${{ secrets.SONAR_TOKEN }}
+          args: >
+            -Dsonar.projectKey=eilaytal_simple-java-maven-app
+            -Dsonar.organization=eilaytal
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       - name: Sign Docker Image
         run: echo "Placeholder for actual image signing command"
