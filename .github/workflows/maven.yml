@@ -47,6 +47,15 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
 
+      - name: Scan Docker image with Snyk
+        uses: snyk/actions/docker@master
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          args: --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
       - name: Install Cosign
         run: |
           COSIGN_VERSION="v2.2.3"
