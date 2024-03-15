@@ -43,7 +43,7 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high
+          args: --severity-threshold=high -d
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
