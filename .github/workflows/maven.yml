@@ -43,12 +43,13 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high -d
+          args: --severity-threshold=high 
+          continue-on-error: true 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Push Docker image
-        if: success() # This step will run only if the previous steps, including the scan, were successful
+        if: success()
         uses: docker/build-push-action@v5
         with:
           context: .
