@@ -5,7 +5,7 @@ sonarcloud:
     secure: "yec9cdb38d5e716f14385f39185bd601de93c0ae1"
 
 steps:
-  - name: SonarCloud Scan
+  - name: "SonarCloud Scan"
     uses: SonarSource/sonarcloud-github-action@master
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
