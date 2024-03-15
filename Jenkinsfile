@@ -1,38 +1,44 @@
 pipeline {
-  agent {
-    label 'windows' // Use a Windows agent
-  }
-  
-  environment {
-    MAVEN_HOME = 'C:/Program Files/apache/maven' // Path to Maven installation directory
-    PATH = "$PATH:$MAVEN_HOME/bin" // Add Maven bin directory to PATH
-  }
-  
-  stages {
-    stage('Install_Maven') {
-      steps {
-        script {
-          // Download Maven zip
-          bat 'curl -O https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip'
-          // Extract Maven zip
-          bat '"C:/Program Files/7-Zip/7z" x "C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/apache-maven-3.8.4-bin.zip" -o"C:/ProgramData/Jenkins/jenkins/workspace/Win-Pipeline/"'
-
-
-          // Move Maven to desired directory
-          bat 'mv apache-maven-3.8.4 \'C:/Program Files/Apache/maven\''
+    agent any
+    stages {
+        stage("Build") {
+            steps {
+                sh 'mvn install'
+            }
         }
-      }
-    }
-    
-    stage('Test') {
-      steps {
-        script {
-          // Navigate to the project directory
-          bat 'cd \'C:/Program Files/Apache/maven\''
-          // Run Maven test
-          bat 'mvn test'
+        stage("Test") {
+            steps {
+                sh "mvn test"
+            }
         }
-      }
+        stage("CompiledandRunSonarAnalysis") {
+            steps{
+                sh 'mvn clean verify sonar:sonar -Dsonar.projectkey=hackdossier -Dsonar.organization=hackdossier -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.token=ec9cdb38d5e716f14385f39185bd601de93c0ae1'
+            }
+        }
+        stage("SnykSCAScan") {
+            steps {
+                withCredentials(strings[credentails:    "SNYK_TOKEN", variable:SNYK_TOKEN]){
+                    sh "mvn snyk:test -fn"
+                }
+            }
+        }
+        stage("Build")  {
+            steps{
+                withDockerRegistry([withCredentialsId: "dockerlogin", url:""])  {
+                    script{
+                        app = docker.build("hd-image-storage-1")
+                    }
+                }
+            }
+        }
+        stage(push) {
+            steps{
+                docker.withRegistry('https://058264359241.dkr.ecr.us-east-1.amazonaws.com/','ecr:us-east-1:aws-credentials')  {
+                    app.push("latest")
+                }
+            }
+        }
     }
-  }
 }
+
