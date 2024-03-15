@@ -36,17 +36,25 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          load: true # Important for loading the image into Docker daemon for local scanning
+          load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
 
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high 
-          continue-on-error: true 
+          args: --severity-threshold=high -d
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      - name: Run SonarQube Scan
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: SonarSource/sonarqube-scan-action@master
+        with:
+          projectKey: "your_project_key"
+          sonarHost: "https://your_sonarqube_server"
+          sonarToken: ${{ secrets.SONAR_TOKEN }}
 
       - name: Push Docker image
         if: success()
