@@ -36,12 +36,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          load: true
+          push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
 
       - name: Scan Docker image with Snyk
@@ -66,12 +66,3 @@ jobs:
           cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
-      - name: Push Docker image
-        if: success()
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
