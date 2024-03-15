@@ -11,45 +11,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 11
+      - name: Set up JDK 20
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '20'
           distribution: 'adopt'
 
       - name: Maven Build with OWASP Dependency Check
         run: mvn clean install
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
+          load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
 
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
-        continue-on-error: true
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
           args: --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
 
-      - name: Run static code analysis with SonarQube
-        uses: SonarSource/sonarqube-scan-action@master
+      - name: Run SonarQube Scan
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: SonarSource/sonarqube-scan-action@master
         with:
-          projectKey: "your_project_key"
-          sonarHost: "https://your_sonarqube_server"
+          projectKey: "eilaytal_simple-java-maven-app"
+          sonarHost: "https://sonarcloud.io"
           sonarToken: ${{ secrets.SONAR_TOKEN }}
 
       - name: Sign Docker Image
@@ -57,7 +61,8 @@ jobs:
         if: success()
 
       - name: Push Docker image
-        uses: docker/build-push-action@v2
+        if: success()
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
