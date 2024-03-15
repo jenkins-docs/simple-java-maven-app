@@ -20,6 +20,8 @@ jobs:
           java-version: '20'
           distribution: 'adopt'
 
+      # Build the project with Maven and perform SonarQube analysis. This will also indirectly scan dependencies.
+      # Run static code analysis on merge to the main branch.
       - name: Maven Build and SonarQube Analysis
         run: |
           mvn clean install sonar:sonar \
@@ -47,6 +49,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
 
+      # Dependency scan and set up a Critical vulnerable libraries threshold to fail the pipeline.
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
         with:
@@ -56,6 +59,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
+      # Install Cosign for Docker image signing.
       - name: Install Cosign
         run: |
           COSIGN_VERSION="v2.2.3"
@@ -63,6 +67,7 @@ jobs:
           chmod +x cosign
           sudo mv cosign /usr/local/bin/cosign
 
+      # Sign artifact containers. This step signs the Docker image using Cosign.
       - name: Sign Docker Image with Cosign
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
