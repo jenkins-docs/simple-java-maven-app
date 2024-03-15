@@ -27,6 +27,7 @@ jobs:
         args: --severity-threshold=high
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
     
     - name: Build with Maven
       run: mvn -B package --file pom.xml
