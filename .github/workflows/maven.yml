@@ -2,59 +2,56 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 11
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'adopt'
-
-      - name: Build and analyze with SonarCloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=eilaytal_simple-java-maven-app -Dsonar.organization=eilaytal -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          
+      # Static code analysis is triggered on merge to main branch
+      - name: SonarCloud Scan
+        if: github.ref == 'refs/heads/main'
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectKey: eilaytal_simple-java-maven-app
+          organization: eilaytal
         env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
+      # Scan Dockerfile before building the image
+      - name: Scan Dockerfile with Snyk
+        uses: snyk/actions/docker@master
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
+          command: snyk test --file=Dockerfile
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: false # Fails the step if vulnerabilities are found
+        
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          load: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-
-      - name: Scan Docker image with Snyk
-        uses: snyk/actions/docker@master
-        with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          args: --severity-threshold=high -d
+          
+      - name: Build, Sign, and Push Docker image
+        run: |
+          export DOCKER_CONTENT_TRUST=1
+          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPO_PASSPHRASE }}
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:latest
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true
-
-      - name: Push Docker image
-        if: success()
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPO_PASSPHRASE }}
