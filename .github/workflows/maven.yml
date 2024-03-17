@@ -66,7 +66,7 @@ jobs:
       - name: Sign Docker Image with Cosign
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
-          echo 'y' | cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
 
