@@ -1,0 +1,76 @@
+name: Java CI with Maven and Docker Operations
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-sign:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 20
+        uses: actions/setup-java@v2
+        with:
+          java-version: '20'
+          distribution: 'adopt'
+
+      # Build the project with Maven and perform SonarQube analysis. This will also indirectly scan dependencies.
+      # Run static code analysis on merge to the main branch.
+      - name: Maven Build and SonarQube Analysis
+        run: |
+          mvn clean install sonar:sonar \
+          -Dsonar.projectKey=eilaytal_simple-java-maven-app \
+          -Dsonar.organization=eilaytal \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          platforms: linux/amd64,linux/arm64
+
+      # Dependency scan and set up a Critical vulnerable libraries threshold to fail the pipeline.
+      - name: Scan Docker image with Snyk
+        uses: snyk/actions/docker@master
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          args: --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      # Install Cosign for Docker image signing.
+      - name: Install Cosign
+        run: |
+          COSIGN_VERSION="v2.2.3"
+          wget https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64 -O cosign
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/cosign
+      # Sign artifact containers. This step signs the Docker image using Cosign.
+      - name: Sign Docker Image with Cosign
+        run: |
+          echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
+          echo 'y' | cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
