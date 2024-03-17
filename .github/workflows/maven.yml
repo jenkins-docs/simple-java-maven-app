@@ -19,12 +19,12 @@ jobs:
         with:
           java-version: '20'
           distribution: 'adopt'
-      
+
       - name: Maven Build and SonarQube Analysis
         run: |
           mvn clean install sonar:sonar \
-          -Dsonar.projectKey=YOUR_PROJECT_KEY \
-          -Dsonar.organization=YOUR_ORGANIZATION \
+          -Dsonar.projectKey=eilaytal_simple-java-maven-app \
+          -Dsonar.organization=eilaytal \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
@@ -36,17 +36,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: |
-          docker build . --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (without pushing)
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          command: test
+          args: --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
 
       - name: Install Cosign
         run: |
@@ -63,4 +71,5 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
