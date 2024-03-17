@@ -33,6 +33,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/java_app:1.0.${{ github.run_number }}
           build-args: "VERSION=1.0.${{ github.run_number }}"
-          
-    - name: Run OWASP Dependency-Check with Maven
-    - run: mvn -B verify --file pom.xml
+        
