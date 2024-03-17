@@ -39,12 +39,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Scan Dockerfile with Snyk
+      - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
         with:
-          command: test --file=Dockerfile
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          command: test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 
       - name: Build Docker image
         uses: docker/build-push-action@v2
