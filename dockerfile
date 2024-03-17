@@ -1,4 +1,5 @@
-FROM maven:latest AS build
+#FROM maven:latest AS build
+FROM maven:3.9-amazoncorretto-21-al2023 AS build
 ARG VERSION=1.0.0
 COPY pom.xml /app/
 WORKDIR /app
