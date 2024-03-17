@@ -29,9 +29,6 @@ jobs:
 
     - name: Run OWASP Dependency-Check with Maven
       run: mvn -B verify --file pom.xml
-
-    - name: Install Maven
-      run: sudo apt-get install -y maven
         
     - name: Snyk test
       uses: snyk/actions@0.4.0
@@ -39,7 +36,7 @@ jobs:
           command: test
           json: false
       env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       
             
     - name: Build and push
