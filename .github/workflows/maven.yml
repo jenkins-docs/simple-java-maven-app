@@ -1,4 +1,4 @@
-ame: Java CI with Maven and Docker Operations
+name: Java CI with Maven and Docker Operations
 
 on:
   push:
