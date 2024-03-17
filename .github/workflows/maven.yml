@@ -20,8 +20,6 @@ jobs:
           java-version: '20'
           distribution: 'adopt'
 
-      # Build the project with Maven and perform SonarQube analysis. This will also indirectly scan dependencies.
-      # Run static code analysis on merge to the main branch.
       - name: Maven Build and SonarQube Analysis
         run: |
           mvn clean install sonar:sonar \
@@ -41,15 +39,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and Push Docker image
+      - name: Build Docker image (without pushing)
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          load: true  # This is important to make the image available locally for the scan
 
-      # Dependency scan and set up a Critical vulnerable libraries threshold to fail the pipeline.
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
         with:
@@ -59,7 +57,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
-      # Install Cosign for Docker image signing.
       - name: Install Cosign
         run: |
           COSIGN_VERSION="v2.2.3"
@@ -67,10 +64,14 @@ jobs:
           chmod +x cosign
           sudo mv cosign /usr/local/bin/cosign
 
-      # Sign artifact containers. This step signs the Docker image using Cosign.
       - name: Sign Docker Image with Cosign
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
           echo 'y' | cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
+      # New step: Push the Docker image
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
