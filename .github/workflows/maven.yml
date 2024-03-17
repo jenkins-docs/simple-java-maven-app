@@ -46,7 +46,7 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
-          load: true  # This is important to make the image available locally for the scan
+          load: true
 
       - name: Scan Docker image with Snyk
         uses: snyk/actions/docker@master
@@ -64,14 +64,18 @@ jobs:
           chmod +x cosign
           sudo mv cosign /usr/local/bin/cosign
 
-      - name: Sign Docker Image with Cosign
+      - name: Push Docker image and get digest
+        id: docker_push
+        run: |
+          output=$(docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }} | tee /dev/tty)
+          digest=$(echo "$output" | grep 'digest: ' | awk '{print $2}')
+          echo "::set-output name=digest::$digest"
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+
+      - name: Sign Docker Image with Cosign (using digest)
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" | base64 --decode > cosign.key
-          echo 'y' | cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          echo 'y' | cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp@${{ steps.docker_push.outputs.digest }}
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
-      # New step: Push the Docker image
-      - name: Push Docker image
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
