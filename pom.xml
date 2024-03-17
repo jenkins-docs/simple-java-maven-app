@@ -21,51 +21,9 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.12.1</version>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>com.mycompany.app.App</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>[3.8.6,)</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>[11,)</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
@@ -78,10 +36,10 @@
               <goal>check</goal>
             </goals>
             <configuration>
-              <failOnError>true</failOnError> <!-- Make build fail on critical vulnerabilities -->
-              <cveValidForHours>24</cveValidForHours> <!-- Optional: Adjusts the window for valid CVEs -->
-              <cveFailOnError>true</cveFailOnError> <!-- Optional: Whether to fail the build on expired CVEs -->
-              <threshold>Critical</threshold> <!-- Setting critical threshold -->
+              <failOnError>true</failOnError>
+              <cveValidForHours>24</cveValidForHours>
+              <cveFailOnError>true</cveFailOnError>
+              <threshold>Critical</threshold>
             </configuration>
           </execution>
         </executions>
