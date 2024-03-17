@@ -24,26 +24,21 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
+     <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>7.2.1</version>
+        <version>6.3.0</version>
         <executions>
           <execution>
-            <id>check</id>
-            <phase>verify</phase>
             <goals>
               <goal>check</goal>
             </goals>
-            <configuration>
-              <failOnError>true</failOnError>
-              <cveValidForHours>24</cveValidForHours>
-              <cveFailOnError>true</cveFailOnError>
-              <threshold>Critical</threshold>
-            </configuration>
           </execution>
         </executions>
-      </plugin>
+        <configuration>
+          <failBuildOnCVSS>8</failBuildOnCVSS>
+        </configuration>
+     </plugin>
     </plugins>
   </build>
 </project>
