@@ -48,6 +48,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpleapp:${{ github.run_number }}
+          platforms: linux/amd64,linux/arm64
 
       # Dependency scan and set up a Critical vulnerable libraries threshold to fail the pipeline.
       - name: Scan Docker image with Snyk
