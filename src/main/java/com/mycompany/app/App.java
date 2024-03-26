@@ -24,4 +24,12 @@ public class App {
     public void printMessage(String message) {
         System.out.println(message);
     }
+
+    //Copilot: generate a method for fibonacci series
+    public int fibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
 }
