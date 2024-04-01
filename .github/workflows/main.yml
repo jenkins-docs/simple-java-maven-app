@@ -1,18 +1,44 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  MAJOR: '1'
+  MINOR: '0'
+  PATCH: ${{ github.run_number }}
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+     
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - uses: actions/checkout@v3
+   
+    - name: Build the Docker image
+      run: docker build --build-arg PATCH_NUM=$PATCH --build-arg MAJOR_NUM=$MAJOR --build-arg MINOR_NUM=$MINOR -t barminz/dependabot:latest .
+      
+    - name: show_image
+      run: docker images
+      
+    - name: run_image
+      run: docker run --name project java_project:latest
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_U }}
+        password: ${{ secrets.DOCKER_HUB_T }}     
+        
+    - name: tag latest
+      run: docker tag java_project:latest vova0911/project:latest
+    
+    - name: tag version
+      run: docker tag java_project:latest vova0911/project:$MAJOR_NUM.$MINOR_NUM.$PATCH_NUM 
+      
+    - name: push latest
+      run: docker push vova0911/project:latest
+      
+    - name: push version
+      run: docker push vova0911/project:$MAJOR_NUM.$MINOR_NUM.$PATCH_NUM 
