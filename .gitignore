@@ -14,4 +14,4 @@ buildNumber.properties
 
 .idea
 
-!target/${NAME}-${VERSION}.jar
+
