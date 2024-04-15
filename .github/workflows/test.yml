@@ -1,0 +1,17 @@
+name: Build and Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  build-test:
+    uses: liquibase/build-logic/.github/workflows/os-extension-test.yml@v0.6.9
+    secrets: inherit
+    with:
+      os: '["ubuntu-latest"]'
+      java: "[11, 17, 18]"
