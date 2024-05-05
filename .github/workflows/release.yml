@@ -1,0 +1,21 @@
+name: Clojure Version Bump
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Latest Commit
+      uses: actions/checkout@v2
+
+    - name: Bump Version
+      id: bump
+      uses: nnichols/maven-version-bump-action@v3
+      with:
+        github-token: ${{ secrets.CONNECT_TOKEN }}
+
+    - name: Print Version
+      run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
