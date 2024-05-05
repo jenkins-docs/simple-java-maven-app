@@ -24,6 +24,8 @@ jobs:
 
       - name: Print Version
         run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
+        run: "echo ${{secrets.DOCKERHUB_USERNAME}}"
+        run: "echo ${{secrets.DOCKERHUB_TOKEN}}"
 
       - name: Build the docker image
         run: docker build -t yaelbenyair/java-maven:${{steps.bump.outputs.version}} --build-arg="VERSION=${{steps.bump.outputs.version}}" .
