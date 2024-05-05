@@ -37,3 +37,12 @@ jobs:
       - name: push to docker hub
         run: docker push yaelbenyair/java-maven:${{steps.bump.outputs.version}}
 
+      - name: push latest
+        run: |
+          docker tag yaelbenyair/java-maven:${{steps.bump.outputs.version}} yaelbenyair/java-maven
+          docker push yaelbenyair/java-maven
+
+          #deploy:
+    #needs: build
+
+
