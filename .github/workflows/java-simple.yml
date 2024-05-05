@@ -26,7 +26,7 @@ jobs:
         run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
 
       - name: Build the docker image
-        run: docker build -t yaelbenyair/java-maven:$VERSION --build-arg="VERSION=$VERSION" .
+        run: docker build -t yaelbenyair/java-maven:${{steps.bump.outputs.version}} --build-arg="VERSION=${{steps.bump.outputs.version}}" .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -35,4 +35,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: push to docker hub
-        run: docker push yaelbenyair/java-maven:$VERSION
+        run: docker push yaelbenyair/java-maven:${{steps.bump.outputs.version}}
