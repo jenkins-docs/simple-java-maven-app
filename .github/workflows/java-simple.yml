@@ -36,3 +36,4 @@ jobs:
 
       - name: push to docker hub
         run: docker push yaelbenyair/java-maven:${{steps.bump.outputs.version}}
+
