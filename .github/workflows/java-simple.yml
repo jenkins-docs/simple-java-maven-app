@@ -22,3 +22,4 @@ jobs:
 
       - name: Print Version
         run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
+
