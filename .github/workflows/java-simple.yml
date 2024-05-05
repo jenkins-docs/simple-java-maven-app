@@ -1,1 +1,24 @@
+name: GitHub Action Java CI/CD with Maven
 
+on:
+  push:
+    branches: [ master ]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+
+      - name: Bump Version
+        id: bump
+        uses: nnichols/maven-version-bump-action@v3
+        with:
+          github-token: ${{ secrets.TOKEN_GIT }}
+
+      - name: Print Version
+        run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
