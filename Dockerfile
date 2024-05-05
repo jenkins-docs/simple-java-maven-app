@@ -1,5 +1,4 @@
 FROM maven:latest as build_maven
-RUN apt update && apt install git -y
 WORKDIR /app
 COPY . .
 RUN mvn clean install -DskipTests
