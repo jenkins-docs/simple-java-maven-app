@@ -4,9 +4,9 @@ WORKDIR /app
 COPY . .
 RUN mvn clean install -DskipTests
 
-FROM openjdk:17.0.1-jdk-slim as push_jfrog
+FROM openjdk:17.0.1-jdk-slim as java
 WORKDIR /app
-ENV VERSION={$VERSION}
+ARG VERSION
 COPY --from=build_maven /app/target/ .
 CMD java -jar my-app-$VERSION.jar
 
