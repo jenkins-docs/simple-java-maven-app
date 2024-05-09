@@ -38,6 +38,7 @@ jobs:
     #     password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
     - name: Build and Push Docker Image
+      uses: docker/build-push-action@v4
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
