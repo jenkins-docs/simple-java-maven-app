@@ -22,12 +22,12 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and Push Docker Image
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v5
       with:
         build-args: VERSION=${{ github.run_number }}
         context: .
         push: true
-        tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}
+        tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}-${{ github.run_number }}
       env:
         IMAGE_NAME: simple-maven
         DOCKER_REPO: zivgl66/ziv-repo
