@@ -1,20 +1,13 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
 name: GitHub Actions CI/CD
 
-
-
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - closed
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    # outputs:
-    #   output1: ${{ steps.current_version.outputs.current_version }}
-    #   output2: ${{ steps.new_version.outputs.new_version }}
     permissions:
       contents: write
       packages: write
@@ -30,6 +23,7 @@ jobs:
           echo "Current version: $current_version"
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
 
+      # Step to determine version increment type
       - name: Determine version increment type
         id: determine_version_type
         run: |
@@ -37,10 +31,9 @@ jobs:
           if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
             base_branch="${{ github.event.pull_request.base.ref }}"
             head_branch="${{ github.event.pull_request.head.ref }}"
-            
+
             # Determine the type of version increment needed
             if [[ "$base_branch" == "master" ]]; then
-              # If the base branch is master, check if the head branch matches hotfix naming convention
               if [[ "$head_branch" =~ ^hotfix/ ]]; then
                 echo "version_increment_type=patch" >> $GITHUB_OUTPUT
               else
@@ -53,10 +46,7 @@ jobs:
             fi
           else
             echo "version_increment_type=none" >> $GITHUB_OUTPUT
-        continue-on-error: true # Ensures that the job does not fail even if this step does
 
-
-      # Step to increment the version
       - name: Increment version
         id: new_version
         run: |
@@ -65,37 +55,37 @@ jobs:
           major=${ver[0]}
           minor=${ver[1]}
           patch=${ver[2]}
-          branch_type="${{ steps.merged_branch.outputs.branch_type }}"
+          version_increment_type="${{ steps.determine_version_type.outputs.version_increment_type }}"
 
-          if [[ $branch_type == "major" ]]; then
+          if [[ "$version_increment_type" == "major" ]]; then
             major=$((major + 1))
             minor=0
             patch=0
-          elif [[ $branch_type == "minor" ]]; then
+          elif [[ "$version_increment_type" == "minor" ]]; then
             minor=$((minor + 1))
             patch=0
+          elif [[ "$version_increment_type" == "patch" ]]; then
+            patch=$((patch + 1))
           fi
+
           new_version="$major.$minor.$patch"
-          if [[ new_version != current_version ]]; then
-          echo "New version: $new_version"
-          echo $new_version > version.txt
-          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          if [[ "$new_version" != "$current_version" ]]; then
+            echo "New version: $new_version"
+            echo $new_version > version.txt
+            echo "new_version=$new_version" >> $GITHUB_OUTPUT
           fi
 
-
-      # Step to commit and push the new version file
-      - name: Commit and push new version
+      - name: Commit and push the new version file
+        if: steps.new_version.outcome == 'success' # Ensure this step runs only if Increment version was successful
         run: |
-          if [[  ${{ steps.new_version.outputs.new_version }} != ${{ steps.current_version.outputs.current_version }} ]]; then
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
-          git add version.txt
-          git commit -m "Bump version to ${{ steps.new_version.outputs.new_version }}"
-          git push
+          new_version="${{ steps.new_version.outputs.new_version }}"
+          if [[ "$new_version" != "${{ steps.current_version.outputs.current_version }}" ]]; then
+            git config --local user.name "GitHub Actions"
+            git config --local user.email "actions@github.com"
+            git add version.txt
+            git commit -m "Bump version to $new_version"
+            git push origin master
           fi
-
-
-
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -103,15 +93,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-          
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          build-args: VERSION=${{ steps.new_version.outputs.new_version }}
           context: .
           push: true
+          build-args: VERSION=${{ steps.new_version.outputs.new_version }}
           tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}-${{ steps.new_version.outputs.new_version }}
         env:
           IMAGE_NAME: simple-maven
           DOCKER_REPO: zivgl66/ziv-repo
-
