@@ -19,7 +19,7 @@ jobs:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        build_args: VERSION=${{ github.run_number }}
+        build-args: VERSION=${{ github.run_number }}
         context: .
         push: true
         tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}
