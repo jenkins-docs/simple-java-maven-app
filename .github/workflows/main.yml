@@ -37,15 +37,14 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
             
-    - name: Build, tag, and push image to DH
-      id: build-image
-      env:
-        DH_REGISTRY: $REGISTRY
-        IMAGE_TAG: $VERSION
-      run: |
-        docker build --build-arg VERSION=$VERSION --no-cache --force-rm -t $IMAGE:$VERSION .
-        docker push $IMAGE:$VERSION
-        echo "image=$IMAGE:$VERSION" >> $GITHUB_OUTPUT
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: $IMAGE:$VERSION
 
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
