@@ -39,6 +39,8 @@ jobs:
     #     username: ${{ secrets.DOCKER_USERNAME }}
     #     password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
