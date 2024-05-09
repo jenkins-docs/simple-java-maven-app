@@ -12,8 +12,7 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: maximchp/weatherapp:test${{ github.run_number }}
 
 jobs:
 
@@ -22,6 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
     - uses: actions/checkout@v3
+
+    - name: Auth to GH registry
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
     - name: Build the Docker image
-      run: docker-compose build --no-cache --force-rm 
+      run: docker-compose build --build-arg PATCH=${{ github.run_number }} --no-cache --force-rm 
