@@ -1,4 +1,4 @@
-FROM maven:3.8.4-openjdk-11 AS builder
+FROM maven:3.8.6-openjdk-11 AS builder
 ARG RUN_NUMBER
 ENV RUN_NUMBER=${RUN_NUMBER}
 COPY pom.xml .
