@@ -64,4 +64,4 @@ if [ ! -z ${suffix} ]; then
     version="$version+$suffix"
 fi
 
-printf "version: $version\n"
+printf "$version\n"
