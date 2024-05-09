@@ -24,7 +24,7 @@ jobs:
         run: mvn -B clean package
 
       - name: Increment Maven version
-        run: mvn versions:set -DnewVersion=1.0.$(( $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-.*//') + 1 ))
+        run: mvn versions:set -DnewVersion=1.0.$(( $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-.*//' | tr -d '.') + 1 ))
 
       - name: Commit version change
         run: |
