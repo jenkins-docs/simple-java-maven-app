@@ -1,0 +1,49 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Maven Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Increment Semantic Version
+      uses: simple-java-maven-app/increment-semantic-version@1.0.0
+    - uses: actions/checkout@v4
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    # - name: Build with Maven
+    #   run: mvn -B package --file pom.xml
+
+      
+    # - name: Log in to Docker Hub
+    #   uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+    #   with:
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Build and Push Docker Image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        IMAGE_NAME: simple-maven
+        DOCKER_REPO: zivgl66/ziv-repo
+        run: |
+          docker build -t <DOCKERHUB_USERNAME>:<IMAGE_NAME> .
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push <DOCKER_REPO>:<IMAGE_NAME>
