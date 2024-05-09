@@ -1,0 +1,21 @@
+[
+  {
+    "trigger": "merge",
+    "branch": "hotfix",
+    "bump": "build",
+    "tag": true
+  },
+  {
+    "trigger": "merge",
+    "destBranch": "dev",
+    "bump": "minor",
+    "tag": true
+  },
+  {
+    "trigger": "merge",
+    "destBranch": "master",
+    "bump": "major",
+    "tag": true,
+    "reset": ["minor", "build"]
+  }
+]
