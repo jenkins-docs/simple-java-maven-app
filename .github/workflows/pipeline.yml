@@ -28,10 +28,14 @@ jobs:
 
       - name: Commit version change
         run: |
+          if git diff --quiet; then
+          echo "No changes to commit"
+          else
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -am "Increment version"
           git push
+          fi
 
   build-push-docker:
     needs: build-jar
