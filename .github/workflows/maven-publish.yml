@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # outputs:
+    #   output1: ${{ steps.current_version.outputs.current_version }}
+    #   output2: ${{ steps.new_version.outputs.new_version }}
     permissions:
       contents: write
       packages: write
@@ -23,16 +26,16 @@ jobs:
         run: |
           current_version=$(cat version.txt)
           echo "Current version: $current_version"
-          echo "name=current_version::$current_version" >> $GITHUB_OUTPUT
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
 
       # Step to determine which branch was merged
       - name: Determine branch merged
         id: merged_branch
         run: |
           if [[ "${{ github.event.before }}" == "refs/heads/dev" ]]; then
-            echo "name=branch_type::major" >> $GITHUB_OUTPUT
+            echo "branch_type=major" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.before }}" != "refs/heads/dev" ]]; then
-            echo "name=branch_type::minor" >> $GITHUB_OUTPUT
+            echo "branch_type=minor" >> $GITHUB_OUTPUT
           fi
 
       # Step to increment the version
