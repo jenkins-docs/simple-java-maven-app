@@ -77,7 +77,7 @@ jobs:
           fi
 
           new_version="$major.$minor.$patch"
-          if [[ "$new_version" != "$current_version" ]]; then
+          if [[ "$new_version" != "" && "$new_version" != "$current_version" ]]; then
             echo "New version: $new_version"
             echo $new_version > version.txt
             echo "new_version=$new_version" >> $GITHUB_OUTPUT
@@ -87,7 +87,7 @@ jobs:
         if: steps.new_version.outcome == 'success' # Ensure this step runs only if Increment version was successful
         run: |
           new_version="${{ steps.new_version.outputs.new_version }}"
-          if [[ "$new_version" != "${{ steps.current_version.outputs.current_version }}" ]]; then
+          if [[ "$new_version" != "" && "$new_version" != "${{ steps.current_version.outputs.current_version }}" ]]; then
             git config --local user.name "GitHub Actions"
             git config --local user.email "actions@github.com"
             git add version.txt
