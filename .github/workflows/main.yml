@@ -43,7 +43,9 @@ jobs:
         DH_REGISTRY: $REGISTRY
         IMAGE_TAG: $VERSION
       run: |
-        docker build --build-arg VERSION=$VERSION -t $IMAGE:$VERSION .
+        docker buildx build \
+          --build-arg VERSION=$VERSION \
+          -t $IMAGE:$VERSION .
         docker push $IMAGE:$VERSION
         echo "image=$IMAGE:$VERSION" >> $GITHUB_OUTPUT
 
