@@ -93,6 +93,8 @@ jobs:
             git add version.txt
             git commit -m "Bump version to $new_version"
             git push origin master
+          else
+            echo "new_version=${{ steps.current_version.outputs.current_version }} >> $GITHUB_OUTPUT
           fi
 
       - name: Login to Docker Hub
