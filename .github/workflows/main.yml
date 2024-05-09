@@ -55,6 +55,7 @@ jobs:
           ${{ env.IMAGE }}:${{ env.VERSION }}
         build-args: |
           "VERSION=${{ env.VERSION }}"
+        #add ARG VERSION to Dockerfile
 
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
