@@ -30,15 +30,31 @@ jobs:
           echo "Current version: $current_version"
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
 
-      # Step to determine which branch was merged
-      - name: Determine branch merged
-        id: merged_branch
+      - name: Determine version increment type
+        id: determine_version_type
         run: |
-          if [[ "${{ github.event.before }}" == "refs/heads/dev" ]]; then
-            echo "branch_type=major" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.before }}" != "refs/heads/dev" ]]; then
-            echo "branch_type=minor" >> $GITHUB_OUTPUT
-          fi
+          # Check if the pull request was merged
+          if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
+            base_branch="${{ github.event.pull_request.base.ref }}"
+            head_branch="${{ github.event.pull_request.head.ref }}"
+            
+            # Determine the type of version increment needed
+            if [[ "$base_branch" == "master" ]]; then
+              # If the base branch is master, check if the head branch matches hotfix naming convention
+              if [[ "$head_branch" =~ ^hotfix/ ]]; then
+                echo "version_increment_type=patch" >> $GITHUB_OUTPUT
+              else
+                echo "version_increment_type=major" >> $GITHUB_OUTPUT
+              fi
+            elif [[ "$base_branch" == "dev" ]]; then
+              echo "version_increment_type=minor" >> $GITHUB_OUTPUT
+            else
+              echo "version_increment_type=none" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "version_increment_type=none" >> $GITHUB_OUTPUT
+        continue-on-error: true # Ensures that the job does not fail even if this step does
+
 
       # Step to increment the version
       - name: Increment version
