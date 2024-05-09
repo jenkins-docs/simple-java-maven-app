@@ -28,7 +28,7 @@ jobs:
     - name: Version
       id: version
       run: |
-        output=$(bash generate_version.sh)
+        output=$(bash generate_version.sh head=0)
         echo "VERSION=${output}" >> $GITHUB_ENV
 
     - name: Auth to GH registry
