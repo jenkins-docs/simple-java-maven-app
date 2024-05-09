@@ -2,17 +2,18 @@ name: Build and Push Docker Image to Docker Hub
 
 on:
   push:
-    branches: [ "dev", "master" ]
-  pull_request:
-    branches: [ "dev", "master" ]
+    branches: [ "master" ]
+  workflow_dispatch:
 
 
-
-    
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
-  IMAGE_NAME: maximchp/weatherapp:test${{ github.run_number }}
+  IMAGE: maximchp/weatherapp
+  TF_LOG: INFO
+  TF_INPUT: false
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
 
 jobs:
 
@@ -21,13 +22,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Version
+      id: version
+      run: |
+        output=$(bash generate_version.sh)
+        echo "VERSION=${output}" >> $GITHUB_ENV
 
     - name: Auth to GH registry
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
-    - name: Build the Docker image
-      run: docker-compose build --build-arg PATCH=${{ github.run_number }} --no-cache --force-rm 
+            
+    - name: Build, tag, and push image to DH
+      id: build-image
+      env:
+        DH_REGISTRY: $REGISTRY
+        IMAGE_TAG: $VERSION
+      run: |
+        docker build --build-arg VERSION=$VERSION --no-cache --force-rm -t $IMAGE:$VERSION .
+        docker push $IMAGE:$VERSION
+        echo "image=$IMAGE:$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.0
+     
+    - name: Terraform init
+      id: init
+      run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+    - name: Terraform format
+      id: fmt
+      run: terraform fmt -check
+   
+    - name: Terraform validate
+      id: validate
+      run: terraform validate
+  
+        
+
