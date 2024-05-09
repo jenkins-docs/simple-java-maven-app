@@ -10,6 +10,7 @@ COPY src/ ./src/
 
 # Build the project using Maven
 RUN mvn clean package
+RUN mvn -B versions:set -DnewVersion=1.0.${{ github.run_number }} -DgenerateBackupPoms=false
 
 # Use an OpenJDK image as the final image for running the application
 FROM openjdk:11-jre-slim
