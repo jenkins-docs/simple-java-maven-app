@@ -1,6 +1,9 @@
 # Use a Maven base image for building the application
 FROM maven:3.8.7-openjdk-18-slim AS build
 
+# Declare build arguments
+ARG VERSION
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -10,7 +13,7 @@ COPY src/ ./src/
 
 # Build the project using Maven
 RUN mvn clean package
-RUN mvn -B versions:set -DnewVersion=1.0.${{ github.run_number }} -DgenerateBackupPoms=false
+RUN mvn -B versions:set -DnewVersion=1.0.VERSION -DgenerateBackupPoms=false
 
 # Use an OpenJDK image as the final image for running the application
 FROM openjdk:11-jre-slim
