@@ -1,0 +1,28 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Increment Version
+        run: mvn -B versions:set -DnewVersion=1.0.${{ github.run_number }} -DgenerateBackupPoms=false
+
+      - name: Build Docker Image
+        run: |
+          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ github.run_number }} .
+          
+      - name: Push Docker Image
+        run: |
+          docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
+          docker tag simple-java-maven-app:latest denisiuss/simple-java-maven-app:latest
+          docker push denisiuss/simple-java-maven-app:latest
+  
