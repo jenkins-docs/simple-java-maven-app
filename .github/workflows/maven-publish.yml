@@ -41,12 +41,13 @@ jobs:
     steps:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: simple-maven
         DOCKER_REPO: zivgl66/ziv-repo
-        run: |
-          docker build -t <DOCKERHUB_USERNAME>:<IMAGE_NAME> .
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push <DOCKER_REPO>:<IMAGE_NAME>
+
