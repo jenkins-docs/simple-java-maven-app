@@ -23,7 +23,7 @@ jobs:
         run: |
           current_version=$(cat version.txt)
           echo "Current version: $current_version"
-          echo "::set-output name=current_version::$current_version"
+          echo "name=current_version::$current_version" >> $GITHUB_OUTPUT
 
       # Step to determine which branch was merged
       - name: Determine branch merged
@@ -61,14 +61,18 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           fi
 
+
       # Step to commit and push the new version file
       - name: Commit and push new version
         run: |
+          if [[ new_version != current_version ]]; then
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add version.txt
           git commit -m "Bump version to ${{ steps.new_version.outputs.new_version }}"
           git push
+          fi
+
 
 
 
