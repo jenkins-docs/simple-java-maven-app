@@ -18,7 +18,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the built JAR file from the previous image to the final image
-COPY --from=build /app/target/your-app.jar /app/your-app.jar
+COPY --from=build /app/your-app.jar /app/your-app.jar
 
 # Expose the ports your application uses (if any)
 # Example: Expose port 8080
