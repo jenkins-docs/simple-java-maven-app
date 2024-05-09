@@ -54,7 +54,7 @@ jobs:
         tags: |
           ${{ env.IMAGE }}:${{ env.VERSION }}
         build-args: |
-          VERSION=${{ env.IMAGE }}:${{ env.VERSION }}
+          "VERSION=${{ env.VERSION }}"
 
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
