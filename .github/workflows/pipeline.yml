@@ -33,8 +33,8 @@ jobs:
           git commit -am "Increment version"
           git push
 
-  build-docker:
-    needs: build
+  build-push-docker:
+    needs: build-jar
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
