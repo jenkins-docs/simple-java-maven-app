@@ -54,11 +54,12 @@ jobs:
             minor=$((minor + 1))
             patch=0
           fi
-
           new_version="$major.$minor.$patch"
+          if [[ new_version != current_version ]]; then
           echo "New version: $new_version"
           echo $new_version > version.txt
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          fi
 
       # Step to commit and push the new version file
       - name: Commit and push new version
