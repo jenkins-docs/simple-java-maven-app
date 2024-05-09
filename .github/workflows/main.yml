@@ -44,7 +44,10 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: $IMAGE:$VERSION
+        tags: |
+          $IMAGE:$VERSION
+        build-args: |
+          VERSION=$IMAGE:$VERSION
 
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
