@@ -15,7 +15,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step to determine the current version
       - name: Read current version
@@ -30,9 +30,9 @@ jobs:
         id: merged_branch
         run: |
           if [[ "${{ github.event.before }}" == "refs/heads/dev" ]]; then
-            echo "::set-output name=branch_type::major"
+            echo "name=branch_type::major" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.before }}" != "refs/heads/dev" ]]; then
-            echo "::set-output name=branch_type::minor"
+            echo "name=branch_type::minor" >> $GITHUB_OUTPUT
           fi
 
       # Step to increment the version
@@ -58,7 +58,7 @@ jobs:
           new_version="$major.$minor.$patch"
           echo "New version: $new_version"
           echo $new_version > version.txt
-          echo "::set-output name=new_version::$new_version"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
       # Step to commit and push the new version file
       - name: Commit and push new version
@@ -84,7 +84,7 @@ jobs:
           build-args: VERSION=${{ steps.new_version.outputs.new_version }}
           context: .
           push: true
-          tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}
+          tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}-${{ steps.new_version.outputs.new_version }}
         env:
           IMAGE_NAME: simple-maven
           DOCKER_REPO: zivgl66/ziv-repo
