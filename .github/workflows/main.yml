@@ -19,7 +19,7 @@ env:
 jobs:
 
   build:
-
+    name: build
     runs-on: ubuntu-latest
 
     steps:
@@ -82,6 +82,14 @@ jobs:
         cache-to: type=gha,mode=max
         #add ARG VERSION to Dockerfile
 
+
+  terraform:
+    name: terraform
+    runs-on: ubuntu-latest
+    needs: [build]  # Wait for build to complete successfully
+    environment: production
+    steps:
+
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v3
       with:
@@ -89,7 +97,7 @@ jobs:
         
     - name: Terraform init
       id: init
-      run: terraform init -backend-config=backend.tf
+      run: terraform init
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
 
     - name: Terraform format
@@ -134,7 +142,7 @@ jobs:
     
           </details>
     
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.TF_CONFIG_DIRECTORY }}\`, Workflow: \`${{ github.workflow }}\`*`;
     
           github.rest.issues.createComment({
             issue_number: context.issue.number,
@@ -147,3 +155,4 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+      
