@@ -28,7 +28,7 @@ jobs:
     - name: Read head from file
       id: read_head
       run: |
-        head=$(cat head)
+        head=$(cat head.ver)
         echo "HEAD=${head}" >> $GITHUB_ENV
     
     - name: Determine head
@@ -41,7 +41,7 @@ jobs:
       run: |
         output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ github.run_number }})
         echo "VERSION=${output}" >> $GITHUB_ENV
-        echo "${output}" > version
+        echo "${output}" > version.ver
 
     - name: Auth to GH registry
       uses: docker/login-action@v1
