@@ -45,6 +45,14 @@ jobs:
         echo "VERSION=${output}" >> $GITHUB_ENV
         echo "${output}" > ${{ github.workspace }}/version.ver
 
+    #https://github.com/marketplace/actions/add-commit    
+    - name: Commit changes to VERSION and HEAD files & tag
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: $GITHUB_ACTOR
+        message: 'This commit was done through GitHub Actions'
+        tag: '${{ env.VERSION }} --force'
+
     - name: Auth to GH registry
       uses: docker/login-action@v1
       with:
