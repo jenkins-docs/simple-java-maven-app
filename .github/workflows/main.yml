@@ -7,7 +7,6 @@ on:
 
 
 env:
-  HEAD: 2
   REGISTRY: docker.io
   IMAGE: maximchp/weatherapp
   TF_LOG: INFO
@@ -26,6 +25,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
+    - name: Read head from file
+      id: read_head
+      run: |
+        head=$(cat head)
+        echo "HEAD=${head}" >> $GITHUB_ENV
+    
     - name: Determine head
       id: determine_head
       run: echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
@@ -36,6 +41,7 @@ jobs:
       run: |
         output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ github.run_number }})
         echo "VERSION=${output}" >> $GITHUB_ENV
+        echo "${output}" > version
 
     - name: Auth to GH registry
       uses: docker/login-action@v1
