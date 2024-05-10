@@ -132,14 +132,17 @@ jobs:
 
       - name: Terraform Validate
         id: validate
+        working-directory: "terraform"
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
+        working-directory: "terraform"
         run: terraform plan -no-color
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
+        working-directory: "terraform"
         run: terraform apply
 
