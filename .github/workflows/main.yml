@@ -18,14 +18,14 @@ env:
 
 jobs:
 
-  build:
+  version:
     name: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
+
     - name: Read head from file
       id: read_head
       run: |
@@ -54,6 +54,17 @@ jobs:
         message: 'This commit was done through GitHub Actions'
         tag: '${{ env.VERSION }} --force'  
 
+    - name: Version POM
+      run: mvn -f /usr/src/app/pom.xml -B versions:set -DnewVersion=$VERSION-SNAPSHOT -DgenerateBackupPoms=false    
+  
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
     - name: Auth to GH registry
       uses: docker/login-action@v1
       with:
