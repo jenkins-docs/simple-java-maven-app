@@ -210,7 +210,13 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name EKS-Cluster
 
-      - name: Deploy to the Kubernetes cluster
+      - name: Deploy metrics server to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            kubernetes/metrics-server.yaml
+
+      - name: Deploy app to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
         env:
           VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from version job.
@@ -218,6 +224,5 @@ jobs:
           namespace: default
           manifests: |
             kubernetes/deployment.yaml
-            kubernetes/metrics-server.yaml
           images: |
             docker.io/${{ env.IMAGE }}:${{ env.VERSION }}
