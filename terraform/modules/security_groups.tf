@@ -1,6 +1,6 @@
 
 locals {
-    inbound_ports = [80, 443, 22]
+    inbound_ports = [80, 443]
     outbound_ports = [0]
 }
 
