@@ -21,6 +21,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
 
       # Step to determine the current version
       - name: Read current version
@@ -119,22 +120,26 @@ jobs:
           IMAGE_NAME: simple-maven
           DOCKER_REPO: zivgl66/ziv-repo
 
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
       - name: Terraform Init
-        uses: hashicorp/terraform-github-actions/init@v0.4.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-          TF_ACTION_WORKING_DIR: "terraform"
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        id: init
+        working-directory: "terraform"
+        run: terraform init
 
       - name: Terraform Validate
-        uses: hashicorp/terraform-github-actions/validate@v0.3.7
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
 
       - name: Terraform Apply
-        uses: hashicorp/terraform-github-actions/apply@v0.4.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-          TF_ACTION_WORKING_DIR: "terraform"
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        if: apply
+        run: terraform apply
 
