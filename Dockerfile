@@ -9,3 +9,4 @@ FROM openjdk:11
 ARG VERSION
 COPY --from=build /usr/src/app/target/my-app-$VERSION-SNAPSHOT.jar /usr/app/my-app-$VERSION-SNAPSHOT.jar 
 ENTRYPOINT ["java","-jar","/usr/app/my-app-$VERSION-SNAPSHOT.jar"]
+
