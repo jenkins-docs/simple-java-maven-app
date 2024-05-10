@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 module "ec2_network" {
-  source = "./modules/network"
+  source            = "./modules/network"
   availability_zone = var.availability_zone
 }
 

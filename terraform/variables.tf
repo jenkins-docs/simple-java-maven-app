@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default = "il-central-1"
+  default     = "il-central-1"
   description = "The aws ssh key to use with the server."
 }
 
@@ -52,11 +52,11 @@ variable "availability_zone" {
 }
 
 variable "dhub_pass" {
-  type        = string
+  type = string
 }
 
 variable "dhub_user" {
-  type        = string
+  type = string
 }
 
 

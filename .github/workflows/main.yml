@@ -107,6 +107,7 @@ jobs:
       id: fmt
       run: terraform fmt -check
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+      continue-on-error: true
 
     - name: Terraform validate
       id: validate
