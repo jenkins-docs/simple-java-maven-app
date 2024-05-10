@@ -11,6 +11,7 @@ env:
   IMAGE: maximchp/weatherapp
   TF_LOG: INFO
   TF_INPUT: false
+  TF_CONFIG_DIRECTORY: "./terraform"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
@@ -51,7 +52,7 @@ jobs:
       with:
         author_name: $GITHUB_ACTOR
         message: 'This commit was done through GitHub Actions'
-        tag: '${{ env.VERSION }} --force'
+        tag: '${{ env.VERSION }} --force'  
 
     - name: Auth to GH registry
       uses: docker/login-action@v1
@@ -82,13 +83,13 @@ jobs:
         #add ARG VERSION to Dockerfile
 
     - name: Setup Terraform with specified version on the runner
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: 1.3.0
+        terraform_version: "1.1.7"
      
     - name: Terraform init
       id: init
-      run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+      run: terraform init -backend-config=backend.tf
 
     - name: Terraform format
       id: fmt
@@ -98,5 +99,47 @@ jobs:
       id: validate
       run: terraform validate
   
-        
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color    
 
+    - uses: actions/github-script@v7
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+    
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+    
+          </details>
+    
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+    
+          <details><summary>Show Plan</summary>
+    
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+    
+          </details>
+    
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+    
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -auto-approve
