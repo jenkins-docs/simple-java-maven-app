@@ -179,3 +179,38 @@ jobs:
       run: terraform apply -auto-approve
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
       
+  
+  deploy:
+    name: EKS deployment
+    if: github.ref == 'refs/heads/master'
+    needs: [ version, build, terraform ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        id: install_kube
+        with:
+          version: 'v1.24.0' # default is latest stable
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: il-central-1
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name EKS-Cluster
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        env:
+          VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from version job.
+        with:
+          namespace: default
+          manifests: |
+            kubernetes/deployment.yaml
+            kubernetes/metrics-server.yaml
+          images: |
+            docker.io/${{ env.IMAGE }}:${{ env.VERSION }}
