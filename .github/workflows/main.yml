@@ -109,8 +109,10 @@ jobs:
     environment: production
     steps:
 
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: | # fetch only terraform folder
+          terraform
     
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v3
@@ -186,6 +188,11 @@ jobs:
     needs: [ version, build, terraform ]
     runs-on: ubuntu-latest
     steps:
+
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: | # fetch only kubernetes folder
+            kubernetes
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
