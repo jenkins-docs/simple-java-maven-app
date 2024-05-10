@@ -21,8 +21,11 @@ jobs:
   version:
     name: version
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.version.outputs.version }}
 
     steps:
+      
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -62,10 +65,9 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     needs: [version]  # Wait for build to complete successfully
-    env:
-      VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from previous job.
 
     steps:
+
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -87,6 +89,8 @@ jobs:
 
     - name: Build and push
       uses: docker/build-push-action@v3
+      env:
+        VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from previous job.
       with:
         push: true
         tags: |
