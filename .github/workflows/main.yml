@@ -50,16 +50,16 @@ jobs:
         echo "VERSION=${output}" >> $GITHUB_OUTPUT
         echo "${output}" > ${{ github.workspace }}/version.ver
 
+    - name: Version POM
+      run: mvn -B versions:set -DnewVersion=${{ env.VERSION }}-SNAPSHOT -DgenerateBackupPoms=false
+
     #https://github.com/marketplace/actions/add-commit    
-    - name: Commit changes to VERSION and HEAD files & tag
+    - name: Commit changes to VERSION and HEAD and POM.xml files & tag
       uses: EndBug/add-and-commit@v9
       with:
         author_name: $GITHUB_ACTOR
         message: 'This commit was done through GitHub Actions'
         tag: '${{ env.VERSION }} --force'  
-
-    - name: Version POM
-      run: mvn -B versions:set -DnewVersion=${{ env.VERSION }}-SNAPSHOT -DgenerateBackupPoms=false    
   
   build:
     name: build
