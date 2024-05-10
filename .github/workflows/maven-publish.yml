@@ -151,5 +151,5 @@ jobs:
       - name: Terraform Apply
         id: apply
         working-directory: "terraform"
-        run: terraform apply
+        run: terraform apply -auto-approve
 
