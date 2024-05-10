@@ -7,6 +7,7 @@ on:
 
 
 env:
+  HEAD: 2
   REGISTRY: docker.io
   IMAGE: maximchp/weatherapp
   TF_LOG: INFO
@@ -24,11 +25,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
+    
+    - name: Determine head
+      id: determine_head
+      run: echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
+      if: github.ref == 'refs/heads/master' # Increment head only for builds on master/main
+    
     - name: Version
       id: version
       run: |
-        output=$(bash generate_version.sh head=1 build=${{ github.run_number }})
+        output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ github.run_number }})
         echo "VERSION=${output}" >> $GITHUB_ENV
 
     - name: Auth to GH registry
