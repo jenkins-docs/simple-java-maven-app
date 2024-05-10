@@ -39,7 +39,7 @@ jobs:
         echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
         echo "${{ env.HEAD }}" > ${{ github.workspace }}/head.ver 
     
-    - name: Version
+    - name: Set version
       id: version
       run: |
         output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ github.run_number }})
@@ -55,7 +55,7 @@ jobs:
         tag: '${{ env.VERSION }} --force'  
 
     - name: Version POM
-      run: mvn -B versions:set -DnewVersion=$VERSION-SNAPSHOT -DgenerateBackupPoms=false    
+      run: mvn -B versions:set -DnewVersion=${{ env.VERSION }}-SNAPSHOT -DgenerateBackupPoms=false    
   
   build:
     name: build
