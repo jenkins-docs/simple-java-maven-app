@@ -108,7 +108,7 @@ jobs:
         with:
           context: .
           push: true
-          build-args: VERSION=${{ steps.new_version.outputs.new_version }}
+          # build-args: VERSION=${{ steps.new_version.outputs.new_version }}
           tags: ${{ env.DOCKER_REPO }}:${{ env.IMAGE_NAME }}-${{ steps.new_version.outputs.new_version }}
         env:
           IMAGE_NAME: simple-maven
