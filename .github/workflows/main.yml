@@ -211,9 +211,12 @@ jobs:
         run: aws eks update-kubeconfig --name EKS-Cluster
 
       - name: Create docker secret for docker registry
-        run: kubectl create secret docker-registry dockerhub-registry /
-             --namespace=default --docker-server = ${{ env.REGISTRY }} /
-             --docker-username=${{ secrets.DOCKERHUB_USER }} --docker-password=${{ secrets.DOCKERHUB_PASS }}
+        run: |
+          kubectl create secret docker-registry dockerhub-registry \
+            --namespace=default \
+            --docker-server=${{ env.REGISTRY }} \
+            --docker-username=${{ secrets.DOCKERHUB_USER }} \
+            --docker-password=${{ secrets.DOCKERHUB_PASS }}
 
       - name: Deploy metrics server to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
