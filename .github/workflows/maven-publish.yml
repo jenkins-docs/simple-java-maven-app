@@ -140,6 +140,6 @@ jobs:
         continue-on-error: true
 
       - name: Terraform Apply
-        if: apply
+        id: apply
         run: terraform apply
 
