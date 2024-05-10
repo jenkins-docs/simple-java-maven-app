@@ -81,7 +81,11 @@ jobs:
             echo "New version: $new_version"
             echo $new_version > version.txt
             echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          else
+            echo "new_version=$new_version" >> $GITHUB_OUTPUT
           fi
+          echo "new version is: ${{ steps.new_version.outputs.new_version }}"
+          
 
       - name: Commit and push the new version file
         if: steps.new_version.outcome == 'success' # Ensure this step runs only if Increment version was successful
