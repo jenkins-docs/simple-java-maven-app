@@ -213,6 +213,7 @@ jobs:
       - name: Deploy metrics server to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
         with:
+          namespace: kube-system
           manifests: |
             kubernetes/metrics-server.yaml
 
