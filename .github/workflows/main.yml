@@ -32,16 +32,18 @@ jobs:
         echo "HEAD=${head}" >> $GITHUB_ENV
     
     - name: Determine head
-      id: determine_head
-      run: echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
       if: github.ref == 'refs/heads/master' # Increment head only for builds on master/main
+      id: determine_head
+      run: |
+        echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
+        echo "${{ env.HEAD }}" > ${{ github.workspace }}/head.ver 
     
     - name: Version
       id: version
       run: |
         output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ github.run_number }})
         echo "VERSION=${output}" >> $GITHUB_ENV
-        echo "${output}" > version.ver
+        echo "${output}" > ${{ github.workspace }}/version.ver
 
     - name: Auth to GH registry
       uses: docker/login-action@v1
