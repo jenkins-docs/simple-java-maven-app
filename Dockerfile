@@ -2,7 +2,7 @@
 FROM maven:3.8.7-openjdk-18-slim AS build
 
 # Declare build arguments
-ARG VERSION
+# ARG VERSION
 
 # Set the working directory in the container
 WORKDIR /app
