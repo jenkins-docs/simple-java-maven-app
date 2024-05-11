@@ -6,6 +6,6 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-alpine
 WORKDIR /app
-COPY --from=builder /app/target/my-app-1.0.*.jar .
+COPY --from=builder /app/target/my-app-1.0.*.jar ./app.jar
 ENTRYPOINT ["java"]
-CMD ["-jar", "my-app-1.0.*.jar"]
+CMD ["-jar", "app.jar"]
