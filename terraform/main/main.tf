@@ -23,6 +23,7 @@ module "public_instance" {
   subnet_id    = module.network.public_sub_id
   instance_name = "production"
   ami = "ami-0326f9264af7e51e2" # ubuntu 22
+  instance_profile_name = module.ssm_role.instance_profile_name
 }
 
 module "network" {
@@ -32,6 +33,10 @@ module "network" {
 }
 
 module "security" {
-  source = "../security_grp/"
+  source = "../security_grp"
   vpc_id = module.network.vpc_id
+}
+
+module "ssm_role" {
+  source = "../ssm_role"
 }

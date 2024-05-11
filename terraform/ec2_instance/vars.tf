@@ -24,3 +24,5 @@ variable "user_data_script" {
     sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent
   EOF
 }
+
+variable "instance_profile_name" {}

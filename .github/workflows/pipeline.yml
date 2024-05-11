@@ -3,7 +3,8 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+#      - master
+      - main
 
 jobs:
   build-jar:
