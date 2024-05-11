@@ -24,6 +24,8 @@ jobs:
 
       - name: Terraform Init
         run: |
+          ls
+          pwd
           cd ./terraform/main
           terraform init
           terraform apply -auto-approve
