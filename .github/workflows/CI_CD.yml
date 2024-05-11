@@ -80,15 +80,15 @@ jobs:
 
     env:
       POM_FILE: "../../../."
-      CURRENT_VERSION: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout"
+      CURRENT_VERSION: mvn help:evaluate -Dexpression=project.version -q -DforceStdout
 
 
     steps:
       - name: Increase Maven version patch
         id: version
         run: |
-          echo VERSION: $CURRENT_VERSION
-          mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
+          echo VERSION: ${{ env.CURRENT_VERSION }}
+          mvn versions:set -DnewVersion=1.0.$((${{ env.CURRENT_VERSION }} | 
           awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
           echo blabla
           echo VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
