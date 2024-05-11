@@ -1,3 +1,7 @@
+variable "ip" {
+  type = string
+  default = "0.0.0.0/0"
+}
 
 variable "sec_grp_name" {
   type = string
@@ -14,6 +18,10 @@ variable "instance_name" {
   default = "noname"
 }
 
+variable "allowed_ip_list_self" {
+  type = list(number)
+  default = [22]
+}
 
 variable "allowed_ip_list_all" {
   type = list(number)
