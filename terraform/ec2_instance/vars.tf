@@ -19,5 +19,8 @@ variable "user_data_script" {
     sudo apt install docker.io -y
     sudo systemctl start docker
     sudo systemctl enable docker
+    sudo snap install amazon-ssm-agent --classic
+    sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent
+    sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent
   EOF
 }
