@@ -22,7 +22,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
       # terraform destroy -auto-approve
-      - name: Terraform Init
+      - name: Terraform init and apply
         run: |
           ls
           pwd
