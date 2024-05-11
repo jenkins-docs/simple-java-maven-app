@@ -64,10 +64,20 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform apply
-        id: apply
-        run: | 
-          terraform init TF_create_EC2_instance/.
-          terraform validate .
-          terraform plan .
-          # terraform apply -auto-approve .
+      # - name: Terraform apply
+      #   id: apply
+      #   run: | 
+      #     terraform init TF_create_EC2_instance/.
+      #     terraform validate .
+      #     terraform plan .
+      #     terraform apply -auto-approve .
+
+
+
+      - name: Increase Maven version patch
+        id: version
+        run: |
+          mvn versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
+          awk -F '.' '{print $1"."$2"."$3+1}') -DgenerateBackupPoms=false
+  
+        # mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
