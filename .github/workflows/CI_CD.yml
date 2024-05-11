@@ -53,16 +53,16 @@ jobs:
   provision-ec2:
     runs-on: ubuntu-latest
 
-    env:
-      TF_USER_AWS_KEY: ${{ secrets.TF_USER_AWS_KEY }}
-      TF_USER_AWS_SECRET: ${{ secrets.TF_USER_AWS_SECRET }}
+    # env:
+    #   TF_USER_AWS_KEY: ${{ secrets.TF_USER_AWS_KEY }}
+    #   TF_USER_AWS_SECRET: ${{ secrets.TF_USER_AWS_SECRET }}
 
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-              aws-access-key-id: $TF_USER_AWS_KEY
-              aws-secret-access-key: $TF_USER_AWS_SECRET
+              aws-access-key-id: ${{ secrets.TF_USER_AWS_KEY }}
+              aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
       - name: Setup Terraform
