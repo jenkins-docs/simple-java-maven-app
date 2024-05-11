@@ -16,6 +16,7 @@ module "public_instance" {
   source       = "../ec2_instance"
   sec_group_id = module.security.sec_id
   subnet_id    = module.network.public_sub_id
+  instance_name = "production"
   ami = "ami-0326f9264af7e51e2" # ubuntu 22
 }
 
