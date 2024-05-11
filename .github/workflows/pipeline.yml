@@ -78,6 +78,6 @@ jobs:
           aws ssm start-session \
             --target "${{ steps.get-instance-id.outputs.instance_id }}" \
             --document-name AWS-StartInteractiveCommand \
-            --parameters "command='docker pull yossizxc/java:my-app && \
-                                   docker run -d --name my-app yossizxc/java:my-app'"
+            --parameters "command='sudo docker pull yossizxc/java:my-app && \
+                                   sudo docker run -d --name my-app yossizxc/java:my-app'"
 
