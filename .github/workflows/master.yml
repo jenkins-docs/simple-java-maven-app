@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - feature/**
+      - feature
 
 jobs:
   build-and-deploy:
