@@ -33,9 +33,9 @@ jobs:
             mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
           fi
 
-      - name: Extract version from POM (fixed)
+      - name: Extract version from POM
         run: |
-          VERSION=$(xmlstarlet sel -t -v "//project/version" pom.xml | sed 's/^\s*|\s*$//g')
+          VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.*>([0-9]+\.[0-9]+\.[0-9]+)<.*/\1/')
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
