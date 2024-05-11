@@ -40,13 +40,13 @@ jobs:
         run: docker pull $IMAGE_NAME
 
       - name: Start Docker container
-        run: docker run -d -p 6060:80 --name java_container $IMAGE_NAME
+        run: docker run -d -p 8080:80 --name maven-app $IMAGE_NAME
 
       - name: Check if container is running
-        run: docker ps -a | grep java_container
+        run: docker ps -a | grep maven-app
       
       - name: Display Docker container logs
-        run: docker logs java_container
+        run: docker logs maven-app
 
 ########################################################
 
@@ -67,7 +67,7 @@ jobs:
       - name: Terraform apply
         id: apply
         run: | 
-          #cd ../../TF_create_EC2_instance
+          cd TF_create_EC2_instance/
           terraform init
           terraform validate
           terraform plan
