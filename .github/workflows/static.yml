@@ -5,15 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Use Maven with JDK 11
-        uses: maven/maven-action@v3
+        uses: actions/setup-java@v2
         with:
-          maven: '3.8.5'
-          jdk: '11'
+          java-version: '11'
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v1
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
