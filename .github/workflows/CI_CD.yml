@@ -67,8 +67,7 @@ jobs:
       - name: Terraform apply
         id: apply
         run: | 
-          cd ../../TF_create_EC2_instance/
-          terraform init .
+          terraform init TF_create_EC2_instance/
           terraform validate .
           terraform plan .
           terraform apply -auto-approve .
