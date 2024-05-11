@@ -53,10 +53,6 @@ jobs:
   provision-ec2:
     runs-on: ubuntu-latest
 
-    # env:
-    #   TF_USER_AWS_KEY: ${{ secrets.TF_USER_AWS_KEY }}
-    #   TF_USER_AWS_SECRET: ${{ secrets.TF_USER_AWS_SECRET }}
-
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -71,7 +67,7 @@ jobs:
       - name: Terraform apply
         id: apply
         run: | 
-          cd ../../TF_create_EC2_instance
+          #cd ../../TF_create_EC2_instance
           terraform init
           terraform validate
           terraform plan
