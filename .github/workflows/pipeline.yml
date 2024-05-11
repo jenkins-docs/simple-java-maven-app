@@ -68,7 +68,7 @@ jobs:
         id: get-instance-id
         run: |
           instance_id=$(aws ec2 describe-instances \
-          --filters "Name=tag:Name,Values=production" \
+          --filters "Name=tag:Name,Values=production" "Name=instance-state-name,Values=running" \
           --query 'Reservations[].Instances[].InstanceId' --output text)
           echo "::set-output name=instance_id::$instance_id"
 
