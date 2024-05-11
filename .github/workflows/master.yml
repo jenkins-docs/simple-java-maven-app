@@ -18,7 +18,7 @@ jobs:
         run: |
           BRANCH=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
           COMMIT_COUNT=$(git rev-list --count HEAD)
-          if [ "$BRANCH" = "main" ]; then
+          if [ "$BRANCH" = "master" ]; then
             echo "::set-output name=version::$(($COMMIT_COUNT + 1)).0.0"
           elif [[ "$BRANCH" == "feature"* ]]; then
             echo "::set-output name=version::1.$(($COMMIT_COUNT + 1)).0"
