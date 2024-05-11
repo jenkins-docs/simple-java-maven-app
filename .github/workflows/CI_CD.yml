@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/*
 
 env: 
   IMAGE_NAME: "romi293/java_github_actions:latest"
@@ -89,7 +90,10 @@ jobs:
           # echo blabla
           echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           
-          
+      - name: Increment Version
+        run: | 
+          mvn versions:set -DnewVersion=\${project.version}.1 -DgenerateBackupPoms=false  
+          echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
   
         # mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
