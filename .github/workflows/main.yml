@@ -60,11 +60,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Extract version from POM
+        id: extract-version
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.*>([0-9]+\.[0-9]+\.[0-9]+)<.*/\1/')
+          echo "Version from POM: $VERSION"
+          echo "::set-output name=version::$VERSION"
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: yossizxc/java:my-app-${{ needs.build-jar.outputs.version }}
+          tags: yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -87,5 +94,5 @@ jobs:
             --target "${{ steps.get-instance-id.outputs.instance_id }}" \
             --document-name AWS-StartInteractiveCommand \
             --parameters "command='sudo docker system prune -af && \
-                                   sudo docker pull yossizxc/java:my-app-${{ needs.build-jar.outputs.version }} && \
-                                   sudo docker run -d --name my-app yossizxc/java:my-app-${{ needs.build-jar.outputs.version }}'"
+                                   sudo docker pull yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} && \
+                                   sudo docker run -d --name my-app yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}'"
