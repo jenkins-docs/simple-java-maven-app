@@ -92,7 +92,7 @@ jobs:
           
       - name: Increment Version
         run: | 
-          cd ../.././
+          cd ../.././simple-java-maven-app/
           mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout |
           awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false  
           echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
