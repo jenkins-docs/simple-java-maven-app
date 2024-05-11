@@ -37,22 +37,6 @@ jobs:
             exit 1
           fi
 
-      - name: Determine Branch and Commit Count
-        id: determine_branch
-        run: |
-          BRANCH=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
-          COMMIT_COUNT=$(git rev-list --count HEAD)
-          if [ "$BRANCH" = "master" ]; then
-            echo "::set-output name=version::$(($COMMIT_COUNT + 1)).0.0"
-          elif [[ "$BRANCH" == "feature"* ]]; then
-            echo "::set-output name=version::1.$(($COMMIT_COUNT + 1)).0"
-          elif [[ "$BRANCH" == "fixes"* ]]; then
-            echo "::set-output name=version::1.0.$(($COMMIT_COUNT + 1))"
-          else
-            echo "::error::Unsupported branch"
-            exit 1
-          fi
-
       - name: Increment Version
         run: mvn -B versions:set -DnewVersion=${{ steps.determine_branch.outputs.version }} -DgenerateBackupPoms=false
 
