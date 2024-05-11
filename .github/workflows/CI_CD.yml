@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      POM_FILE: "/home/romi/Documents/Devops/GitHub_Actions_Docker/simple-java-maven-app/pom.xml"
+      POM_FILE: "/simple-java-maven-app/pom.xml"
 
 
     steps:
