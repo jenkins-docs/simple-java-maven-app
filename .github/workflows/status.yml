@@ -2,7 +2,7 @@ name: Check EC2 Instance status
 
 on:
   schedule:
-    - cron: '8 30 * * *'
+    - cron: '30 8 * * *'
 
 jobs:
   check-ec2-status:
