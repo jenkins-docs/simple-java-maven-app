@@ -88,8 +88,8 @@ jobs:
         id: version
         run: |
           echo VERSION: ${{ env.CURRENT_VERSION }}
-          mvn versions:set -DnewVersion=1.0.$((${{ env.CURRENT_VERSION }} | 
-          awk -F '.' '{print $3}')+1) -DgenerateBackupPoms=false
+          mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
+          awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
           echo blabla
           echo VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           
