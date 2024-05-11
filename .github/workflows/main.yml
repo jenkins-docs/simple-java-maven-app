@@ -1,21 +1,23 @@
-name: CI/CD Pipeline
+name: Main Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - master
-#      - main
+    types:
+      - closed
 
 jobs:
   build-jar:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'adopt'
@@ -24,21 +26,37 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
-      - name: Increment Maven version
-        run: mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-.*//' | awk '{print int($0)}') + 1))
+        #increments patch if its hotfix and if its feature or bugfix the minor,
+        #Did not think of a way to increment Major yet, which will inturn need to reset teh minor and patch.
 
-      - name: Commit version change
+      - name: Increment version
         run: |
-          if git diff --quiet; then
-          echo "No changes to commit"
+          if [[ ${{ github.event.pull_request.title }} == *"hotfix"* ]]; then
+          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF) = $(NF) + 1;} 1' | sed 's/ /./g')
           else
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -am "Increment version"
-          git push
+          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
           fi
 
-  build-push-docker:
+      - name: Extract version from POM
+        run: |
+          VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "//x:project/x:version" pom.xml)
+          echo "Version from POM: $VERSION"
+          echo "::set-output name=version::$VERSION"
+
+      - name: Commit version change
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: "GitHub Action"
+          message: "Increment version"
+
+      - name: Tag commit with version
+        run: |
+          VERSION=$(echo "${{ steps.extract-version.outputs.version }}")
+          git tag -a v$VERSION -m "Version $VERSION"
+          git push --follow-tags
+
+  build-push-deploy-docker:
+    if: github.event.pull_request.merged == true
     needs: build-jar
     runs-on: ubuntu-latest
     steps:
@@ -51,12 +69,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract version from POM
+        run: |
+          VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "//x:project/x:version" pom.xml)
+          echo "Version from POM: $VERSION"
+          echo "::set-output name=version::$VERSION"
 
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: yossizxc/java:my-app
+          tags: yossizxc/java:my-app${{ steps.extract-version.outputs.version }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

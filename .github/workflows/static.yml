@@ -1,0 +1,26 @@
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Maven with JDK 11
+        uses: maven/maven-action@v3
+        with:
+          maven: '3.8.5'
+          jdk: '11'
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=Shossi_simple-java-maven-app
+            -Dsonar.organization=Yossi
+            -Dsonar.sources=src
+            -Dsonar.tests=test
+            -Dsonar.scmBranch=${{ github.ref }}  # Include branch name
+            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
