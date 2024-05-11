@@ -14,7 +14,7 @@ jobs:
 
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository
@@ -26,7 +26,7 @@ jobs:
 
       - name: Publish to DockerHub
         run: |
-          echo $DOCKERHUB_PASSWORD  | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          echo $DOCKERHUB_TOKEN  | docker login -u $DOCKERHUB_USERNAME --password-stdin
           docker tag $IMAGE_NAME $IMAGE_NAME
           docker push $IMAGE_NAME
   
