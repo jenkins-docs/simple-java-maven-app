@@ -15,9 +15,6 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: CD to Terraform directory
-        run: cd ./terraform/main
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -26,7 +23,7 @@ jobs:
           aws-region: eu-west-3
 
       - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          cd ./terraform/main
+          terraform init
+          terraform apply -auto-approve
