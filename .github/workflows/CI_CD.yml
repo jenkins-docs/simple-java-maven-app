@@ -61,8 +61,8 @@ jobs:
               aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
 
       # - name: Terraform apply
       #   id: apply
@@ -77,7 +77,8 @@ jobs:
       - name: Increase Maven version patch
         id: version
         run: |
-          mvn versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
-          awk -F '.' '{print $1"."$2"."$3+1}') -DgenerateBackupPoms=false
+          mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
+          awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
+
   
         # mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
