@@ -1,28 +1,28 @@
-on:
-  push:
+#on:
+#  push:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Use Maven with JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=Shossi_simple-java-maven-app
-            -Dsonar.organization=Yossi
-            -Dsonar.sources=src
-            -Dsonar.tests=test
-            -Dsonar.scmBranch=${{ github.ref }}  # Include branch name
-            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Use Maven with JDK 11
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '11'
+#          distribution: 'adopt'
+#
+#      - name: SonarCloud Scan
+#        uses: sonarsource/sonarcloud-github-action@master
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        with:
+#          args: >
+#            -Dsonar.projectKey=Shossi_simple-java-maven-app
+#            -Dsonar.organization=Yossi
+#            -Dsonar.sources=src
+#            -Dsonar.tests=test
+#            -Dsonar.scmBranch=${{ github.ref }}  # Include branch name
+#            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
