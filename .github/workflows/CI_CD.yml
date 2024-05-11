@@ -84,9 +84,9 @@ jobs:
         run: |
           echo CURRENT VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           cd ../../.././
-          mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
-          awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
-          echo blabla
+          # mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
+          # awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
+          # echo blabla
           echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           
           
