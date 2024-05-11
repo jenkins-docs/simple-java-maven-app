@@ -1,0 +1,41 @@
+name: Check EC2 Instance status
+
+on:
+  schedule:
+    - cron: '8 30 * * *'
+
+jobs:
+  check-ec2-status:
+    runs-on: ubuntu-latest
+    outputs:
+      instance_id: ${{ steps.check-ec2.outputs.instance_id }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+      - name: Check Instance Status
+        id: check-ec2
+        # Checks wether an instance with the name production is up and running
+        # if not it continues to the next step and triggers a pipeline that creates the instance.
+        run: |
+          instance_name="production"
+          aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance_name" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].[InstanceId]' --output text
+          if [ -z "$instance_id" ]; then
+            echo "Instance with name $instance_name not found. Proceeding with instance creation."
+          else
+            echo "Instance with name $instance_name and ID $instance_id is running"
+            exit 1 
+          fi
+
+      - name: Trigger Create EC2 Instance Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: create-ec2-instance

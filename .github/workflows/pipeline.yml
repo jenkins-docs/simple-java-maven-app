@@ -56,12 +56,27 @@ jobs:
         with:
           push: true
           tags: yossizxc/java:my-app
-####
-#      - name: Run Docker container
-#        run: docker run -d --name my-app yossizxc/java:my-app
-#
-#      - name: Show containers
-#        run: docker ps
-#
-#      - name: Verify my-app
-#        run: docker exec my-app ls /app
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+      - name: Get EC2 instance ID using tags
+        id: get-instance-id
+        run: |
+          instance_id=$(aws ec2 describe-instances \
+          --filters "Name=tag:Name,Values=production" \
+          --query 'Reservations[].Instances[].InstanceId' --output text)
+          echo "::set-output name=instance_id::$instance_id"
+
+      - name: Run commands on EC2 instance using AWS SSM Session Manager
+        run: |
+          aws ssm start-session \
+            --target ${{ steps.get-instance-id.outputs.instance_id }} \
+            --document-name AWS-StartInteractiveCommand \
+            --parameters "command='docker pull yossizxc/java:my-app && \
+                                   docker run -d --name my-app yossizxc/java:my-app'"
+
