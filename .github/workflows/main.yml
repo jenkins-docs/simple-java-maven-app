@@ -1,5 +1,8 @@
 name: Main Pipeline
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 on:
   pull_request:
     branches:
