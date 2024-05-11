@@ -21,13 +21,17 @@ jobs:
         id: determine_branch
         run: |
           BRANCH=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
+          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          MAJOR_VERSION=$(echo $CURRENT_VERSION | cut -d'.' -f1)
+          MINOR_VERSION=$(echo $CURRENT_VERSION | cut -d'.' -f2)
+          PATCH_VERSION=$(echo $CURRENT_VERSION | cut -d'.' -f3)
           COMMIT_COUNT=$(git rev-list --count HEAD)
           if [ "$BRANCH" = "master" ]; then
-            echo "::set-output name=version::$(($COMMIT_COUNT + 1)).0.0"
+            echo "::set-output name=version::$(($MAJOR_VERSION + 1)).0.0"
           elif [[ "$BRANCH" == "feature"* ]]; then
-            echo "::set-output name=version::1.$(($COMMIT_COUNT + 1)).0"
+            echo "::set-output name=version::$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0"
           elif [[ "$BRANCH" == "fixes"* ]]; then
-            echo "::set-output name=version::1.0.$(($COMMIT_COUNT + 1))"
+            echo "::set-output name=version::$MAJOR_VERSION.$MINOR_VERSION.$(($PATCH_VERSION + 1))"
           else
             echo "::error::Unsupported branch"
             exit 1
