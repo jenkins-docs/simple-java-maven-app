@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      POM_FILE: "../../../simple-java-maven-app/"
+      POM_FILE: "../../../simple-java-maven-app/pom.xml"
 
 
     steps:
