@@ -1,0 +1,78 @@
+name: CI_CD_Pipeline_Using_GitHub_Actions
+# uses: Romi293/simple-java-maven-app@1.0.0
+on:
+  push:
+    branches:
+      - master
+
+env: 
+  IMAGE_NAME: "romi293/java_github_actions:latest"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build -t $IMAGE_NAME .
+
+      - name: Publish to DockerHub
+        run: |
+          echo $DOCKERHUB_PASSWORD  | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          docker tag $IMAGE_NAME $IMAGE_NAME
+          docker push $IMAGE_NAME
+  
+########################################################
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Pull image from DockerHub
+        run: docker pull $IMAGE_NAME
+
+      - name: Start Docker container
+        run: docker run -d -p 6060:80 --name java_container $IMAGE_NAME
+
+      - name: Check if container is running
+        run: docker ps -a | grep java_container
+      
+      - name: Display Docker container logs
+        run: docker logs java_container
+
+########################################################
+
+  provision-ec2:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_USER_AWS_KEY: ${{ secrets.TF_USER_AWS_KEY }}
+      TF_USER_AWS_SECRET: ${{ secrets.TF_USER_AWS_SECRET }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+        #     aws-access-key-id: $TF_USER_AWS_KEY
+        #     aws-secret-access-key: $TF_USER_AWS_SECRET
+              aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform apply
+        id: apply
+        run: | 
+          cd Terraform_Create_Instance
+          terraform init
+          terraform validate
+          terraform plan
+          #terraform apply -auto-approve
