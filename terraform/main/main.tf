@@ -6,7 +6,14 @@ terraform {
     }
   }
   required_version = ">= 1.2.0"
+  backend "s3" {
+    bucket = "terraform-yossi-state"
+    key    = "my-terraform-project"
+    region = "eu-west-3"
+  }
 }
+
+
 
 provider "aws" {
   region = "eu-west-3"
