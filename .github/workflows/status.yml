@@ -3,9 +3,9 @@ name: Check EC2 Instance status
 on:
   schedule:
     - cron: '30 8 * * *'
-  push: # was used to test the pipelines.
-    branches:
-      - master
+#  push: # was used to test the pipelines.
+#    branches:
+#      - master
 
 jobs:
   check-ec2-status:
