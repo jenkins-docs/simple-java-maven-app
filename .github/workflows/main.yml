@@ -25,6 +25,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
+      - name: Extract version from POM
+        id: extract-version
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.*>([0-9]+\.[0-9]+\.[0-9]+)<.*/\1/')
+          echo "Version from POM: $VERSION"
+          echo "::set-output name=version::$VERSION"
+
       - name: Increment version
         run: |
           if [[ ${{ github.event.pull_request.title }} == *"hotfix"* ]]; then
@@ -32,12 +39,6 @@ jobs:
           else
             mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
           fi
-
-      - name: Extract version from POM
-        run: |
-          VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.*>([0-9]+\.[0-9]+\.[0-9]+)<.*/\1/')
-          echo "Version from POM: $VERSION"
-          echo "::set-output name=version::$VERSION"
 
       - name: Commit version change
         uses: EndBug/add-and-commit@v9
@@ -58,12 +59,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v4
@@ -92,5 +87,5 @@ jobs:
             --target "${{ steps.get-instance-id.outputs.instance_id }}" \
             --document-name AWS-StartInteractiveCommand \
             --parameters "command='sudo docker system prune -af && \
-                                   sudo docker pull yossizxc/java:my-app && \
-                                   sudo docker run -d --name my-app yossizxc/java:my-app'"
+                                   sudo docker pull yossizxc/java:my-app-${{ needs.build-jar.outputs.version }} && \
+                                   sudo docker run -d --name my-app yossizxc/java:my-app-${{ needs.build-jar.outputs.version }}'"
