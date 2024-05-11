@@ -36,9 +36,9 @@ jobs:
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
 
-      - name: Extract version from POM
+      - name: Extract version from POM (fixed)
         run: |
-          VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "//x:project/x:version" pom.xml)
+          VERSION=$(xmlstarlet sel -t -v "//project/version" pom.xml | sed 's/^\s*|\s*$//g') 
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
@@ -71,9 +71,9 @@ jobs:
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
 
-      - name: Extract version from POM
+      - name: Extract version from POM (fixed)
         run: |
-          VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "//x:project/x:version" pom.xml)
+          VERSION=$(xmlstarlet sel -t -v "//project/version" pom.xml | sed 's/^\s*|\s*$//g')  # Fixed XPath & whitespace removal
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
