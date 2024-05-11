@@ -38,7 +38,7 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <!-- Build an executable JAR testing4 -->
+        <!-- Build an executable JAR testing5-->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.4.1</version>
