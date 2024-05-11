@@ -21,20 +21,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          # adoptopenjdk
 
       - name: Build with Maven
         run: mvn -B clean package
 
-        #increments patch if its hotfix and if its feature or bugfix the minor,
-        #Did not think of a way to increment Major yet, which will inturn need to reset teh minor and patch.
-
       - name: Increment version
         run: |
           if [[ ${{ github.event.pull_request.title }} == *"hotfix"* ]]; then
-          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF) = $(NF) + 1;} 1' | sed 's/ /./g')
+            mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF) = $(NF) + 1;} 1' | sed 's/ /./g')
           else
-          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
+            mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
           fi
 
       - name: Install xmlstarlet
