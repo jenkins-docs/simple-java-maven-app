@@ -1,8 +1,5 @@
 name: Main Pipeline
 
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
 on:
   pull_request:
     branches:
@@ -36,14 +33,11 @@ jobs:
             mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{$(NF-1) = $(NF-1) + 1;} 1' | sed 's/ /./g')
           fi
 
-      - name: Install xmlstarlet
-        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
-
-      - name: Extract version from POM
+      - name: Extract version from POM (fixed)
         run: |
           VERSION=$(xmlstarlet sel -t -v "//project/version" pom.xml | sed 's/^\s*|\s*$//g')
           echo "Version from POM: $VERSION"
-          echo "::set-env name=VERSION::$VERSION" 
+          echo "::set-output name=version::$VERSION"
 
       - name: Commit version change
         uses: EndBug/add-and-commit@v9
@@ -53,9 +47,9 @@ jobs:
 
       - name: Tag commit with version
         run: |
+          VERSION=$(echo "${{ steps.extract-version.outputs.version }}")
           git tag -a v$VERSION -m "Version $VERSION"
           git push --follow-tags
-  
 
   build-push-deploy-docker:
     if: github.event.pull_request.merged == true
@@ -71,20 +65,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#      - name: Install xmlstarlet
-#        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
-#
-#      - name: Extract version from POM
-#        run: |
-#          VERSION=$(xmlstarlet sel -t -v "//project/version" pom.xml | sed 's/^\s*|\s*$//g')
-#          echo "Version from POM: $VERSION"
-#          echo "::set-env name=VERSION::$VERSION"
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: yossizxc/java:my-app-v$VERSION
+          tags: yossizxc/java:my-app-${{ needs.build-jar.outputs.version }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -99,14 +84,13 @@ jobs:
           instance_id=$(aws ec2 describe-instances \
           --filters "Name=tag:Name,Values=production" "Name=instance-state-name,Values=running" \
           --query 'Reservations[].Instances[].InstanceId' --output text)
-          echo "::set-env name=instance_id::$instance_id"
+          echo "::set-output name=instance_id::$instance_id"
 
       - name: Run commands on EC2 instance using AWS SSM Session Manager
         run: |
           aws ssm start-session \
-            --target "$instance_id" \
+            --target "${{ steps.get-instance-id.outputs.instance_id }}" \
             --document-name AWS-StartInteractiveCommand \
             --parameters "command='sudo docker system prune -af && \
-                                   sudo docker pull yossizxc/java:my-app-v$VERSION && \
-                                   sudo docker run -d --name my-app yossizxc/java:my-app-v$VERSION'"
-
+                                   sudo docker pull yossizxc/java:my-app && \
+                                   sudo docker run -d --name my-app yossizxc/java:my-app'"
