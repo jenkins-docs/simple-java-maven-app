@@ -79,12 +79,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Increase Maven version patch
+      - name: Increase jar patch version
         id: version
         run: |
-          echo FIRST VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F '.' '{print $1}') -DgenerateBackupPoms=false
-          echo SECOND VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F '.' '{print $2}') -DgenerateBackupPoms=false
-          echo THIRD VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F '.' '{print $3}') -DgenerateBackupPoms=false
+          echo VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           #cd ../../.././
           # mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
           # awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
