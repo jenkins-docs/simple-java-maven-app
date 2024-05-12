@@ -1,0 +1,250 @@
+name: Build and Push Docker Image to Docker Hub
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+
+env:
+  REGISTRY: docker.io
+  IMAGE: maximchp/weatherapp
+  TF_LOG: INFO
+  TF_INPUT: false
+  TF_CONFIG_DIRECTORY: "./terraform"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+
+jobs:
+
+  version:
+    name: version
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.version.outputs.version }}
+
+    steps:
+      
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Read HEAD and MINOR from file
+      id: read_head_minor
+      run: |
+        head=$(cat HEAD.ver)
+        echo "HEAD=${head}" >> $GITHUB_ENV
+
+        minor=$(cat MINOR.ver)
+        echo "MINOR=${minor}" >> $GITHUB_ENV
+    
+    - name: Determine and update head
+      if: github.ref == 'refs/heads/master' # Increment head only for builds on master/main
+      id: determine_head
+      run: |
+        echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
+        echo "${{ env.HEAD }}" > ${{ github.workspace }}/HEAD.ver
+        r
+    - name: Reset minor
+      if: github.ref == 'refs/heads/master' # Reset minor for builds on master/main
+      id: reset_minor
+      run: |
+        echo "MINOR=0 >> $GITHUB_ENV
+        echo "${{ env.MINOR }}" > ${{ github.workspace }}/MINOR.ver 
+    
+    - name: Set version
+      id: version
+      run: |
+        output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ env.MINOR }})
+        echo "VERSION=${output}" >> $GITHUB_ENV
+        echo "VERSION=${output}" >> $GITHUB_OUTPUT
+        echo "${output}" > ${{ github.workspace }}/VERSION.ver
+
+    - name: Version POM
+      run: mvn -B versions:set -DnewVersion=${{ env.VERSION }}-SNAPSHOT -DgenerateBackupPoms=false
+
+    #https://github.com/marketplace/actions/add-commit    
+    - name: Commit changes to VERSION and HEAD and POM.xml files & tag
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: $GITHUB_ACTOR
+        message: 'This commit was done through GitHub Actions'
+        tag: '${{ env.VERSION }} --force'  
+  
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    needs: [version]  # Wait for build to complete successfully
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Auth to GH registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
+            
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.IMAGE }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      env:
+        VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from previous job.
+      with:
+        push: true
+        tags: |
+          ${{ env.IMAGE }}:${{ env.VERSION }}
+        build-args: |
+          "VERSION=${{ env.VERSION }}"
+        #cache-from: type=gha
+        #cache-to: type=gha,mode=max
+        #add ARG VERSION to Dockerfile
+
+
+  terraform:
+    name: terraform
+    runs-on: ubuntu-latest
+    needs: [build]  # Wait for build to complete successfully
+    environment: production
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: | # fetch only terraform folder
+          terraform
+    
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.8.3"
+        
+    - name: Terraform init
+      id: init
+      run: terraform init
+      working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+
+    - name: Terraform format
+      id: fmt
+      run: terraform fmt -check
+      working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+      continue-on-error: true
+
+    - name: Terraform validate
+      id: validate
+      run: terraform validate
+      working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color    
+      working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+
+    - uses: actions/github-script@v7
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+    
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+    
+          </details>
+    
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+    
+          <details><summary>Show Plan</summary>
+    
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+    
+          </details>
+    
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.TF_CONFIG_DIRECTORY }}\`, Workflow: \`${{ github.workflow }}\`*`;
+    
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve
+      working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
+      
+  
+  deploy:
+    name: EKS deployment
+    if: github.ref == 'refs/heads/master'
+    needs: [ version, build, terraform ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: | # fetch only kubernetes folder
+            kubernetes
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        id: install_kube
+        with:
+          version: 'v1.24.0' # default is latest stable
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: il-central-1
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name EKS-Cluster
+
+      - name: Show kube config path
+        run: kubectl config view --minify --output 'jsonpath={.kubeconfig}'
+
+      - name: Create docker secret for docker registry
+        run: |
+          kubectl create secret docker-registry dockerhub-registry \
+            --docker-server=${{ env.REGISTRY }} \
+            --docker-username=${{ secrets.DOCKERHUB_USER }} \
+            --docker-password=${{ secrets.DOCKERHUB_PASS }}
+
+      - name: Deploy metrics server to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: kube-system
+          manifests: |
+            kubernetes/metrics-server.yaml
+
+      - name: Deploy app to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        env:
+          VERSION: ${{ needs.version.outputs.VERSION }}  # to get version from version job.
+        with:
+          namespace: default
+          manifests: |
+            kubernetes/deployment.yaml
+          images: |
+            docker.io/${{ env.IMAGE }}:${{ env.VERSION }}

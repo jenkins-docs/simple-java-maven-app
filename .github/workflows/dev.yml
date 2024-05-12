@@ -2,11 +2,12 @@ name: Build and Push Docker Image to Docker Hub
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev" ]
   workflow_dispatch:
 
 
 env:
+  MASTER: false
   REGISTRY: docker.io
   IMAGE: maximchp/weatherapp
   TF_LOG: INFO
@@ -29,11 +30,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Read head from file
-      id: read_head
+    - name: Read HEAD and MINOR from file
+      id: read_head_minor
       run: |
-        head=$(cat head.ver)
+        head=$(cat HEAD.ver)
         echo "HEAD=${head}" >> $GITHUB_ENV
+
+        minor=$(cat MINOR.ver)
+        echo "MINOR=${minor}" >> $GITHUB_ENV
     
     - name: Determine head
       if: github.ref == 'refs/heads/master' # Increment head only for builds on master/main
@@ -41,6 +45,9 @@ jobs:
       run: |
         echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
         echo "${{ env.HEAD }}" > ${{ github.workspace }}/head.ver 
+
+        echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
+        echo "${{ env.HEAD }}" > ${{ github.workspace }}/head.ver
     
     - name: Set version
       id: version

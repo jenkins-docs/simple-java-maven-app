@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: project1
-        image: docker.io/maximchp/weatherapp:1worker
+        image: docker.io/maximchp/weatherapp:VERSION
         resources:
           requests:
             cpu: "500m"

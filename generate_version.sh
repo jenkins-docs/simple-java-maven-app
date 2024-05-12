@@ -12,7 +12,7 @@ do
  
     case "$KEY" in
             head)              head=${VALUE} ;;
-            build)              build=${VALUE} ;;
+            minor)              minor=${VALUE} ;;
             suffix)              suffix=${VALUE} ;;
             override_version)     override_version=${VALUE} ;;
             date)              forced_date=${VALUE} ;;
@@ -48,14 +48,14 @@ if [ -z ${override_version} ]; then
         echo "- Warning: no head value. set to 0 by default."
     fi
  
-    # By default, build is set to 0.
-    if [ -z ${build} ]; then
-        build="0"
-        echo "- Warning: no build value. set to 0 by default."
+    # By default, minor is set to 0.
+    if [ -z ${minor} ]; then
+        minor="0"
+        echo "- Warning: no minor value. set to 0 by default."
     fi
-    version="$head.$yearweek.$build"
+    version="$head.$yearweek.$minor"
 else
-    echo "- Warning: head, build, suffix values will be ignored"
+    echo "- Warning: head, minor, suffix values will be ignored"
     version=${override_version}
 fi
 
