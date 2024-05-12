@@ -33,7 +33,7 @@ jobs:
           else
             echo "::set-output name=version_type::major"
           fi
-  
+   
       - name: Use Version Type
         run: |
           # Retrieve the version type from the previous step
