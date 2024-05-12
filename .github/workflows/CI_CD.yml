@@ -1,5 +1,4 @@
 name: CI_CD_Pipeline_Using_GitHub_Actions
-# uses: Romi293/simple-java-maven-app@1.0.0
 on:
   push:
     branches:
@@ -16,6 +15,7 @@ jobs:
 
     env: 
       CURRENT_VERSION: "1.0.0"
+      VERSION_TYPE: ""
 
     steps:
       - name: Determine Version Type
@@ -37,7 +37,7 @@ jobs:
    
       - name: Use Version Type
         run: |
-          VERSION_TYPE="${{ steps.version.outputs.version_type }}"
+          echo "${{ steps.version.outputs.version_type }}" >> $VERSION_TYPE
           echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
