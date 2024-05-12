@@ -34,7 +34,7 @@ jobs:
           else
             echo "::set-output name=version_type::major"
           fi
-   
+    
       - name: Use Version Type
         run: |
           echo "VERSION_TYPE=${{ steps.version.outputs.version_type }}" >> $GITHUB_ENV
