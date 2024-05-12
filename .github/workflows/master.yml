@@ -71,7 +71,7 @@ jobs:
         run: |
           cd terraform/
           terraform init
-          echo "${{ secrets.SSH_PRIVATE_KEY }} > "$(mktemp ./key.pem)""
+          echo ${{ secrets.SSH_PRIVATE_KEY }} > key.pem
           terraform plan -var "private_key_path=./key.pem" -out=tfplan
           terraform validate
           terraform plan 
