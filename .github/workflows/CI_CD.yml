@@ -39,7 +39,7 @@ jobs:
         run: |
           # Retrieve the version type from the previous step
           VERSION_TYPE=$(echo "${{ steps.version.outputs.version_type }}")
-          echo "Version Type: $VERSION_TYPE"
+          echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
             echo "Incrementing MAJOR version"
