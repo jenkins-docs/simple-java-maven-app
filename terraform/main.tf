@@ -46,6 +46,8 @@ resource "aws_instance" "ec2_instance" {
             sudo systemctl enable docker
             sudo usermod -a -G docker $(whoami)
             newgrp docker
+            sudo docker stop simple-app
+            sudo docker system prune -a
             sudo docker run -d --name simple-app -p 8080:8080 denisiuss/simple-java-maven-app:latest
           EOF
 	
