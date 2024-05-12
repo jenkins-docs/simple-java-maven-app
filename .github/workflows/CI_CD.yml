@@ -62,8 +62,8 @@ jobs:
           git add .
           git commit -m "Increment version to $NEW_VERSION"
           git push origin master
-          echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
-          #echo "::set-output name=new_version::$NEW_VERSION"
+          #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "::set-output name=new_version::$NEW_VERSION"
 
     
       # - name: Use Version Type
