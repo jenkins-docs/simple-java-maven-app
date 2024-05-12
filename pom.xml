@@ -4,7 +4,11 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <packaging>jar</packaging>
+<<<<<<< HEAD
   <version>1.0.0</version>
+=======
+  <version>1</version>
+>>>>>>> 1a4d35f58fc61c424e7d258cec92f10f40df9501
   <name>my-app</name>
   <url>https://maven.apache.org</url>
   <dependencies>
