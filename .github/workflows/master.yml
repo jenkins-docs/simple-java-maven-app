@@ -31,11 +31,10 @@ jobs:
           elif [[ "$BRANCH" == "feature"* ]]; then
             IS_MERGE=$(git log --merges -n 1 --pretty=%P)
             if [[ $IS_MERGE ]]; then
-              NEW_VERSION=$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0
+              echo "::set-output name=version::$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0"
             else
-              NEW_VERSION=$CURRENT_VERSION
+              echo "::set-output name=version::$CURRENT_VERSION"
             fi
-            echo "::set-output name=version::$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0"
           elif [[ "$BRANCH" == "fixes"* ]]; then
             echo "::set-output name=version::$MAJOR_VERSION.$MINOR_VERSION.$(($PATCH_VERSION + 1))"
           else
