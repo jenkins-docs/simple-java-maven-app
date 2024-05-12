@@ -38,7 +38,7 @@ jobs:
           COMMIT_MESSAGE="ddd"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
           echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Current version: ${{ env.CURRENT_VERSION }}"
+          #echo "Current version: ${{ env.CURRENT_VERSION }}"
           
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
