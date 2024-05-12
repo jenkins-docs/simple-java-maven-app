@@ -7,6 +7,8 @@ COPY src/ ./src/
 
 ARG VERSION_NUMBER
 
+# RUN mvn dependency:go-offline
+
 RUN mvn clean package
 
 
