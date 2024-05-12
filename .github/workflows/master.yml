@@ -40,12 +40,12 @@ jobs:
           git config --global user.name "GitHub Action"
           git commit -am "Bump version to $NEW_VERSION"
           git push origin master
-          echo "::set-output name=NEW_VERSION::$NEW_VERSION"
+          echo "::set-output name=version::$NEW_VERSION"
 
 
       - name: Build Docker Image
         run: |
-          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${NEW_VERSION} .
+          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ steps.determine_branch.outputs.version }} .
           
       - name: Push Docker Image
         run: |
