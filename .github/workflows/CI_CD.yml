@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
     steps:
@@ -121,6 +121,7 @@ jobs:
       - name: Build Docker Image
         run: |
           # echo "${{ steps.version.outputs.new_version }}"
+          echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t $IMAGE_NAME .
           docker build -t $IMAGE_NAME .
 
