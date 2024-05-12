@@ -38,15 +38,15 @@ jobs:
           
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
-            echo "::set-output name=version_type::minor"
+            #echo "::set-output name=version_type::minor"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
 
           elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
-            echo "::set-output name=version_type::patch"
+            #echo "::set-output name=version_type::patch"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
 
           else
-            echo "::set-output name=version_type::major"
+            #echo "::set-output name=version_type::major"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
           fi
 
@@ -157,16 +157,16 @@ jobs:
               aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform apply
-        id: apply
-        run: | 
-          terraform init TF_create_EC2_instance/.
-          terraform validate .
-          terraform plan .
-          terraform apply -auto-approve .
+      # - name: Terraform apply
+      #   id: apply
+      #   run: | 
+      #     terraform init TF_create_EC2_instance/.
+      #     terraform validate .
+      #     terraform plan .
+      #     terraform apply -auto-approve .
 
 
 ########################################################
