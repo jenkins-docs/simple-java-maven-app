@@ -71,8 +71,7 @@ jobs:
         run: |
           cd terraform/
           terraform init
-          ls
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+          "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           cat key.pem
           ls
           terraform plan -var "private_key_path=./key.pem" -out=tfplan
