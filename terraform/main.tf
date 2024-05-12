@@ -6,6 +6,14 @@ terraform {
       version = "~> 4.16"
     }
   }
+    
+    backend "s3" {
+    bucket         	   = "denis-tf-bucket"
+    key              	   = "state/terraform.tfstate"
+    region         	   = "eu-central-1"
+    encrypt        	   = true
+    dynamodb_table = "mycomponents_tf_lockid"
+  }
 }
 
 provider "aws" {
@@ -25,7 +33,7 @@ resource "aws_instance" "ec2_instance" {
 	key_name = "web_app"
 	
 	tags = {
-		Name = "Docker-inst"
+		Name = "Simple-app"
 	}
 	
 	vpc_security_group_ids = [module.securitygroup.sec_id]
