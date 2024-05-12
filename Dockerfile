@@ -6,11 +6,12 @@ COPY pom.xml .
 COPY src/ ./src/
 
 ARG VERSION_NUMBER
-ENV VERSION_NUMBER=${VERSION_NUMBER}
 
-RUN mvn -B versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
+RUN mvn -B versions:set -DnewVersion=${VERSION_NUMBER} -DgenerateBackupPoms=false
 
 RUN mvn clean package
+
+
 
 
 FROM openjdk:17 as prod
