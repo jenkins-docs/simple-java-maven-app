@@ -8,6 +8,10 @@ terraform {
   }
 }
 
+variable "private_key_path" {
+  description = "Path to the SSH private key"
+}
+
 provider "aws" {
   region  = "eu-central-1"
   profile = "default"
