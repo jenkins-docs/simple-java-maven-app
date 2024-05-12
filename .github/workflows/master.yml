@@ -61,6 +61,6 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             docker stop simple-app || true
-            docker rm simple-app || true
+            docker system prune -af
             docker run -d --name simple-app -p 8080:8080 denisiuss/simple-java-maven-app:latest
   
