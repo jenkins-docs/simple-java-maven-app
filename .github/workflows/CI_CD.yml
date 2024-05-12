@@ -37,7 +37,7 @@ jobs:
    
       - name: Use Version Type
         run: |
-          echo "${{ steps.version.outputs.version_type }}" >> $env:VERSION_TYPE
+          echo "VERSION_TYPE=${{ steps.version.outputs.version_type }}" >> $GITHUB_ENV
           echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
