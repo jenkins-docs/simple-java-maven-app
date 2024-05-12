@@ -135,7 +135,6 @@ jobs:
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
           #docker tag "$IMAGE_NAME" "$IMAGE_NAME-${{ needs.versioning.outputs.new_version }}"
           docker tag "$IMAGE_NAME" "$IMAGE_NAME"
-          #docker push "$IMAGE_NAME-${{ needs.versioning.outputs.new_version }}"
           docker push "$IMAGE_NAME"
   
 ########################################################
