@@ -160,6 +160,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            TF
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
