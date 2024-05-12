@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     #env: 
-      #CURRENT_VERSION: ""
+      CURRENT_VERSION: ""
       #VERSION_TYPE: ""
 
     steps:
@@ -23,8 +23,8 @@ jobs:
         run: |
           CURRENT_VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.>([0-9]+\.[0-9]+\.[0-9]+)<./\1/')
           # CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          # echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
-          echo "Current version: $CURRENT_VERSION"
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+          #echo "Current version: $CURRENT_VERSION"
 
 
       - name: Determine version type and increment
@@ -34,7 +34,7 @@ jobs:
           COMMIT_MESSAGE="ddd"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
           echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Current version: $CURRENT_VERSION"
+          echo "Current version: ${{ env.CURRENT_VERSION }}"
           
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
