@@ -48,3 +48,8 @@ resource "aws_instance" "ec2_instance" {
 		host        = aws_instance.ec2_instance.public_ip
 	}	
 }
+
+variable "private_key_path" {
+  description = "Path to the SSH private key"
+  default = 0
+}
