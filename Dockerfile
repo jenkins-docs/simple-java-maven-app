@@ -17,6 +17,9 @@ FROM openjdk:17 as prod
 
 WORKDIR /app
 
+ARG VERSION_NUMBER
+ENV VERSION_NUMBER=${NEW_VERSION}
+
 COPY --from=builder /app/target/my-app-$VERSION_NUMBER.jar /app/app.jar
 
 EXPOSE 6060
