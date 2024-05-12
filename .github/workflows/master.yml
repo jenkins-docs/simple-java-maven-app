@@ -44,7 +44,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ steps.determine_branch_and_commit_count.NEW_VERSION }} .
+          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ steps.determine_branch_and_commit_count.outputs.version }} .
           
       - name: Push Docker Image
         run: |
