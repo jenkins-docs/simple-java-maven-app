@@ -6,7 +6,7 @@ on:
       - feature
 
 env: 
-  IMAGE_NAME: "romi293/java_github_actions:"
+  IMAGE_NAME: "romi293/java_github_actions:latest"
 
 jobs:
 
