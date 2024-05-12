@@ -20,7 +20,7 @@ WORKDIR /app
 
 ARG VERSION_NUMBER
 
-COPY --from=builder /app/target/my-app-pom_version.jar /app/app.jar
+COPY --from=builder /app/target/my-app-$VERSION_NUMBER.jar /app/app.jar
 
 EXPOSE 6060
 
