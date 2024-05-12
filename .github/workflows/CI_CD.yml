@@ -34,11 +34,11 @@ jobs:
           else
             echo "::set-output name=version_type::major"
           fi
-    
+   
       - name: Use Version Type
         run: |
           # Retrieve the version type from the previous step
-          VERSION_TYPE=$(echo ${{ steps.version.outputs.version_type }})
+          VERSION_TYPE=$(echo "${{ steps.version.outputs.version_type }}")
           echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
@@ -62,6 +62,7 @@ jobs:
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
             ;;
           *)
+            echo BLABLABLABLA $VERSION_TYPE
             echo "Invalid version type"
             exit 1
             ;;
