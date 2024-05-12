@@ -119,7 +119,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          #docker build --build-arg=${{ steps.version.outputs.new_version }} -t $IMAGE_NAME .
+          #docker build --build-arg VERSION_NUMBER=${{ steps.version.outputs.new_version }} -t $IMAGE_NAME .
           docker build -t $IMAGE_NAME .
 
       - name: Publish to DockerHub
