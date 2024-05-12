@@ -184,7 +184,7 @@ jobs:
           terraform init 
           terraform validate 
           terraform plan 
-          terraform apply -var="docker_image_version=${{ needs.versioning.outputs.new_version }}" -auto-approve 
+          terraform apply -auto-approve 
 
 
 ########################################################
