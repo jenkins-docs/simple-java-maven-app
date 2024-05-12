@@ -69,8 +69,8 @@ jobs:
       - name: Terraform Plan
 		run: |
 		  terraform plan \
-			-var "private_key_path=${{ secrets.SSH_PRIVATE_KEY }}" \
-			-out=tfplan
+		  -var "private_key_path=${{ secrets.SSH_PRIVATE_KEY }}" \
+		  -out=tfplan
       - name: Terraform Apply
         id:   apply
         run: |
