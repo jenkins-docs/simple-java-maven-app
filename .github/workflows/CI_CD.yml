@@ -18,11 +18,12 @@ jobs:
       VERSION_TYPE: ""
 
     steps:
-      - name: Get version
+      - name: Get Version
         id: get_version
-        run: | 
+        run: |
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo $CURRENT_VERSION >> $GITHUB_ENV
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+
 
       - name: Determine version type and increment
         id: version
