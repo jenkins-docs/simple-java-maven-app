@@ -13,9 +13,9 @@ jobs:
   versioning:
     runs-on: ubuntu-latest
 
-    env: 
-      CURRENT_VERSION: ""
-      VERSION_TYPE: ""
+    #env: 
+      #CURRENT_VERSION: ""
+      #VERSION_TYPE: ""
 
     steps:
       - name: Get Version
@@ -61,18 +61,18 @@ jobs:
           echo "::set-output name=new_version:$NEW_VERSION"
 
     
-      - name: Use Version Type
-        run: |
-          echo "VERSION_TYPE=${{ steps.version.outputs.version_type }}" >> $GITHUB_ENV
-          echo Version Type: $VERSION_TYPE
+      # - name: Use Version Type
+      #   run: |
+      #     echo "VERSION_TYPE=${{ steps.version.outputs.version_type }}" >> $GITHUB_ENV
+      #     echo Version Type: $VERSION_TYPE
           
-          if [[ "$VERSION_TYPE" == "major" ]]; then
-            echo "Incrementing MAJOR version"
-          elif [[ "$VERSION_TYPE" == "minor" ]]; then
-            echo "Incrementing MINOR version"
-          else
-            echo "Incrementing PATCH version"
-          fi
+      #     if [[ "$VERSION_TYPE" == "major" ]]; then
+      #       echo "Incrementing MAJOR version"
+      #     elif [[ "$VERSION_TYPE" == "minor" ]]; then
+      #       echo "Incrementing MINOR version"
+      #     else
+      #       echo "Incrementing PATCH version"
+      #     fi
 
       # - name: Increment
       #   id: increment
@@ -118,7 +118,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build --build-arg=${{ steps.increment.outputs.new_version }} -t $IMAGE_NAME .
+          docker build --build-arg=$NEW_VERSION -t $IMAGE_NAME .
 
       - name: Publish to DockerHub
         run: |
