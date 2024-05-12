@@ -22,6 +22,6 @@ ARG VERSION_NUMBER
 
 COPY --from=builder /app/target/my-app-$VERSION_NUMBER.jar /app/app.jar
 
-EXPOSE 6060
+EXPOSE 8080
 
 ENTRYPOINT ["java","-jar","app.jar"]
