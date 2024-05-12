@@ -6,9 +6,8 @@ COPY pom.xml .
 COPY src/ ./src/
 
 ARG VERSION_NUMBER
-ENV VERSION_NUMBER=${VERSION_NUMBER}
 
-#RUN mvn versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
+RUN mvn versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
 
 RUN mvn clean package
 
@@ -18,7 +17,6 @@ FROM openjdk:17 as prod
 WORKDIR /app
 
 ARG VERSION_NUMBER
-ENV VERSION_NUMBER=${VERSION_NUMBER}
 
 COPY --from=builder /app/target/my-app-$VERSION_NUMBER.jar /app/app.jar
 

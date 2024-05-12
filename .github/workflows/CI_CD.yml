@@ -170,7 +170,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform apply
+      - name: Terraform
         working-directory: "TF/"
         id: apply
         run: | 
