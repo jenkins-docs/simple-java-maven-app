@@ -24,8 +24,4 @@ resource "aws_instance" "maven_github_actions_server" {
   }
 }
 
-variable "docker_image_version" {
-  
-}
-
 
