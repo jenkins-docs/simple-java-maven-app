@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      CURRENT_VERSION: ""
+    #  CURRENT_VERSION: ""
       VERSION_TYPE: ""
 
     steps:
@@ -53,7 +53,7 @@ jobs:
           git commit -m "Increment version to $NEW_VERSION"
           git push origin master
           echo "::set-output name=new_version:$NEW_VERSION"
-          
+
     
       - name: Use Version Type
         run: |
