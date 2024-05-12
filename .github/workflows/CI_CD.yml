@@ -37,7 +37,7 @@ jobs:
    
       - name: Use Version Type
         run: |
-          VERSION_TYPE= "${{ steps.version.outputs.version_type }}"
+          VERSION_TYPE=$(echo "${{ steps.version.outputs.version_type }}")
           echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
