@@ -158,16 +158,16 @@ jobs:
               aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-      # - name: Terraform apply
-      #   id: apply
-      #   run: | 
-      #     terraform init TF_create_EC2_instance/.
-      #     terraform validate .
-      #     terraform plan .
-      #     terraform apply -auto-approve .
+      - name: Terraform apply
+        id: apply
+        run: | 
+          terraform init TF_create_EC2_instance/.
+          terraform validate .
+          terraform plan .
+          terraform apply -auto-approve .
 
 
 ########################################################
