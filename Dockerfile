@@ -17,7 +17,7 @@ FROM openjdk:17 as prod
 
 WORKDIR /app
 
-COPY --from=builder ./target/my-app-${VERSION_NUMBER}.jar ./app.jar
+COPY --from=builder /app/target/my-app-${VERSION_NUMBER}.jar /app/app.jar
 
 EXPOSE 6060
 
