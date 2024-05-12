@@ -1,3 +1,7 @@
+variable "private_key_path" {
+  description = "Path to the SSH private key"
+}
+
 terraform {
 
   required_providers {
@@ -6,10 +10,6 @@ terraform {
       version = "~> 4.16"
     }
   }
-}
-
-variable "private_key_path" {
-  description = "Path to the SSH private key"
 }
 
 provider "aws" {
