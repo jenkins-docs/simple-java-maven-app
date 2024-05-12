@@ -49,4 +49,15 @@ jobs:
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
           docker tag simple-java-maven-app:latest denisiuss/simple-java-maven-app:latest
           docker push denisiuss/simple-java-maven-app:latest
+          
+      - name: SSH into EC2 Instance and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-18-184-208-89.eu-central-1.compute.amazonaws.com
+          username: ec2-user
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker stop simple-app || true
+            docker rm simple-app || true
+            docker run -d --name simple-app -p 8080:8080 denisiuss/simple-java-maven-app:latest
   
