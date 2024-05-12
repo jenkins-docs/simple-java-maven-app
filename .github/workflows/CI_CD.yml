@@ -133,9 +133,9 @@ jobs:
       - name: Publish to DockerHub
         run: |
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          #docker tag "$IMAGE_NAME" "$IMAGE_NAME-${{ needs.versioning.outputs.new_version }}"
           docker tag "$IMAGE_NAME" "$IMAGE_NAME"
           docker push "$IMAGE_NAME"
+        #docker tag "$IMAGE_NAME" "$IMAGE_NAME-${{ needs.versioning.outputs.new_version }}"
   
 ########################################################
 
@@ -189,7 +189,7 @@ jobs:
           terraform validate 
           terraform plan
           terraform apply -auto-approve  
-          #terraform apply -var="docker_image_version=${{ needs.versioning.outputs.new_version }} -auto-approve 
+        #terraform apply -var="docker_image_version=${{ needs.versioning.outputs.new_version }} -auto-approve 
 
 
 ########################################################
