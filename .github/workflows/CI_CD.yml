@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      CURRENT_VERSION: "1.0.0"
+      CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
       VERSION_TYPE: ""
 
     steps:
@@ -51,6 +51,7 @@ jobs:
       - name: Increment
         id: increment
         run: |
+          # CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           case $VERSION_TYPE in
           "major")
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
