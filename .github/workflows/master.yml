@@ -70,8 +70,8 @@ jobs:
         id:   apply
         run: |
           cd terraform/
-          terraform plan -var "private_key_path=${{ secrets.SSH_PRIVATE_KEY }}" -out=tfplan
           terraform init
+          terraform plan -var "private_key_path=${{ secrets.SSH_PRIVATE_KEY }}" -out=tfplan
           terraform validate
           terraform plan 
           terraform apply -auto-approve
