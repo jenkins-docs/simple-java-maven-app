@@ -71,7 +71,8 @@ jobs:
         run: |
           cd terraform/
           terraform init
-          terraform plan -var "private_key_path=${{ secrets.SSH_PRIVATE_KEY }}" -out=tfplan
+          echo "${{ secrets.SSH_PRIVATE_KEY }} > "$(./key.pem)" "
+          terraform plan -var "./key.pem" -out=tfplan
           terraform validate
           terraform plan 
           terraform apply -auto-approve
