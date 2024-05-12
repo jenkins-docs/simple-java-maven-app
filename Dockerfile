@@ -18,4 +18,4 @@ COPY --from=builder /app/target/my-app-1.0-SNAPSHOT.jar /app/app.jar
 
 EXPOSE 6060
 
-ENTRYPOINT ["java","-jar","my-app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
