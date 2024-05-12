@@ -6,7 +6,7 @@ on:
       - feature
 
 env: 
-  IMAGE_NAME: "romi293/java_github_actions:latest"
+  IMAGE_NAME: "romi293/java_github_actions:"
 
 jobs:
 
@@ -133,17 +133,18 @@ jobs:
       - name: Publish to DockerHub
         run: |
           echo $DOCKERHUB_TOKEN  | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          docker tag $IMAGE_NAME $IMAGE_NAME
-          docker push $IMAGE_NAME
+          docker tag $IMAGE_NAME-${{ needs.versioning.outputs.new_version }} $IMAGE_NAME-${{ needs.versioning.outputs.new_version }}
+          docker push $IMAGE_NAME-${{ needs.versioning.outputs.new_version }}
   
 ########################################################
 
   deploy:
     runs-on: ubuntu-latest
-    
+    needs: versioning
+
     steps:
       - name: Pull image from DockerHub
-        run: docker pull $IMAGE_NAME
+        run: docker pull $IMAGE_NAME-${{ needs.versioning.outputs.new_version }}
 
       - name: Start Docker container
         run: docker run -d -p 8080:80 --name maven-app $IMAGE_NAME
@@ -183,8 +184,9 @@ jobs:
         run: | 
           terraform init 
           terraform validate 
-          terraform plan 
-          terraform apply -var="docker_image_version=${{ needs.versioning.outputs.new_version }} -auto-approve 
+          terraform plan
+          terraform apply -auto-approve  
+          #terraform apply -var="docker_image_version=${{ needs.versioning.outputs.new_version }} -auto-approve 
 
 
 ########################################################
