@@ -30,3 +30,9 @@ jobs:
           terraform init
           terraform destroy -auto-approve
           terraform apply -auto-approve
+
+      - name: Trigger Deployment pipeline
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: deploy

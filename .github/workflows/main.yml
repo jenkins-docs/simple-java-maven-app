@@ -6,6 +6,8 @@ on:
       - master
     types:
       - closed
+  repository_dispatch:
+    types: [ deploy ]
 
 jobs:
   build-jar:
