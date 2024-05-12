@@ -55,7 +55,7 @@ jobs:
     - name: Set version
       id: version
       run: |
-        output=$(bash generate_version.sh head=${{ env.HEAD }} build=${{ env.MINOR }})
+        output=$(bash generate_version.sh head=${{ env.HEAD }} minor=${{ env.MINOR }})
         echo "VERSION=${output}" >> $GITHUB_ENV
         echo "VERSION=${output}" >> $GITHUB_OUTPUT
         echo "${output}" > ${{ github.workspace }}/VERSION.ver
