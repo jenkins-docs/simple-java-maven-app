@@ -21,7 +21,7 @@ resource "aws_instance" "maven_github_actions_server" {
               EOF
 
   tags = {
-    Name = "Maven_GitHub_Actions"
+    Name = "Maven_GitHub_Actions1"
   }
 }
 
