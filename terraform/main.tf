@@ -4,13 +4,13 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
-  backend "s3" {
+ 
+  }
+ backend "s3" {
     bucket                  = "ziv-tf-state"
     key                     = "my-terraform-project"
     region                  = "us-east-1"
     }
-  }
-
   required_version = ">= 1.2.0"
 }
 
