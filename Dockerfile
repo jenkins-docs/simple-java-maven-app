@@ -8,7 +8,7 @@ COPY src/ ./src/
 ARG VERSION_NUMBER
 ENV VERSION_NUMBER=${VERSION_NUMBER}
 
-# RUN mvn dependency:go-offline
+RUN mvn versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
 
 RUN mvn clean package
 
