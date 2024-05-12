@@ -48,7 +48,8 @@ jobs:
             echo "Incrementing PATCH version"
           fi
 
-      - name: Increament
+      - name: Increment
+        id: increment
         run: |
           case $VERSION_TYPE in
           "major")
@@ -72,6 +73,7 @@ jobs:
           git add .
           git commit -m "Increment version to $NEW_VERSION"
           git push origin master
+          echo "::set-output name=new_version:$NEW_VERSION"
 
 ########################################################
   
@@ -88,7 +90,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $IMAGE_NAME .
+          docker build --build-arg=${{ steps.increment.outputs.new_version }} -t $IMAGE_NAME .
 
       - name: Publish to DockerHub
         run: |
