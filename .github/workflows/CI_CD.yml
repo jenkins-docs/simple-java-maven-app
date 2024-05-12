@@ -21,7 +21,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          echo pwd
+          pwd
           CURRENT_VERSION=$(grep -m1 '<version>' pom.xml | sed -E 's/.>([0-9]+\.[0-9]+\.[0-9]+)<./\1/')
           # CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
