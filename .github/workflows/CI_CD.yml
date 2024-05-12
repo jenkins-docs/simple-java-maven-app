@@ -121,6 +121,7 @@ jobs:
       - name: Build Docker Image
         run: |
           # echo "${{ steps.version.outputs.new_version }}"
+          NEW_VERSION=${NEW_VERSION}
           echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t $IMAGE_NAME .
           docker build -t $IMAGE_NAME .
