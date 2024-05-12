@@ -44,7 +44,7 @@ resource "aws_instance" "ec2_instance" {
     connection {
 		type        = "ssh"
 		user        = "ubuntu"  
-		private_key = file("/home/denis/Desktop/aws_pem/web_app.pem")
+		private_key = var.private_key_path
 		host        = aws_instance.ec2_instance.public_ip
 	}	
 }
