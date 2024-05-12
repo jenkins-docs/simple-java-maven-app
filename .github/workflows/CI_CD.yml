@@ -13,8 +13,8 @@ jobs:
   versioning:
     runs-on: ubuntu-latest
 
-    #env: 
-      #CURRENT_VERSION: ""
+    env: 
+      CURRENT_VERSION: ""
       #VERSION_TYPE: ""
 
     steps:
