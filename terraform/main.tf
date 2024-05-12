@@ -29,27 +29,18 @@ resource "aws_instance" "ec2_instance" {
 	}
 	
 	vpc_security_group_ids = [module.securitygroup.sec_id]
+    
+    user_data = <<-EOF
+          #!/bin/bash
+            sudo apt-get update
+            sudo apt-get install docker.io -y
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -a -G docker $(whoami)
+            newgrp docker
+            sudo docker run -d --name simple-app -p 8080:8080 denisiuss/simple-java-maven-app:latest
+          EOF
 	
-	provisioner "remote-exec" {
-      inline = [
-        "sudo apt update",
-        "sudo apt install -y docker.io",
-        "sudo systemctl start docker",
-        "sudo docker stop simple-app || true",
-        "sudo docker system prune -af",
-        "sudo docker run -d --name simple-app -p 8080:8080 denisiuss/simple-java-maven-app:latest"
-      ]
-    }  
-      
-    connection {
-		type        = "ssh"
-		user        = "ubuntu"  
-		private_key = var.private_key_path
-		host        = aws_instance.ec2_instance.public_ip
-	}	
 }
 
-variable "private_key_path" {
-  description = "Path to the SSH private key"
-  default = 0
-}
+
