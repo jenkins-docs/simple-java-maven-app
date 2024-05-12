@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+      CURRENT_VERSION: "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
       VERSION_TYPE: ""
 
     steps:
