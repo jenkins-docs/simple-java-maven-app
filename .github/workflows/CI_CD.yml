@@ -22,7 +22,8 @@ jobs:
         id: version
         run: |
           # Extract commit message from the latest commit
-          COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)
+          # COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)
+          COMMIT_MESSAGE="updated version"
           echo "Commit Message: $COMMIT_MESSAGE"
           
           # Determine version type based on commit message
