@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-      #- feature/*
+      - feature
 
 env: 
   IMAGE_NAME: "romi293/java_github_actions:latest"
