@@ -12,7 +12,7 @@ jobs:
 
   versioning:
     runs-on: ubuntu-latest
-
+ 
     #env: 
       #CURRENT_VERSION: ""
       #VERSION_TYPE: ""
@@ -27,7 +27,7 @@ jobs:
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
 
-          
+
       - name: Determine version type and increment
         id: version
         run: | 
