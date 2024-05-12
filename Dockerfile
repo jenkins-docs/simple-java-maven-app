@@ -6,7 +6,7 @@ COPY pom.xml .
 COPY src/ ./src/
 
 ARG VERSION_NUMBER
-ENV VERSION_NUMBER=${NEW_VERSION}
+ENV VERSION_NUMBER=${VERSION_NUMBER}
 
 # RUN mvn dependency:go-offline
 
@@ -18,7 +18,7 @@ FROM openjdk:17 as prod
 WORKDIR /app
 
 ARG VERSION_NUMBER
-ENV VERSION_NUMBER=${NEW_VERSION}
+ENV VERSION_NUMBER=${VERSION_NUMBER}
 
 COPY --from=builder /app/target/my-app-$VERSION_NUMBER.jar /app/app.jar
 
