@@ -159,12 +159,12 @@ jobs:
               aws-region: us-east-1
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
 
       - name: Terraform apply
         id: apply
         run: | 
-          terraform init TF_create_EC2_instance/.
+          terraform init .
           terraform validate .
           terraform plan .
           terraform apply -auto-approve .
