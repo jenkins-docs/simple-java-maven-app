@@ -44,7 +44,7 @@ jobs:
       run: |
         echo "HEAD=$((HEAD + 1))" >> $GITHUB_ENV
         echo "${{ env.HEAD }}" > ${{ github.workspace }}/HEAD.ver
-        r
+        
     - name: Reset minor
       if: github.ref == 'refs/heads/master' # Reset minor for builds on master/main
       id: reset_minor
