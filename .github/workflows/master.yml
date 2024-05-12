@@ -40,6 +40,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git commit -am "Bump version to $NEW_VERSION"
           git push origin master
+          echo "::set-output name=NEW_VERSION::$NEW_VERSION"
 
 
       - name: Build Docker Image
