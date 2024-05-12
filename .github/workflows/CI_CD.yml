@@ -22,7 +22,7 @@ jobs:
         id: version
         run: |
           # Extract commit message from the latest commit
-          COMMIT_MESSAGE="bug"
+          COMMIT_MESSAGE="ddd"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
           echo "Commit Message: $COMMIT_MESSAGE"
           
