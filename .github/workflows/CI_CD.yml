@@ -28,17 +28,16 @@ jobs:
           
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
-            echo ::set-output name=version_type::minor
+            echo "::set-output name=version_type::minor"
           elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
-            echo ::set-output name=version_type::patch
+            echo "::set-output name=version_type::patch"
           else
-            echo ::set-output name=version_type::major
+            echo "::set-output name=version_type::major"
           fi
    
       - name: Use Version Type
         run: |
-          # Retrieve the version type from the previous step
-          VERSION_TYPE=$(echo "${{ steps.version.outputs.version_type }}")
+          VERSION_TYPE= ${{ steps.version.outputs.version_type }}
           echo Version Type: $VERSION_TYPE
           
           if [[ "$VERSION_TYPE" == "major" ]]; then
