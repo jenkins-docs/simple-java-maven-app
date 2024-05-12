@@ -14,13 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+      CURRENT_VERSION: ""
       VERSION_TYPE: ""
 
     steps:
-      - name: Determine Version Type
+      - name: Get version
+        id: get_version
+        run: | 
+          echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) >> $GITHUB_ENV
+
+      - name: Determine version type and increment
         id: version
-        run: |
+        run: | 
           # Extract commit message from the latest commit
           COMMIT_MESSAGE="ddd"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
@@ -30,11 +35,25 @@ jobs:
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
             echo "::set-output name=version_type::minor"
+            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
           elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
             echo "::set-output name=version_type::patch"
+            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
           else
             echo "::set-output name=version_type::major"
+            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
           fi
+
+          echo "New Version: $NEW_VERSION"
+
+          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Increment version to $NEW_VERSION"
+          git push origin master
+          echo "::set-output name=new_version:$NEW_VERSION"
+          
     
       - name: Use Version Type
         run: |
@@ -49,34 +68,34 @@ jobs:
             echo "Incrementing PATCH version"
           fi
 
-      - name: Increment
-        id: increment
-        run: |
-          # CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          case $VERSION_TYPE in
-          "major")
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
-            ;;
-          "minor")
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
-            ;;
-          "patch")
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
-            ;;
-          *)
-            echo "Invalid version type"
-            exit 1
-            ;;
-          esac
-          echo "New Version: $NEW_VERSION"
+      # - name: Increment
+      #   id: increment
+      #   run: |
+      #     # CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+      #     case $VERSION_TYPE in
+      #     "major")
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
+      #       ;;
+      #     "minor")
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
+      #       ;;
+      #     "patch")
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
+      #       ;;
+      #     *)
+      #       echo "Invalid version type"
+      #       exit 1
+      #       ;;
+      #     esac
+      #     echo "New Version: $NEW_VERSION"
 
-          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Increment version to $NEW_VERSION"
-          git push origin master
-          echo "::set-output name=new_version:$NEW_VERSION"
+      #     mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
+      #     git config --global user.email "actions@github.com"
+      #     git config --global user.name "GitHub Actions"
+      #     git add .
+      #     git commit -m "Increment version to $NEW_VERSION"
+      #     git push origin master
+      #     echo "::set-output name=new_version:$NEW_VERSION"
 
 ########################################################
   
