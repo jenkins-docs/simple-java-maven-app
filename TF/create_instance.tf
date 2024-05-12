@@ -8,7 +8,7 @@ resource "aws_instance" "maven_github_server" {
     security_groups = [ "sg-0755089add435653a" ]
 
     tags = {
-        Name = "Maven_GitHub_Actions"
+        Name = "Maven_GitHub_Actions1"
     }
 }
 
