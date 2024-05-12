@@ -25,21 +25,22 @@ jobs:
 
       - name: Determine version type and increment
         id: version
-        working-directory: ../../../
         run: | 
           # Extract commit message from the latest commit
           COMMIT_MESSAGE="ddd"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
           echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Current version: $CURRENT_VERSION"
+          echo "Current version: ${{ env.CURRENT_VERSION }}"
           
           # Determine version type based on commit message
           if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
             echo "::set-output name=version_type::minor"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
+
           elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
             echo "::set-output name=version_type::patch"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
+
           else
             echo "::set-output name=version_type::major"
             NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
