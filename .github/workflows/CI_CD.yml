@@ -16,6 +16,9 @@ jobs:
     #env: 
       #CURRENT_VERSION: ""
       #VERSION_TYPE: ""
+    
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
 
     steps:
       - name: Checkout code
@@ -59,8 +62,8 @@ jobs:
           git add .
           git commit -m "Increment version to $NEW_VERSION"
           git push origin master
-          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
-          echo "::set-output name=new_version::$NEW_VERSION"
+          echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          #echo "::set-output name=new_version::$NEW_VERSION"
 
     
       # - name: Use Version Type
@@ -121,7 +124,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          echo "BLABLABLABLA ${{ needs.versioning.outputs.NEW_VERSION }}"
+          echo "BLABLABLABLA ${{ needs.versioning.outputs.new_version }}"
           #echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           #echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t $IMAGE_NAME .
