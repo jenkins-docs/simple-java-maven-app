@@ -171,6 +171,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform apply
+        working-directory: "TF"
         id: apply
         run: | 
           terraform init 
