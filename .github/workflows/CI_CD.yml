@@ -25,6 +25,7 @@ jobs:
 
       - name: Determine version type and increment
         id: version
+        working-directory: ../../../
         run: | 
           # Extract commit message from the latest commit
           COMMIT_MESSAGE="ddd"
