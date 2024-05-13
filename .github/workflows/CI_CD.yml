@@ -147,7 +147,7 @@ jobs:
 
       - name: Authenticate with AWS EKS
         run: |
-          aws eks --region "us-east-1" update-kubeconfig --name "cluster_info"
+          aws eks --region "us-east-1" update-kubeconfig
         #kubectl cluster-info
         # kubectl get nodes
         # aws eks --region "us-east-1" update-kubeconfig --name "cluster_info"
