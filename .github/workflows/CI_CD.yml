@@ -190,7 +190,7 @@ jobs:
         run: | 
           terraform init 
           terraform validate 
-          terraform plan   
+          terraform plan -var docker_image_version=romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}
           terraform apply -var docker_image_version=romi293/java_github_actions:${{ needs.versioning.outputs.new_version }} -auto-approve 
 
 
