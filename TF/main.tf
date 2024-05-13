@@ -14,7 +14,7 @@ resource "aws_instance" "maven_github_actions_server" {
   vpc_security_group_ids = ["sg-0755089add435653a"]
 
   user_data = <<-EOF
-              #!/bin/bash
+            #!/bin/bash
               sudo apt update
               sudo apt-get install docker.io -y
               sudo systemctl start docker
