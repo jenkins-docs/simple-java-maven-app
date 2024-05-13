@@ -136,6 +136,19 @@ jobs:
 
 ########################################################
 
-  # k8s:
-  #   steps:
-  #   - name: Configure kubectl
+  k8s:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure kubectl
+        uses: azure/k8s-set-context@v4
+        with: 
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Authenticate with AWS EKS
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          #aws eks --region "us-east-1" update-kubeconfig --name "cluster_info"
+        
+          
