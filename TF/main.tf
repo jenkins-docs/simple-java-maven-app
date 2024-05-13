@@ -20,7 +20,7 @@ resource "aws_instance" "maven_github_actions_server" {
               sudo systemctl enable docker
               sudo groupadd docker
               sudo usermod -aG docker ubuntu
-              sudo docker run -d -p 8000:8000 romi293/java_github_actions:latest
+              sudo docker run -d -p 8000:8000 ${var.docker_image_version}
               EOF
 
   tags = {
