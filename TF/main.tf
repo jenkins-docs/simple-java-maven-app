@@ -1,3 +1,7 @@
+variable "docker_image_version" {
+  
+}
+
 provider "aws" {
     region = "us-east-1"
 }
@@ -23,5 +27,7 @@ resource "aws_instance" "maven_github_actions_server" {
     Name = "Maven_GitHub_Actions1"
   }
 }
+
+
 
 
