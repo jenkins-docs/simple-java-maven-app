@@ -166,9 +166,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: versioning
 
-    container:
-      image: romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -193,8 +190,7 @@ jobs:
           terraform init 
           terraform validate 
           terraform plan   
-          terraform apply -auto-approve  
-        #terraform apply -var docker_image_version=romi293/java_github_actions:${{ needs.versioning.outputs.new_version }} -auto-approve 
+          terraform apply -var docker_image_version=romi293/java_github_actions:${{ needs.versioning.outputs.new_version }} -auto-approve 
 
 
 ########################################################
