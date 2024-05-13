@@ -1,4 +1,4 @@
-name: CI_CD_Pipeline_Using_GitHub_Actions
+name: CI_CD_Pipeline
 on:
   push:
     branches:
@@ -131,7 +131,7 @@ jobs:
         run: | 
           terraform init 
           terraform validate 
-          terraform apply -auto-approve -var docker_image_version=${{ needs.versioning.outputs.new_version }} 
+        # terraform apply -auto-approve -var docker_image_version=${{ needs.versioning.outputs.new_version }} 
 
 
 ########################################################
