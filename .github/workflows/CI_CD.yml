@@ -130,6 +130,7 @@ jobs:
           docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t $IMAGE_NAME .
         #docker build -t $IMAGE_NAME .
 
+
       - name: Publish to DockerHub
         run: |
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
