@@ -127,7 +127,7 @@ jobs:
           echo "BLABLABLABLA ${{ needs.versioning.outputs.new_version }}"
           #echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           #echo "New Version: $NEW_VERSION"
-          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t $IMAGE_NAME .
+          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "$IMAGE_NAME:${{ needs.versioning.outputs.new_version }}" .
         #docker build -t $IMAGE_NAME .
 
 
