@@ -169,9 +169,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            TF
+      - uses: hashicorp/setup-terraform@v3
+        # with:
+        #   sparse-checkout: |
+        #     TF
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -180,8 +181,8 @@ jobs:
               aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      # - name: Setup Terraform
+        # uses: 
 
       - name: Terraform
         working-directory: "./TF"
