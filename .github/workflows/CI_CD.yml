@@ -135,7 +135,7 @@ jobs:
         run: |
           echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          docker tag "romi293/java_github_actions:latest" "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
           docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
         #docker tag "romi293/java_github_actions" "romi293/java_github_actions"
 
