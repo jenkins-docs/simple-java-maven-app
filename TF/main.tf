@@ -1,5 +1,5 @@
 variable "docker_image_version" {
-  
+  description = "docker image version"
 }
 
 provider "aws" {
