@@ -5,18 +5,10 @@ on:
       - master
       - feature
 
-# env: 
-#   romi293/java_github_actions: "romi293/java_github_actions"
-
 jobs:
-
   versioning:
     runs-on: ubuntu-latest
  
-    #env: 
-      #CURRENT_VERSION: ""
-      #VERSION_TYPE: ""
-    
     outputs:
       new_version: ${{ steps.version.outputs.new_version }}
 
@@ -65,49 +57,6 @@ jobs:
           #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "::set-output name=new_version::$NEW_VERSION"
 
-    
-      # - name: Use Version Type
-      #   run: |
-      #     echo "VERSION_TYPE=${{ steps.version.outputs.version_type }}" >> $GITHUB_ENV
-      #     echo Version Type: $VERSION_TYPE
-          
-      #     if [[ "$VERSION_TYPE" == "major" ]]; then
-      #       echo "Incrementing MAJOR version"
-      #     elif [[ "$VERSION_TYPE" == "minor" ]]; then
-      #       echo "Incrementing MINOR version"
-      #     else
-      #       echo "Incrementing PATCH version"
-      #     fi
-
-      # - name: Increment
-      #   id: increment
-      #   run: |
-      #     # CURRENT_VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-      #     case $VERSION_TYPE in
-      #     "major")
-      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
-      #       ;;
-      #     "minor")
-      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
-      #       ;;
-      #     "patch")
-      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
-      #       ;;
-      #     *)
-      #       echo "Invalid version type"
-      #       exit 1
-      #       ;;
-      #     esac
-      #     echo "New Version: $NEW_VERSION"
-
-      #     mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-      #     git config --global user.email "actions@github.com"
-      #     git config --global user.name "GitHub Actions"
-      #     git add .
-      #     git commit -m "Increment version to $NEW_VERSION"
-      #     git push origin master
-      #     echo "::set-output name=new_version:$NEW_VERSION"
-
 ########################################################
   
   build:
@@ -128,7 +77,6 @@ jobs:
           #echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           #echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .
-        #docker build -t romi293/java_github_actions .
 
 
       - name: Publish to DockerHub
@@ -137,7 +85,6 @@ jobs:
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
           docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
           docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-        #docker tag "romi293/java_github_actions" "romi293/java_github_actions"
 
   
 ########################################################
@@ -170,9 +117,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-        # with:
-        #   sparse-checkout: |
-        #     TF
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -181,9 +125,6 @@ jobs:
               aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
               aws-region: us-east-1
 
-      # - name: Setup Terraform
-        # uses: 
-
       - name: Terraform
         working-directory: "./TF"
         id: apply
@@ -191,30 +132,10 @@ jobs:
           terraform init 
           terraform validate 
           terraform apply -auto-approve -var docker_image_version=${{ needs.versioning.outputs.new_version }} 
-        #terraform plan -var docker_image_version=romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}
 
 
 ########################################################
 
-  # update_version:
-  #   runs-on: ubuntu-latest
-
+  # k8s:
   #   steps:
-  #     - name: Increase jar patch version
-  #       id: version
-  #       run: |
-  #         echo VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-  #         #cd ../../.././
-  #         # mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | 
-  #         # awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false
-  #         # echo blabla
-  #         echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          
-  #     - name: Increment Version
-  #       run: | 
-  #         mvn versions:set -DnewVersion=1.0.$(($(mvn help:evaluate -Dexpression=project.version -q -DforceStdout |
-  #         awk -F '.' '{print $3}')+1)) -DgenerateBackupPoms=false  
-  #         echo NEW VERSION: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-
-  
-        # mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
+  #   - name: Configure kubectl
