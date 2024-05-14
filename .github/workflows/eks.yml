@@ -20,9 +20,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
-      # terraform destroy -auto-approve
+
       - name: Terraform init and apply
         run: |
           cd ./terraform/eks
           terraform init
           terraform apply -auto-approve
+
+      - name: Trigger Deploy EKS action
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: deploy_eks

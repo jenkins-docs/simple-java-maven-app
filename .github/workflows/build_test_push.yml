@@ -82,7 +82,7 @@ jobs:
           push: true
           tags: yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
-      - name: Trigger Create EC2 Instance Workflow
+      - name: Trigger Deploy EKS action
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
