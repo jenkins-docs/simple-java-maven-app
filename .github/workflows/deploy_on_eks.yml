@@ -34,5 +34,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --name eks-terraform-project --region eu-west-3
           kubectl apply -f manifests/
+          echo $VERSION
+          kubectl get pods --all-namespaces
         env:
           VERSION: ${{ steps.extract-version.outputs.version }}
