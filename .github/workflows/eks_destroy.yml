@@ -1,4 +1,4 @@
-name: Terraform EC2
+name: Destroy EKS
 
 on:
   workflow_dispatch:

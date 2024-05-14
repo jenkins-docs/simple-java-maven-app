@@ -1,4 +1,4 @@
-name: Terraform EC2
+name: Provision EKS
 
 on:
   workflow_dispatch:
