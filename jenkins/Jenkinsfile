@@ -1,25 +1,29 @@
 pipeline {
     agent any
-    }
     stages {
-        stage('Build') {
+        stage("Satge 1") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                echo "This is stage 1"
             }
         }
-        stage('Test') {
+        stage("Satge 2") {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                echo "This is stage 2"
             }
         }
-        stage('Deliver') {
+        stage("Satge 3") {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                echo "This is stage 3"
+            }
+        }
+        stage("Satge 4") {
+            steps {
+                echo "This is stage 4"
+            }
+        }
+        stage("Satge 5") {
+            steps {
+                echo "This is stage 5"
             }
         }
     }
