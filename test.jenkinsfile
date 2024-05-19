@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage("Satge 1") {
+            steps {
+                echo "This is stage 1"
+            }
+        }
+        stage("Satge 2") {
+            steps {
+                echo "This is stage 2"
+            }
+        }
+        stage("Satge 3") {
+            steps {
+                echo "This is stage 3"
+            }
+        }
+        stage("Satge 4") {
+            steps {
+                echo "This is stage 4"
+            }
+        }
+        stage("Satge 5") {
+            steps {
+                echo "This is stage 5"
+            }
+        }
+        stage("Satge 6") {
+            steps {
+                echo "completed the job"
+            }
+        }
+    }
+}
