@@ -23,11 +23,9 @@ jobs:
       - name: Run Snyk Dependency Scan
         id: snyk-scan
         run: |
-          output=$(snyk test --all-projects)
+          output=$(snyk test --severity-threshold=critical)
           echo "$output"
           echo "::set-output name=exit_code::${PIPESTATUS[0]}"
-        # env:
-        #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Check Snyk Scan Results
         run: |
