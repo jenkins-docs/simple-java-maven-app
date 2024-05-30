@@ -79,15 +79,27 @@ jobs:
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
-      - name: Set Docker Content Trust Passphrases
+      - name: Set Docker Content Trust and Build Image
         run: |
+          echo "Setting Docker Content Trust"
           export DOCKER_CONTENT_TRUST=1
           export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
           export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
-          docker buildx build --platform linux/amd64 -t yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} --push .
+          echo "Building Docker image"
+          docker buildx build --platform linux/amd64 -t yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} .
 
-      - name: Verify Docker image
-        run: docker trust inspect --pretty yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
+      - name: Push Docker Image with Signing
+        run: |
+          echo "Pushing Docker image with signing"
+          export DOCKER_CONTENT_TRUST=1
+          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
+          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+          docker push yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
+
+      - name: Verify Docker Image
+        run: |
+          echo "Verifying Docker image"
+          docker trust inspect --pretty yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
       # - name: Build and push
       #   uses: docker/build-push-action@v4
