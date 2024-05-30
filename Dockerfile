@@ -4,7 +4,7 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jdk-alpine
+FROM openjdk:19-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/my-app-*.jar ./app.jar
 ENTRYPOINT ["java"]
