@@ -70,21 +70,13 @@ jobs:
         message: 'This commit was done through GitHub Actions'
         tag: '${{ env.VERSION }} --force'  
         
-  Snyk:
+  snyk:
     name: Run Snyk to check for vulnerabilities
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-
-    - name: Install dependencies
-      run: npm install
 
     - name: Install Snyk
       run: npm install -g snyk
@@ -102,7 +94,7 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    needs: [version]  # Wait for build to complete successfully
+    needs: [version, snyk]  # Wait for build to complete successfully
 
     steps:
 
@@ -223,7 +215,7 @@ jobs:
           })
 
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/CHANGE_THIS_TO_BRANCH_MASTER' && github.event_name == 'push'
       run: terraform apply -auto-approve
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
       
