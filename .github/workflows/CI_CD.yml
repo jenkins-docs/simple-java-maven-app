@@ -14,8 +14,8 @@ jobs:
 #        with:
 #          node-version: '16'
 
-#      - name: Install dependencies
-#        run: npm install
+      - name: Install dependencies
+        run: sudo npm install
 
 #      - name: Run npm audit
 #        run: npm audit
