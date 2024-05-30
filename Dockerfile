@@ -10,5 +10,3 @@ COPY --from=builder /app/target/my-app-*.jar ./app.jar
 ENTRYPOINT ["java"]
 CMD ["-jar", "app.jar"] 
 
-
-
