@@ -26,9 +26,15 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
-             snyk auth ${{ secrets.SNYK_TOKEN }}
-             snyk test --severity-threshold=critical
-             snyk monitor
+
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk test --severity-threshold=critical
+
+      - name: Monitor and upload Snyk results
+        run: snyk monitor
   
       - name: Build with Maven
         run: mvn -B clean package
