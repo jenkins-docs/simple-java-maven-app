@@ -88,7 +88,7 @@ jobs:
       run: snyk test --severity-threshold=critical
 
     - name: Run Snyk test for Dockerfile
-      run: snyk test --dockerfile-path Dockerfile --severity-threshold=critical
+      run: snyk test --file=ockerfile --severity-threshold=critical
 
   
   build:
