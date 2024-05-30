@@ -69,6 +69,34 @@ jobs:
         author_name: $GITHUB_ACTOR
         message: 'This commit was done through GitHub Actions'
         tag: '${{ env.VERSION }} --force'  
+        
+  Test:
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+      
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Run Snyk to check for vulnerabilities in project dependencies
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: test --severity-threshold=critical
+
+    - name: Build Docker image
+      run: docker build -t my-app .
+
+    - name: Run Snyk to check for vulnerabilities in Docker image
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: 'my-app'
+        args: --severity-threshold=critical    
+
   
   build:
     name: build
