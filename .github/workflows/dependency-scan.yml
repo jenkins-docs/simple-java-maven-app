@@ -1,9 +1,9 @@
-name: Dependency Scan
+name: Dependency Scan and Fail Pipeline
 
 on: [push]
 
 jobs:
-  npm-audit:
+  snyk-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,3 +19,22 @@ jobs:
 
 #      - name: Run npm audit
 #        run: npm audit
+
+      - name: Run Snyk Dependency Scan
+        id: snyk-scan
+        run: |
+          output=$(snyk test --all-projects)
+          echo "$output"
+          echo "::set-output name=exit_code::${PIPESTATUS[0]}"
+        # env:
+        #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Check Snyk Scan Results
+        run: |
+          exit_code=${{ steps.snyk-scan.outputs.exit_code }}
+          if [ $exit_code -ne 0 ]; then
+            echo "Dependency vulnerabilities found. Failing the pipeline."
+            exit 1
+          else
+            echo "No dependency vulnerabilities found. Pipeline continues."
+          fi
