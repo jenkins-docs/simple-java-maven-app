@@ -34,9 +34,9 @@ jobs:
           wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
           sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
 
-      # - name: Scan Dockerfile with Trivy
-      #   run: |
-      #     trivy image --file Dockerfile
+      - name: Scan Dockerfile with Trivy
+        run: |
+          trivy image --file Dockerfile
 
       
   versioning:
