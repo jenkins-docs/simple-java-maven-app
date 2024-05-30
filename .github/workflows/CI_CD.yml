@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Snyk Dockerfile Scan
-        run: snyk test --dockerfile-path=../Dockerfile
+        run: snyk test --dockerfile-path=Dockerfile
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
