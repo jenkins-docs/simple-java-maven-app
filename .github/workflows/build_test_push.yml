@@ -90,12 +90,16 @@ jobs:
           notary -d ~/.docker/trust key import repo-key.pem --role targets
           rm root-key.pem repo-key.pem
 
+      - name: Build Docker Image
+        run: |
+          docker buildx build --platform linux/amd64 -t yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} --load .
+
       - name: Enable Docker Content Trust and Push Image
         run: |
           export DOCKER_CONTENT_TRUST=1
-          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
-          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
           echo "Docker Content Trust Enabled"
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }} \
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }} \
           docker push yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
       - name: Verify Docker Image
