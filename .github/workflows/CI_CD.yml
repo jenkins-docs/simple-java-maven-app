@@ -15,7 +15,10 @@ jobs:
 #          node-version: '16'
 
       - name: Install dependencies
-        run: sudo npm install
+        run: sudo apt install npm
+
+      - name: Install snyk
+        run: sudo npm install -g snyk
 
 #      - name: Run npm audit
 #        run: npm audit
