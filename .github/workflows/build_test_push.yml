@@ -79,18 +79,22 @@ jobs:
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
-      - name: Build Docker Image
+      - name: Install Notary
+        run: sudo apt install notary
+
+      - name: Import Docker Content Trust Keys
         run: |
-          docker buildx build --platform linux/amd64 -t yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} .
+          echo "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_KEY }}" > root-key.pem
+          echo "${{ secrets.DOCKER_CONTENT_TRUST_REPO_KEY }}" > repo-key.pem
+          notary -d ~/.docker/trust key import root-key.pem --role root
+          notary -d ~/.docker/trust key import repo-key.pem --role targets
+          rm root-key.pem repo-key.pem
 
       - name: Enable Docker Content Trust and Push Image
         run: |
           export DOCKER_CONTENT_TRUST=1
           export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
           export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
-          echo "DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST"
-          echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE is set"
-          echo "DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE is set"
           echo "Docker Content Trust Enabled"
           docker push yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
