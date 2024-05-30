@@ -8,4 +8,4 @@ FROM openjdk:19-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/my-app-*.jar ./app.jar
 ENTRYPOINT ["java"]
-CMD ["-jar", "app.jar"]
+CMD ["-jar", "app.jar"] 
