@@ -19,6 +19,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
@@ -81,12 +84,16 @@ jobs:
           export DOCKER_CONTENT_TRUST=1
           export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
           export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+          docker buildx build --platform linux/amd64 -t yossizxc/java:my-app-${{ steps.extract-version.outputs.version }} --push .
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
+      - name: Verify Docker image
+        run: docker trust inspect --pretty yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
+
+      # - name: Build and push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: yossizxc/java:my-app-${{ steps.extract-version.outputs.version }}
 
       - name: Trigger Deploy EKS action
         uses: peter-evans/repository-dispatch@v1
