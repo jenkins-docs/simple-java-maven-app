@@ -53,7 +53,7 @@ if [ -z ${override_version} ]; then
         minor="0"
         echo "- Warning: no minor value. set to 0 by default."
     fi
-    version="$head.$yearweek.$minor"
+    version="$head.$minor.$yearweek"
 else
     echo "- Warning: head, minor, suffix values will be ignored"
     version=${override_version}

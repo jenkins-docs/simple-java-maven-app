@@ -1,8 +1,8 @@
-name: Build and Push Docker Image to Docker Hub
+name: Version,Build,Push to DockerHub,Provision EKS using terraform and Deploy on provisioned EKS Cluster
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
   workflow_dispatch:
 
 
@@ -24,11 +24,11 @@ jobs:
       VERSION: ${{ steps.version.outputs.version }}
 
     steps:
-      
+
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Read HEAD and MINOR from file
+    - name: Read HEAD and MINOR from files
       id: read_head_minor
       run: |
         head=$(cat HEAD.ver)
@@ -36,8 +36,9 @@ jobs:
 
         minor=$(cat MINOR.ver)
         echo "MINOR=${minor}" >> $GITHUB_ENV
-    
-    - name: Determine and update head
+
+      ######################## IF BRANCH = MASTER ########################
+    - name: Increment head and update HEAD.ver file
       if: github.ref == 'refs/heads/master' # Increment head only for builds on master/main
       id: determine_head
       run: |
@@ -49,8 +50,22 @@ jobs:
       id: reset_minor
       run: |
         echo "MINOR=0" >> $GITHUB_ENV
-        echo "${{ env.MINOR }}" > ${{ github.workspace }}/MINOR.ver 
-    
+        echo "${{ env.MINOR }}" > ${{ github.workspace }}/MINOR.ver
+      #####################################################################
+
+
+      ######################## IF BRANCH = DEV ############################
+    - name: Increment head and update MINOR.ver file
+      if: github.ref == 'refs/heads/master' # Reset minor for builds on master/main
+      id: update_minor
+      run: |
+        echo "MINOR=$((MINOR + 1))" >> $GITHUB_ENV
+        echo "${{ env.MINOR }}" > ${{ github.workspace }}/MINOR.ver
+      #####################################################################
+
+
+    # version will be: head.minor.yearweek    
+    # you can use ${{ github.sha }} to create a different versioning scheme using github sha such as head.minor.git_commit_sha
     - name: Set version
       id: version
       run: |
@@ -59,17 +74,18 @@ jobs:
         echo "VERSION=${output}" >> $GITHUB_OUTPUT
         echo "${output}" > ${{ github.workspace }}/VERSION.ver
 
+
     - name: Version POM
       run: mvn -B versions:set -DnewVersion=${{ env.VERSION }}-SNAPSHOT -DgenerateBackupPoms=false
 
-    #https://github.com/marketplace/actions/add-commit    
+    # https://github.com/marketplace/actions/add-commit    
     - name: Commit changes to VERSION and HEAD and POM.xml files & tag
       uses: EndBug/add-and-commit@v9
       with:
         author_name: $GITHUB_ACTOR
         message: 'This commit was done through GitHub Actions'
-        tag: '${{ env.VERSION }} --force'  
-  
+        tag: '${{ env.VERSION }} --force'
+
   build:
     name: build
     runs-on: ubuntu-latest
@@ -80,13 +96,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Auth to GH registry
+    - name: Auth to DH registry
       uses: docker/login-action@v1
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
-            
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -122,7 +138,7 @@ jobs:
       with:
         sparse-checkout: | # fetch only terraform folder
           terraform
-    
+
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v3
       with:
@@ -153,7 +169,7 @@ jobs:
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color    
+      run: terraform plan -no-color
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
 
     - uses: actions/github-script@v7
@@ -167,25 +183,25 @@ jobs:
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
           <details><summary>Validation Output</summary>
-    
+
           \`\`\`\n
           ${{ steps.validate.outputs.stdout }}
           \`\`\`
-    
+
           </details>
-    
+
           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-    
+
           <details><summary>Show Plan</summary>
-    
+
           \`\`\`\n
           ${process.env.PLAN}
           \`\`\`
-    
+
           </details>
-    
+
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.TF_CONFIG_DIRECTORY }}\`, Workflow: \`${{ github.workflow }}\`*`;
-    
+
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
@@ -197,8 +213,8 @@ jobs:
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
       working-directory: ${{ env.TF_CONFIG_DIRECTORY }}
-      
-  
+
+
   deploy:
     name: EKS deployment
     if: github.ref == 'refs/heads/master'
