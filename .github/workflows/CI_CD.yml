@@ -1,155 +1,38 @@
-name: CI_CD_Pipeline
-on:
-  push:
-    branches:
-      - master
-      - feature
+name: Dependency Scan and Fail Pipeline
+
+on: [push]
 
 jobs:
-  versioning:
+  snyk-scan:
     runs-on: ubuntu-latest
- 
-    outputs:
-      new_version: ${{ steps.version.outputs.new_version }}
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Get Version
-        id: get_version
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '16'
+
+#      - name: Install dependencies
+#        run: npm install
+
+#      - name: Run npm audit
+#        run: npm audit
+
+      - name: Run Snyk Dependency Scan
+        id: snyk-scan
         run: |
-          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
+          output=$(snyk test --severity-threshold=critical)
+          echo "$output"
+          echo "::set-output name=exit_code::${PIPESTATUS[0]}"
 
-
-      - name: Determine version type and increment
-        id: version
-        run: | 
-          # Extract commit message from the latest commit
-          COMMIT_MESSAGE="ddd"
-          # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
-          echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Current version: ${{ env.CURRENT_VERSION }}"
-          
-          # Determine version type based on commit message
-          if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
-            #echo "::set-output name=version_type::minor"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
-
-          elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
-            #echo "::set-output name=version_type::patch"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
-
+      - name: Check Snyk Scan Results
+        run: |
+          exit_code=${{ steps.snyk-scan.outputs.exit_code }}
+          if [ $exit_code -ne 0 ]; then
+            echo "Dependency vulnerabilities found. Failing the pipeline."
+            exit 1
           else
-            #echo "::set-output name=version_type::major"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
+            echo "No dependency vulnerabilities found. Pipeline continues."
           fi
-
-          echo "New Version: $NEW_VERSION"
-
-          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Increment version to $NEW_VERSION"
-          git push origin master
-          #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "::set-output name=new_version::$NEW_VERSION"
-
-########################################################
-  
-  build:
-    runs-on: ubuntu-latest
-    needs: versioning
-
-    env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Build Docker Image
-        run: |
-          echo "BLABLABLABLA ${{ needs.versioning.outputs.new_version }}"
-          #echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
-          #echo "New Version: $NEW_VERSION"
-          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .
-
-
-      - name: Publish to DockerHub
-        run: |
-          echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
-          docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-
-  
-########################################################
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: versioning
-
-  #   steps:
-  #     - name: Pull image from DockerHub
-  #       run: 
-  #         docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-
-  #     - name: Start Docker container
-  #       run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-
-  #     - name: Check if container is running
-  #       run: docker ps -a | grep maven-app
-      
-  #     - name: Display Docker container logs
-  #       run: docker logs maven-app
-
-########################################################
-
-  provision-ec2:
-    runs-on: ubuntu-latest
-    needs: versioning
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-              aws-access-key-id: ${{ secrets.TF_USER_AWS_KEY }}
-              aws-secret-access-key: ${{ secrets.TF_USER_AWS_SECRET }}
-              aws-region: us-east-1
-
-      - name: Terraform
-        working-directory: "./TF"
-        id: apply
-        run: | 
-          terraform init 
-          terraform validate 
-        # terraform apply -auto-approve -var docker_image_version=${{ needs.versioning.outputs.new_version }} 
-
-
-      - name: Configure kubectl
-        uses: azure/k8s-set-context@v4
-        with: 
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-
-      # - name: Authenticate with AWS EKS
-      #   run: |
-      #   #aws eks --region "us-east-1" update-kubeconfig
-      #   #kubectl cluster-info
-      #   # kubectl get nodes
-      #   # aws eks --region "us-east-1" update-kubeconfig --name "cluster_info"
-      
-          
-      # - name: Deploy to EKS
-      #   env:
-      #       IMAGE_TAG: "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-      #     run: |
-      #       sed -i.bak "s|DOCKER_IMAGE|$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
-      #       kubectl apply -f manifests/hello-app-deployment.yaml
