@@ -76,6 +76,15 @@ jobs:
           echo "Version from POM: $VERSION"
           echo "::set-output name=version::$VERSION"
 
+      
+      - name: Set Docker Content Trust
+        run: echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
+
+      - name: Set Docker Content Trust Passphrases
+        run: |
+          echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}" >> $GITHUB_ENV
+          echo "DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
