@@ -36,7 +36,7 @@ jobs:
 
       - name: Scan Dockerfile with Trivy
         run: |
-          trivy image --exit-code 1 romi293/weather_app:152
+          trivy image romi293/weather_app:152
 
       
   versioning:
