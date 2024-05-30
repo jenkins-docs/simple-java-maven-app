@@ -70,32 +70,33 @@ jobs:
         message: 'This commit was done through GitHub Actions'
         tag: '${{ env.VERSION }} --force'  
         
-  Test:
-    name: test
+  Snyk:
+    name: Run Snyk to check for vulnerabilities
     runs-on: ubuntu-latest
 
     steps:
-      
-    - name: Checkout
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Run Snyk to check for vulnerabilities in project dependencies
-      uses: snyk/actions/node@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        args: test --severity-threshold=critical
+        node-version: '14'
 
-    - name: Build Docker image
-      run: docker build -t my-app .
+    - name: Install dependencies
+      run: npm install
 
-    - name: Run Snyk to check for vulnerabilities in Docker image
-      uses: snyk/actions/docker@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        image: 'my-app'
-        args: --severity-threshold=critical    
+    - name: Install Snyk
+      run: npm install -g snyk
+
+    - name: Authenticate Snyk
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: Run Snyk test for project dependencies
+      run: snyk test --severity-threshold=critical
+
+    - name: Run Snyk test for Dockerfile
+      run: snyk test --dockerfile-path Dockerfile --severity-threshold=critical
 
   
   build:
