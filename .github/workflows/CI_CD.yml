@@ -29,14 +29,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Trivy
+      - name: Install Docker Bench Security
         run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
-          sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
+          git clone https://github.com/docker/docker-bench-security.git
+          cd docker-bench-security
+          chmod +x docker-bench-security.sh
 
-      - name: Scan Dockerfile with Trivy
+      - name: Run Docker Bench Security Scan
         run: |
-          trivy image --file Dockerfile
+          ./docker-bench-security.sh
 
       
   versioning:
