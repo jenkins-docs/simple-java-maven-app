@@ -24,12 +24,11 @@ jobs:
           distribution: 'adopt'
           # adoptopenjdk
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: test --severity-threshold=critical
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+             snyk auth ${{ secrets.SNYK_TOKEN }}
+             snyk test --severity-threshold=critical
+             snyk monitor
   
       - name: Build with Maven
         run: mvn -B clean package
