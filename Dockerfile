@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-11-slim AS build
+FROM maven:3.5.6-openjdk-11-slim AS build
 ARG VERSION
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app
