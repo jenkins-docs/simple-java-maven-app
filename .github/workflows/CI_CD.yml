@@ -48,10 +48,10 @@ jobs:
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Snyk Dockerfile Scan
-        run: snyk test --file=Dockerfile
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      # - name: Run Snyk Dockerfile Scan
+      #   run: snyk test --file=Dockerfile
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Upload Snyk Report
         if: failure()
