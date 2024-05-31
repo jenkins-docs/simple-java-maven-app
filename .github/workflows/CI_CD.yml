@@ -104,7 +104,7 @@ jobs:
 
       - name: Get Version
         id: get_version
-        run: |
+        run:
           echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           # echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
 
