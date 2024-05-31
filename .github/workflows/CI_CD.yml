@@ -1,6 +1,6 @@
 name: CI_CD_Pipeline
 on:
-  push:
+  push: 
     branches:
       - master
       - feature
@@ -9,7 +9,7 @@ on:
 
 jobs:
   dependency-scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -65,31 +65,33 @@ jobs:
 
   #################################################################
 
-      
-  on-merge:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
-    runs-on: ubuntu-latest
+    
+  # on-merge:
+  #   if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+  #   - name: Set up Python
+  #     uses: actions/setup-python@v2
+  #     with:
+  #       python-version: '3.x'
 
-    - name: Install dependencies
-      run: | 
-        python -m pip install --upgrade pip
-        pip install flake8 
+  #   - name: Install dependencies
+  #     run: | 
+  #       python -m pip install --upgrade pip
+  #       pip install flake8 
 
-    - name: Run Flake8
-      run: |
-        flake8 .
+  #   - name: Run Flake8
+  #     run: |
+  #       flake8 .
 
   #################################################################
-      
+
+  #################################################################
+  
   versioning:
     runs-on: ubuntu-latest
  
@@ -162,6 +164,18 @@ jobs:
           #echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .
 
+          - name: Install cosign
+          run: |
+            curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
+            chmod +x cosign-linux-amd64
+            sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+    
+          - name: Sign Docker image
+            env:
+              COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+            run: |
+              echo "${{ secrets.COSIGN_KEY }}" > cosign.key
+              cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest
 
       - name: Publish to DockerHub
         run: |
