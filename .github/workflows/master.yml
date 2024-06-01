@@ -95,6 +95,7 @@ jobs:
         if: success()
         run: |
           export DOCKER_CONTENT_TRUST=1
+          docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
           docker trust sign simple-java-maven-app:latest
 
       - name: Push Docker Image
