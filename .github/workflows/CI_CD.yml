@@ -176,42 +176,65 @@ jobs:
           docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
           docker push "romi293/java_github_actions:37.0.0"
       
-      - name: Install cosign
-        run: |
-          curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
-          chmod +x cosign-linux-amd64
-          sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+      # - name: Install cosign
+      #   run: |
+      #     curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
+      #     chmod +x cosign-linux-amd64
+      #     sudo mv cosign-linux-amd64 /usr/local/bin/cosign
     
-      - name: Sign Docker image
-        env:
-          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
-        run: |
-          echo "${{ secrets.COSIGN_KEY }}" | base64 --decode > cosign.key
-          # cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
-          cosign sign --key cosign.key romi293/java_github_actions:37.0.0
+      # - name: Sign Docker image
+      #   env:
+      #     COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+      #   run: |
+      #     echo "${{ secrets.COSIGN_KEY }}" | base64 --decode > cosign.key
+      #     # cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
+      #     cosign sign --key cosign.key romi293/java_github_actions:37.0.0
+      #     cosign verify romi293/java_github_actions:37.0.0
 
       
 
   
 ########################################################
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: versioning
+  deploy:
+    runs-on: ubuntu-latest
+    needs: versioning
 
-  #   steps:
-  #     - name: Pull image from DockerHub
-  #       run: 
-  #         docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+    steps:
+      - name: Pull image from DockerHub
+        run: 
+          # docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          docker pull "romi293/java_github_actions:37.0.0"
 
-  #     - name: Start Docker container
-  #       run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+      - name: Start Docker container
+        # run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+        run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:37.0.0"
 
-  #     - name: Check if container is running
-  #       run: docker ps -a | grep maven-app
+      - name: Check if container is running
+        run: docker ps -a | grep 37
       
-  #     - name: Display Docker container logs
-  #       run: docker logs maven-app
+      - name: Display Docker container logs
+        run: docker logs 37.0.0   
+
+########################################################
+
+  scan-container:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update && sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update && sudo apt-get install -y trivy
+
+    - name: Scan Docker Image
+      run: |
+        trivy image 37.0.0
 
 ########################################################
 
