@@ -234,7 +234,7 @@ jobs:
 
     - name: Scan Docker Image
       run: |
-        trivy image 37.0.0
+        trivy image romi293/java_github_actions:37.0.0
 
 ########################################################
 
