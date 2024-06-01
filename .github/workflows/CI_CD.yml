@@ -211,10 +211,10 @@ jobs:
         run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:37.0.0"
 
       - name: Check if container is running
-        run: docker ps -a | grep 37
+        run: docker ps -a | grep maven-app
       
       - name: Display Docker container logs
-        run: docker logs 37.0.0   
+        run: docker logs maven-app  
 
 ########################################################
 
