@@ -179,7 +179,7 @@ jobs:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
         run: |
           echo "${{ secrets.COSIGN_KEY }}" > cosign.key
-          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest
+          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
 
       - name: Publish to DockerHub
         run: |
