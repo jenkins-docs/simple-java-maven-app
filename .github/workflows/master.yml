@@ -56,14 +56,8 @@ jobs:
       - name: Run Dependency-Check
         run: |
           dependency-check --project "my-app" --scan . --format "ALL" --out dependency-check-report --failOnCVSS 9
-        continue-on-error: true
-
-      - name: Upload Dependency-Check Report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: dependency-check-report
-          path: dependency-check-report/*
+		  cat ./dependency-check-report/dependency-check-report.xml
+		  cat ./dependency-check-report/dependency-check-report.html
 
       - name: Build Docker Image
         run: |
