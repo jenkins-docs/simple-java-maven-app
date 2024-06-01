@@ -161,6 +161,7 @@ jobs:
       - name: Build Docker Image
         run: |
           echo "BLABLABLABLA ${{ needs.versioning.outputs.new_version }}"
+          ${NEW_VERSION}=${{ needs.versioning.outputs.new_version }}
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           echo "New Version: $NEW_VERSION"
           docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .
