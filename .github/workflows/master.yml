@@ -55,7 +55,7 @@ jobs:
 
       - name: Run Dependency-Check
         run: |
-          dependency-check --project "my-app" --scan . --format "XML" --prettyPrint 
+          dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint 
           cat dependency-check-report.xml
 
       - name: Build Docker Image
