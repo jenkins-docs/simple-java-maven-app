@@ -6,6 +6,8 @@ on:
       - feature
 
   pull_request: 
+    branches:
+      - maater
 
 jobs:
   dependency-scan:
