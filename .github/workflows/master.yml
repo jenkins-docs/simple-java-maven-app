@@ -41,6 +41,7 @@ jobs:
             echo "::error::Unsupported branch"
             exit 1
           fi
+          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
 
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
 
