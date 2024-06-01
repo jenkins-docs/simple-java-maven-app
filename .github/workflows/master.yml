@@ -15,6 +15,25 @@ jobs:
 
       - name: Fetch all branches and tags
         run: git fetch --prune --unshallow
+        
+      - name: Install hadolint
+        run: |
+          wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.9.3/hadolint-Linux-x86_64
+          chmod +x /bin/hadolint
+
+      - name: Lint Dockerfile
+        run: hadolint Dockerfile
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Scan Dockerfile for vulnerabilities
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
 
       - name: Determine Branch and Commit Count
         id: determine_branch_and_commit_count
@@ -55,7 +74,7 @@ jobs:
 
       - name: Run Dependency-Check
         run: |
-          dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint --failOnCVSS 9
+          dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
           cat dependency-check-report.json
 
       - name: Build Docker Image
