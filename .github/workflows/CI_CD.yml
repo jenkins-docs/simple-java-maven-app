@@ -167,7 +167,15 @@ jobs:
           # docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
           docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
           
-
+      - name: Publish to DockerHub
+        run: |
+          echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          # docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
+          # docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
+          docker push "romi293/java_github_actions:37.0.0"
+      
       - name: Install cosign
         run: |
           curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
@@ -179,16 +187,10 @@ jobs:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
         run: |
           echo "${{ secrets.COSIGN_KEY }}" > cosign.key
-          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
+          # cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
+          cosign sign --key cosign.key romi293/java_github_actions:37.0.0
 
-      - name: Publish to DockerHub
-        run: |
-          echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          # docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
-          # docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          docker tag "romi293/java_github_actions:36.0.0" "romi293/java_github_actions:36.0.0"
-          docker push "romi293/java_github_actions:36.0.0"
+      
 
   
 ########################################################
