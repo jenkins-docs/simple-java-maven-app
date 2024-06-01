@@ -49,7 +49,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk Dockerfile Scan
-        run: snyk test --file=Dockerfile
+        run: snyk test --dockerfile-path=Dockerfile
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
