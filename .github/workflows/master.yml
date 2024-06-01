@@ -56,7 +56,6 @@ jobs:
       - name: Run Dependency-Check
         run: |
           dependency-check --project "my-app" --scan . --format "ALL" --out dependency-check-report --failOnCVSS 9
-		  cat ./dependency-check-report/dependency-check-report.xml
 
       - name: Build Docker Image
         run: |
