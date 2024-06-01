@@ -7,8 +7,8 @@ COPY src/ ./src/
 
 ARG VERSION_NUMBER
 
-RUN mvn -B versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
-# RUN mvn -B versions:set -DnewVersion="36.0.0" -DgenerateBackupPoms=false
+# RUN mvn -B versions:set -DnewVersion=$VERSION_NUMBER -DgenerateBackupPoms=false
+RUN mvn -B versions:set -DnewVersion="37.0.0" -DgenerateBackupPoms=false
 
 RUN mvn clean package
 
