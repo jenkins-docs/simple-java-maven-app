@@ -102,46 +102,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get Version
-        id: get_version
-        run: |
-          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
+      # - name: Get Version
+      #   id: get_version
+      #   run: |
+      #     CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+      #     echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
 
 
-      - name: Determine version type and increment
-        id: version
-        run: | 
-          # Extract commit message from the latest commit
-          COMMIT_MESSAGE="ddd"
-          # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
-          echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Current version: ${{ env.CURRENT_VERSION }}"
+      # - name: Determine version type and increment
+      #   id: version
+      #   run: | 
+      #     # Extract commit message from the latest commit
+      #     COMMIT_MESSAGE="ddd"
+      #     # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
+      #     echo "Commit Message: $COMMIT_MESSAGE"
+      #     echo "Current version: ${{ env.CURRENT_VERSION }}"
           
-          # Determine version type based on commit message
-          if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
-            #echo "::set-output name=version_type::minor"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
+      #     # Determine version type based on commit message
+      #     if [[ $COMMIT_MESSAGE == *"feature"* ]]; then
+      #       #echo "::set-output name=version_type::minor"
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$2++; print}')
 
-          elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
-            #echo "::set-output name=version_type::patch"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
+      #     elif [[ $COMMIT_MESSAGE == *"fix"* || $COMMIT_MESSAGE == *"bug"* ]]; then
+      #       #echo "::set-output name=version_type::patch"
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$3++; print}')
 
-          else
-            #echo "::set-output name=version_type::major"
-            NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
-          fi
+      #     else
+      #       #echo "::set-output name=version_type::major"
+      #       NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. -v OFS=. '{$1++; print}')
+      #     fi
 
-          echo "New Version: $NEW_VERSION"
+      #     echo "New Version: $NEW_VERSION"
 
-          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Increment version to $NEW_VERSION"
-          git push origin master
-          #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "::set-output name=new_version::$NEW_VERSION"
+      #     mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
+      #     git config --global user.email "actions@github.com"
+      #     git config --global user.name "GitHub Actions"
+      #     git add .
+      #     git commit -m "Increment version to $NEW_VERSION"
+      #     git push origin master
+      #     #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+      #     echo "::set-output name=new_version::$NEW_VERSION"
 
 ########################################################
   
