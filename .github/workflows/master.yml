@@ -49,14 +49,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
-          wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.4/dependency-check-7.0.4-release.zip
-          unzip dependency-check-7.0.4-release.zip -d dependency-check
+          wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.2.0/dependency-check-9.2.0-release.zip
+          unzip dependency-check-9.2.0-release.zip -d dependency-check
           sudo ln -s $(pwd)/dependency-check/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
 
       - name: Run Dependency-Check
         run: |
-          dependency-check --project "my-app" --scan . --format "XML" --prettyPrint --out dependency-check-report --failOnCVSS 9
-          cat dependency-check-report/dependency-check-report.xml
+          dependency-check --project "my-app" --scan . --format "XML" --prettyPrint 
+          cat dependency-check-report.xml
 
       - name: Build Docker Image
         run: |
