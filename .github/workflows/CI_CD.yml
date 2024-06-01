@@ -165,7 +165,7 @@ jobs:
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           echo "New Version: $NEW_VERSION"
           # docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
-          docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${{ env.NEW_VERSION }}" .
+          docker build --build-arg VERSION_NUMBER=${{ NEW_VERSION }} -t "romi293/java_github_actions:${{ NEW_VERSION }}" .
           
 
           - name: Install cosign
