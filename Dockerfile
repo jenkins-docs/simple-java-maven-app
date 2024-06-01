@@ -3,7 +3,7 @@ ARG RUN_NUMBER
 ENV RUN_NUMBER=${RUN_NUMBER}
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package -Dmaven.test.skip=true
+RUN mvn clean package -Dmaven.test.skip=true && ls -l target/
 
 FROM openjdk:11-jre-slim
 ARG RUN_NUMBER
