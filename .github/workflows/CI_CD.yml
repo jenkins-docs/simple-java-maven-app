@@ -50,8 +50,8 @@ jobs:
         run: snyk auth -d ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk Dockerfile Scan
-        # run: snyk test --dockerfile-path=Dockerfile
-        run: trivy fs --ignore-unfixed --exit-code 1 --severity HIGH,CRITICAL --security-checks vuln config .
+        run: snyk test --dockerfile-path=Dockerfile
+        # run: trivy fs --ignore-unfixed --exit-code 1 --severity HIGH,CRITICAL --security-checks vuln config .
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
