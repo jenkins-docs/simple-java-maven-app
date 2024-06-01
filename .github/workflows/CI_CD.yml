@@ -7,7 +7,7 @@ on:
 
   pull_request: 
     branches:
-      - maater
+      - master
 
 jobs:
   dependency-scan:
