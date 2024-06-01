@@ -10,5 +10,5 @@ FROM openjdk:11-jre-slim
 ARG RUN_NUMBER
 ENV RUN_NUMBER=${RUN_NUMBER}
 WORKDIR /app 
-COPY --from=builder /target/my-app-${RUN_NUMBER}.jar /app.jar
+COPY --from=builder ./target/my-app-${RUN_NUMBER}.jar /app.jar
 CMD ["java", "-jar", "app.jar"]
