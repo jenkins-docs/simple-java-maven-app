@@ -136,11 +136,11 @@ jobs:
           echo "New Version: $NEW_VERSION"
 
           # mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Increment version to $NEW_VERSION"
-          git push origin master
+          # git config --global user.email "actions@github.com"
+          # git config --global user.name "GitHub Actions"
+          # git add .
+          # git commit -m "Increment version to $NEW_VERSION"
+          # git push origin master
           #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "::set-output name=new_version::$NEW_VERSION"
 
