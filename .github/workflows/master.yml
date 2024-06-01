@@ -64,18 +64,18 @@ jobs:
 
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
 
-      #- name: Install OWASP Dependency-Check
-       # run: |
-        #  sudo apt-get update
-         # sudo apt-get install -y wget unzip
-          #wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.4/dependency-check-7.0.4-release.zip
-          #unzip dependency-check-7.0.4-release.zip -d dependency-check
-          #sudo ln -s $(pwd)/dependency-check/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
-
-      - name: Run Dependency-Check
+      - name: Install OWASP Dependency-Check
         run: |
-          dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
-          cat dependency-check-report.json
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.4/dependency-check-7.0.4-release.zip
+          unzip dependency-check-7.0.4-release.zip -d dependency-check
+          sudo ln -s $(pwd)/dependency-check/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
+
+      #- name: Run Dependency-Check
+       # run: |
+        #  dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
+         # cat dependency-check-report.json
 
       - name: Build Docker Image
         run: |
