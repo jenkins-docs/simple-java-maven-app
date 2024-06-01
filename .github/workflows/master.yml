@@ -3,6 +3,9 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
+on:
+  push:
+    branches:
       - master
       - feature
 
@@ -13,12 +16,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
+
       - name: Fetch all branches and tags
         run: git fetch --prune --unshallow
 
       - name: Determine Branch and Commit Count
-        id: determine_branch
+        id: determine_branch_and_commit_count
         run: |
           BRANCH=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -26,26 +29,29 @@ jobs:
           MINOR_VERSION=$(echo $CURRENT_VERSION | cut -d'.' -f2)
           PATCH_VERSION=$(echo $CURRENT_VERSION | cut -d'.' -f3)
           COMMIT_COUNT=$(git rev-list --count HEAD)
+          
           if [ "$BRANCH" = "master" ]; then
-            echo "::set-output name=version::$(($MAJOR_VERSION + 1)).0.0"
-          elif [[ "$BRANCH" == "feature"* ]]; then
+            NEW_VERSION=$(($MAJOR_VERSION + 1)).0.0
+          elif [[ "$BRANCH" == feature* ]]; then
             IS_MERGE=$(git log --merges -n 1 --pretty=%P)
             if [[ $IS_MERGE ]]; then
-              echo "::set-output name=version::$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0"
+              NEW_VERSION=$MAJOR_VERSION.$(($MINOR_VERSION + 1)).0
             else
-              echo "::set-output name=version::$CURRENT_VERSION"
+              NEW_VERSION=$CURRENT_VERSION
             fi
-          elif [[ "$BRANCH" == "fixes"* ]]; then
-            echo "::set-output name=version::$MAJOR_VERSION.$MINOR_VERSION.$(($PATCH_VERSION + 1))"
+          elif [[ "$BRANCH" == fixes* ]]; then
+            NEW_VERSION=$MAJOR_VERSION.$MINOR_VERSION.$(($PATCH_VERSION + 1))
           else
             echo "::error::Unsupported branch"
             exit 1
           fi
 
+          echo "version=$NEW_VERSION" >> $GITHUB_ENV
+
       - name: Build Docker Image
         run: |
-          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ steps.determine_branch_and_commit_count.outputs.version }} .
-          
+          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ env.version }} .
+
       - name: Push Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
