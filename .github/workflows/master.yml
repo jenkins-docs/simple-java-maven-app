@@ -44,6 +44,16 @@ jobs:
           mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
 
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
+          
+      - name: Dependency Scan
+        uses: dependency-check/gh-action@v1.4.1
+        with:
+          project: 'my-app'
+          format: 'ALL'
+          fail_on_cvss: 9
+          output_directory: 'dependency-check-report'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Image
         run: |
