@@ -34,7 +34,7 @@ jobs:
 
 
       
-  on-merge:
+  static-code-analysis:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
 
