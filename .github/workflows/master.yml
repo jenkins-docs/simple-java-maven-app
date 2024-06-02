@@ -77,15 +77,15 @@ jobs:
         #  dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
          # cat dependency-check-report.json
          
-     #- name: SonarQube Analysis
+     - name: SonarQube Analysis
       #  if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
-       # uses: SonarSource/sonarqube-scan-action@v1
-        #with:
-         # sonar-login: ${{ secrets.SONAR_LOGIN }}
-         # sonar-host: ${{ secrets.SONAR_HOST }}
+        uses: SonarSource/sonarqube-scan-action@v1
+        env:
+          SONAR_TOKEN: 'squ_281117b509186ba1438e9b68a4d466a4c9a595ad'
+          SONAR_HOST_URL: 'http://3.79.104.221:9000/projects'
          # project-key: 'github'
          # project-name: 'github_action'
-         # project-version: '1.0'
+          project-version: '1.0'
 
       - name: Build Docker Image
         run: |
