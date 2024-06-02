@@ -6,6 +6,8 @@ on:
       - feature 
 
   pull_request:
+    branches:
+      - master
 
 jobs:
   dependency-scan:
@@ -232,9 +234,24 @@ jobs:
       #     cosign sign --key cosign.key romi293/java_github_actions:37.0.0
       #     cosign verify romi293/java_github_actions:37.0.0
 
-      
+      - name: Sign
+        env:
+          DOCKER_CONTENT_TRUST: 1
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DCT_PRIVATE_KEY }}
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PUBLIC_KEY }}
+        
+        run: |
+          docker build -t romi293/java_github_actions:37.0.0 .
+          docker push romi293/java_github_actions:37.0.0
 
-  
+      - name: Verify Docker image
+        env:
+          DOCKER_CONTENT_TRUST: 1
+        run: |
+          docker pull romi293/java_github_actions:37.0.0
+          docker trust inspect --pretty romi293/java_github_actions:37.0.0 
+
+       
 ########################################################
 
   deploy:
