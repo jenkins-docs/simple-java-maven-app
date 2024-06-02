@@ -35,14 +35,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Install Trivy
-      #   run: |
-      #     wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
-      #     sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
+      - name: Install Trivy
+        run: |
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
+          sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
 
-      # - name: Scan Dockerfile with Trivy
-      #   run: |
-      #     trivy image --exit-code 1 romi293/java_github_actions:37.0.0
+      - name: Scan Dockerfile with Trivy
+        run: |
+          trivy image --exit-code 1 romi293/java_github_actions:37.0.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
