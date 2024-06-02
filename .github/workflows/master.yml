@@ -58,7 +58,7 @@ jobs:
             NEW_VERSION=$MAJOR_VERSION.$MINOR_VERSION.$(($PATCH_VERSION + 1))
           else
             echo "::error::Unsupported branch"
-            exit 1
+            exit 1 
           fi
           mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
           git config --global user.email "action@github.com"
