@@ -90,17 +90,12 @@ jobs:
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
           docker tag simple-java-maven-app:latest denisiuss/simple-java-maven-app:${{ env.version }}
           docker push denisiuss/simple-java-maven-app:${{ env.version }}
-      
-      - name: Write signing key to disk
-        run: 'echo "$KEY" > cosign.key'
-        shell: bash
-        env:
-          KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
             
       - name: Sign the published Docker image
         env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign --key cosign.key docker.io/denisiuss/simple-java-maven-app:${{ env.version }}
+        run: cosign sign --key env://COSIGN_PRIVATE_KEY docker.io/denisiuss/simple-java-maven-app:${{ env.version }}
           
       #- uses: actions/setup-node@v3
        # with:
