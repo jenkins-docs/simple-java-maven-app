@@ -82,29 +82,21 @@ jobs:
         run: |
           docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ env.version }} .
 
-      - name: Sign Docker Image
-        if: success()
-        env:
-          DOCKER_CONTENT_TRUST: 1
-          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
-          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
-          NOTARY_GUN_KEY: ${{ secrets.NOTARY_GUN_KEY }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          mkdir -p ~/.docker/trust/private 
-          echo $DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE > ~/.docker/trust/private/repository.pass
-          echo $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE > ~/.docker/trust/private/root.pass
-          echo $NOTARY_GUN_KEY > ~/.docker/trust/private/gun.key
-          export DOCKER_CONTENT_TRUST=1
-          docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
-          docker trust sign simple-java-maven-app:latest 
+	  - name: cosign-installer
+        uses: sigstore/cosign-installer@v2.0.0
+    
 
+      
       - name: Push Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
-          docker tag simple-java-maven-app:latest denisiuss/simple-java-maven-app:latest
-          docker push denisiuss/simple-java-maven-app:latest
+          docker tag simple-java-maven-app:latest denisiuss/simple-java-maven-app:${{ env.version }}
+          docker push denisiuss/simple-java-maven-app:${{ env.version }}
+          
+      - name: Sign the published Docker image
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: cosign sign --key env://COSIGN_PRIVATE_KEY docker.io/denisiuss/simple-java-maven-app:${{ env.version }}
           
       #- uses: actions/setup-node@v3
        # with:
