@@ -234,7 +234,7 @@ jobs:
       - name: Sign
         env:
           DOCKER_CONTENT_TRUST: 1
-          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DCT_PRIVATE_KEY }}
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKERHUB_TOKEN }}
           DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PUBLIC_KEY }}
         
         run: |
