@@ -216,18 +216,18 @@ jobs:
           docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
           docker push "romi293/java_github_actions:37.0.0"
       
-      - name: Install cosign
-        run: |
-          curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
-          chmod +x cosign-linux-amd64
-          sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+      # - name: Install cosign
+      #   run: |
+      #     curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
+      #     chmod +x cosign-linux-amd64
+      #     sudo mv cosign-linux-amd64 /usr/local/bin/cosign
     
       - name: Sign Docker image
         env:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
         run: |
           echo "${COSIGN_KEY}" | base64 --decode > cosign.key
-          cosign sign --key cosign.key romi293/java_github_actions:37.0.0
+          cosign sign --key romi293/java_github_actions:37.0.0
           cosign verify romi293/java_github_actions:37.0.0
 
       # - name: Sign
