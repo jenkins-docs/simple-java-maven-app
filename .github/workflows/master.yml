@@ -84,14 +84,22 @@ jobs:
 
       - name: Sign Docker Image
         if: success()
+        env:
+          DOCKER_CONTENT_TRUST: 1
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+          NOTARY_GUN_KEY: ${{ secrets.NOTARY_GUN_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           mkdir -p ~/.docker/trust/private 
-          cp ${{ env.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }} ~/.docker/trust/private/
-          cp ${{ env.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }} ~/.docker/trust/private/
-	      cp ${{ env.NOTARY_GUN_KEY }} ~/.docker/trust/private/
+          echo $DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE > ~/.docker/trust/private/repository.pass
+          echo $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE > ~/.docker/trust/private/root.pass
+          echo $NOTARY_GUN_KEY > ~/.docker/trust/private/gun.key
           export DOCKER_CONTENT_TRUST=1
-          docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
-          docker trust sign simple-java-maven-app:latest 
+          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+          docker trust sign $DOCKER_USERNAME/my-app:latest
+          docker trust sign $DOCKER_USERNAME/my-app:${{ env.version }}
 
       - name: Push Docker Image
         run: |
