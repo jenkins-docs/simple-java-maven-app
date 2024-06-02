@@ -95,7 +95,7 @@ jobs:
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign --key env://COSIGN_PRIVATE_KEY docker.io/denisiuss/simple-java-maven-app:${{ env.version }}
+        run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY docker.io/denisiuss/simple-java-maven-app:${{ env.version }}
           
       #- uses: actions/setup-node@v3
        # with:
