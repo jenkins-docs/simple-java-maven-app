@@ -226,8 +226,7 @@ jobs:
         env:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
         run: |
-          # echo "${{ secrets.COSIGN_KEY }}" | base64 --decode > cosign.key
-          # cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USERNAME }}/my-app:37.0.0
+          
           cosign sign --key ${{ secrets.COSIGN_KEY }} romi293/java_github_actions:37.0.0
           cosign verify romi293/java_github_actions:37.0.0
 
