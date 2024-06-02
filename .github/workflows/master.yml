@@ -80,7 +80,7 @@ jobs:
       - name: Install Java 17
         run: |
           sudo apt-get update
-          sudo apt-get install -y openjdk-17-jdk
+          sudo apt install openjdk-17-jdk openjdk-17-jre
           java -version
          
       - name: SonarQube Analysis
