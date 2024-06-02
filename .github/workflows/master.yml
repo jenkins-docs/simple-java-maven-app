@@ -77,6 +77,12 @@ jobs:
         #  dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
          # cat dependency-check-report.json
          
+      - name: Install Java 17
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          java -version
+         
       - name: SonarQube Analysis
       #  if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
         uses: SonarSource/sonarqube-scan-action@v1
