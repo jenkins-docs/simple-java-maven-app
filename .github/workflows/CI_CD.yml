@@ -34,15 +34,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Install Trivy
-      #   run: |
-      #     wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
-      #     sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
-
-      # - name: Scan Dockerfile with Trivy
-      #   run: |
-      #     trivy image --exit-code 1 romi293/java_github_actions:37.0.0
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -60,7 +51,6 @@ jobs:
 
       - name: Run Snyk Dockerfile Scan
         run: snyk test --dockerfile-path=Dockerfile
-        # run: trivy fs --ignore-unfixed --exit-code 1 --severity HIGH,CRITICAL --security-checks vuln config .
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -70,9 +60,6 @@ jobs:
         with:
           name: snyk-report
           path: snyk-report.json
-
-      # - name: Build Docker image
-      #   run: docker build -t weather_app:152 .
 
   #################################################################
 
@@ -154,24 +141,21 @@ jobs:
           NEW_VERSION=${{ needs.versioning.outputs.new_version }}
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           echo "New Version: $NEW_VERSION"
-          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
-          # docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
+          # docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
+          docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
           
       - name: Publish to DockerHub
         run: |
           echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
           # docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
+          docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
           # docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
+          # docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
           docker push "romi293/java_github_actions:37.0.0"
       
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.5.0  
-        # run: |
-        #   curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
-        #   chmod +x cosign-linux-amd64
-        #   sudo mv cosign-linux-amd64 /usr/local/bin/cosign
     
       - name: Sign Docker image
         env:
@@ -181,24 +165,6 @@ jobs:
         run: |
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:37.0.0
           # cosign verify romi293/java_github_actions:37.0.0
-
-      # - name: Sign
-      #   env:
-      #     DOCKER_CONTENT_TRUST: 1
-      #     DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKERHUB_TOKEN }}
-      #     DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PRIVATE_KEY }}
-        
-      #   run: |
-      #     # docker build -t romi293/java_github_actions:37.0.0 .
-      #     docker trust sign romi293/java_github_actions:37.0.0
-      #     docker push romi293/java_github_actions:37.0.0
-
-      # - name: Verify Docker image
-      #   env:
-      #     DOCKER_CONTENT_TRUST: 1
-      #   run: |
-      #     docker pull romi293/java_github_actions:37.0.0
-      #     docker trust inspect --pretty romi293/java_github_actions:37.0.0 
 
        
 ########################################################
