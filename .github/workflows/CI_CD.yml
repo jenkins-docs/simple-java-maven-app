@@ -91,7 +91,7 @@ jobs:
         id: version
         run: | 
           # Extract commit message from the latest commit
-          COMMIT_MESSAGE="ddd"
+          COMMIT_MESSAGE="feature"
           # echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) >> $GITHUB_ENV
           echo "Commit Message: $COMMIT_MESSAGE"
           echo "Current version: ${{ env.CURRENT_VERSION }}"
