@@ -83,7 +83,7 @@ jobs:
            docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ env.version }} .
  
       - name: cosign-installer
-        uses: sigstore/cosign-installer@v2.0.0
+        uses: sigstore/cosign-installer@v3.5.0
 
       - name: Push Docker Image
         run: |
