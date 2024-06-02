@@ -79,14 +79,11 @@ jobs:
         
 
       - name: Build Docker Image
-        run: |
-          docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ env.version }} .
-
+        run: docker build -t simple-java-maven-app:latest --build-arg RUN_NUMBER=${{ env.version }} .
+          
 	  - name: cosign-installer
         uses: sigstore/cosign-installer@v2.0.0
     
-
-      
       - name: Push Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
