@@ -101,7 +101,7 @@ jobs:
         env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
         run: |
-          cosign verify --insecure-ignore-tlog --key env:COSIGN_PUBLIC_KEY docker.io/denisiuss/simple-java-maven-app:{{ env.VERSION }}
+          cosign verify --insecure-ignore-tlog --key env://COSIGN_PUBLIC_KEY docker.io/denisiuss/simple-java-maven-app:{{ env.VERSION }}
       #- uses: actions/setup-node@v3
        # with:
         #  node-version: '14'
