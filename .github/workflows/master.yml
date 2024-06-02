@@ -16,6 +16,14 @@ jobs:
       - name: Fetch all branches and tags
         run: git fetch --prune --unshallow
         
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+        run: |
+          java -version
+        
       - name: Install hadolint
         run: |
           sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.9.3/hadolint-Linux-x86_64
