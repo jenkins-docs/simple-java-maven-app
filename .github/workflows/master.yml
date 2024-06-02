@@ -89,8 +89,6 @@ jobs:
         env:
           SONAR_TOKEN: 'squ_281117b509186ba1438e9b68a4d466a4c9a595ad'
           SONAR_HOST_URL: 'http://3.79.104.221:9000'
-        with:
-          java-version: '17'
 
       - name: Build Docker Image
         run: |
