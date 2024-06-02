@@ -72,10 +72,10 @@ jobs:
           unzip dependency-check-7.0.4-release.zip -d dependency-check
           sudo ln -s $(pwd)/dependency-check/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
 
-      #- name: Run Dependency-Check
-       # run: |
-        #  dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
-         # cat dependency-check-report.json
+      - name: Run Dependency-Check
+        run: |
+          dependency-check --project "my-app" --scan . --format "JSON" --prettyPrint
+          cat dependency-check-report.json
         
 
       - name: Build Docker Image
