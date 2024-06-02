@@ -85,11 +85,13 @@ jobs:
       - name: Sign Docker Image
         if: success()
         run: |
+          mkdir -p ~/.docker/trust/private
+          cp ${{ env.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }} ~/.docker/trust/private/
+          cp ${{ env.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }} ~/.docker/trust/private/
+	      cp ${{ env.NOTARY_GUN_KEY }} ~/.docker/trust/private/
           export DOCKER_CONTENT_TRUST=1
           docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
-          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE="${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}"
-          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}"
-          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE | docker trust sign simple-java-maven-app:latest 
+          docker trust sign simple-java-maven-app:latest 
 
       - name: Push Docker Image
         run: |
