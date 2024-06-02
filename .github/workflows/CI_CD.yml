@@ -229,7 +229,7 @@ jobs:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
-          cosign sign --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:37.0.0
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:37.0.0
           # cosign verify romi293/java_github_actions:37.0.0
 
       # - name: Sign
