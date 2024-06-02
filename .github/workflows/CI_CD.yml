@@ -1,9 +1,8 @@
 name: CI_CD_Pipeline
 on:
-  push:
+  push: 
     branches:
       - master
-      - feature 
 
   pull_request:
     branches:
@@ -11,21 +10,23 @@ on:
 
 jobs:
   dependency-scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2 
 
       - name: Install Snyk
         run: npm install -g snyk
 
       - name: Authenticate Snyk
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth -d ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk Dependency Scan
         run: snyk test --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  #################################################################
 
   dockerfile-scan: 
     runs-on: ubuntu-latest
@@ -33,9 +34,49 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # - name: Install Trivy
+      #   run: |
+      #     wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.deb
+      #     sudo dpkg -i trivy_0.19.2_Linux-64bit.deb
 
+      # - name: Scan Dockerfile with Trivy
+      #   run: |
+      #     trivy image --exit-code 1 romi293/java_github_actions:37.0.0
 
-      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up Docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Authenticate Snyk
+        run: snyk auth -d ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk Dockerfile Scan
+        run: snyk test --dockerfile-path=Dockerfile
+        # run: trivy fs --ignore-unfixed --exit-code 1 --severity HIGH,CRITICAL --security-checks vuln config .
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Upload Snyk Report
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: snyk-report
+          path: snyk-report.json
+
+      # - name: Build Docker image
+      #   run: docker build -t weather_app:152 .
+
+  #################################################################
+
+    
   static-code-analysis:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
@@ -43,21 +84,45 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8
-
-    - name: Run Flake8
-      run: |
-        flake8 .
       
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    - name: Cache SonarCloud scanner
+      id: cache-sonar-scanner
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/scanner
+        key: ${{ runner.os }}-sonar-scanner
+        restore-keys: |
+          ${{ runner.os }}-sonar-scanner
+
+    - name: Install SonarCloud scanner
+      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+      run: |
+        curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+        mkdir -p ~/.sonar/scanner
+        unzip -o sonar-scanner.zip -d ~/.sonar/scanner
+        echo 'export PATH=$PATH:~/.sonar/scanner/sonar-scanner-4.6.2.2472-linux/bin' >> $GITHUB_ENV
+
+    - name: Build and analyze
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        mvn clean verify sonar:sonar \
+        # -Dsonar.projectKey=my-project-key \
+        # -Dsonar.organization=my-organization \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    
+
+
+  #################################################################
+  
   versioning:
     runs-on: ubuntu-latest
  
@@ -72,6 +137,7 @@ jobs:
         id: get_version
         run: |
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # CURRENT_VERSION="37.0.0"
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
 
 
@@ -101,12 +167,12 @@ jobs:
           echo "New Version: $NEW_VERSION"
 
           mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Increment version to $NEW_VERSION"
-          git push origin master
-          #echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          # git config --global user.email "actions@github.com"
+          # git config --global user.name "GitHub Actions"
+          # git add .
+          # git commit -m "Increment version to $NEW_VERSION"
+          # git push origin master
+          echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "::set-output name=new_version::$NEW_VERSION"
 
 ########################################################
@@ -126,38 +192,97 @@ jobs:
       - name: Build Docker Image
         run: |
           echo "BLABLABLABLA ${{ needs.versioning.outputs.new_version }}"
-          #echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
-          #echo "New Version: $NEW_VERSION"
-          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .
-
-
+          NEW_VERSION=${{ needs.versioning.outputs.new_version }}
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "New Version: $NEW_VERSION"
+          # docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
+          docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
+          
       - name: Publish to DockerHub
         run: |
           echo "IMAGE romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-          docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
-          docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          # docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
+          # docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
+          docker push "romi293/java_github_actions:37.0.0"
+      
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.5.0  
+        # run: |
+        #   curl -LO https://github.com/sigstore/cosign/releases/download/v1.3.1/cosign-linux-amd64
+        #   chmod +x cosign-linux-amd64
+        #   sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+    
+      - name: Sign Docker image
+        env:
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:37.0.0
+          # cosign verify romi293/java_github_actions:37.0.0
 
-  
+      # - name: Sign
+      #   env:
+      #     DOCKER_CONTENT_TRUST: 1
+      #     DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKERHUB_TOKEN }}
+      #     DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PRIVATE_KEY }}
+        
+      #   run: |
+      #     # docker build -t romi293/java_github_actions:37.0.0 .
+      #     docker trust sign romi293/java_github_actions:37.0.0
+      #     docker push romi293/java_github_actions:37.0.0
+
+      # - name: Verify Docker image
+      #   env:
+      #     DOCKER_CONTENT_TRUST: 1
+      #   run: |
+      #     docker pull romi293/java_github_actions:37.0.0
+      #     docker trust inspect --pretty romi293/java_github_actions:37.0.0 
+
+       
 ########################################################
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: versioning
+  deploy:
+    runs-on: ubuntu-latest
+    needs: versioning
 
-  #   steps:
-  #     - name: Pull image from DockerHub
-  #       run: 
-  #         docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+    steps:
+      - name: Pull image from DockerHub
+        run: 
+          # docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+          docker pull "romi293/java_github_actions:37.0.0"
 
-  #     - name: Start Docker container
-  #       run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+      - name: Start Docker container
+        # run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
+        run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:37.0.0"
 
-  #     - name: Check if container is running
-  #       run: docker ps -a | grep maven-app
+      - name: Check if container is running
+        run: docker ps -a | grep maven-app
       
-  #     - name: Display Docker container logs
-  #       run: docker logs maven-app
+      - name: Display Docker container logs
+        run: docker logs maven-app  
+
+########################################################
+
+  container-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update && sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update && sudo apt-get install -y trivy
+
+    - name: Scan Docker Image
+      run: |
+        trivy image romi293/java_github_actions:37.0.0
 
 ########################################################
 
