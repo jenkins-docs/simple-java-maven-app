@@ -82,10 +82,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v1
         env:
           SONAR_TOKEN: 'squ_281117b509186ba1438e9b68a4d466a4c9a595ad'
-        with:
-          args: |
-            -Dsonar.projectKey=sonar-analysis
-            -Dsonar.host.url=http://3.79.104.221:9000
+          SONAR_HOST_URL: 'http://3.79.104.221:9000'
 
       - name: Build Docker Image
         run: |
