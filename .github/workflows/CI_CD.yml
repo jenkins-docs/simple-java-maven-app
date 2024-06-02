@@ -77,48 +77,7 @@ jobs:
   #################################################################
 
     
-  # static-code-analysis:
-  #   if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v2
-      
-  #   - name: Set up JDK 11
-  #     uses: actions/setup-java@v2
-  #     with:
-  #       java-version: '11'
-  #       distribution: 'adopt'
-
-  #   - name: Cache SonarCloud scanner
-  #     id: cache-sonar-scanner
-  #     uses: actions/cache@v2
-  #     with:
-  #       path: ~/.sonar/scanner
-  #       key: ${{ runner.os }}-sonar-scanner
-  #       restore-keys: |
-  #         ${{ runner.os }}-sonar-scanner
-
-  #   - name: Install SonarCloud scanner
-  #     if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-  #     run: |
-  #       curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-  #       mkdir -p ~/.sonar/scanner
-  #       unzip -o sonar-scanner.zip -d ~/.sonar/scanner
-  #       echo 'export PATH=$PATH:~/.sonar/scanner/sonar-scanner-4.6.2.2472-linux/bin' >> $GITHUB_ENV
-
-  #   - name: Build and analyze
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #     run: |
-  #       mvn clean verify sonar:sonar \
-  #       # -Dsonar.projectKey=my-project-key \
-  #       # -Dsonar.organization=my-organization \
-  #       -Dsonar.host.url=https://sonarcloud.io \
-  #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-    
+  # static-code-analysis: ## done with integration with SonarCloud  
 
 
   #################################################################
@@ -195,8 +154,8 @@ jobs:
           NEW_VERSION=${{ needs.versioning.outputs.new_version }}
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           echo "New Version: $NEW_VERSION"
-          # docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
-          docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
+          docker build --build-arg VERSION_NUMBER=${{ needs.versioning.outputs.new_version }} -t "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" .        
+          # docker build --build-arg VERSION_NUMBER=${{ env.NEW_VERSION }} -t "romi293/java_github_actions:${NEW_VERSION}" .
           
       - name: Publish to DockerHub
         run: |
