@@ -62,6 +62,7 @@ jobs:
           fi
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          git add .
           git commit -am "Bump version to $NEW_VERSION"
           git push origin $BRANCH
           mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
