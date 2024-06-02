@@ -60,13 +60,12 @@ jobs:
             echo "::error::Unsupported branch"
             exit 1
           fi
+          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add .
           git commit -am "Bump version to $NEW_VERSION"
           git push origin $BRANCH
-          mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Install OWASP Dependency-Check
