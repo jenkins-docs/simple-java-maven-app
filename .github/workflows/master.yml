@@ -97,9 +97,8 @@ jobs:
           echo $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE > ~/.docker/trust/private/root.pass
           echo $NOTARY_GUN_KEY > ~/.docker/trust/private/gun.key
           export DOCKER_CONTENT_TRUST=1
-          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-          docker trust sign $DOCKER_USERNAME/my-app:latest
-          docker trust sign $DOCKER_USERNAME/my-app:${{ env.version }}
+          docker login -u ${{ secrets.DOCKER_EMAIL }} -p ${{ secrets.DOCKER_HUB }}
+          docker trust sign simple-java-maven-app:latest 
 
       - name: Push Docker Image
         run: |
