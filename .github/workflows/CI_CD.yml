@@ -235,10 +235,10 @@ jobs:
         env:
           DOCKER_CONTENT_TRUST: 1
           DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKERHUB_TOKEN }}
-          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PUBLIC_KEY }}
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DCT_PRIVATE_KEY }}
         
         run: |
-          docker build -t romi293/java_github_actions:37.0.0 .
+          # docker build -t romi293/java_github_actions:37.0.0 .
           docker trust sign romi293/java_github_actions:37.0.0
           docker push romi293/java_github_actions:37.0.0
 
