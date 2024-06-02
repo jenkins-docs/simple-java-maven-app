@@ -1,6 +1,7 @@
 FROM maven:3.8.6-openjdk-11 AS builder
 ARG RUN_NUMBER
-ENV RUN_NUMBER=${RUN_NUMBER} 
+ENV RUN_NUMBER=${RUN_NUMBER}
+WORKDIR /app 
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -Dmaven.test.skip=true && ls -l target/
