@@ -53,11 +53,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Install Snyk
-        run: npm install -g snyk
+      # - name: Install Snyk
+      #   run: npm install -g snyk
 
-      - name: Authenticate Snyk
-        run: snyk auth -d ${{ secrets.SNYK_TOKEN }}
+      # - name: Authenticate Snyk
+      #   run: snyk auth -d ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk Dockerfile Scan
         run: snyk test --dockerfile-path=Dockerfile
