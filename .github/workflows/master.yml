@@ -85,7 +85,7 @@ jobs:
       - name: Sign Docker Image
         if: success()
         run: |
-          mkdir -p ~/.docker/trust/private
+          mkdir -p ~/.docker/trust/private 
           cp ${{ env.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }} ~/.docker/trust/private/
           cp ${{ env.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }} ~/.docker/trust/private/
 	      cp ${{ env.NOTARY_GUN_KEY }} ~/.docker/trust/private/
