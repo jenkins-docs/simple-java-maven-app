@@ -150,8 +150,6 @@ jobs:
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
           docker tag "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}" "romi293/java_github_actions:latest"
           docker push "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          # docker tag "romi293/java_github_actions:37.0.0" "romi293/java_github_actions:37.0.0"
-          #docker push "romi293/java_github_actions:37.0.0"
       
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.5.0  
@@ -162,8 +160,8 @@ jobs:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:37.0.0
-          # cosign verify romi293/java_github_actions:37.0.0
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}
+          cosign verify romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}
 
        
 ########################################################
@@ -175,12 +173,10 @@ jobs:
     steps:
       - name: Pull image from DockerHub
         run: 
-          # docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-          docker pull "romi293/java_github_actions:37.0.0"
+          docker pull "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
 
       - name: Start Docker container
-        # run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
-        run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:37.0.0"
+        run: docker run -d -p 8080:8080 --name maven-app "romi293/java_github_actions:${{ needs.versioning.outputs.new_version }}"
 
       - name: Check if container is running
         run: docker ps -a | grep maven-app
