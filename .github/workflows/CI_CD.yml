@@ -227,7 +227,7 @@ jobs:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
         run: |
           
-          cosign sign --key ${{ secrets.COSIGN_KEY }} romi293/java_github_actions:37.0.0
+          cosign sign --key "${{ secrets.COSIGN_KEY }}" romi293/java_github_actions:37.0.0
           cosign verify romi293/java_github_actions:37.0.0
 
       # - name: Sign
