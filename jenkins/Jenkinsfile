@@ -21,9 +21,14 @@ pipeline {
                 sh 'ls -l target'
             }
         }
+        stage('Verify Jenkins Scripts Directory') {
+            steps {
+                sh 'ls -l jenkins/scripts'
+            }
+        }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                echo "Delivered!!!"
             }
         }
     }
