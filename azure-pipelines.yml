@@ -13,6 +13,10 @@ variables:
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
   
 steps:
+- script: |
+    mkdir /home/vsts/.m2/repository/com/fortify/cloudscan/plugins/maven/project-spec-maven-plugin/23.2.1.0010
+    cp /opt/hostedtoolcache/scancentral/23.2.1/x64/Core/lib/project-spec-maven-plugin-23.2.1.0010.jar /home/vsts/.m2/repository/com/fortify/cloudscan/plugins/maven/project-spec-maven-plugin/23.2.1.0010/project-spec-maven-plugin-23.2.1.0010.jar
+    cp /opt/hostedtoolcache/scancentral/23.2.1/x64/Core/resources/scancentral/maven-plugin/pom.xml /home/vsts/.m2/repository/com/fortify/cloudscan/plugins/maven/project-spec-maven-plugin/23.2.1.0010/project-spec-maven-plugin-23.2.1.0010.pom
 - task: FortifyOnDemandStatic@9
   inputs:
     FortifyProjects: '$(Build.SourcesDirectory)'
