@@ -15,7 +15,7 @@ steps:
     FortifyProjects: '$(Build.SourcesDirectory)'
     FodConnection: 'fod'
     ReleaseOptions: '0'
-    ReleaseId: 1234
+    ReleaseId: 143395
     EntitlementSelection: '1'
     EntitlementPreference: '2'
     OverrideScanSettings: '2'
