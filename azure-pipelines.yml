@@ -22,5 +22,5 @@ steps:
     InProgressScanActionType: '1'
     RemediationScanPreference: '0'
     BuildType: 'mvn'
-    BuildCommand: 'clean verify'
+    BuildCommand: 'clean verify -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     PolicyFailAction: '1'
