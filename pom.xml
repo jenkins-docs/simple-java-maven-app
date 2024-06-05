@@ -72,4 +72,26 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <db.script>mysql</db.script>
+                <jpa.database>MYSQL</jpa.database>
+                <jdbc.driverClassName>com.mysql.cj.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://localhost:3306/petclinic?useUnicode=true</jdbc.url>
+                <jdbc.username>petclinic</jdbc.username>
+                <jdbc.password>petclinic</jdbc.password>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql-driver.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+  </profiles>
 </project>
