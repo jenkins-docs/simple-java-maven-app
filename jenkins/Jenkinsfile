@@ -16,6 +16,11 @@ pipeline {
                 }
             }
         }
+        stage('Verify Target Directory') {
+            steps {
+                sh 'ls -l target'
+            }
+        }
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
