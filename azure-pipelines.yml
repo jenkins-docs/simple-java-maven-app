@@ -1,0 +1,26 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: FortifyOnDemandStatic@9
+  inputs:
+    FortifyProjects: '$(Build.SourcesDirectory)'
+    FodConnection: 'fod'
+    ReleaseOptions: '0'
+    ReleaseId: 1234
+    EntitlementSelection: '1'
+    EntitlementPreference: '2'
+    OverrideScanSettings: '2'
+    InProgressScanActionType: '1'
+    RemediationScanPreference: '0'
+    BuildType: 'mvn'
+    BuildCommand: 'clean verify'
+    PolicyFailAction: '1'
