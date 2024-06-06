@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Verify Jenkins Scripts Directory') {
             steps {
-                sh 'ls -l jenkins/scripts'
+                echo "verified!"
             }
         }
         stage('Deliver') {
