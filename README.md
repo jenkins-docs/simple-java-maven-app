@@ -14,7 +14,7 @@ you'll be creating yourself during the tutorial and the `jenkins/scripts` subdir
 contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
 # 
----- 
+----  
 
 # Email Notification
 There are 2 plugins to send email notification. Email Notification and Extended Email. We will prefer to use Email extended as it provides more features and control on Email notification.
