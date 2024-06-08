@@ -27,12 +27,16 @@ To generate google app password, we need to enable 2 MFA. Please follow below st
 
 ```
 - Navigate to Google account --> Profile Pic --> Manage Account
+
 - Select Security and Enable 2 factor authentication if you have not done it
 	○ You can follow instruction and choose different option instead of phone number
 	○ It will give you option to prompt on your device after login
 	○ If you device doesn't appear on page, then Add your google account in your mobile phone
+
 - Once 2MFA is enable navigate back to security Tab and click on 2 Step Verification in Right Pane
+
 - On bottom of the page you will find App Password
+
 - Create a new App password for Jenkins
 ```
 ## Setup Jenkins Email Extended Plugin
