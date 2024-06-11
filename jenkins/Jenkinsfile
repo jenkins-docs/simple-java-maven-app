@@ -28,7 +28,7 @@ pipeline {
         }
         stage("Satge 6") {
             steps {
-                echo "Completed  the job 11.6"
+                echo "Completed  the job 11.6.2024"
             }
         }
     }
