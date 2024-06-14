@@ -1,30 +1,49 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
+
+    agent any
+
+    tools {
+        maven "Maven"
     }
+
+    triggers {
+        pollSCM "* * * * *"
+    }
+    
+    options {
+        timestamps()
+        ansiColor("xterm")
+    }
+
+    parameters {
+        booleanParam(name: "RELEASE",
+                description: "Build a release from current commit.",
+                defaultValue: false)
+    }
+
     stages {
-        stage('Build') {
+
+        stage("Build & Deploy SNAPSHOT") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh "mvn -B deploy"
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+
+        stage("Release") {
+            when {
+                expression { params.RELEASE }
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+            steps {
+                sh "mvn -B release:prepare"
+                sh "mvn -B release:perform"
             }
         }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
+
+    }
+
+    post {
+        always {
+            deleteDir()
         }
     }
 }
