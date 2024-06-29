@@ -21,10 +21,11 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('job finished'){
+        stage('Extra Branch'){
             steps{
-                echo 'Job done successfully'
+                echo 'Branch exectuted'
             }
         }
+        
     }
 }
