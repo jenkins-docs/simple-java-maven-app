@@ -1,6 +1,10 @@
 pipeline {
     agent any
     stages {
+        stage('display hostname') {
+            steps {
+                hostname
+            }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
