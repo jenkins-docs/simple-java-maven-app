@@ -4,7 +4,12 @@ pipeline {
         stage('display hostname') {
             steps {
                 sh "hostname"
-                sh "cat /etc/os-release"
+            }
+        }
+
+        stage('display OS version') {
+            steps {
+               sh "cat /etc/os-release"
             }
         }
         
