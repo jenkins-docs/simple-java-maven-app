@@ -6,7 +6,9 @@ pipeline {
                 hostname
             }
         }
-        post{
+        
+    }
+    post{
             success{
                 echo "Job succeeded"
             }
@@ -14,5 +16,4 @@ pipeline {
                 echo "Jib failed"
             }
         }
-    }
 }
