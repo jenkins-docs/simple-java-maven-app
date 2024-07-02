@@ -6,7 +6,7 @@ pipeline {
                 hostname
             }
         }
-        stage('tttttttt') {
+        stage('test echo') {
             steps {
                 hostname
             }
