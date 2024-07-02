@@ -6,11 +6,7 @@ pipeline {
                 hostname
             }
         }
-        stage('display directory file') {
-            steps {
-                ls
-            }
-        }
+
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
