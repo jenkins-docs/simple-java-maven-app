@@ -6,6 +6,11 @@ pipeline {
                 hostname
             }
         }
+        stage('tttttttt') {
+            steps {
+                hostname
+            }
+        }
 
         stage('Build') {
             steps {
