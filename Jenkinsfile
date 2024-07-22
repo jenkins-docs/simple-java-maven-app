@@ -2,7 +2,13 @@ pipeline {
     agent any
       tools {
         maven 'maven-3.9' 
+    } 
+
+    triggers {
+        pollSCM('* * * * *') // This is a fallback polling trigger, if webhooks fail
     }
+
+
     stages {
         stage('Building Jar') {
             steps {
