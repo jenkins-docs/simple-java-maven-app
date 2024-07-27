@@ -25,9 +25,9 @@ pipeline {
             }
             steps {
                 echo 'Building Docker Image'
-                  sh 'docker build  -t 3.106.188.234:8082/my-app:1.0 .'
-                  sh "docker login -u  $SERVICE_CREDS_USR -p $SERVICE_CREDS_PSW  3.106.188.234:8082" 
-                  sh 'docker push 3.106.188.234:8082/my-app:1.0'
+    sh 'docker build  -t 13.239.57.69:8082/my-app:1.0 .'
+    sh "docker login -u  $SERVICE_CREDS_USR -p $SERVICE_CREDS_PSW  3.106.188.234:8082"
+    sh 'docker push 13.239.57.69:8082/my-app:1.0'
                
             }
         }
