@@ -1,35 +1,34 @@
-pipeline{
- 
- agent any
+pipeline {
+    agent any
 
     tools {
         maven 'maven-3.9'
         jdk 'java'
     }
 
-stages {
+    stages {
         stage('Fetch Code') {
             steps {
-               git credentialsId: 'githhub', branch: 'master', url: 'https://github.com/usarvesh1994/simple-java-maven-app.git'
+                git credentialsId: 'github', branch: 'master', url: 'https://github.com/usarvesh1994/simple-java-maven-app.git'
             }
         }
 
-        stage('Build Phase'){
+        stage('Build Phase') {
             steps {
-            sh 'mvn install'
+                sh 'mvn install'
             }
             post {
-                success{
+                success {
                     echo 'Archiving...'
-                    archiveArtifacts artifacts: '**/*.jar'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }
             }
         }
 
-        stage('unit testing'){
-        steps {
-            sh 'mvn test'
+        stage('Unit Testing') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
-} -
+}
