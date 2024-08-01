@@ -2,14 +2,13 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven-3.9'
-        jdk 'java'
+        maven 'maven-3.9' 
     }
 
     stages {
         stage('Fetch Code') {
             steps {
-                git credentialsId: 'github', branch: 'master', url: 'https://github.com/usarvesh1994/simple-java-maven-app.git'
+                git credentialsId: 'githhub', branch: 'master', url: 'https://github.com/usarvesh1994/simple-java-maven-app.git'
             }
         }
 
@@ -30,5 +29,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
+
+  stage('Code Checkstyle Analysis') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+
     }
 }
