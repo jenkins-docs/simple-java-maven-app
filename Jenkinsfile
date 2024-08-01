@@ -1,35 +1,35 @@
-pipeline {
-    agent any
-      tools {
-        maven 'maven-3.9' 
-    } 
+pipeline{
+ 
+ agent any
 
-    triggers {
-        pollSCM('* * * * *') // This is a fallback polling trigger, if webhooks fail
+    tools {
+        maven 'maven-3.9'
+        jdk 'java'
     }
 
-
-    stages {
-        stage('Building Jar') {
+stages {
+        stage('Fetch Code') {
             steps {
-                echo 'Building Jar'
-                sh 'mvn package'
-
-               
+               git credentialsId: 'githhub', branch: 'master', url: 'https://github.com/usarvesh1994/simple-java-maven-app.git'
             }
         }
 
-         stage('Building image') {
-            environment {
-                SERVICE_CREDS = credentials('nexus')
-            }
+        stage('Build Phase'){
             steps {
-                echo 'Building Docker Image'
-    sh 'docker build  -t 13.239.57.69:8082/my-app:1.0 .'
-    sh "docker login -u  $SERVICE_CREDS_USR -p $SERVICE_CREDS_PSW  13.239.57.69:8082"
-    sh 'docker push 13.239.57.69:8082/my-app:1.0'
-               
+            sh 'mvn install'
+            }
+            post {
+                success{
+                    echo 'Archiving...'
+                    archiveArtifacts artifacts: '**/*.jar'
+                }
+            }
+        }
+
+        stage('unit testing'){
+        steps {
+            sh 'mvn test'
             }
         }
     }
-}
+} -
