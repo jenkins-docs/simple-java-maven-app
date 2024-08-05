@@ -25,7 +25,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Use a smaller base image to run the application
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jdk-alpine
 
 # Set the working directory
 WORKDIR /app
