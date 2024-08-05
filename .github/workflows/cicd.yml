@@ -19,6 +19,11 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Set up Maven
+      uses: actions/setup-java@v4
+      with:
+        maven-version: '3.9.2'
+
     - name: Update version
       id: update_version
       run: |
