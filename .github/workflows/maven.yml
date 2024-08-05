@@ -27,22 +27,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Bump version
+      - name: Bump patch version in pom.xml
         id: bump-version
         run: |
           echo "Bumping patch version..."
-          version=$(cat version.txt)
-          IFS='.' read -r -a parts <<< "$version"
-          parts[2]=$((parts[2] + 1))
-          new_version="${parts[0]}.${parts[1]}.${parts[2]}"
-          echo $new_version > version.txt
-          echo "New version: $new_version"
-          echo "version=$new_version" >> $GITHUB_ENV
+          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. -v OFS=. '{$NF++;print}')
+          NEW_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Build JAR file
         run: |
-          mvn versions:set -DnewVersion=$GITHUB_ENV.version
           mvn clean package -DskipTests
+
 
       - name: Build Docker image
         run: |
