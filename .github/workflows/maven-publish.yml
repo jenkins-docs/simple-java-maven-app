@@ -63,7 +63,7 @@ jobs:
     - name: Get the current version
       id: get_version
       run: |
-        VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+        VERSION=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null)
         if [ -z "$VERSION" ]; then
           VERSION="0.0.0"
         fi
