@@ -97,7 +97,7 @@ jobs:
         echo "EC2_HOST: ${EC2_HOST}"
         echo "NEW_VERSION: ${NEW_VERSION}"
         echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
-        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} << 'EOF'
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
           echo "Pulling Docker image: ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}"
           docker pull ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}
           if [ $(docker ps -q -f name=my-app) ]; then
