@@ -19,6 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Set up Maven
+        uses: sreesk/setup-maven@v1
+        with:
+          maven-version: '3.9.2' 
+          
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
@@ -39,7 +44,6 @@ jobs:
       - name: Build JAR file
         run: |
           mvn clean package -DskipTests
-
 
       - name: Build Docker image
         run: |
