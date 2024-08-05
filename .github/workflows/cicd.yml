@@ -87,19 +87,24 @@ jobs:
       env:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
+        NEW_VERSION: ${{ env.new_version }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       run: |
         mkdir -p ~/.ssh
         echo "${EC2_SSH_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${EC2_HOST} >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
-          echo "Pulling Docker image: ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}"
-          docker pull ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
+        echo "EC2_HOST: ${EC2_HOST}"
+        echo "NEW_VERSION: ${NEW_VERSION}"
+        echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} << 'EOF'
+          echo "Pulling Docker image: ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}"
+          docker pull ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}
           if [ $(docker ps -q -f name=my-app) ]; then
             echo "Stopping and removing existing container"
             docker stop my-app && docker rm my-app
           else
             echo "No existing container to stop and remove"
           fi
-          docker run -d --name my-app -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
+          docker run -d --name my-app -p 80:8080 ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}
         EOF
