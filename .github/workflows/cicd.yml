@@ -93,7 +93,7 @@ jobs:
         echo "${EC2_SSH_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${EC2_HOST} >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} << 'EOF'
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
           docker pull ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
           docker stop my-app || true
           docker rm my-app || true
