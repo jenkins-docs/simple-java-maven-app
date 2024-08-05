@@ -3,8 +3,7 @@ name: Maven Package
 on:
   push:
     branches:
-      - master
-      - '**'
+      - main
 
 jobs:
   build:
@@ -49,32 +48,29 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Bump version and push tag
-      id: bump_version
-      run: |
-        VERSION=$(cat VERSION)
-        echo "Current version: $VERSION"
-        MAJOR=$(echo $VERSION | cut -d. -f1)
-        MINOR=$(echo $VERSION | cut -d. -f2)
-        PATCH=$(echo $VERSION | cut -d. -f3)
-        NEW_MINOR=$((MINOR + 1))
-        NEW_VERSION="$MAJOR.$NEW_MINOR.$PATCH"
-        echo "New version: $NEW_VERSION"
-        echo $NEW_VERSION > VERSION
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git add VERSION
-        git commit -m "Bump version to $NEW_VERSION"
-        git tag $NEW_VERSION
-        git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
-        git push origin master --tags
-        echo "::set-output name=NEW_VERSION::$NEW_VERSION"
-      env:
-        GH_PAT: ${{ secrets.GH_PAT }}
+    - name: Extract version from git tags
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        flavor: |
+          latest=true
+          prefix=refs/tags/
+          sort=semver
+        tags: |
+          type=semver,pattern={{version}}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/my-app:latest,${{ secrets.DOCKER_USERNAME }}/my-app:${{ steps.bump_version.outputs.NEW_VERSION }}
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/my-app:latest
+          ${{ secrets.DOCKER_USERNAME }}/my-app:${{ steps.meta.outputs.version }}
+
+    - name: Tag and push new version
+      run: |
+        git tag -a "${{ steps.meta.outputs.version }}" -m "Release ${{ steps.meta.outputs.version }}"
+        git push origin "${{ steps.meta.outputs.version }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
