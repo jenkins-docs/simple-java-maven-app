@@ -3,7 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -18,12 +21,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Set up Maven
-        uses: sreesk/setup-maven@v1
-        with:
-          maven-version: '3.9.2' 
           
+      - name: Set up Maven
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'maven'
+          maven-version: '3.9.2' # Specify the required Maven version
+
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
