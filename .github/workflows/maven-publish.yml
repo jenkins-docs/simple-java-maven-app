@@ -66,8 +66,11 @@ jobs:
         git add VERSION
         git commit -m "Bump version to $NEW_VERSION"
         git tag $NEW_VERSION
-        git push https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }} master --tags
+        git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
+        git push origin master --tags
         echo "::set-output name=NEW_VERSION::$NEW_VERSION"
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
