@@ -70,7 +70,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Tag Docker image
+        run: |
+          docker tag myapp:${{ env.version }} ${{ secrets.DOCKER_USERNAME }}/myapp:${{ env.version }}
+
       - name: Push Docker image to Docker Hub
         run: |
-          docker tag myapp:$GITHUB_ENV.version ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV.version
-          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV.version
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ env.version }}
