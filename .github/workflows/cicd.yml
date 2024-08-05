@@ -41,6 +41,8 @@ jobs:
         NEW_VERSION=$(echo $VERSION | sed "s/$PATCH\$/$NEW_PATCH/")
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         echo "NEW_VERSION: $NEW_VERSION" # Debugging line to check the value of NEW_VERSION
+        # Update the version in pom.xml
+        mvn versions:set -DnewVersion=$NEW_VERSION
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
@@ -71,30 +73,31 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "Update version to ${{ env.new_version }}"
+        git add pom.xml
+        git commit -m "Update version to ${{ env.new_version }}"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Deploy to EC2
-      env:
-        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-        NEW_VERSION: ${{ env.new_version }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: Deploy Docker Image
       run: |
         mkdir -p ~/.ssh
-        echo "${EC2_SSH_KEY}" > ~/.ssh/id_rsa
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${EC2_HOST} >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
-          echo "Pulling Docker image: ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}"
-          docker pull ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}
+        ssh -o StrictHostKeyChecking=no -i "~/.ssh/id_rsa" ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker pull ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
           if [ $(docker ps -q -f name=my-app) ]; then
             echo "Stopping and removing existing container"
             docker stop my-app && docker rm my-app
           else
             echo "No existing container to stop and remove"
           fi
-          docker run -d --name my-app -p 80:8080 ${DOCKER_USERNAME}/simple-java-maven-app:${NEW_VERSION}
+          docker run -d --name my-app -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
         EOF
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        NEW_VERSION: ${{ env.new_version }}
