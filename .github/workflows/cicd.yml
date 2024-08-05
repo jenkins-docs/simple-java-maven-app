@@ -46,6 +46,12 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Deploy to GitHub Packages
+      run: mvn deploy -s .github/maven-settings.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_ACTOR: ${{ github.actor }}
+
     - name: Commit and push new version
       run: |
         git config --global user.name 'github-actions[bot]'
