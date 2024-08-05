@@ -19,10 +19,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Maven
-        uses: maven-actions/setup-maven@v1
-        with:
-          maven-version: '3.9.2' # Specify the required Maven version
+      - name: Install Maven
+        run: |
+          wget https://downloads.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
+          tar -xzf apache-maven-3.9.2-bin.tar.gz
+          sudo mv apache-maven-3.9.2 /usr/local/apache-maven
+          sudo ln -s /usr/local/apache-maven/bin/mvn /usr/bin/mvn
+          mvn -v
 
       - name: Cache Maven packages
         uses: actions/cache@v2
