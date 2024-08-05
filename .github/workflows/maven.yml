@@ -3,7 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -16,15 +19,16 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
-      
-      - name: Set up Maven
-        uses: actions/setup-java@v2
-        with:
           distribution: 'temurin'
           java-version: '17'
-          cache: maven
 
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Bump version
         id: bump-version
@@ -49,8 +53,11 @@ jobs:
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker tag myapp:$GITHUB_ENV.version lalush123/myapp:$GITHUB_ENV.version
+          docker tag myapp:$GITHUB_ENV.version ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV.version
           docker push ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV.version
