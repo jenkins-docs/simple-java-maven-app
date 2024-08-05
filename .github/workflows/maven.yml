@@ -18,13 +18,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Install Maven
+      
+      
+      - name: Install Maven 3.9.2
         run: |
-          wget https://downloads.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
-          tar -xzf apache-maven-3.9.2-bin.tar.gz
-          sudo mv apache-maven-3.9.2 /usr/local/apache-maven
-          sudo ln -s /usr/local/apache-maven/bin/mvn /usr/bin/mvn
+          MAVEN_VERSION=3.9.2
+          wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
+          tar -xvzf apache-maven-$MAVEN_VERSION-bin.tar.gz
+          sudo mv apache-maven-$MAVEN_VERSION /opt/maven
+          if [ -L /usr/bin/mvn ]; then sudo rm /usr/bin/mvn; fi
+          sudo ln -s /opt/maven/bin/mvn /usr/bin/mvn
           mvn -v
 
       - name: Cache Maven packages
