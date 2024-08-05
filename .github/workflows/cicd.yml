@@ -25,6 +25,7 @@ jobs:
         wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
         tar xzvf apache-maven-$MAVEN_VERSION-bin.tar.gz
         sudo mv apache-maven-$MAVEN_VERSION /opt/maven
+        sudo rm -f /usr/bin/mvn  # Remove existing symbolic link if it exists
         sudo ln -s /opt/maven/bin/mvn /usr/bin/mvn
       env:
         JAVA_HOME: ${{ steps.setup-java.outputs.java-home }}
