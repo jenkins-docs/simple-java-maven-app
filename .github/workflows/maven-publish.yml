@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - '**' # This will trigger the workflow for pushes to any branch
+      - '**' 
 
 jobs:
   build:
