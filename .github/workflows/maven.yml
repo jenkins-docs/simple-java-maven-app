@@ -18,11 +18,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          
+
       - name: Set up Maven
-        uses: actions/setup-java@v2
+        uses: maven-actions/setup-maven@v1
         with:
-          distribution: 'maven'
           maven-version: '3.9.2' # Specify the required Maven version
 
       - name: Cache Maven packages
