@@ -3,7 +3,7 @@ name: Maven Package
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -75,4 +75,3 @@ jobs:
         git push origin "${{ steps.meta.outputs.version }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#dd
