@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - '**'
 
 jobs:
   build:
@@ -53,10 +52,11 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
+        images: ${{ secrets.DOCKER_USERNAME }}/my-app
         flavor: |
           latest=true
-          prefix=refs/tags/
-          sort=semver
+        prefix: refs/tags/
+        sort: semver
         tags: |
           type=semver,pattern={{version}}
 
