@@ -1,13 +1,18 @@
-# Use an official OpenJDK image as a parent image
+# Use an official OpenJDK image as a parent image for the build stage
 FROM openjdk:17-jdk-slim AS build
 
-# Install Maven 3.9.2
+# Set Maven version
 ENV MAVEN_VERSION=3.9.2
+
+# Install Maven 3.9.2 and clean up
 RUN apt-get update && \
     apt-get install -y wget && \
     wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
     tar xzvf apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt && \
-    ln -s /opt/apache-maven-$MAVEN_VERSION/bin/mvn /usr/bin/mvn
+    ln -s /opt/apache-maven-$MAVEN_VERSION/bin/mvn /usr/bin/mvn && \
+    rm -f apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
@@ -19,8 +24,8 @@ COPY src ./src
 # Build the application
 RUN mvn clean package
 
-# Use an official OpenJDK image to run the application
-FROM openjdk:17-jdk-slim
+# Use a smaller base image to run the application
+FROM openjdk:17-jre-slim
 
 # Set the working directory
 WORKDIR /app
