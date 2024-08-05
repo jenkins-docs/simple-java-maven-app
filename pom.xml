@@ -72,4 +72,10 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/${{ secrets.GITHUB_REPOSITORY }}</url>
+    </repository>
+  </distributionManagement>
 </project>
