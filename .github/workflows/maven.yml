@@ -17,12 +17,14 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-
+      
       - name: Set up Maven
         uses: actions/setup-java@v2
         with:
-          distribution: 'maven'
-          maven-version: '3.8.1'
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
 
       - name: Bump version
         id: bump-version
