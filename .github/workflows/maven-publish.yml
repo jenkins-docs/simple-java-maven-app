@@ -3,7 +3,7 @@ name: Maven Package
 on:
   push:
     branches:
-      - main
+      - master
       - '**'
 
 jobs:
@@ -66,7 +66,8 @@ jobs:
         git add VERSION
         git commit -m "Bump version to $NEW_VERSION"
         git tag $NEW_VERSION
-        git push origin main --tags
+        git push origin master --tags
+        echo "::set-output name=NEW_VERSION::$NEW_VERSION"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
