@@ -3,7 +3,7 @@ name: Maven Package
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -53,12 +53,13 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: ${{ secrets.DOCKER_USERNAME }}/my-app
-        flavor: |
-          latest=true
+        flavor: latest=true
         prefix: refs/tags/
         sort: semver
-        tags: |
-          type=semver,pattern={{version}}
+        tags: type=semver,pattern={{version}}
+
+    - name: Print extracted version
+      run: echo "Extracted version is ${{ steps.meta.outputs.version }}"
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
