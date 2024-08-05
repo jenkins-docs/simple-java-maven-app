@@ -73,7 +73,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/my-app:${{ steps.meta.outputs.version }}
 
       - name: Set git remote URL
-        run: git remote set-url origin https://<your-username>:<your-personal-access-token>@github.com/<your-username>/<your-repository>.git
+        run: git remote set-url origin https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/<your-repository>.git
 
       - name: Tag and push new version
         run: |
