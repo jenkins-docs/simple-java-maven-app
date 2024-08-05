@@ -19,10 +19,18 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Set up Maven
-      uses: actions/setup-java@v4
-      with:
-        maven-version: '3.9.2'
+    - name: Install Maven 3.9.2
+      run: |
+        MAVEN_VERSION=3.9.2
+        wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
+        tar xzvf apache-maven-$MAVEN_VERSION-bin.tar.gz
+        sudo mv apache-maven-$MAVEN_VERSION /opt/maven
+        sudo ln -s /opt/maven/bin/mvn /usr/bin/mvn
+      env:
+        JAVA_HOME: ${{ steps.setup-java.outputs.java-home }}
+
+    - name: Verify Maven version
+      run: mvn -version
 
     - name: Update version
       id: update_version
