@@ -25,15 +25,14 @@ jobs:
         wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
         tar xzvf apache-maven-$MAVEN_VERSION-bin.tar.gz
         sudo mv apache-maven-$MAVEN_VERSION /opt/maven
-        sudo rm -f /usr/bin/mvn  # Remove existing symbolic link if it exists
-        sudo ln -s /opt/maven/bin/mvn /usr/bin/mvn
+        sudo ln -sf /opt/maven/bin/mvn /usr/bin/mvn
       env:
         JAVA_HOME: ${{ steps.setup-java.outputs.java-home }}
 
     - name: Verify Maven version
       run: mvn -version
 
-    - name: Update version
+    - name: Update Maven version
       id: update_version
       run: |
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -46,25 +45,10 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Deploy to GitHub Packages
-      run: mvn deploy -s .github/maven-settings.xml
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_ACTOR: ${{ github.actor }}
-
-    - name: Commit and push new version
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "Update version to ${{ env.new_version }}"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: my-artifact
+        name: my-app-${{ env.new_version }}
         path: target/*.jar
 
     - name: Login to Docker Hub
@@ -74,9 +58,20 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and Push Docker Image
+      id: docker_build
       uses: docker/build-push-action@v4
       with:
         context: .
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ env.new_version }}
+
+    - name: Commit and push new version
+      if: success()
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -am "Update version to ${{ env.new_version }}"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
