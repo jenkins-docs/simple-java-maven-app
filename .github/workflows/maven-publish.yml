@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        server-id: github 
         settings-path: ${{ github.workspace }} 
 
     - name: Install Maven 3.9.2
