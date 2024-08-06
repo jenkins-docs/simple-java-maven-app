@@ -97,5 +97,5 @@ jobs:
             sudo docker rm myapp-container || true
 
             # Run the new Docker container
-            sudo docker run -d -p 80:8000 --name myapp-container your-dockerhub-username/myapp:latest
+            sudo docker run -d -p 80:8000 --name myapp-container ${{ secrets.DOCKER_USERNAME }}/myapp:${{ env.version }}
           EOF
