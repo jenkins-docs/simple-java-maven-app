@@ -90,50 +90,21 @@ The CI/CD pipeline consists of the following steps:
 6. **Build with Maven**:
     - Builds the project using Maven.
 
-7. **Deploy to GitHub Packages**:
-    - Deploys the built artifacts to GitHub Packages.
-
-8. **Commit and Push New Version**:
+7. **Commit and Push New Version**:
     - Commits the new version and pushes it to the repository.
 
-9. **Upload Artifact**:
-    - Uploads the built JAR file as an artifact.
+8. **Upload Artifact**:
+    - Uploads the built JAR file as an artifact with version tag.
 
-10. **Login to Docker Hub**:
+9. **Login to Docker Hub**:
     - Logs in to Docker Hub.
 
-11. **Build and Push Docker Image**:
+10. **Build and Push Docker Image**:
     - Builds and pushes the Docker image to Docker Hub.
 
-12. **Deploy Docker Image**:
+11. **Deploy Docker Image**:
     - Deploys the Docker image to an EC2 instance using SSH.
-
-## Usage
-
-### Local Development
-
-1. **Build the Project Locally**:
-    ```bash
-    mvn clean package
-    ```
-
-2. **Run the Application Locally**:
-    ```bash
-    java -jar target/my-app-1.0.0.jar
-    ```
-
-### Docker
-
-1. **Build Docker Image Locally**:
-    ```bash
-    docker build -t <your-docker-username>/simple-java-maven-app:latest .
-    ```
-
-2. **Run Docker Container Locally**:
-    ```bash
-    docker run -p 8080:8080 <your-docker-username>/simple-java-maven-app:latest
-    ```
 
 ## Conclusion
 
-This project showcases a complete CI/CD pipeline setup for a Java application using GitHub Actions, Maven, and Docker. The pipeline automates the build, test, version increment, deployment, and Docker image build and push processes, ensuring a streamlined and efficient development workflow.
+This project showcases a complete CI/CD pipeline setup for a Java application using GitHub Actions, Maven, and Docker. The pipeline automates the build, version increment, Docker image build and push processes, and the app deployment, ensuring a streamlined and efficient development workflow.
