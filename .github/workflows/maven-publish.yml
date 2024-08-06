@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature-branch
     tags:
       - 'v*.*.*'
 
@@ -43,7 +44,11 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
+      - name: Run Tests
+        run: mvn test
+
       - name: Publish to GitHub Packages Apache Maven
+        if: github.ref == 'refs/heads/master' && success()
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -67,10 +72,8 @@ jobs:
           sort: semver
           tags: type=semver,pattern={{version}}
 
-      - name: Print extracted version
-        run: echo "Extracted version is ${{ steps.meta.outputs.version }}"
-
       - name: Build and push Docker image
+        if: github.ref == 'refs/heads/master' && success()
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -83,10 +86,22 @@ jobs:
         run: git remote set-url origin https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/Java-Maven-App.git
 
       - name: Tag and push new version
+        if: github.ref == 'refs/heads/master' && success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "${{ steps.meta.outputs.version }}" -m "Release ${{ steps.meta.outputs.version }}"
           git push origin "${{ steps.meta.outputs.version }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - name: Merge to master if tests pass
+        if: github.ref == 'refs/heads/feature-branch' && success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout master
+          git merge feature-branch
+          git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
