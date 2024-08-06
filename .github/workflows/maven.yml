@@ -40,24 +40,26 @@ jobs:
             ${{ runner.os }}-maven-
       
       
-      - name: Bump patch version in pom.xml
-        id: bump-version
-        run: |
-          echo "Bumping patch version..."
-          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "Current version: $CURRENT_VERSION"
-          IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
-          PATCH_PART=${VERSION_PARTS[2]}
-          NEW_PATCH_PART=$((PATCH_PART + 1))
-          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$NEW_PATCH_PART"
-          echo "New version: $NEW_VERSION"
-          mvn versions:set -DnewVersion=$NEW_VERSION
-          echo "version=$NEW_VERSION" >> $GITHUB_ENV
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add pom.xml
-          git commit -m "Bump version to $NEW_VERSION"
-          git push origin HEAD:main
+    - name: Bump patch version in pom.xml
+      id: bump-version
+      run: |
+        echo "Bumping patch version..."
+        CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "Current version: $CURRENT_VERSION"
+        IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
+        PATCH_PART=${VERSION_PARTS[2]}
+        NEW_PATCH_PART=$((PATCH_PART + 1))
+        NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$NEW_PATCH_PART"
+        echo "New version: $NEW_VERSION"
+        mvn versions:set -DnewVersion=$NEW_VERSION
+        echo "version=$NEW_VERSION" >> $GITHUB_ENV
+
+    - name: Commit and push version change
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git commit -am "Bump version to ${{ env.version }}"
+        git push
 
 
       - name: Build JAR file
