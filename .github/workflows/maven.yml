@@ -53,6 +53,11 @@ jobs:
           echo "New version: $NEW_VERSION"
           mvn versions:set -DnewVersion=$NEW_VERSION
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add pom.xml
+          git commit -m "Bump version to $NEW_VERSION"
+          git push origin HEAD:main
 
 
       - name: Build JAR file
