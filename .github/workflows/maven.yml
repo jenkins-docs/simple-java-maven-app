@@ -3,10 +3,11 @@ on:
     types: [closed]
     branches:
       - master
-  
-jobs:
+
+      
+  jobs:
   build:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master' && github.event.pull_request.head.ref == 'develop'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
 
