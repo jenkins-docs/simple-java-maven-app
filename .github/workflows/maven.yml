@@ -1,10 +1,9 @@
-name: CI/CD Pipeline
-
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - master
-
+      - main
+      
 jobs:
   build:
     runs-on: ubuntu-latest
