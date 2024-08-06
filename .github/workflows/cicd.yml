@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "development" ]
 
 jobs:
   build:
@@ -47,6 +47,10 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Test with Maven
+      if: github.ref == 'refs/heads/development'
+      run: mvn test
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
@@ -80,6 +84,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy Docker Image
+      if: github.ref == 'refs/heads/main'
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
