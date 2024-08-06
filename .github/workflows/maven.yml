@@ -90,7 +90,7 @@ jobs:
           # Deploy script
           ssh -i private_key.pem -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             # Pull the latest Docker image
-            sudo docker pull your-dockerhub-username/myapp:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:${{ env.version }}
 
             # Stop and remove the old container if it exists
             sudo docker stop myapp-container || true
