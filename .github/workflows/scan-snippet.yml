@@ -15,7 +15,7 @@ jobs:
         run: |
           RESPONSE=$(curl -k -X POST -H "Authorization: token ${{ secrets.BLACK_DUCK_API_TOKEN }}" "${{ vars.BLACK_DUCK_URL }}/api/tokens/authenticate")
           BEARER_TOKEN=$(echo "${RESPONSE}" | jq -r '.bearerToken')
-          echo "BEARER_TOKEN=${BEARER_TOKEN}" >> $GITHUB_ENV 
+          echo "BEARER_TOKEN=${BEARER_TOKEN}" >> $GITHUB_ENV
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           echo "Requesting URL: $URL"
-          RESPONSE=$(curl -s -X GET -G -H "Authorization: token ${{ secrets.WORKFLOW_GIT_ACCESS_TOKEN }}" $URL)
+          RESPONSE=$(curl -s -X GET -G -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $URL)
           echo "API Response: $RESPONSE"
           FILES=$(echo "$RESPONSE" | jq -r '.[] | .filename' | tr '\n' ' ')
           echo "FILES=${FILES}" >> $GITHUB_ENV
