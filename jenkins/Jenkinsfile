@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.2'
-            args '-u jenkins'
+            args '-u root'
         }
     }
     stages {
