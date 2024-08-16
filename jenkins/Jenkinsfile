@@ -21,6 +21,11 @@ pipeline {
                 }
             }
         }
+        stage('Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
