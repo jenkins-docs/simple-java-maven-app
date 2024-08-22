@@ -32,17 +32,5 @@ pipeline {
                 sh  'docker build -t fhoward688/sample-java-app:v1 .'
             }
         }
-        stage('Docker login') {
-            steps {
-                echo 'Docker login'
-                sh  'docker login -u fhoward688 -p dysQaj-6kajzy-cezqyf'
             }
         }
-        stage('Docker push') {
-            steps {
-                echo 'Docker push'
-                sh  'docker push fhoward688/sample-java-app:v1'
-            }
-        }
-    }
-}
