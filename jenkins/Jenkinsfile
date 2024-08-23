@@ -9,6 +9,7 @@ pipeline {
                 }
             }            
             steps {
+                sh 'ip a'
                 sh 'mvn -B -DskipTests clean package'
             }
         }
