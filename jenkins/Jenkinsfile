@@ -13,6 +13,12 @@ pipeline {
             }
         }
         stage('Test') {
+            agent {
+                docker {
+                    image 'maven:3.9.2'
+                    args '-u root -v ./.m2/:/root/.m2'
+                }
+            }            
             steps {
                 sh 'mvn test'
             }
