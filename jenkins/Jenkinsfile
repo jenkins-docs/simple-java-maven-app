@@ -32,12 +32,4 @@ pipeline {
             }
         }
     }
-    agent {label 'master'}
-    stages {
-        stage("Copy") {
-            steps {
-                sh 'scp /var/lib/jenkins/workspace/simple-java-maven-app/target/my-app-1.0-SNAPSHOT.jar ubuntu@172.20.38.139:/home/ubuntu'
-            }
-        }
-    }
 }
