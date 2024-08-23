@@ -13,30 +13,3 @@ pipeline {
                 echo 'compiling'
                 sh 'mvn compile'
             }
-        }
-        stage('test') {
-            steps {
-                echo 'testing'
-                sh 'mvn test'
-            }
-        }
-        stage('package') {
-            steps {
-                echo 'packaging'
-                sh  'mvn package'
-            }
-        }
-        stage('Docker build') {
-            steps {
-                echo 'Docker build'
-                sh  'docker build -t fhoward688/sample-java-app:v1 .'
-            }
-        }
-        stage('Docker push') {
-            steps {
-                echo 'Docker push'
-                sh  'docker push fhoward688/calculator:v1'
-            }
-        }
-            }
-        }
