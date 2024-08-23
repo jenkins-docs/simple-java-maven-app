@@ -8,8 +8,5 @@ pipeline {
                 git 'https://github.com/Francis-88-cpu/simple-java-maven-app.git'
             }
         }
-        stage('compile') {
-            steps {
-                echo 'compiling'
-                sh 'mvn compile'
-            }
+    }
+}
