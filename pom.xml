@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging> <!-- Changed from jar to war -->
   <version>1.0-SNAPSHOT</version>
   <name>my-app</name>
   <url>https://maven.apache.org</url>
@@ -32,21 +32,17 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <!-- Removed maven-jar-plugin -->
+      
       <plugin>
-        <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version> <!-- Add the latest version -->
         <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>com.mycompany.app.App</mainClass>
-            </manifest>
-          </archive>
+          <!-- Configuration settings for the WAR plugin, if needed -->
         </configuration>
       </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -73,3 +69,4 @@
     </plugins>
   </build>
 </project>
+
