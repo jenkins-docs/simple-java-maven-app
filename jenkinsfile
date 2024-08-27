@@ -9,4 +9,28 @@ pipeline {
             }
         }
     }
+    stages {
+        stage('compiling') {
+            steps {
+                echo 'compile'
+                sh 'mvn compile'
+            }
+        }
+    }
+    stages {
+        stage('test') {
+            steps {
+                echo 'testing'
+                sh 'mvn test'
+            }
+        }
+    }
+    stages {
+        stage('package') {
+            steps {
+                echo 'package'
+                sh 'mvn package'
+            }
+        }
+    }
 }
