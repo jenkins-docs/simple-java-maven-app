@@ -11,10 +11,9 @@ jobs:
   build:
 
     runs-on: ubuntu-24.04
-
     steps:
-    - uses: actions/checkout@v4
     - name: Build the Docker image
+      uses: actions/checkout@v4
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
     - name: Login to Docker Hub
@@ -24,7 +23,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push
-    - uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v6
       with:
           push: true
           tags: ${{ vars.DOCKER_USERNAME }}/simple_maven:latest
