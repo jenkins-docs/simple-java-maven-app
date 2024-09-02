@@ -38,17 +38,11 @@ jobs:
           version=$(echo ${current_version} | awk -F'.' '{print $1"."$2"."$3+1}')
           echo "New version: $version"
           mvn versions:set -DnewVersion=$version
-          
+    
+    - name: deploy through terraform
+      uses: hashicorp/setup-terraform@v3
+      run: terraform init && terraform apply --auto-approve
+
     - name: Automated Maven Version Bump
       id: bump
       uses: mickem/gh-action-bump-maven-version@v1.0.0
-      
-    # - name: Commit and push version update
-    #   run: |
-    #       git config --local user.email "actions@github.com"
-    #       git config --local user.name "GitHub Actions"
-    #       git add pom.xml
-    #       git commit -m "Increment version to $version"
-    #       git push origin master
-    #   env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
