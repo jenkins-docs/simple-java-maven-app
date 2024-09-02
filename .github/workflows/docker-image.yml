@@ -3,7 +3,7 @@ name: simple_maven_pipeline
 on:
   push:
     branches:
-      - "main"
+      - "master"
 
 jobs:
   build:
