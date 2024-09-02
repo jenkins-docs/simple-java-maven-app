@@ -31,18 +31,23 @@ jobs:
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/simple_mav
 
-    - name: Get version
-      run: |
-          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "Current version: $current_version"
-          version=$(echo ${current_version} | awk -F'.' '{print $1"."$2"."$3+1}')
-          echo "New version: $version"
-          mvn versions:set -DnewVersion=$version
+ 
+    - name: terraform
+      uses: hashicorp/setup-terraform@v3
+    
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
     
     - name: deploy through terraform
-      uses: hashicorp/setup-terraform@v3
       run: terraform init && terraform apply --auto-approve
+
 
     - name: Automated Maven Version Bump
       id: bump
       uses: mickem/gh-action-bump-maven-version@v1.0.0
+      
+
