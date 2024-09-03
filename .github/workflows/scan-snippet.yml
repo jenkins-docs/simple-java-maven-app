@@ -11,12 +11,6 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - name: Fetch Bearer Token
-        run: |
-          RESPONSE=$(curl -k -X POST -H "Authorization: token ${{ secrets.BLACK_DUCK_API_TOKEN }}" "${{ vars.BLACK_DUCK_URL }}/api/tokens/authenticate")
-          BEARER_TOKEN=$(echo "${RESPONSE}" | jq -r '.bearerToken')
-          echo "BEARER_TOKEN=${BEARER_TOKEN}" >> $GITHUB_ENV
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -31,6 +25,12 @@ jobs:
           echo "API Response: $RESPONSE"
           FILES=$(echo "$RESPONSE" | jq -r '.[] | .filename' | tr '\n' ' ')
           echo "FILES=${FILES}" >> $GITHUB_ENV
+
+      - name: Fetch Bearer Token
+        run: |
+          RESPONSE=$(curl -k -X POST -H "Authorization: token ${{ secrets.BLACK_DUCK_API_TOKEN }}" "${{ vars.BLACK_DUCK_URL }}/api/tokens/authenticate")
+          BEARER_TOKEN=$(echo "${RESPONSE}" | jq -r '.bearerToken')
+          echo "BEARER_TOKEN=${BEARER_TOKEN}" >> $GITHUB_ENV
 
       - name: Query for snippet matches
         run: |
