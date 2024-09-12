@@ -15,9 +15,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Dependency Review
-      uses: actions/dependency-review-action@v4
+      uses: actions/dependency-review-action@v2
       with:
         fail-on-severity: critical
         allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
-        base-ref: ${{ github.event.pull_request.base.sha || 'main' }}
-        head-ref: ${{ github.event.pull_request.head.sha || github.ref }}
+        base-ref: ${{ github.event.push_request.base.sha || 'main' }}
+        head-ref: ${{ github.event.push_request.head.sha || github.ref }}
