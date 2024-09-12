@@ -13,41 +13,44 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v2
       
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # - name: Login to Docker Hub
+    #   uses: docker/login-action@v3
+    #   with:
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        file: Dockerfile
-        push: true
-        tags: |
-          ${{ secrets.DOCKER_USERNAME }}/simple_mav
+    # - name: Build and push Docker image
+    #   uses: docker/build-push-action@v6
+    #   with:
+    #     context: .
+    #     file: Dockerfile
+    #     push: true
+    #     tags: |
+    #       ${{ secrets.DOCKER_USERNAME }}/simple_mav
 
  
-    - name: terraform
-      uses: hashicorp/setup-terraform@v3
+    # - name: terraform
+    #   uses: hashicorp/setup-terraform@v3
     
-    - name: Set up AWS CLI
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+    # - name: Set up AWS CLI
+    #   uses: aws-actions/configure-aws-credentials@v2
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: ${{ secrets.AWS_REGION }}
     
-    - name: deploy through terraform
-      run: terraform init && terraform apply --auto-approve
+    # - name: deploy through terraform
+    #   run: terraform init && terraform apply --auto-approve
 
 
-    - name: Automated Maven Version Bump
-      id: bump
-      uses: mickem/gh-action-bump-maven-version@v1.0.0
+    # - name: Automated Maven Version Bump
+    #   id: bump
+    #   uses: mickem/gh-action-bump-maven-version@v1.0.0
+
+    - name: 'Dependency Review'
+      uses: actions/dependency-review-action@v4
       
 
