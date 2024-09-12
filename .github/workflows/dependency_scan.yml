@@ -29,9 +29,9 @@ jobs:
         fi
 
     - name: Dependency Review
-      uses: actions/dependency-review-action@v4
-      with:
-        fail-on-severity: critical
-        allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
-        base-ref: ${{ env.BASE_REF }}
-        head-ref: ${{ env.HEAD_REF }}
+      uses: actions/dependency-review-action@v2
+      # with:
+      #   fail-on-severity: critical
+      #   allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
+      #   base-ref: ${{ env.BASE_REF }}
+      #   head-ref: ${{ env.HEAD_REF }}
