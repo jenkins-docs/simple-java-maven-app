@@ -3,6 +3,8 @@ name: Dependency Review
 on:
   push:
     branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 permissions:
   contents: read
@@ -10,14 +12,26 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set up base-ref and head-ref
+      id: set_refs
+      run: |
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          echo "BASE_REF=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "HEAD_REF=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+        else
+          echo "BASE_REF=main" >> $GITHUB_ENV
+          echo "HEAD_REF=${{ github.ref_name }}" >> $GITHUB_ENV
+        fi
+
     - name: Dependency Review
-      uses: actions/dependency-review-action@v2
+      uses: actions/dependency-review-action@v4
       with:
         fail-on-severity: critical
         allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
-        base-ref: ${{ github.event.push_request.base.sha || 'main' }}
-        head-ref: ${{ github.event.push_request.head.sha || github.ref }}
+        base-ref: ${{ env.BASE_REF }}
+        head-ref: ${{ env.HEAD_REF }}
