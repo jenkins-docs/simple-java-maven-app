@@ -1,6 +1,9 @@
-name: 'Dependency Review'
+name: Dependency Review
+
 on:
   push:
+    branches: [ "master" ]
+  pull_request:
     branches: [ "master" ]
 
 permissions:
@@ -10,10 +13,13 @@ jobs:
   dependency-review:
     runs-on: ubuntu-latest
     steps:
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v2
-        with:
-          fail-on-severity: critical
-          allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
-          base-ref: ${{ github.event.pull_request.base.ref || 'main' }}
-          head-ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v4
+      with:
+        fail-on-severity: critical
+        allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
+        base-ref: ${{ github.event.pull_request.base.ref || 'main' }}
+        head-ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
