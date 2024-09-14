@@ -1,5 +1,5 @@
 name: 'Dependency Review'
-on: [push]
+on: [pull-request]
 
 permissions:
   contents: read
