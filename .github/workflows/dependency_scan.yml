@@ -1,5 +1,5 @@
 name: 'Dependency Review'
-on: [pull_request]
+on: [push]
 
 permissions:
   contents: read
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       # - name: 'Dependency Review'
       #   uses: actions/dependency-review-action@v2
 
