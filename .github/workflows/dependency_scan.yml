@@ -10,20 +10,20 @@ jobs:
     steps:
       - name: 'Checkout Repository test test'
         uses: actions/checkout@v4
-      - name: Set up base-ref and head-ref
-        id: set_refs
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "BASE_REF=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
-            echo "HEAD_REF=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
-          else
-            echo "BASE_REF=master" >> $GITHUB_ENV
-            echo "HEAD_REF=${{ github.ref_name }}" >> $GITHUB_ENV
-          fi
+      # - name: Set up base-ref and head-ref
+      #   id: set_refs
+      #   run: |
+      #     if [ "${{ github.event_name }}" == "pull_request" ]; then
+      #       echo "BASE_REF=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+      #       echo "HEAD_REF=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+      #     else
+      #       echo "BASE_REF=master" >> $GITHUB_ENV
+      #       echo "HEAD_REF=${{ github.ref_name }}" >> $GITHUB_ENV
+      #     fi
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v2
         with:
           fail-on-severity: critical
           allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, 0BSD, NOASSERTION
-          base-ref: ${{ env.BASE_REF }}
-          head-ref: ${{ env.HEAD_REF }}
+          # base-ref: ${{ env.BASE_REF }}
+          # head-ref: ${{ env.HEAD_REF }}
