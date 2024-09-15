@@ -1,4 +1,15 @@
 pipeline {
+     options {
+      buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '1'))
+      timeout(time: 10, unit: 'MINUTES')
+     }
+
+    environment {
+        SONARQUBE_SCANNER_HOME = tool 'sonarqube'
+        ANALYSIS_SONARQUBE = "true"
+        ANALYSIS_OWASP = "true"
+    }
+    
     agent {
         label 'docker-agent-alpine'
     }
@@ -34,6 +45,7 @@ pipeline {
         }
 
         stage('OWASP Dependency-Check Vulnerabilities') {
+            when { environment name: 'ANALYSIS_OWASP', value: 'true' }
               steps {
                 dependencyCheck additionalArguments: ''' 
                             -o './'
@@ -43,14 +55,14 @@ pipeline {
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 
-                publishHTML([allowMissing: false, 
-                             alwaysLinkToLastBuild: false,
-                             keepAll: false, 
-                             reportDir: '',
-                             reportFiles: 'dependency-check-report.html', 
-                             reportName: 'HTML Report',
-                             reportTitles: 'dependency-check', 
-                             useWrapperFileDirectly: true])
+                // publishHTML([allowMissing: false, 
+                //              alwaysLinkToLastBuild: false,
+                //              keepAll: false, 
+                //              reportDir: '',
+                //              reportFiles: 'dependency-check-report.html', 
+                //              reportName: 'HTML Report',
+                //              reportTitles: 'dependency-check', 
+                //              useWrapperFileDirectly: true])
               }
          }
     }
