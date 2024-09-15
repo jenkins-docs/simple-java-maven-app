@@ -10,8 +10,6 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh "echo PATH: $PATH"
-                sh "mvn --version"
                 sh "echo start building with mvn, skipping test"
                 sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
                 
@@ -23,9 +21,6 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
-                    sh 'are you there surfire ? '
-                    sh "mvn surefire-report:report"
-                    
                     sh "ls -lR target"
                 }
             }
