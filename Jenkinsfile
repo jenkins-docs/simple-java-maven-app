@@ -36,7 +36,7 @@ pipeline {
                    onlyIfSuccessful: true
         }
 
-        always {
+        cleanup {
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
