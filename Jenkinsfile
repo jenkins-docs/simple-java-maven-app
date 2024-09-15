@@ -21,16 +21,28 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
-                    sh "ls -lR target"
                 }
             }
         }
+
+        stage('OWASP Dependency-Check Vulnerabilities') {
+              steps {
+                dependencyCheck additionalArguments: ''' 
+                            -o './'
+                            -s './'
+                            -f 'ALL' 
+                            --prettyPrint''', odcInstallation: 'dependency-check'
+                
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+              }
+            }
     }
 
     
 
     post {
         success {
+            sh "ls -lR target"
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
                    allowEmptyArchive: true,
                    fingerprint: true,
