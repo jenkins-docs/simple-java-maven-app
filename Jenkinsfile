@@ -35,5 +35,12 @@ pipeline {
                    fingerprint: true,
                    onlyIfSuccessful: true
         }
+
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true)
+        }
     }
 }
