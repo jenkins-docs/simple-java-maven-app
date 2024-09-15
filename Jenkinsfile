@@ -17,7 +17,7 @@ pipeline {
                 // sh 'echo start building with mvn, skipping test'
                 // sh 'mvn -B -DskipTests clean package'
                 sh "echo PATH: $PATH"
-                sh "echo maven version: $(mvn --version)"
+                sh "mvn --version"
                 sh "echo start building with mvn, skipping test"
                 sh "mvn -B -DskipTests clean package"
                 
