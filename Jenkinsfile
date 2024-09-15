@@ -28,7 +28,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: '**/*.txt',
+            archiveArtifacts artifacts: 'target/my-app-1.0-SNAPSHOT.jar',
                    allowEmptyArchive: true,
                    fingerprint: true,
                    onlyIfSuccessful: true
