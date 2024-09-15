@@ -23,6 +23,7 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
+                    sh "ls -ltr"
                 }
             }
         }
