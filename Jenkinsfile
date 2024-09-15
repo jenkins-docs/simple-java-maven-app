@@ -11,7 +11,7 @@ pipeline {
         stage('Build') { 
             tools{
                 // maven 'maven_3.8.5'
-                 maven 'maven'
+                 maven 'maven_3.9.9'
             }
             steps {
                 // sh 'echo PATH: $PATH'
