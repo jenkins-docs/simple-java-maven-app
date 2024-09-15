@@ -23,11 +23,16 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
-                    sh "ls -ltr"
+                    sh 'are you there surfire ? '
+                    sh "mvn surefire-report:report"
+                    
+                    sh "ls -lR target"
                 }
             }
         }
     }
+
+    
 
     post {
         success {
