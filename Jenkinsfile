@@ -1,29 +1,29 @@
 pipeline {
+
+     agent {
+          label 'docker-agent-alpine'
+         }
+     
      options {
-      buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '1'))
-      timeout(time: 10, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '1'))
+        timeout(time: 10, unit: 'MINUTES')
      }
 
     environment {
-        SONARQUBE_SCANNER_HOME = tool 'sonarqube'
+        // pendiente sonarq
         ANALYSIS_SONARQUBE = "true"
         ANALYSIS_OWASP = "true"
-    }
-    
-    agent {
-        label 'docker-agent-alpine'
     }
 
     tools{
          maven 'maven_3.9.9'
-    }    
+        }    
     
     stages {
         stage('Build') { 
             steps {
                 sh "echo start building with mvn, skipping test"
                 sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
-                
             }
         }
 
@@ -45,7 +45,9 @@ pipeline {
         }
 
         stage('OWASP Dependency-Check Vulnerabilities') {
-            when { environment name: 'ANALYSIS_OWASP', value: 'true' }
+            when {
+                 environment name: 'ANALYSIS_OWASP', value: 'true'
+            }
               steps {
                 dependencyCheck additionalArguments: ''' 
                             -o './'
@@ -55,29 +57,26 @@ pipeline {
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 
-                // publishHTML([allowMissing: false, 
-                //              alwaysLinkToLastBuild: false,
-                //              keepAll: false, 
-                //              reportDir: '',
-                //              reportFiles: 'dependency-check-report.html', 
-                //              reportName: 'HTML Report',
-                //              reportTitles: 'dependency-check', 
-                //              useWrapperFileDirectly: true])
+                publishHTML([allowMissing: false, 
+                             alwaysLinkToLastBuild: false,
+                             keepAll: false, 
+                             reportDir: '',
+                             reportFiles: 'dependency-check-report.html', 
+                             reportName: 'Dependency Check',
+                             reportTitles: 'dependency-check', 
+                             useWrapperFileDirectly: true])
               }
          }
     }
 
-    
-
     post {
         success {
-            sh "ls -lR target"
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
                    allowEmptyArchive: true,
                    fingerprint: true,
                    onlyIfSuccessful: true
-        }
-
+          }
+         
         cleanup {
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
