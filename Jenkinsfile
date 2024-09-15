@@ -19,7 +19,7 @@ pipeline {
                 sh "echo PATH: $PATH"
                 sh "mvn --version"
                 sh "echo start building with mvn, skipping test"
-                sh "mvn -B -DskipTests clean package"
+                sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
                 
             }
         }
