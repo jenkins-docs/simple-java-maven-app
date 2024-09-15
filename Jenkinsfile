@@ -31,7 +31,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'target/my-app-1.0-SNAPSHOT.jar',
+            archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
                    allowEmptyArchive: true,
                    fingerprint: true,
                    onlyIfSuccessful: true
