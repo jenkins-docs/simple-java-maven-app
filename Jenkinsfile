@@ -21,6 +21,14 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
+                    publishHTML([allowMissing: false, 
+                             alwaysLinkToLastBuild: false,
+                             keepAll: false, 
+                             reportDir: 'target/surefire-reports',
+                             reportFiles: 'TEST-com.mycompany.app.AppTest.xml', 
+                             reportName: 'surefire-reports',
+                             reportTitles: 'surefire-reports', 
+                             useWrapperFileDirectly: true])
                 }
             }
         }
@@ -38,8 +46,8 @@ pipeline {
                 publishHTML([allowMissing: false, 
                              alwaysLinkToLastBuild: false,
                              keepAll: false, 
-                             reportDir: 'testPipeline',
-                             reportFiles: 'dependency-check-jenkins.html', 
+                             reportDir: '',
+                             reportFiles: 'dependency-check-report.html', 
                              reportName: 'HTML Report',
                              reportTitles: 'dependency-check', 
                              useWrapperFileDirectly: true])
