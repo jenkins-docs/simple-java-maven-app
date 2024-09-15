@@ -4,7 +4,7 @@ pipeline {
     }
     
     // tools{
-    //     maven 'maven'
+    //     maven 'maven_3.8.0'
     // }
     
     stages {
