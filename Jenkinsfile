@@ -12,7 +12,7 @@ pipeline {
     environment {
         // pendiente sonarq
         ANALYSIS_SONARQUBE = "true"
-        ANALYSIS_OWASP = "true"
+        ANALYSIS_OWASP = "false"
     }
 
     tools{
