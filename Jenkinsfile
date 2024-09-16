@@ -32,6 +32,7 @@ pipeline {
                 script {
                     sh 'echo Running test'
                     sh "mvn test"
+                     sh "ls -laR target"
                     publishHTML([allowMissing: false, 
                              alwaysLinkToLastBuild: false,
                              keepAll: false, 
