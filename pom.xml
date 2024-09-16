@@ -29,6 +29,15 @@
             <release>17</release>
           </configuration>
         </plugin>
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <outputDirectory>target/surefire-reports</outputDirectory>
+          <linkXRef>false</linkXRef>
+        </configuration>
+      </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
