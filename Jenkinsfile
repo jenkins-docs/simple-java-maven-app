@@ -26,20 +26,49 @@ pipeline {
         }    
     
     stages {
-        stage('Build') { 
+        stage('Compile') { 
             steps {
                 sh "echo start building with mvn, skipping test"
-                sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
+                // sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
+		sh "mvn -DskipTests=true -Denforcer.skip=true clean compile"
             }
         }
 
-        stage('Run Sonarqube') {
-            environment {
-                scannerHome = tool "sonarqube";
+	stage('OWASP Dependency-Check Vulnerabilities') {
+            when {
+                 environment name: 'ANALYSIS_OWASP', value: 'true'
             }
+              steps {
+                dependencyCheck additionalArguments: ''' 
+                            -o './'
+                            -s './'
+                            -f 'ALL' 
+                            --prettyPrint''', odcInstallation: 'dependency-check'
+                
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+
+                // publishHTML([allowMissing: false, 
+                //              alwaysLinkToLastBuild: false,
+                //              keepAll: false, 
+                //              reportDir: '',
+                //              reportFiles: 'dependency-check-report.html', 
+                //              reportName: 'Dependency Check',
+                //              reportTitles: 'dependency-check', 
+                //              useWrapperFileDirectly: true])
+              }
+         }
+	    
+        stage('Run Sonarqube') {
+            // environment {
+            //     scannerHome = tool "sonarqube";
+            // }
             steps {
               withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
-                 sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
+                 // sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
+		      sh ''' ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.projectName=simple-java-maven \
+				-Dsonar.java.binaries=. \
+    				-Dsonar.projectKey=simple-java-maven
+			'''
               }
             }
 		}
@@ -71,29 +100,7 @@ pipeline {
             }
         }
 
-        stage('OWASP Dependency-Check Vulnerabilities') {
-            when {
-                 environment name: 'ANALYSIS_OWASP', value: 'true'
-            }
-              steps {
-                dependencyCheck additionalArguments: ''' 
-                            -o './'
-                            -s './'
-                            -f 'ALL' 
-                            --prettyPrint''', odcInstallation: 'dependency-check'
-                
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 
-                publishHTML([allowMissing: false, 
-                             alwaysLinkToLastBuild: false,
-                             keepAll: false, 
-                             reportDir: '',
-                             reportFiles: 'dependency-check-report.html', 
-                             reportName: 'Dependency Check',
-                             reportTitles: 'dependency-check', 
-                             useWrapperFileDirectly: true])
-              }
-         }
     }
 
     post {
