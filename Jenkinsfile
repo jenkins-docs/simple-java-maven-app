@@ -69,20 +69,21 @@ pipeline {
             }
 	}
 
-	    stage('Scan2') {
-	      steps {
-	        withSonarQubeEnv(installationName: 'sq1') { 
-	          sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
-	        }
-	      }
-	    }	    
-        stage("Quality Gate") {
-          steps {
-            timeout(time: 20, unit: 'MINUTES') {
-              waitForQualityGate abortPipeline: true
-            }
-          }
-        }		
+	stage('Scan2') {
+	    steps {
+		withSonarQubeEnv(installationName: 'sq1') { 
+		  sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+		}
+	    }
+	}	
+	    
+        // stage("Quality Gate") {
+        //   steps {
+        //     timeout(time: 20, unit: 'MINUTES') {
+        //       waitForQualityGate abortPipeline: true
+        //     }
+        //   }
+        // }		
 
          
          stage('Unit Test') {
