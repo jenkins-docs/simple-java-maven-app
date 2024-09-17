@@ -65,21 +65,17 @@ pipeline {
             steps {
               withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
                   sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
-		 //      sh ''' ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.projectName=simple-java-maven \
-			// 	-Dsonar.java.binaries=. \
-   //  				-Dsonar.projectKey=simple-java-maven
-			// '''
-              }
+              	}	
             }
-		}
+	}
 		
-        // stage("Quality Gate") {
-        //   steps {
-        //     timeout(time: 20, unit: 'MINUTES') {
-        //       waitForQualityGate abortPipeline: true
-        //     }
-        //   }
-        // }		
+        stage("Quality Gate") {
+          steps {
+            timeout(time: 20, unit: 'MINUTES') {
+              waitForQualityGate abortPipeline: true
+            }
+          }
+        }		
 
          
          stage('Unit Test') {
