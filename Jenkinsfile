@@ -26,11 +26,11 @@ pipeline {
         }    
     
     stages {
-        stage('Compile') { 
+        stage('clean package') { 
             steps {
                 sh "echo start building with mvn, skipping test"
-                // sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
-		sh "mvn -DskipTests=true -Denforcer.skip=true clean compile"
+                sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
+		// sh "mvn -DskipTests=true -Denforcer.skip=true clean compile"
             }
         }
 
