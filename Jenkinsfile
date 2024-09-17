@@ -14,6 +14,11 @@ pipeline {
         // pendiente sonarq
         ANALYSIS_SONARQUBE = "true"
         ANALYSIS_OWASP = "false"
+        SONARQUBE_SCANNER_HOME = tool 'sonarqube'
+        PROJECT_NAME = "rga_tasks"
+        PROJECT_CLIENT = "rga"
+        SONARQUBE_TAG="1.0"
+        SONARQUBE_CONFIG_FILE_PATH = "./sonar-project.properties"
     }
 
     tools{
@@ -28,6 +33,26 @@ pipeline {
             }
         }
 
+        stage('Run Sonarqube') {
+            environment {
+                scannerHome = tool "sonarqube";
+            }
+            steps {
+              withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
+                 sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
+              }
+            }
+		}
+		
+        stage("Quality Gate") {
+          steps {
+            timeout(time: 2, unit: 'MINUTES') {
+              waitForQualityGate abortPipeline: true
+            }
+          }
+        }		
+
+         
          stage('Unit Test') {
             steps {
                 script {
