@@ -7,7 +7,7 @@ pipeline {
      
      options {
         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '1'))
-        timeout(time: 10, unit: 'MINUTES')
+        timeout(time: 30, unit: 'MINUTES')
      }
 
     environment {
