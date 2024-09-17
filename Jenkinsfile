@@ -38,7 +38,7 @@ pipeline {
                              alwaysLinkToLastBuild: false,
                              keepAll: false, 
                              reportDir: 'target/surefire-reports',
-                             reportFiles: 'TEST-com.mycompany.app.AppTest.xml', 
+                             reportFiles: 'com.mycompany.app.AppTest.txt', 
                              reportName: 'surefire-reports',
                              reportTitles: 'surefire-reports', 
                              useWrapperFileDirectly: true])
@@ -79,11 +79,11 @@ pipeline {
                    onlyIfSuccessful: true
           }
          
-        cleanup {
-            cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true)
-        }
+        // cleanup {
+        //     cleanWs(cleanWhenNotBuilt: false,
+        //             deleteDirs: true,
+        //             disableDeferredWipeout: true,
+        //             notFailBuild: true)
+        // }
     }
 }
