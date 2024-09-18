@@ -95,11 +95,6 @@ pipeline {
                 sh "echo start building with mvn, skipping test"
 		        // sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
             }
-            post {
-                    success {
-                        archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
-                    }
-                }
         }
     }
 
