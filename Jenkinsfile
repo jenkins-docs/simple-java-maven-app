@@ -102,6 +102,7 @@ pipeline {
                  sh 'mvn jacoco:report'
              }
         }
+    }
 
     post {
 
