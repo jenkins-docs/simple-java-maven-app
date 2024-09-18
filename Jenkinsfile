@@ -98,11 +98,11 @@ pipeline {
             }
         }
 
- 	//   stage('Jacoco Coverage') {
-	//      steps {
-	// 	 sh 'mvn jacoco:report'
-	//      }
-	// }
+ 	  stage('Jacoco Coverage') {
+	     steps {
+		 sh 'mvn jacoco:report'
+	     }
+	}
     }
 
     post {
