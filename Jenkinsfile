@@ -137,6 +137,12 @@ pipeline {
         // }
 	    
         success {
+
+	   jacoco(
+                execPattern: '**/build/jacoco/*.exec',
+                classPattern: '**/build/classes/java/main',
+                sourcePattern: '**/src/main'
+            )
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
                    allowEmptyArchive: true,
                    fingerprint: true,
