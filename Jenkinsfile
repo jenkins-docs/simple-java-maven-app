@@ -32,12 +32,10 @@ pipeline {
                     git credentialsId: 'git-credentials', poll: false, 
                     url: 'https://github.com/argos-iot/simple-java-maven-app.git'
                 }
-            }
+        }
 
         stage('Sonarqube') {
-            // environment {
-            //     scannerHome = tool "sonarqube";
-            // }
+
             steps {
               withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
                   // sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
@@ -45,8 +43,7 @@ pipeline {
               	}	
             }
 	    }
-
-        
+   
         stage('Checking Quality Gate') {
             steps {
                 script {
@@ -60,7 +57,7 @@ pipeline {
             }
         }
 
-	stage('OWASP Dependency-Check Vulnerabilities') {
+	    stage('OWASP Dependency-Check Vulnerabilities') {
             when {
                  environment name: 'ANALYSIS_OWASP', value: 'true'
             }
@@ -75,7 +72,6 @@ pipeline {
              }
         }
 	    
-
         stage('Build') {
             steps {
                 sh 'mvn clean compile'
@@ -138,16 +134,6 @@ pipeline {
                    allowEmptyArchive: true,
                    fingerprint: true,
                    onlyIfSuccessful: true
-          }
-         
-        // cleanup {
-        //     cleanWs(cleanWhenNotBuilt: false,
-        //             deleteDirs: true,
-        //             disableDeferredWipeout: true,
-        //             notFailBuild: true)
-        // }
-	    
+          }  
     }
- }
-
 }
