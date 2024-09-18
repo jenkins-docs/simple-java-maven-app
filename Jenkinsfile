@@ -90,7 +90,17 @@ pipeline {
             }
         }
 
-        stage('Jacoco Coverage') {
+
+	    
+        stage('Packaging') { 
+            steps {
+                sh "echo start building with mvn, skipping test"
+		        // sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+            }
+        }
+    }
+
+	stage('Jacoco Coverage') {
             steps {
                 sh 'mvn jacoco:report'
             }
@@ -101,15 +111,6 @@ pipeline {
                 }
             }
         }
-	    
-        stage('Packaging') { 
-            steps {
-                sh "echo start building with mvn, skipping test"
-		        // sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
-            }
-        }
-    }
-
     post {
 
         // always {
