@@ -98,7 +98,6 @@ pipeline {
 		        sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
             }
         }
-    }
 
 	    stage('Jacoco Coverage') {
              steps {
