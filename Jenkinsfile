@@ -94,23 +94,18 @@ pipeline {
 	    
         stage('Packaging') { 
             steps {
-                sh "echo start building with mvn, skipping test"
-		        // sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+                sh "Clean Package"
+		        sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
             }
         }
     }
 
-	// stage('Jacoco Coverage') {
- //            steps {
- //                sh 'mvn jacoco:report'
- //            }
- //            post {
- //                always {
- //                    // Publicar el informe de Jacoco para la cobertura de código
- //                    jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
- //                }
- //            }
- //        }
+	    stage('Jacoco Coverage') {
+             steps {
+                 sh 'mvn jacoco:report'
+             }
+        }
+
     post {
 
         // always {
@@ -139,16 +134,16 @@ pipeline {
 	    
         success {
 
-	   jacoco(
-                execPattern: '**/build/jacoco/*.exec',
-                classPattern: '**/build/classes/java/main',
-                sourcePattern: '**/src/main'
-            )
+            jacoco(
+                        execPattern: '**/build/jacoco/*.exec',
+                        classPattern: '**/build/classes/java/main',
+                        sourcePattern: '**/src/main'
+                    )
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
-                   allowEmptyArchive: true,
-                   fingerprint: true,
-                   onlyIfSuccessful: true
-          }
+                allowEmptyArchive: true,
+                fingerprint: true,
+                onlyIfSuccessful: true
+            }
          
         // cleanup {
         //     cleanWs(cleanWhenNotBuilt: false,
