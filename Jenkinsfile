@@ -26,11 +26,37 @@ pipeline {
         }    
     
     stages {
-        stage('clean package') { 
+
+	stage('Checkout') {
             steps {
-                sh "echo start building with mvn, skipping test"
-                sh "mvn -B -DskipTests -Denforcer.skip=true clean package"
-		// sh "mvn -DskipTests=true -Denforcer.skip=true clean compile"
+                git credentialsId: 'git-credentials', poll: false, 
+                url: 'https://github.com/argos-iot/simple-java-maven-app.git'
+            }
+        }
+
+        stage('Sonarqube') {
+            // environment {
+            //     scannerHome = tool "sonarqube";
+            // }
+            steps {
+              withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
+                  // sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
+		   sh "mvn clean verify sonar:sonar -Dsonar.projectKey=simple-mvn-test -Dsonar.java.binaries=target/classes"
+              	}	
+            }
+	}
+
+        
+        stage('Checking Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        def qualityGate = waitForQualityGate()
+                        if (qualityGate.status != 'OK') {
+                            error "El análisis de Sonar ha fallado con el estado: ${qualityGate.status}"
+                        }
+                    }
+                }
             }
         }
 
@@ -46,67 +72,67 @@ pipeline {
                             --prettyPrint''', odcInstallation: 'dependency-check'
                 
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-
-                // publishHTML([allowMissing: false, 
-                //              alwaysLinkToLastBuild: false,
-                //              keepAll: false, 
-                //              reportDir: '',
-                //              reportFiles: 'dependency-check-report.html', 
-                //              reportName: 'Dependency Check',
-                //              reportTitles: 'dependency-check', 
-                //              useWrapperFileDirectly: true])
-              }
-         }
+        }
+    }
 	    
-        stage('Run Sonarqube') {
-            // environment {
-            //     scannerHome = tool "sonarqube";
-            // }
-            steps {
-              withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
-                  sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
-              	}	
-            }
-	}
 
-	// stage('Scan2') {
-	//     steps {
-	// 	withSonarQubeEnv(installationName: 'sq1') { 
-	// 	  sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
-	// 	}
-	//     }
-	// }	
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    // Publicar el reporte de las pruebas unitarias usando JUnit
+                    junit '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
 	    
-        stage("Quality Gate") {
-          steps {
-            timeout(time: 20, unit: 'MINUTES') {
-              waitForQualityGate abortPipeline: true
-            }
-          }
-        }		
-
-         
-         stage('Unit Test') {
+        stage('Packaging') { 
             steps {
-                script {
-                    sh 'echo Running test'
-                    sh "mvn test"
-                    publishHTML([allowMissing: false, 
-                             alwaysLinkToLastBuild: false,
-                             keepAll: false, 
-                             reportDir: 'target/surefire-reports',
-                             reportFiles: 'com.mycompany.app.AppTest.txt', 
-                             reportName: 'surefire-reports',
-                             reportTitles: 'surefire-reports', 
-                             useWrapperFileDirectly: true])
+                sh "echo start building with mvn, skipping test"
+		// sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+            }
+	    post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
                 }
             }
         }
 
 
-    }
-
     post {
+
+        always {
+            script {
+                // Generar el changelog basado en los últimos 10 commits
+                def changeLogText = ""
+                def changeSet = currentBuild.changeSets
+
+                for (int i = 0; i < changeSet.size(); i++) {
+                    def entries = changeSet[i].items
+                    for (int j = 0; j < entries.length && j < 10; j++) {
+                        def entry = entries[j]
+                        changeLogText += "Commit ${j+1}:\n"
+                        changeLogText += "Autor: ${entry.author}\n"
+                        changeLogText += "Mensaje: ${entry.msg}\n"
+                        changeLogText += "Fecha: ${entry.timestamp}\n"
+                        changeLogText += "---------------------------------------------\n"
+                    }
+                }
+
+                // Guardar el changelog en un archivo
+                writeFile file: 'changelog.txt', text: changeLogText
+                archiveArtifacts artifacts: 'changelog.txt', allowEmptyArchive: false
+            }
+        }
+	    
         success {
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
                    allowEmptyArchive: true,
@@ -120,5 +146,6 @@ pipeline {
         //             disableDeferredWipeout: true,
         //             notFailBuild: true)
         // }
+	    
     }
 }
