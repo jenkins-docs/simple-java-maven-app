@@ -100,17 +100,17 @@ pipeline {
         }
     }
 
-	stage('Jacoco Coverage') {
-            steps {
-                sh 'mvn jacoco:report'
-            }
-            post {
-                always {
-                    // Publicar el informe de Jacoco para la cobertura de código
-                    jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
-                }
-            }
-        }
+	// stage('Jacoco Coverage') {
+ //            steps {
+ //                sh 'mvn jacoco:report'
+ //            }
+ //            post {
+ //                always {
+ //                    // Publicar el informe de Jacoco para la cobertura de código
+ //                    jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
+ //                }
+ //            }
+ //        }
     post {
 
         // always {
