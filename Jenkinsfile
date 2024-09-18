@@ -39,7 +39,7 @@ pipeline {
             steps {
               withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
                   // sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
-		        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=simple-mvn-test -Dsonar.java.binaries=target/classes"
+		  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=simple-mvn-test -Dsonar.java.binaries=target/classes"
               	}	
             }
 	    }
@@ -50,7 +50,7 @@ pipeline {
                     timeout(time: 5, unit: 'MINUTES') {
                         def qualityGate = waitForQualityGate()
                         if (qualityGate.status != 'OK') {
-                            error "El análisis de Sonar ha fallado con el estado: ${qualityGate.status}"
+                            error "Quality Gate KOOO: ${qualityGate.status}"
                         }
                     }
                 }
@@ -98,11 +98,11 @@ pipeline {
             }
         }
 
-       stage('Jacoco Coverage') {
-	     steps {
-		 sh 'mvn jacoco:report'
-	     }
-	}
+ 	//   stage('Jacoco Coverage') {
+	//      steps {
+	// 	 sh 'mvn jacoco:report'
+	//      }
+	// }
     }
 
     post {
