@@ -34,7 +34,7 @@ pipeline {
 	                url: 'https://github.com/argos-iot/simple-java-maven-app.git'
 	                def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
 	                def artifactId = sh script: 'mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout', returnStdout: true
-	                echo "version: $version, artifactID: $artifactId"
+	                echo "Building version: $version, artifactID: $artifactId"
                 }
 	    }
         }
