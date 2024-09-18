@@ -100,29 +100,29 @@ pipeline {
 
     post {
 
-        always {
-            script {
-                echo  "Changelog, 10 commits"
-                def changeLogText = ""
-                def changeSet = currentBuild.changeSets
+        // always {
+        //     script {
+        //         echo  "Changelog, 10 commits"
+        //         def changeLogText = ""
+        //         def changeSet = currentBuild.changeSets
 
-                for (int i = 0; i < changeSet.size(); i++) {
-                    def entries = changeSet[i].items
-                    for (int j = 0; j < entries.length && j < 10; j++) {
-                        def entry = entries[j]
-                        changeLogText += "Commit ${j+1}:\n"
-                        changeLogText += "Autor: ${entry.author}\n"
-                        changeLogText += "Mensaje: ${entry.msg}\n"
-                        changeLogText += "Fecha: ${entry.timestamp}\n"
-                        changeLogText += "---------------------------------------------\n"
-                    }
-                }
+        //         for (int i = 0; i < changeSet.size(); i++) {
+        //             def entries = changeSet[i].items
+        //             for (int j = 0; j < entries.length && j < 10; j++) {
+        //                 def entry = entries[j]
+        //                 changeLogText += "Commit ${j+1}:\n"
+        //                 changeLogText += "Autor: ${entry.author}\n"
+        //                 changeLogText += "Mensaje: ${entry.msg}\n"
+        //                 changeLogText += "Fecha: ${entry.timestamp}\n"
+        //                 changeLogText += "---------------------------------------------\n"
+        //             }
+        //         }
 
-                // Guardar el changelog en un archivo
-                writeFile file: 'changelog.txt', text: changeLogText
-                archiveArtifacts artifacts: 'changelog.txt', allowEmptyArchive: false
-            }
-        }
+        //         // Guardar el changelog en un archivo
+        //         writeFile file: 'changelog.txt', text: changeLogText
+        //         archiveArtifacts artifacts: 'changelog.txt', allowEmptyArchive: false
+        //     }
+        // }
 	    
         success {
             archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
