@@ -57,7 +57,7 @@ pipeline {
             }
         }
 
-	    stage('OWASP Dependency-Check Vulnerabilities') {
+	stage('OWASP Dependency-Check Vulnerabilities') {
             when {
                  environment name: 'ANALYSIS_OWASP', value: 'true'
             }
@@ -98,11 +98,11 @@ pipeline {
             }
         }
 
- 	  stage('Jacoco Coverage') {
-	     steps {
-		 sh 'mvn jacoco:report'
-	     }
-	}
+ // 	  stage('Jacoco Coverage') {
+	//      steps {
+	// 	 sh 'mvn jacoco:report'
+	//      }
+	// }
     }
 
     post {
