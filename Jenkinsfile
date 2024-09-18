@@ -27,12 +27,12 @@ pipeline {
     
     stages {
 
-	stage('Checkout') {
-            steps {
-                git credentialsId: 'git-credentials', poll: false, 
-                url: 'https://github.com/argos-iot/simple-java-maven-app.git'
+        stage('Checkout') {
+                steps {
+                    git credentialsId: 'git-credentials', poll: false, 
+                    url: 'https://github.com/argos-iot/simple-java-maven-app.git'
+                }
             }
-        }
 
         stage('Sonarqube') {
             // environment {
@@ -41,10 +41,10 @@ pipeline {
             steps {
               withSonarQubeEnv(credentialsId: 'sonar-jenkins', installationName: 'sonarqube') {
                   // sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=${env.SONARQUBE_CONFIG_FILE_PATH}"
-		   sh "mvn clean verify sonar:sonar -Dsonar.projectKey=simple-mvn-test -Dsonar.java.binaries=target/classes"
+		        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=simple-mvn-test -Dsonar.java.binaries=target/classes"
               	}	
             }
-	}
+	    }
 
         
         stage('Checking Quality Gate') {
@@ -72,8 +72,8 @@ pipeline {
                             --prettyPrint''', odcInstallation: 'dependency-check'
                 
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+             }
         }
-    }
 	    
 
         stage('Build') {
@@ -97,13 +97,13 @@ pipeline {
         stage('Packaging') { 
             steps {
                 sh "echo start building with mvn, skipping test"
-		// sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+		        // sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
             }
-	    post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+            post {
+                    success {
+                        archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+                    }
                 }
-            }
         }
 
 
@@ -148,4 +148,6 @@ pipeline {
         // }
 	    
     }
+ }
+
 }
