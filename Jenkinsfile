@@ -92,16 +92,17 @@ pipeline {
   
         stage('Packaging') { 
             steps {
-                sh "Clean Package"
-		        sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+                sh "echo ***************** Clean Package"
+		sh "mvn -DskipTests=true -Denforcer.skip=true clean package"
+		sh "echo *****************"
             }
         }
 
-	    stage('Jacoco Coverage') {
-             steps {
-                 sh 'mvn jacoco:report'
-             }
-        }
+       stage('Jacoco Coverage') {
+	     steps {
+		 sh 'mvn jacoco:report'
+	     }
+	}
     }
 
     post {
