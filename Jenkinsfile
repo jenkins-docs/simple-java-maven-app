@@ -101,13 +101,13 @@ pipeline {
                     }
                 }
         }
-
+    }
 
     post {
 
         always {
             script {
-                // Generar el changelog basado en los últimos 10 commits
+                echo  "Changelog, 10 commits"
                 def changeLogText = ""
                 def changeSet = currentBuild.changeSets
 
@@ -134,6 +134,14 @@ pipeline {
                    allowEmptyArchive: true,
                    fingerprint: true,
                    onlyIfSuccessful: true
-          }  
+          }
+         
+        // cleanup {
+        //     cleanWs(cleanWhenNotBuilt: false,
+        //             deleteDirs: true,
+        //             disableDeferredWipeout: true,
+        //             notFailBuild: true)
+        // }
+	    
     }
 }
