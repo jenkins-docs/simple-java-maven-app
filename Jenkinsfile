@@ -89,9 +89,7 @@ pipeline {
                 }
             }
         }
-
-
-	    
+  
         stage('Packaging') { 
             steps {
                 sh "Clean Package"
@@ -132,18 +130,20 @@ pipeline {
         // }
 	    
         success {
+            script {
 
-            jacoco(
-                        execPattern: '**/build/jacoco/*.exec',
-                        classPattern: '**/build/classes/java/main',
-                        sourcePattern: '**/src/main'
-                    )
-            archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
-                allowEmptyArchive: true,
-                fingerprint: true,
-                onlyIfSuccessful: true
+                jacoco(
+                            execPattern: '**/build/jacoco/*.exec',
+                            classPattern: '**/build/classes/java/main',
+                            sourcePattern: '**/src/main'
+                        )
+
+                archiveArtifacts artifacts: '**/*.jar,**/*.war,target/surefire-reports/*.xml',
+                    allowEmptyArchive: true,
+                    fingerprint: true,
+                    onlyIfSuccessful: true
             }
-         
+         }
         // cleanup {
         //     cleanWs(cleanWhenNotBuilt: false,
         //             deleteDirs: true,
