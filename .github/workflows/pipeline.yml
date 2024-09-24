@@ -21,15 +21,23 @@ jobs:
 
     - name: fetch last tags
       run: |
-        VERSION=${git fetch --tags && git tag | sort -V | tail -n 1}
-        echo "Latest version: $VERSION"
-        git tag
+        git fetch --tags
+        VERSION=${git tag | sort -V | tail -n 1}
+        echo "My Latest version: $VERSION"
+
     - name: Set jar version
       run: |
         VERSION_PARTS=(${VERSION//./ })
         MAJOR=VERSION_PARTS[0]
         MINOR=VERSION_PARTS[1]
         PATCH=VERSION_PARTS[2]
+        NEW_PATCH_NUM=$((PATCH+1))
+        NEW_VERSION="{MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
+        echo "THE new version: $NEW_VERSION"
+        echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+
+    - name:
+      run: |
         mvn versions:set -DnewVersion=(PATCH + 1)
 
     - name: Tests
