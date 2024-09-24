@@ -34,7 +34,10 @@ jobs:
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         echo "Final new_version=$NEW_VERSION"
 
-    - name: build and run
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
       run: |
-        docker build -t my-app
-        docker run --name hello my-app
+        docker build -t my_app
+        docker run my_app
