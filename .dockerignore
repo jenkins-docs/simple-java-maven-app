@@ -1,0 +1,6 @@
+*.md
+*.github
+jenkins/
+*.swp
+.gitignore
+
