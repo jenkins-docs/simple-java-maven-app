@@ -2,7 +2,7 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "master", "dev" ]
-   ]
+
 
 jobs:
   Version:
@@ -43,5 +43,5 @@ jobs:
       uses: docker/setup-buildx-action@v3
     - name: Docker Build and Run
       run: |
-        docker build -t my_app .
-        docker run my_app
+        docker build -t my_app:${{ env.new_version }} .
+        docker run my_app:${{ env.new_version }}
