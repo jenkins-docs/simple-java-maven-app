@@ -43,7 +43,7 @@ jobs:
 
     - name:  Push tag
       env:
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKENEN }}
       run: |
         NEW_TAG=${{ env.new_version }}   
         git tag $NEW_TAG
