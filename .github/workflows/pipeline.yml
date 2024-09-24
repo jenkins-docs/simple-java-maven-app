@@ -24,7 +24,6 @@ jobs:
         java-distribution: temurin
         maven-version: 3.9.2
 
-
     - name: fetch last tags and set version
       id: version
       run: |
