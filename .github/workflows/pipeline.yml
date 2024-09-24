@@ -44,7 +44,7 @@ jobs:
     - name:  Push tag
       uses: EndBug/latest-tag@latest
       with:
-        ref: ${{ steps.version.outputs.new_version }}
+        tag-name:  ${{ steps.version.outputs.new_version }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
