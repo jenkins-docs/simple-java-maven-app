@@ -42,4 +42,4 @@ jobs:
 
     - name: Tests
       run: |
-        mvn test
+        mvn verify
