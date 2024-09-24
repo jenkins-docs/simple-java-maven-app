@@ -18,7 +18,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-          
+      - name: Set up Maven
+        uses: actions/setup-maven@v2
+        with:
+          maven-version: '3.9.2'    
+      
       - name: Clean  and Install
         run: mvn clean install   
         
