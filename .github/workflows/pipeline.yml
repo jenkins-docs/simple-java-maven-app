@@ -42,10 +42,14 @@ jobs:
         echo "::set-output name=new_version::$NEW_VERSION"
 
     - name:  Push tag
-      uses: EndBug/latest-tag@latest
-      with:
+      env:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        ref: ${{ steps.version.outputs.new_version }}
+      run: |
+        NEW_TAG=${{ env.new_version }}
+        
+        git tag $NEW_TAG
+        
+        git push origin $NEW_TAG
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
