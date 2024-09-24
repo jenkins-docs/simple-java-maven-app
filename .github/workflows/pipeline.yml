@@ -38,7 +38,7 @@ jobs:
 
     - name: set the new version
       run: |
-        mvn versions:set -DnewVersion=${{  NEW_VERSION }}
+        mvn versions:set -DnewVersion=${{ NEW_VERSION }}
 
     - name: Tests
       run: |
