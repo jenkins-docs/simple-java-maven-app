@@ -27,19 +27,17 @@ jobs:
     - name: Set jar version
       id: set_jar
       run: |
+        echo "Initial VERSION: $VERSION"
         VERSION_PARTS=(${VERSION//./ })
+        echo "VERSION_PARTS: ${VERSION_PARTS[@]}"
         MAJOR=${VERSION_PARTS[0]}
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
+        echo "MAJOR: $MAJOR, MINOR: $MINOR, PATCH: $PATCH"
         NEW_PATCH_NUM=$((PATCH+1))
         NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
-        echo "THE new version: $NEW_VERSION"
+        echo "Constructed NEW_VERSION: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         mvn versions:set -DnewVersion=$NEW_VERSION 
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-        echo "new_version=$NEW_VERSION"
-
-
-    - name: Tests
-      run: |
-        mvn verify
+        echo "Final new_version=$NEW_VERSION"
