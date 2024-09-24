@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Setup Maven Action
       uses: s4u/setup-maven-action@v1.7.0
       with:
