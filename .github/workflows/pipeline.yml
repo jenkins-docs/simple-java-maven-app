@@ -45,10 +45,8 @@ jobs:
       env:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
-        NEW_TAG=${{ env.new_version }}
-        
+        NEW_TAG=${{ env.new_version }}   
         git tag $NEW_TAG
-        
         git push origin $NEW_TAG
 
     - name: Set up Docker Buildx
