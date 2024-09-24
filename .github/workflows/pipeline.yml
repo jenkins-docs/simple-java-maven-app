@@ -3,18 +3,15 @@ on:
   push:
     branches: [ "master", "dev" ]
 
-
 jobs:
   Version:
     runs-on: ubuntu-22.04
 
     steps:
-
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use PAT or GITHUB_TOKEN for authentication
 
     - name: Setup Maven Action
       uses: s4u/setup-maven-action@v1.7.0
@@ -24,7 +21,7 @@ jobs:
         java-distribution: temurin
         maven-version: 3.9.2
 
-    - name: fetch last tags and set version
+    - name: Fetch last tags and set version
       id: version
       run: |
         git fetch --tags
@@ -36,27 +33,30 @@ jobs:
         PATCH=${VERSION_PARTS[2]}
         NEW_PATCH_NUM=$((PATCH+1))
         NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
-        mvn versions:set -DnewVersion=$NEW_VERSION 
-        echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-        echo "Final new_version=$NEW_VERSION"
-        echo "::set-output name=new_version::$NEW_VERSION"
         
+        # Set the new version in Maven
+        mvn versions:set -DnewVersion=$NEW_VERSION 
+        
+        # Set the new version in GITHUB_ENV and output for future steps
+        echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+        echo "::set-output name=new_version::$NEW_VERSION"
+        echo "Final new_version=$NEW_VERSION"
 
     - name: Configure git for pushing
       run: |
-        # Set GitHub Actions as the user for git commands
         git config user.name "matankaufman"
-        git config user.email "matankaufman1@gmail.com"    
+        git config user.email "matankaufman1@gmail.com"
 
-    - name:  Push tag
+    - name: Push tag
       run: |
-        NEW_TAG=${{ env.new_version }}   
+        NEW_TAG=${{ steps.version.outputs.new_version }}   
         git tag $NEW_TAG
         git push origin $NEW_TAG
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+
     - name: Docker Build and Run
       run: |
-        docker build -t my_app:${{ env.new_version }} .
-        docker run my_app:${{ env.new_version }}
+        docker build -t my_app:${{ steps.version.outputs.new_version }} .
+        docker run my_app:${{ steps.version.outputs.new_version }}
