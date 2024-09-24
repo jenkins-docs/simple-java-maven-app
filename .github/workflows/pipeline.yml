@@ -36,12 +36,10 @@ jobs:
         echo "THE new version: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
 
-    - name:
+    - name: set the new version
       run: |
-        mvn versions:set -DnewVersion=(PATCH + 1)
+        mvn versions:set -DnewVersion=${{  NEW_VERSION }}
 
     - name: Tests
       run: |
         mvn test
-
-
