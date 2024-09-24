@@ -11,14 +11,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
-
-
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
+      uses: actions/checkout@v4
+    - name: Set up Maven
+      uses: sormuras/setup-maven@v1
       with:
-        distribution: 'temurin'
-        java-version: '21'
+        maven-version: 3.9.2
 
     - name: fetch last tags
       run: |
@@ -38,7 +35,6 @@ jobs:
         echo "THE new version: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         mvn versions:set -DnewVersion=$NEW_VERSION 
-        
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         mvn versions:set -DnewVersion=$NEW_VERSION
 
