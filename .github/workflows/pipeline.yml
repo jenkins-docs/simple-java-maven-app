@@ -40,6 +40,13 @@ jobs:
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         echo "Final new_version=$NEW_VERSION"
         echo "::set-output name=new_version::$NEW_VERSION"
+        
+
+    - name: Configure git for pushing
+      run: |
+        # Set GitHub Actions as the user for git commands
+        git config user.name "matankaufman"
+        git config user.email "matankaufman1@gmail.com"    
 
     - name:  Push tag
       env:
