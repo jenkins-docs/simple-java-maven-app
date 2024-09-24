@@ -6,7 +6,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  Version_and_build:
+  Version:
     runs-on: ubuntu 24.04
 
     steps:
