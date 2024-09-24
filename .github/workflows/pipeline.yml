@@ -18,15 +18,11 @@ jobs:
         java-distribution: temurin
         maven-version: 3.9.2
 
-    - name: fetch last tags
+    - name: fetch last tags and set version
       run: |
         git fetch --tags
         VERSION=$(git tag | sort -V | tail -n 1)
         echo "My Latest version: $VERSION"
-
-    - name: Set jar version
-      id: set_jar
-      run: |
         echo "Initial VERSION: $VERSION"
         VERSION_PARTS=(${VERSION//./ })
         echo "VERSION_PARTS: ${VERSION_PARTS[@]}"
