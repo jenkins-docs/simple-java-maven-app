@@ -22,7 +22,7 @@ jobs:
     - name: fetch last tags
       run: |
         git fetch --tags
-        VERSION=${git tag | sort -V | tail -n 1}
+        VERSION=$(git tag | sort -V | tail -n 1)
         echo "My Latest version: $VERSION"
 
     - name: Set jar version
