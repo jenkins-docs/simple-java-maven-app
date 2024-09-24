@@ -40,11 +40,12 @@ jobs:
         mvn versions:set -DnewVersion=$NEW_VERSION 
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         echo "Final new_version=$NEW_VERSION"
+      # echo "::set-output name=new_version::$NEW_VERSION"
 
     - name:  Push tag
       uses: EndBug/latest-tag@latest
       with:
-        ref: ${{env.new_version}}
+        ref: ${{ env.new_version }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
