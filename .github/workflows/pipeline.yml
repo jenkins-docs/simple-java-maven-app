@@ -13,5 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
   
-      - name: Run first test
-        run: echo "It is good!"
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          
+      - name: Clean  and Install
+        run: mvn clean install   
+        
+      - name: Increase version
+        run: |
+          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          INCREASED_VERSION=1.0.$(($VERSION##. +1))
+          sed -i "s/<version>.*<\/version>/<version>${INCREASED_VERSION}<\/version>/" pom.xml
+          
+
