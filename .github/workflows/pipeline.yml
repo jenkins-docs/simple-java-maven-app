@@ -6,12 +6,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Fetch last tags and set version
       id: version
@@ -27,29 +26,17 @@ jobs:
         
         NEW_PATCH_NUM=$((PATCH + 1))
         NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
-        
-        # Set the new version in Maven
         mvn versions:set -DnewVersion=$NEW_VERSION
-        
-        # Set the new version in GITHUB_ENV for future steps
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-        
-        # Set the output for GitHub Actions steps
         echo "::set-output name=new_version::$NEW_VERSION"
-        
         echo "Final new_version=$NEW_VERSION"
 
     - name: Push new tag
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for git push
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Retrieve the new version from the environment
         NEW_TAG=${{ env.new_version }}
-        
-        # Create the tag
         git tag $NEW_TAG
-        
-        # Push the new tag to the repository
         git push origin $NEW_TAG
 
     - name: Setup Maven Action
@@ -59,5 +46,12 @@ jobs:
         java-version: 8
         java-distribution: temurin
         maven-version: 3.9.2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Docker Build and Run
+      run: |
+        docker build -t my_app:${{ env.new_version }} .
+        docker run my_app:${{ env.new_version }}
 
 
