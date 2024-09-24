@@ -13,14 +13,6 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
 
-    - name: Setup Maven Action
-      uses: s4u/setup-maven-action@v1.7.0
-      with:
-        checkout-fetch-depth: 0
-        java-version: 8
-        java-distribution: temurin
-        maven-version: 3.9.2
-
     - name: Fetch last tags and set version
       id: version
       run: |
@@ -73,4 +65,5 @@ jobs:
           echo "Tag ${{ env.new_version }} was not created!" >&2
           exit 1
         fi
+
 
