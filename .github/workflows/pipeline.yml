@@ -38,6 +38,9 @@ jobs:
         echo "THE new version: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
         mvn versions:set -DnewVersion=$NEW_VERSION 
+        
+        echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+        mvn versions:set -DnewVersion=$NEW_VERSION
 
 
     - name: Tests
