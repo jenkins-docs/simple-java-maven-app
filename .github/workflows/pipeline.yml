@@ -26,6 +26,7 @@ jobs:
         echo "My Latest version: $VERSION"
 
     - name: Set jar version
+      id: set_jar
       run: |
         VERSION_PARTS=(${VERSION//./ })
         MAJOR=VERSION_PARTS[0]
@@ -35,10 +36,8 @@ jobs:
         NEW_VERSION="{MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
         echo "THE new version: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+        mvn versions:set -DnewVersion=${{ steps.set_jar.outputs.NEW_VERSION }}
 
-    - name: set the new version
-      run: |
-        mvn versions:set -DnewVersion=${{ NEW_VERSION }}
 
     - name: Tests
       run: |
