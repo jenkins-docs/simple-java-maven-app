@@ -1,5 +1,4 @@
 name: Java CI with Maven
-
 on:
   push:
     branches: [ "dev" ]
@@ -7,8 +6,9 @@ on:
     branches: [ "master" ]
 
 jobs:
-  version and build:
+  Version_and_build:
     runs-on: ubuntu 24.04
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -22,9 +22,15 @@ jobs:
     - name: fetch last tags
       run: |
         VERSION=${git fetch --tags && git tag | sort -V | tail -n 1}
+        echo "Latest version: $VERSION"
+        git tag
     - name: Set jar version
       run: |
-        mvn versions:set -DnewVersion=($VERSION + 0.0.1)
+        VERSION_PARTS=(${VERSION//./ })
+        MAJOR=VERSION_PARTS[0]
+        MINOR=VERSION_PARTS[1]
+        PATCH=VERSION_PARTS[2]
+        mvn versions:set -DnewVersion=(PATCH + 1)
 
     - name: Tests
       run: |
