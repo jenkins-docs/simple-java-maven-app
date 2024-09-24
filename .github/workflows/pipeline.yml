@@ -52,18 +52,12 @@ jobs:
         # Push the new tag to the repository
         git push origin $NEW_TAG
 
-    - name: Check if the tag was pushed successfully
-      run: |
-        git fetch --tags
-        # List all the tags
-        git tag
-
-        # Check if the new tag exists in the list of tags
-        if git tag | grep -q "${{ env.new_version }}"; then
-          echo "Tag ${{ env.new_version }} exists."
-        else
-          echo "Tag ${{ env.new_version }} was not created!" >&2
-          exit 1
-        fi
+    - name: Setup Maven Action
+      uses: s4u/setup-maven-action@v1.7.0
+      with:
+        checkout-fetch-depth: 0
+        java-version: 8
+        java-distribution: temurin
+        maven-version: 3.9.2
 
 
