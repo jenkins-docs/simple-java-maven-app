@@ -8,5 +8,5 @@ RUN mvn clean package -DskipTests
 # Stage 2: Run Stage
 FROM eclipse-temurin:8u422-b05-jdk-ubi9-minimal
 WORKDIR /app
-COPY --from=build /app/target/myapp.jar /app/my-app.jar
+COPY --from=build /app/target/my-app*.jar /app/my-app.jar
 ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
