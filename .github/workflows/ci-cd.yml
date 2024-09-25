@@ -49,4 +49,5 @@ jobs:
         file: Dockerfile
         platforms: linux/amd64
         push: false
-        tags: ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+          #tags: ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+        tags: test:1.2.3
