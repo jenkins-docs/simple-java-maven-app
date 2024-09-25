@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Extract current version and increment
+      run: |
+        CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
+        echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
+        IFS='-' read -r version snapshot <<< "$CURRENT_VERSION"
+        IFS='.' read -r major minor patch <<< "$version"
+        new_patch=$((patch + 1))
+        new_version="$major.$minor.$new_patch-SNAPSHOT"
+        echo "new_version=$new_version" >> $GITHUB_ENV
+        sed -i "0,/<version>/s|<version>.*</version>|<version>$new_version</version>|" pom.xml
+
+    - name: Add and commit new version
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: 'pom.xml'
+        fetch: false
+        message: 'Updating pom.xml version. [skip ci]'
+        push: true
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+      #- name: Log in to GitHub Container Registry
+        #uses: docker/login-action@v2
+        #with:
+        #registry: ghcr.io
+        #username: ${{ github.actor }}
+        #password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build, test, and (not yet) push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: Dockerfile
+        platforms: linux/amd64
+        push: false
+        tags: ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
