@@ -19,7 +19,7 @@ jobs:
         INCREASED_VERSION=1.0.$((PATCH + 1))
         mvn -U versions:set -DnewVersion=${INCREASED_VERSION}
 
-    - name: Commit updated pom.xml
+    - name: Commit updated new pom.xml
       run: |
         git config --local user.name "GitHub Actions"
         git config --local user.email "actions@github.com"
