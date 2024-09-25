@@ -29,3 +29,7 @@ jobs:
         tags: sharon088/simple_maven_java:${{ env.DATE }}  
 
 
+    - name: docker run
+      uses: addnab/docker-run-action@v3
+      with:
+        image: sharon088/simple_maven_java:${{ env.DATE }}
