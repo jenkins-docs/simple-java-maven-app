@@ -29,18 +29,14 @@ jobs:
       #     mvn versions:set -DnewVersion=${INCREASED_VERSION}
       #     mvn versions:commit 
       #     cat pom.xml
-                  
-      - name: Build Docker image 
-        run: |
-          docker build -t orgitlab/hello:${{ github.sha }} .
-
+      
       - name: Login to Docker registry
         uses: docker/login-action@v3
         with:
           username: orgitlab
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      - name: Build and push Docker image to registry
+      - name: push Docker image to registry
         uses: docker/build-push-action@v5
         with:
           context: .
