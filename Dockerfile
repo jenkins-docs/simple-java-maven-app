@@ -9,4 +9,4 @@ RUN mvn clean package
 FROM eclipse-temurin:23_37-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/my-app*.jar /app/my-app.jar
-ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
+ENTRYPOINT ["java", "-jar", "/app/my-app.jar"]
