@@ -12,35 +12,35 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-  
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'  
+          distribution: 'temurin'
           
-   #   - name: Increase version
-   #     run: |
-   #       VERSION=$( mvn help:evaluate -Dexpression=project.version -q)
-   #       PATCH=$(echo $VERSION | cut -d '.' -f 3 | cut -d '-' -f 1)
-   #       INCREASED_VERSION=1.0.$((PATCH +1))
-   #       echo "Changing version to: ${INCREASED_VERSION}"
-   #       mvn versions:set -DnewVersion=${INCREASED_VERSION}
-   #       mvn versions:commit 
-   #       cat pom.xml
+      # Uncomment the following steps to increase version
+      # - name: Increase version
+      #   run: |
+      #     VERSION=$(mvn help:evaluate -Dexpression=project.version -q)
+      #     PATCH=$(echo $VERSION | cut -d '.' -f 3 | cut -d '-' -f 1)
+      #     INCREASED_VERSION=1.0.$((PATCH + 1))
+      #     echo "Changing version to: ${INCREASED_VERSION}"
+      #     mvn versions:set -DnewVersion=${INCREASED_VERSION}
+      #     mvn versions:commit 
+      #     cat pom.xml
                   
-          
       - name: Build Docker image 
-       run: |
-           docker build -t orgitlab/hello:${{ github.sha }} .
-      
-      - name: login to docker registry
+        run: |
+          docker build -t orgitlab/hello:${{ github.sha }} .
+
+      - name: Login to Docker registry
         uses: docker/login-action@v3
         with:
           username: orgitlab
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      - name: build and push docker image to registry
+      - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -48,4 +48,4 @@ jobs:
           tags: |
             orgitlab/hello:${{ github.sha }}
             orgitlab/hello:latest 
-      
+
