@@ -30,6 +30,5 @@ jobs:
 
 
     - name: docker run
-      uses: addnab/docker-run-action@v3
-      with:
-        image: sharon088/simple_maven_java:${{ env.DATE }}
+      run: |
+        docker run --rm sharon088/simple_maven_java:${{ env.DATE }}
