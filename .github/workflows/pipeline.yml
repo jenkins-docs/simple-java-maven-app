@@ -20,7 +20,15 @@ jobs:
           distribution: 'temurin'  
           
       - name: Build Docker image
+        
         run: |
-           docker build -t hello:${{ github.sha }} .
+           docker build -t orgitlab/hello:${{ github.sha }} .
+      
+      - name: Push Docker Image
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u orgitlab -p $DOCKER_PASSWORD
+          docker push  orgitlab/hello:${{ github.sha }}
       
       
