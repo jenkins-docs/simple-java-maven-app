@@ -12,7 +12,6 @@ jobs:
     - name: checkout code
       uses: actions/checkout@v4
 
-    steps:
     - name: update version
       run: |
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q)
