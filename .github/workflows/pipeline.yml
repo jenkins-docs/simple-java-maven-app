@@ -24,8 +24,9 @@ jobs:
           VERSION=$( mvn help:evaluate -Dexpression=project.version -q)
           PATCH=$(echo $VERSION | cut -d '.' -f 3 | cut -d '-' -f 1)
           INCREASED_VERSION=1.0.$((PATCH +1))
-          sed -i "s/<version>.*<\/version>/<version>${INCREASED_VERSION}<\/version>/" pom.xml
-          echo "Changing version to: ${INCREASED_VERSION}" 
+          echo "Changing version to: ${INCREASED_VERSION}"
+          mvn versions:set -DnewVersion=${INCREASED_VERSION}
+          mvn versions:commit 
           cat pom.xml
                   
           
