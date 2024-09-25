@@ -28,7 +28,7 @@ jobs:
         NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH_NUM}"
         mvn versions:set -DnewVersion=$NEW_VERSION
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-        #echo "::set-output name=new_version::$NEW_VERSION"
+      # echo "::set-output name=new_version::$NEW_VERSION"
         echo "Final new_version=$NEW_VERSION"
 
     - name: Push new tag

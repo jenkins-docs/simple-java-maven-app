@@ -3,4 +3,4 @@
 jenkins/
 *.swp
 .gitignore
-terraform/
+
