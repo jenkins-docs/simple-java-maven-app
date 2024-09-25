@@ -25,7 +25,8 @@ jobs:
           PATCH=$(echo $VERSION | cut -d '.' -f 3 | cut -d '-' -f 1)
           INCREASED_VERSION=1.0.$((PATCH +1))
           sed -i "s/<version>.*<\/version>/<version>${INCREASED_VERSION}<\/version>/" pom.xml
-          echo "Changing version to: ${INCREASED_VERSION}"       
+          echo "Changing version to: ${INCREASED_VERSION}" 
+          cat pom.xml        
           
    #   - name: Build Docker image 
    #    run: |
