@@ -29,6 +29,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u orgitlab -p $DOCKER_PASSWORD
-          docker push  orgitlab/hello:${{ github.sha }}
+          docker push  orgitlab/hello:${{ github.sha }} orgitlab/hello:latest
       
       
