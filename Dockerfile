@@ -6,5 +6,5 @@ RUN mvn clean package
 
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=build /app/target/app.jar app.jar
+COPY --from=build /app/target/my-app.jar my-app.jar
 ENTRYPOINT ["java", "-jar", "my-app.jar"]
