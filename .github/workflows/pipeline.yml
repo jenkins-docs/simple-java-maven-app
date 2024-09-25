@@ -17,8 +17,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'
-            
-      - name: Clean  and Install
-        run: mvn clean install   
+          distribution: 'temurin'  
+          
+      - name: Build Docker image
+        run: |
+           docker build -t hello:${{ github.sha }} .
+      
       
