@@ -21,7 +21,7 @@ jobs:
           sed -i -E "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" pom.xml
           echo "NEW_VERSION=$new_version" >> $GITHUB_OUTPUT
 
-    - name: Commit updated new pom.xml
+    - name: Commit updated pom.xml
       run: |
         git config --local user.name "GitHub Actions"
         git config --local user.email "actions@github.com"
