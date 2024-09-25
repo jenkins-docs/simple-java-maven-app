@@ -27,7 +27,7 @@ jobs:
           sed -i "s/<version>.*<\/version>/<version>${INCREASED_VERSION}<\/version>/" pom.xml
           echo "Changing version to: ${INCREASED_VERSION}" 
           cat pom.xml
-          mvn clean install        
+                  
           
    #   - name: Build Docker image 
    #    run: |
