@@ -1,7 +1,7 @@
 name: Java CI with Maven
 on:
   push:
-    branches: [ "dev", "masetr" ]
+    branches: [ "master", "dev" ]
 
 jobs:
   versioning:
@@ -52,7 +52,9 @@ jobs:
 
   build:
     runs-on: ubuntu-24.04
-    needs: versioning
+    needs:
+    - versioning
+    - login
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
