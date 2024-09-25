@@ -49,4 +49,6 @@ jobs:
         file: Dockerfile
         platforms: linux/amd64
         push: true
-        tags: ghcr.io/arinmoyal/my-app:${{ github.sha }}
+        tags: |
+            ghcr.io/arinmoyal/my-app:${{ github.sha }}
+            ghcr.io/arinmoyal/my-app:latest
