@@ -41,23 +41,20 @@ jobs:
         git tag $NEW_TAG
         git push origin $NEW_TAG
 
-  login:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: login to Dockerhub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+ 
 
   build:
     runs-on: ubuntu-24.04
     needs:
       - versioning
-      - login
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push to Docker-Hub
         uses: docker/build-push-action@v3
