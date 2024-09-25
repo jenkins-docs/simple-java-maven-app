@@ -31,8 +31,8 @@ jobs:
           mvn versions:commit 
           cat pom.xml
           
-      -name: ckeck ver
-       run: echo ${{ env.VERSION }}   
+      - name: ckeck ver
+        run: echo ${{ env.VERSION }}   
       
       - name: Login to Docker registry
         uses: docker/login-action@v3
