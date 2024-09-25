@@ -56,7 +56,7 @@ jobs:
       - versioning
       - login
     steps:
-      - name: Checkout repository
+      - name: checkout repository
         uses: actions/checkout@v3
 
       - name: Build and push to Docker-Hub
