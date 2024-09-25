@@ -25,7 +25,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- Maven Compiler Plugin -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -38,7 +37,6 @@
     </pluginManagement>
 
     <plugins>
-      <!-- Maven Jar Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -53,15 +51,11 @@
           </archive>
         </configuration>
       </plugin>
-
-      <!-- Maven Versions Plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
         <version>2.17.1</version>
       </plugin>
-
-      <!-- Maven Enforcer Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
