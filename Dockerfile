@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Stage 2: Run Stage
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:8u422-b05-jre-ubi9-minimal
 WORKDIR /app
 COPY --from=build /app/target/my-app*.jar /app/my-app.jar
 ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
