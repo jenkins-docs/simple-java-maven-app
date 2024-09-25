@@ -35,6 +35,7 @@ jobs:
         run: |
           git config --global user.name "ortub10"
           git config --global user.email "ortub10@github.com"
+          git checkout master
           git add pom.xml
           git commit -m "version to ${{ env.VERSION }}"
           git push origin master
