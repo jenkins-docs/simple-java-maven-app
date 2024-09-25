@@ -66,6 +66,6 @@ jobs:
       - name: Pull and Run from Dockerhub
         run: |
          docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-         docker run  --name Java CI with Maven matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+         docker run  --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
 
 
