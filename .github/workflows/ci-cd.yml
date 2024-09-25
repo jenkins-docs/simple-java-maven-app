@@ -52,3 +52,7 @@ jobs:
         tags: |
             ghcr.io/arinmoyal/my-app:${{ github.sha }}
             ghcr.io/arinmoyal/my-app:latest
+
+    - name: Deploy
+      run: |
+          docker run --rm ghcr.io/arinmoyal/my-app:latest
