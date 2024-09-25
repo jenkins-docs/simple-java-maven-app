@@ -14,10 +14,12 @@ jobs:
 
     - name: update version
       run: |
-        VERSION=$(mvn help:evaluate -Dexpression=project.version -q)
-        PATCH=$(echo $VERSION | cut -d '.' -f 3 | cut -d '-' -f 1)
-        INCREASED_VERSION=1.0.$((PATCH + 1))
-        mvn -U versions:set -DnewVersion=${INCREASED_VERSION}
+          current_version=$(grep -m1 '<version>.*</version>' pom.xml | sed -E 's/<\/?version>//g' | tr -d ' '| tr -d '\n')
+          IFS='.' read -r major minor patch <<< "$current_version"
+          new_patch=$((patch + 1))
+          new_version=$(echo "$major.$minor.$new_patch" | sed -E 's/ //'| tr -d '\n')
+          sed -i -E "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" pom.xml
+          echo "NEW_VERSION=$new_version" >> $GITHUB_OUTPUT
 
     - name: Commit updated new pom.xml
       run: |
