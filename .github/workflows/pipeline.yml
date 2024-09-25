@@ -53,13 +53,11 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     needs:
-    - versioning
-    - login
+      - versioning
+      - login
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push to Docker-Hub
         uses: docker/build-push-action@v3
