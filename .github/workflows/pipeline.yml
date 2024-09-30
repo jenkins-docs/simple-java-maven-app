@@ -57,8 +57,6 @@ jobs:
           git tag $NEW_TAG
           git push origin $NEW_TAG
 
-  
-
   Login:
     runs-on: ubuntu-24.04
     steps:
