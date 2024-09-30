@@ -3,4 +3,3 @@ repos:
     rev: v8.19.3
     hooks:
       - id: gitleaks
-        #args: ['detect', '-v', '--source', '.']
