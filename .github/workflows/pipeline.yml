@@ -78,13 +78,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+          tags: matankaufman/maven-hello-world:${{ needs.Trivy-and-versioning.outputs.new_version }}
 
 
 
       - name: Pull and Run from Dockerhub
         run: |
-         docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-         docker run  --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+         docker pull matankaufman/maven-hello-world:${{ needs.Trivy-and-versioning.outputs.new_version }}
+         docker run  --name maven_hello_world matankaufman/maven-hello-world:${{ needs.Trivy-and-versioning.outputs.new_version }}
 
 
