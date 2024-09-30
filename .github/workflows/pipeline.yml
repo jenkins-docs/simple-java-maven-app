@@ -72,6 +72,16 @@ jobs:
           push: true
           tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
 
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: 'matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
       - name: Pull and Run from Dockerhub
         run: |
          docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
