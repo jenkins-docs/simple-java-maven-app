@@ -49,8 +49,10 @@ jobs:
       - name: GitGuardian Secret Detection
         uses: GitGuardian/ggshield-action@v1
         with:
-          entryPoint: ${{ secrets.GITGUARDIAN_API_KEY }}
           args: .
+        env:
+          GG_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
 
   build:
     runs-on: ubuntu-24.04
