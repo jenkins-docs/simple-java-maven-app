@@ -87,7 +87,7 @@ jobs:
             ghcr.io/arinmoyal/my-app:latest
 
     - name: Install Cosign
-      uses: sigstore/cosign-installer-action@v2.1.0
+      uses: sigstore/cosign-installer@v3.6.0
 
     - name: Sign Docker image with Cosign
       run: |
