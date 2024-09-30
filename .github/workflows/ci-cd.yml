@@ -6,6 +6,16 @@ on:
       - master
 
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=critical
   build:
     runs-on: ubuntu-latest
 
@@ -13,18 +23,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup Maven Action
-      uses: s4u/setup-maven-action@v1.7.0
+    - name: Set up Java 17 with Temurin
+      uses: actions/setup-java@v3
       with:
-        checkout-fetch-depth: 0
-        java-version: 17
-        java-distribution: temurin
-        maven-version: 3.9.2
-
-    - name: Check dependencies with OWASP Dependency-Check
-      run: |
-        mvn verify
-
+        distribution: 'temurin'
+        java-version: '17'
+    
     - name: Extract current version and increment
       run: |
         CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
