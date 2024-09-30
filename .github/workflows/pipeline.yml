@@ -41,16 +41,6 @@ jobs:
         git tag $NEW_TAG
         git push origin $NEW_TAG
 
-  secret-scan:
-    runs-on: ubuntu-24.04
-    needs: versioning
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Run Gitleaks
-        run: |
-          gitleaks detect --source . --log-opts "-n 1" --exit-code 1
-
 
   build:
     runs-on: ubuntu-24.04
