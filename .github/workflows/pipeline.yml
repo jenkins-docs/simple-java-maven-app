@@ -71,7 +71,7 @@ jobs:
   Build:
     runs-on: ubuntu-24.04
     needs:
-      - versioning
+      - Trivy-and-versioning
     steps:
       - name: Build and push to Docker-Hub
         uses: docker/build-push-action@v3
