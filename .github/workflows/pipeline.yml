@@ -43,15 +43,13 @@ jobs:
 
   secret-scan:
     runs-on: ubuntu-24.04
+    needs: versioning
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: GitGuardian Secret Detection
-        uses: GitGuardian/ggshield-action@v1
-        with:
-          args: .
-        env:
-          GG_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+      - name: Run Gitleaks
+        run: |
+          gitleaks detect --source . --exit-code 1
 
 
   build:
