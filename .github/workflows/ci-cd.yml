@@ -86,6 +86,17 @@ jobs:
             ghcr.io/arinmoyal/my-app:${{ github.sha }}
             ghcr.io/arinmoyal/my-app:latest
 
+    - name: Install Cosign
+      uses: sigstore/cosign-installer-action@v2.1.0
+
+    - name: Sign Docker image with Cosign
+      run: |
+        cosign sign ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+
+    - name: Verify Docker image signature
+      run: |
+        cosign verify ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+
     - name: Deploy
       run: |
           docker run --rm ghcr.io/arinmoyal/my-app:latest
