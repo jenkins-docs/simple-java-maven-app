@@ -65,7 +65,6 @@ jobs:
           vuln-type: 'os'
           severity: 'CRITICAL,HIGH'
 
-
   build:
     runs-on: ubuntu-24.04
     needs:
