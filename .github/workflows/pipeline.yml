@@ -7,13 +7,13 @@ jobs:
   snyk-test:
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@master
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/maven@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=critical
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=critical
 
   versioning:
     runs-on: ubuntu-24.04
