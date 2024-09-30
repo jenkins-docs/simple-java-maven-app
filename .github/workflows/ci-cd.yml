@@ -11,92 +11,94 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Build with Maven
-      run: mvn clean install
+      - name: Build with Maven
+        run: mvn clean install
 
-    - name: Run SpotBugs
-      run: mvn spotbugs:check
+      - name: Run SpotBugs
+        run: mvn spotbugs:check
 
 
   check_and_build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Grant permission for OIDC token
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/maven@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=critical
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=critical
 
-    - name: Extract current version and increment
-      run: |
-        CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
-        echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
-        IFS='-' read -r version snapshot <<< "$CURRENT_VERSION"
-        IFS='.' read -r major minor patch <<< "$version"
-        new_patch=$((patch + 1))
-        new_version="$major.$minor.$new_patch-SNAPSHOT"
-        echo "new_version=$new_version" >> $GITHUB_ENV
-        sed -i "0,/<version>/s|<version>.*</version>|<version>$new_version</version>|" pom.xml
+      - name: Extract current version and increment
+        run: |
+          CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
+          IFS='-' read -r version snapshot <<< "$CURRENT_VERSION"
+          IFS='.' read -r major minor patch <<< "$version"
+          new_patch=$((patch + 1))
+          new_version="$major.$minor.$new_patch-SNAPSHOT"
+          echo "new_version=$new_version" >> $GITHUB_ENV
+          sed -i "0,/<version>/s|<version>.*</version>|<version>$new_version</version>|" pom.xml
 
-    - name: Add and commit new version
-      uses: EndBug/add-and-commit@v9
-      with:
-        add: 'pom.xml'
-        fetch: false
-        message: 'Updating pom.xml version. [skip ci]'
-        push: true
+      - name: Add and commit new version
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'pom.xml'
+          fetch: false
+          message: 'Updating pom.xml version. [skip ci]'
+          push: true
 
-    - name: Lint Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: Dockerfile
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build, test, and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: Dockerfile
-        platforms: linux/amd64
-        push: true
-        tags: |
+      - name: Build, test, and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
             ghcr.io/arinmoyal/my-app:${{ github.sha }}
             ghcr.io/arinmoyal/my-app:latest
 
-    - name: Install Cosign
-      uses: sigstore/cosign-installer@v3.6.0
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.6.0
 
-    - name: Sign Docker image with Cosign
-      run: |
+      - name: Sign Docker image with Cosign
+        run: |
           cosign sign ghcr.io/arinmoyal/my-app:${{ github.sha }} --identity-token ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Verify Docker image signature
-      run: |
-        cosign verify ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+      - name: Verify Docker image signature
+        run: |
+          cosign verify ghcr.io/arinmoyal/my-app:${{ github.sha }}
 
-    - name: Deploy
-      run: |
+      - name: Deploy
+        run: |
           docker run --rm ghcr.io/arinmoyal/my-app:latest
