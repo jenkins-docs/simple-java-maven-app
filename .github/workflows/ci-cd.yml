@@ -36,7 +36,7 @@ jobs:
       with:
         add: 'pom.xml'
         fetch: false
-        message: 'Updating pom.xml version. [skip ci]'
+        message: 'Updating the new pom.xml version. [skip ci]'
         push: true
 
     - name: Lint Dockerfile
