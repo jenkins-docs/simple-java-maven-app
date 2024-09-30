@@ -29,6 +29,21 @@
             <release>17</release>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>10.0.4</version>
+          <configuration>
+            <failBuildOnCVSS>9</failBuildOnCVSS>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>

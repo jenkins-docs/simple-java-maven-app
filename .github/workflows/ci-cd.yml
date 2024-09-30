@@ -13,6 +13,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Set up Java 17 with Temurin
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Check dependencies with OWASP Dependency-Check
+      run: |
+        mvn verify
+
     - name: Extract current version and increment
       run: |
         CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
