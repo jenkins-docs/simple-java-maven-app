@@ -40,7 +40,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: "Testing gitleaks lol"
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build, test, and push Docker image
       uses: docker/build-push-action@v5
