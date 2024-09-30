@@ -73,9 +73,9 @@ jobs:
         with:
           scan-type: 'config'
           scan-ref: '.'
-          format: 'table'
+          format: 'sarif'
           exit-code: '1'
-          vuln-type: 'os'
+          vuln-type: 'os, library'
           severity: 'CRITICAL,HIGH'
 
   Build:
