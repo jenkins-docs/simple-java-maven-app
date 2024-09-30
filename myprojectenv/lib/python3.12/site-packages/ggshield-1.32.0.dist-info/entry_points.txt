@@ -1,0 +1,2 @@
+[console_scripts]
+ggshield = ggshield.__main__:main
