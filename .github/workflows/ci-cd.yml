@@ -39,17 +39,10 @@ jobs:
         message: 'Updating pom.xml version. [skip ci]'
         push: true
 
-    - name: Install dockle to scan Dockerfile before build
-      run: |
-        VERSION=$(
-         curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
-         grep '"tag_name":' | \
-         sed -E 's/.*"v([^"]+)".*/\1/' \
-        ) && curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.deb
-        dpkg -i dockle.deb && rm dockle.deb
-
-    - name: Run dockle scan
-      run: dockle --exit-code 1 --input-type dockerfile --input ./Dockerfile
+    - name: Run Snyk scan on Dockerfile
+      uses: snyk/actions/dockerfile@master
+      env:
+        SNYK_TOKEN: ${{ SNYK_TOKEN }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
