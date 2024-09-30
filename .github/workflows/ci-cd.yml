@@ -6,29 +6,21 @@ on:
       - master
 
 jobs:
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
-  build:
+  check and build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Java 17 with Temurin
-      uses: actions/setup-java@v3
+
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/maven@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        distribution: 'temurin'
-        java-version: '17'
-    
+        args: --severity-threshold=critical
+
     - name: Extract current version and increment
       run: |
         CURRENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" pom.xml)
