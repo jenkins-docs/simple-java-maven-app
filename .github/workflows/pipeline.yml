@@ -56,38 +56,34 @@ jobs:
   Trivy-docker-file:
     runs-on: ubuntu-24.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Scan Dockerfile with Trivy
-      uses: aquasecurity/trivy-action@0.20.0
-      with:
-        scan-type: 'config'
-        scan-ref: '.'
-        format: 'table'
-        exit-code: '1'
-        vuln-type: 'os, library'
-        severity: 'CRITICAL,HIGH'
-
-  Login:
-    runs-on: ubuntu-24.04
-    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: login to Dockerhub
-        uses: docker/login-action@v3
+      - name: Scan Dockerfile with Trivy
+        uses: aquasecurity/trivy-action@0.20.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '1'
+          vuln-type: 'os, library'
+          severity: 'CRITICAL,HIGH'
+
+
+
 
   Build:
     runs-on: ubuntu-24.04
     needs:
       - versioning
       - Trivy-docker-file
-      - Login
     steps:
-      - name: checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
+      - name: login to Dockerhub
+        uses: docker/login-action@v3
+      - with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push to Docker-Hub
         uses: docker/build-push-action@v3
