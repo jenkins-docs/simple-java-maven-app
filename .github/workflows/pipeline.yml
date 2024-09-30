@@ -85,6 +85,7 @@ jobs:
     needs:
       - versioning
       - Trivy-docker-file
+      - Login
     steps:
       - name: checkout
         uses: actions/checkout@v3
