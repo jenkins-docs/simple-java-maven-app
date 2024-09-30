@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Static Analysis on Merge
 
 on:
   push:
@@ -6,12 +6,33 @@ on:
       - master
 
 jobs:
-  check-and-build:
+  SAST:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Build with Maven
+      run: mvn clean install
+
+    - name: Run SpotBugs
+      run: mvn spotbugs:check
+
+
+  check_and_build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/maven@master
@@ -36,7 +57,7 @@ jobs:
       with:
         add: 'pom.xml'
         fetch: false
-        message: 'Updating the new pom.xml version. [skip ci]'
+        message: 'Updating pom.xml version. [skip ci]'
         push: true
 
     - name: Lint Dockerfile
