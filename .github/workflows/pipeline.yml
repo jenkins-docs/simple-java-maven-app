@@ -14,11 +14,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/maven@master
+      uses: snyk/actions/maven@v3
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        args: --severity-threshold=critical --fail-on=all
+        args: --severity-threshold=critical --fail-on=al
 
   versioning:
     runs-on: ubuntu-24.04
