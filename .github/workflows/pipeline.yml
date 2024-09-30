@@ -50,26 +50,23 @@ jobs:
         git tag $NEW_TAG
         git push origin $NEW_TAG
 
-  trivy-dockerfile-scan:
+  trivy-dockerfile-scan :
     runs-on: ubuntu-24.04
+    needs:
+      - versioning
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Scan Dockerfile with Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          scan-type: 'config'  # Specify config to scan Dockerfile and IaC
-          scan-ref: '.'        # Path to the Dockerfile or configuration
+          scan-type: 'config'
+          scan-ref: '.'
           format: 'table'
-          exit-code: '1'       # Fail if vulnerabilities are found
+          exit-code: '1'
           vuln-type: 'os'
           severity: 'CRITICAL,HIGH'
 
-  build:
-    runs-on: ubuntu-24.04
-    needs:
-      - versioning
-    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: login to Dockerhub
