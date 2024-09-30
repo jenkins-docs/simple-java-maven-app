@@ -88,10 +88,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+
       - name: Build and push to Docker-Hub
         uses: docker/build-push-action@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           context: .
           push: true
           tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
