@@ -39,10 +39,10 @@ jobs:
         message: 'Updating pom.xml version. [skip ci]'
         push: true
 
-    - name: Run Snyk scan on Dockerfile
-      uses: snyk/actions/dockerfile@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Lint Dockerfile
+      uses: hadolint/hadolint-action@v2
+      with:
+        dockerfile: Dockerfile
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
