@@ -30,10 +30,6 @@ jobs:
   check_and_build:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      id-token: write # for OIDC (cosign)
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
