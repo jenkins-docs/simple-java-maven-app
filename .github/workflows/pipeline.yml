@@ -86,16 +86,18 @@ jobs:
       - versioning
       - Trivy-docker-file
     steps:
-    - name: Build and push to Docker-Hub
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        push: true
-        tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Build and push to Docker-Hub
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
 
-    - name: Pull and Run from Dockerhub
-      run: |
-       docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-       docker run  --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+      - name: Pull and Run from Dockerhub
+        run: |
+         docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+         docker run  --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
 
 
