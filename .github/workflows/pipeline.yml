@@ -4,6 +4,22 @@ on:
     branches: [ "master", "dev" ]
 
 jobs:
+  snyk-test:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/maven@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=critical --fail-on=all
+
   versioning:
     runs-on: ubuntu-24.04
     outputs:
@@ -41,22 +57,7 @@ jobs:
         git tag $NEW_TAG
         git push origin $NEW_TAG
 
-  snyk:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=critical --fail-on=all
-
+ 
 
   build:
     runs-on: ubuntu-24.04
