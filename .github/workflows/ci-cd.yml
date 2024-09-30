@@ -30,6 +30,10 @@ jobs:
   check_and_build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write # for OIDC (cosign)
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -91,7 +95,7 @@ jobs:
 
     - name: Sign Docker image with Cosign
       run: |
-        cosign sign ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+          cosign sign ghcr.io/ghcr.io/arinmoyal/my-app:${{ github.sha }} --identity-token ${{ secrets.GITHUB_TOKEN }}
 
     - name: Verify Docker image signature
       run: |
