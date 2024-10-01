@@ -14,3 +14,5 @@ myprojectenv
 !/.mvn/wrapper/maven-wrapper.jar
 docker-compose.yml
 .idea
+cosign.key
+cosign.pub
