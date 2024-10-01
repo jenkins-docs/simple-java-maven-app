@@ -112,11 +112,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Set up Maven 3.9.2
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
       - name: Install Maven 3.9.2
         run: |
           sudo apt-get update
@@ -126,6 +121,6 @@ jobs:
       - name: SonarQube Scanner
         run: |
           mvn clean verify sonar:sonar \
-          -Dsonar.projectKey=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
