@@ -73,7 +73,6 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - versioning
-      - Trivy-docker-file
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
