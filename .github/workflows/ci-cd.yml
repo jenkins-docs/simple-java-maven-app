@@ -83,7 +83,7 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: |
-            ghcr.io/arinmoyal/my-app:sha256:${{ github.sha }}
+            ghcr.io/arinmoyal/my-app:${{ github.sha }}
             ghcr.io/arinmoyal/my-app:latest
 
     - name: Install Cosign
@@ -91,7 +91,7 @@ jobs:
 
     - name: sign container image
       run: |
-          cosign sign --key env://COSIGN_KEY ghcr.io/arinmoyal/my-app:sha256:${{ github.sha }}
+          cosign sign --key env://COSIGN_KEY ghcr.io/arinmoyal/my-app:${{ github.sha }}
       shell: bash
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
