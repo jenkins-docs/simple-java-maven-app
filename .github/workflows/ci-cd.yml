@@ -95,11 +95,11 @@ jobs:
       shell: bash
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
-        COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
+        COSIGN_PUB: ${{secrets.COSIGN_PUB}}
 
     - name: Verify Docker image signature
       run: |
-        cosign verify --key ${{ secrets.COSIGN_PUB }} ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+        cosign verify --key env://COSIGN_PUB ghcr.io/arinmoyal/my-app:${{ github.sha }}
 
     - name: Deploy
       run: |
