@@ -89,9 +89,13 @@ jobs:
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.6.0
 
-    - name: Sign Docker image with Cosign
+    - name: sign container image
       run: |
-          cosign sign --key ${{ secrets.COSIGN_KEY }} ghcr.io/arinmoyal/my-app:${{ github.sha }}
+        cosign sign --key env://COSIGN_KEY ghcr.io/arinmoyal/my-app:${{ github.sha }}
+      shell: bash
+      env:
+        COSIGN_KEY: ${{secrets.COSIGN_KEY}}
+        COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
     - name: Verify Docker image signature
       run: |
