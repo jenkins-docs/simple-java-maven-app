@@ -91,11 +91,11 @@ jobs:
 
     - name: Sign Docker image with Cosign
       run: |
-          cosign sign ghcr.io/arinmoyal/my-app:${{ github.sha }} --identity-token ${{ secrets.GITHUB_TOKEN }}
+          cosign sign --key ${{ secrets.COSIGN_KEY }} ghcr.io/arinmoyal/my-app:${{ github.sha }}
 
     - name: Verify Docker image signature
       run: |
-        cosign verify ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
+        cosign verify --key ${{ secrets.COSIGN_PUB }} ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
 
     - name: Deploy
       run: |
