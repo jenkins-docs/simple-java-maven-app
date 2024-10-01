@@ -144,7 +144,7 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY  ghcr.io/${{ github.repository }}:latest
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
