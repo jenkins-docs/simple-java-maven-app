@@ -105,7 +105,6 @@ jobs:
           IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
           echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
           echo "Image digest: $IMAGE_DIGEST"
-
       # Step 2: Sign container image with Cosign
       - name: Sign container image with Cosign
         run: |
@@ -113,14 +112,14 @@ jobs:
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
       # Step 3: Verify container image signature with Cosign
       - name: Verify container image signature with Cosign
         run: |
           docker pull docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
+          cosign verify --key env://COSIGN_PUBLIC_KEY --no-tuf ${{ env.IMAGE_DIGEST }}
         env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+
 
   sonarqube-analysis:
     runs-on: ubuntu-24.04
