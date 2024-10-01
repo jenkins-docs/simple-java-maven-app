@@ -83,7 +83,7 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: |
-            ghcr.io/arinmoyal/my-app:${{ github.sha }}
+            ghcr.io/arinmoyal/my-app:sha256:${{ github.sha }}
             ghcr.io/arinmoyal/my-app:latest
 
     - name: Install Cosign
