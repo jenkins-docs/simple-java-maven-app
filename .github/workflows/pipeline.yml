@@ -93,6 +93,34 @@ jobs:
         run: |
           docker pull matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
           docker run --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+          
+            - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.1.1
+
+      # Step 1: Get image digest
+      - name: Get image digest
+        id: get_digest
+        run: |
+          IMAGE_TAG=${{ needs.versioning.outputs.new_version }}
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
+          echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
+          echo "Image digest: $IMAGE_DIGEST"
+
+      # Step 2: Sign container image with Cosign
+      - name: Sign container image with Cosign
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_DIGEST }}
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
+      # Step 3: Verify container image signature with Cosign
+      - name: Verify container image signature with Cosign
+        run: |
+          docker pull docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
+        env:
+          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
 
   sonarqube-analysis:
     runs-on: ubuntu-24.04
@@ -125,31 +153,5 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=simple-maven-app
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.1.1
 
-      # Step 1: Get image digest
-      - name: Get image digest
-        id: get_digest
-        run: |
-          IMAGE_TAG=${{ needs.versioning.outputs.new_version }}
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
-          echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
-          echo "Image digest: $IMAGE_DIGEST"
-
-      # Step 2: Sign container image with Cosign
-      - name: Sign container image with Cosign
-        run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_DIGEST }}
-        env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
-      # Step 3: Verify container image signature with Cosign
-      - name: Verify container image signature with Cosign
-        run: |
-          docker pull docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
-        env:
-          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
 
