@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
     - snyk-test
-    - sonarqube-analysis
     outputs:
       new_version: ${{ steps.version.outputs.new_version }}
     steps:
