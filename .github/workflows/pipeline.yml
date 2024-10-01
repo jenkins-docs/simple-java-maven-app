@@ -142,9 +142,27 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.1.1
 
-      - name: Sign image with a key
+      # Step 1: Get image digest
+      - name: Get image digest
+        id: get_digest
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }})
+          echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
+          echo "Image digest: $IMAGE_DIGEST"
+
+      # Step 2: Sign container image with Cosign
+      - name: Sign container image with Cosign
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_DIGEST }}
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
+      # Step 3: Verify container image signature with Cosign
+      - name: Verify container image signature with Cosign
+        run: |
+          docker pull docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
+          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
+        env:
+          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+
