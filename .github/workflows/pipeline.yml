@@ -137,5 +137,5 @@ jobs:
           SONAR_HOST_URL: http://192.168.1.73:9001
         run: mvn -B -X verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=simple-maven-app \
-          -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+          -Dsonar.host.url= http://192.168.1.73:9001 \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
