@@ -128,14 +128,14 @@ jobs:
   Cosign:
     runs-on: ubuntu-latest
     needs:
-      Build-and-Login
+      - Build-and-Login
     permissions:
       contents: read
       packages: write
       id-token: write
-    name: build-image
     steps:
-      - uses: actions/checkout@v3.5.2
+      - name: Checkout repository
+        uses: actions/checkout@v3.5.2
         with:
           fetch-depth: 1
 
