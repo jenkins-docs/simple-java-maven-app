@@ -91,7 +91,7 @@ jobs:
 
     - name: sign container image
       run: |
-        cosign sign --key env://COSIGN_KEY ghcr.io/arinmoyal/my-app:${{ github.sha }}
+          cosign sign --key env://COSIGN_KEY ghcr.io/arinmoyal/my-app:sha256:${{ github.sha }}
       shell: bash
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
