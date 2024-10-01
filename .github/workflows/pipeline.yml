@@ -148,7 +148,7 @@ jobs:
         run: |
           IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }})
           echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
-          echo "Image digest: $IMAGE_DIGEST"
+          echo "Image digest: $IMAGE_DIGEST" 
 
       # Step 2: Sign container image with Cosign
       - name: Sign container image with Cosign
@@ -165,4 +165,3 @@ jobs:
           cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
         env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
-
