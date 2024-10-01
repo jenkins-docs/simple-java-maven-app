@@ -100,8 +100,6 @@ jobs:
 
   sonarqube-analysis:
     runs-on: ubuntu-24.04
-    needs:
-      - Build-and-Login
     if: |
       github.event_name == 'push' && github.ref_name == 'master'
     steps:
