@@ -90,8 +90,8 @@ jobs:
           push: true
           tags: matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.1.1
+      - name: Set up cosign
+        uses: sigstore/cosign-installer@main
       - name: Get image digest
         id: get_digest
         run: |
