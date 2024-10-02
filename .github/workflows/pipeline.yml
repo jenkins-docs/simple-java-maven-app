@@ -104,7 +104,7 @@ jobs:
         run: |
           cosign sign --yes --key env://COSIGN_KEY ${{ env.IMAGE_DIGEST }}
         env:
-          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+          COSIGN_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
 
       - name: Verify container image signature with Cosign
