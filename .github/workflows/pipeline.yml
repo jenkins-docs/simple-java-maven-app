@@ -102,18 +102,17 @@ jobs:
 
       - name: Sign container image with Cosign
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_DIGEST }}
+          cosign sign --yes --key env://COSIGN_KEY ${{ env.IMAGE_DIGEST }}
         env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-      - name: Decode COSIGN public key
-        run: |
-          echo $COSIGN_PUBLIC_KEY | base64 -d > cosign_pub_key.pem
+
       - name: Verify container image signature with Cosign
         run: |
-          cosign verify docker.io/***/maven-hello-world:${{ env.IMAGE_TAG }} --key ${{ secrets.COSIGN_PUBLIC_KEY }}
+          docker pull docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
+          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
         env:
-          IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}
+          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
 
 
 
