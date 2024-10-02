@@ -92,6 +92,7 @@ jobs:
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.1.1
+
       - name: Get image digest
         id: get_digest
         run: |
@@ -99,21 +100,24 @@ jobs:
           IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
           echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
           echo "Image digest: $IMAGE_DIGEST"
+
       - name: Sign container image with Cosign
         run: |
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_DIGEST }}
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
       - name: Verify container image signature with Cosign
-      - run: |
-          cosign verify docker.io/matankaufman/maven-hello-world:${IMAGE_TAG} --key $COSIGN_PUBLIC_KEY -o text
-      - env:
+        run: |
+          cosign verify docker.io/matankaufman/maven-hello-world:${{ env.IMAGE_TAG }} --key $COSIGN_PUBLIC_KEY -o text
+        env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
           IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}
 
-    
-  
+
+
+
 
   sonarqube-analysis:
     runs-on: ubuntu-24.04
