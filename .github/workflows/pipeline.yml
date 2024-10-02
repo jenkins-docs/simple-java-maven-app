@@ -96,7 +96,7 @@ jobs:
         id: get_digest
         run: |
           IMAGE_TAG=${{ needs.versioning.outputs.new_version }}
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${IMAGE_TAG})
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }})
           echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
           echo "Image digest: $IMAGE_DIGEST"
 
