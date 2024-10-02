@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
     - snyk-test
+    - Trivy-docker-file
     outputs:
       new_version: ${{ steps.version.outputs.new_version }}
     steps:
@@ -106,13 +107,13 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       # Step 3: Verify container image signature with Cosign
       - name: Verify container image signature with Cosign
-        run: |
-          docker pull docker.io/matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-          cosign verify --key env://COSIGN_PUBLIC_KEY ${{ env.IMAGE_DIGEST }}
-          docker run --name maven_hello_world matankaufman/maven-hello-world:${{ needs.versioning.outputs.new_version }}
-        env:
+      - env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
-
+          IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}  # Assuming IMAGE_TAG is set from a previous step
+      - run: |
+          cosign verify docker.io/matankaufman/maven-hello-world:${IMAGE_TAG} --key $COSIGN_PUBLIC_KEY -o text
+    
+  
 
   sonarqube-analysis:
     runs-on: ubuntu-24.04
