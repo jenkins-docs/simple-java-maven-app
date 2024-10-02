@@ -110,7 +110,7 @@ jobs:
 
       - name: Verify container image signature with Cosign
         run: |
-          cosign verify docker.io/matankaufman/maven-hello-world:${{ env.IMAGE_TAG }} --key ${{ COSIGN_PUBLIC_KEY }} -o text
+          cosign verify docker.io/matankaufman/maven-hello-world:${{ env.IMAGE_TAG }} --key ${{ secrets.COSIGN_PUBLIC_KEY }} -o text
         env:
           COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
           IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}
