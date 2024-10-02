@@ -107,13 +107,22 @@ jobs:
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-
+      - name: Decode COSIGN public key
+        run: |
+          echo $COSIGN_PUBLIC_KEY | base64 -d > cosign_pub_key.pem
       - name: Verify container image signature with Cosign
         run: |
-          cosign verify docker.io/***/maven-hello-world:${{ env.IMAGE_TAG }} --key $COSIGN_PUBLIC_KEY
+          cosign verify docker.io/***/maven-hello-world:${{ env.IMAGE_TAG }} --key cosign_pub_key.pem
         env:
-          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
           IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}
+
+
+#      - name: Verify container image signature with Cosign
+#        run: |
+#          cosign verify docker.io/***/maven-hello-world:${{ env.IMAGE_TAG }} --key $COSIGN_PUBLIC_KEY
+#        env:
+#          COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+#          IMAGE_TAG: ${{ needs.versioning.outputs.new_version }}
 
 
   sonarqube-analysis:
