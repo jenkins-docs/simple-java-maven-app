@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  autoversion:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - id: nextversion
+        name: next release version
+        uses: jenkins-x-plugins/jx-release-version@v2.7.6
+
+      - name: do something with the next version
+        run: echo next version is $VERSION
+        env:
+          VERSION: ${{ steps.nextversion.outputs.version }}
