@@ -36,7 +36,7 @@ echo 'extracts the value of the <version/> element within <project/> instead.'
 
 set -x
 
-VERSION=mvn help:evaluate -Dexpression=project.version | grep -E "^[0-9]+\.[0-9]+.*"
+VERSION=`mvn help:evaluate -Dexpression=project.version | grep -E "^[0-9]+\.[0-9]+.*"`
 
 set +x
 
