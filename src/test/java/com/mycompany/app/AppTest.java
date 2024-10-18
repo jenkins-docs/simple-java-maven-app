@@ -11,6 +11,7 @@ public class AppTest
 {
     @Test
     public void testAppConstructor() {
+        //testAppConstructor
         App app1 = new App();
         App app2 = new App();
         assertEquals(app1.getMessage(), app2.getMessage());
