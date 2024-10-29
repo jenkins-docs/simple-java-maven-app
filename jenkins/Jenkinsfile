@@ -20,5 +20,10 @@ pipeline {
                 }
             }
         }
+        stage('Finish') {
+            steps {
+                echo 'Finished deployment'
+            }
+        }
     }
 }
