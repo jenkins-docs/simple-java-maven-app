@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Complete') {
             steps {
-                sh 'Job complete Holz'
+                echo 'Job complete Holz'
             }
         }
     }
