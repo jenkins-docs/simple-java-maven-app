@@ -1,0 +1,29 @@
+name: Update Patch Version
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up shell script execution
+      - name: Run update-version script
+        run: |
+          chmod +x update-version.sh
+          ./update-version.sh
+
+      # Commit updated version to GitHub
+      - name: Commit updated version
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add pom.xml
+          git commit -m "Update patch version automatically"
+          git push
