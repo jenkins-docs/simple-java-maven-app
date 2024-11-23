@@ -1,5 +1,4 @@
 package com.mycompany.app;
-import java.util.Scanner;
 
 /**
  * Hello world!
@@ -11,12 +10,7 @@ public class App {
     public App() {}
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez entrer un texte :");
-        String texte = scanner.nextLine();
-
-        System.out.println("Vous avez entré : " + texte);
-        scanner.close();
+        System.out.println(MESSAGE);
     }
 
     public String getMessage() {
