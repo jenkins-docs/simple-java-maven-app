@@ -1,16 +1,24 @@
 pipeline {
     agent any
 
+    environment {
+        MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'maven'
+    }
+
     stages {
         stage('Build') {
             steps {
-                bat 'mvn -B -DskipTests clean package'
+                withEnv(["PATH+MAVEN=${MAVEN_HOME}/bin"]) {
+                    bat 'mvn -B -DskipTests clean package'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                withEnv(["PATH+MAVEN=${MAVEN_HOME}/bin"]) {
+                    bat 'mvn test'
+                }
             }
         }
 
