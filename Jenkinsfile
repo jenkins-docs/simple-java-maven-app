@@ -8,8 +8,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                env.PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-                bat 'mvn -B -DskipTests clean package'
+                script {
+                    env.PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+                    bat 'mvn -B -DskipTests clean package'
+                }
             }
         }
     }
