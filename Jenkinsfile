@@ -3,22 +3,19 @@ pipeline {
 
     environment {
         MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'maven'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
     }
 
     stages {
         stage('Build') {
             steps {
-                withEnv(["PATH+MAVEN=${MAVEN_HOME}/bin"]) {
-                    bat 'mvn -B -DskipTests clean package'
-                }
+                bat 'mvn -B -DskipTests clean package'
             }
         }
 
         stage('Test') {
             steps {
-                withEnv(["PATH+MAVEN=${MAVEN_HOME}/bin"]) {
-                    bat 'mvn test'
-                }
+                bat 'mvn test'
             }
         }
 
