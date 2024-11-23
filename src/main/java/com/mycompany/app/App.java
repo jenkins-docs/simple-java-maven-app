@@ -10,7 +10,12 @@ public class App {
     public App() {}
 
     public static void main(String[] args) {
-        System.out.println(MESSAGE);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Veuillez entrer un texte :");
+        String texte = scanner.nextLine();
+
+        System.out.println("Vous avez entré : " + texte);
+        scanner.close();
     }
 
     public String getMessage() {
