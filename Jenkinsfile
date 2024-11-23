@@ -16,7 +16,9 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                withEnv(["PATH+MAVEN=${MAVEN_HOME}/bin"]) {
+                    bat 'mvn test'
+                }
             }
         }
 
