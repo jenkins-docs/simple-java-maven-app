@@ -25,4 +25,6 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 set -x
 echo ${NAME}
 echo ${VERSION}
+APP=${NAME}-${VERSION}.jar
+echo ${APP}
 java -jar `target/${NAME}-${VERSION}.jar`
