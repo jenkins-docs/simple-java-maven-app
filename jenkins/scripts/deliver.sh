@@ -28,6 +28,6 @@ chmod -R 777 target/*
 cd target
 echo $NAME
 echo $VERSION
-echo ${NAME}
-echo ${VERSION}
+echo ${POM_NAME}
+echo ${POM_VERSION}
 java -jar $NAME"-"$VERSION".jar"
