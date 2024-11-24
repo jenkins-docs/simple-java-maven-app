@@ -27,4 +27,4 @@ echo ${NAME}
 echo ${VERSION}
 APP=${NAME}-${VERSION}.jar
 echo ${APP}
-java -jar target/${APP}
+sh "java -jar target/${APP}"
