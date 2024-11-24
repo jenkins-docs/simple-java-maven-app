@@ -26,4 +26,4 @@ set -x
 chmod -R 777 target/*
 chmod -R 777 target/*
 cd target
-java -jar ${NAME}\-${VERSION}.jar
+java -jar ${NAME}'-'${VERSION}.jar
