@@ -26,8 +26,8 @@ set -x
 
 chmod -R 777 target/*
 cd target
-echo $name
-echo $version
-echo ${name}
-echo ${version}
+echo $NAME
+echo $VERSION
+echo ${NAME}
+echo ${VERSION}
 java -jar $NAME"-"$VERSION".jar"
