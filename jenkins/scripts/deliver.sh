@@ -28,6 +28,6 @@ cd target
 pwd
 echo 'target/my-app-1.0-SNAPSHOT.jar'
 set -x
-APP_NAME= '${NAME}-${VERSION}.jar
+APP_NAME= '${NAME}-${VERSION}.jar'
 echo ${APP_NAME}
 java -jar ${APP_NAME}
