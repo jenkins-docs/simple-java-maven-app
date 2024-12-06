@@ -5,19 +5,19 @@ package com.mycompany.app;
 /**
  * Hello world!
  */
-public class App
-{
+public class App {
+
 
     private final String message = "Hello from Upshiftnow!";
+
 
     public App() {}
 
     public static void main(String[] args) {
-        System.out.println(new App().getMessage());
+        System.out.println(MESSAGE);
     }
 
-    private final String getMessage() {
-        return message;
+    public String getMessage() {
+        return MESSAGE;
     }
-
 }
