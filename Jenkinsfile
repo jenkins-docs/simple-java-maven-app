@@ -1,28 +1,57 @@
-node {
-    try {
-        // Use the Maven installation specified in Jenkins
-        withMaven(maven: 'Maven 3.6.3') {
-            stage('Build') {
-                // Skipping tests during package
+// node {
+//     try {
+//         // Use the Maven installation specified in Jenkins
+//         withMaven(maven: 'Maven 3.6.3') {
+//             stage('Build') {
+//                 // Skipping tests during package
+//                 sh 'mvn -B -DskipTests clean package'
+//             }
+
+//             stage('Test') {
+//                 // Run tests
+//                 sh 'mvn test'
+                
+//                 // Always publish test results
+//                 junit 'target/surefire-reports/*.xml'
+//             }
+
+//             stage('Deliver') {
+//                 // Run delivery script
+//                 sh './jenkins/scripts/deliver.sh'
+//             }
+//         }
+//     } catch (Exception e) {
+//         // Handle any exceptions
+//         currentBuild.result = 'FAILURE'
+//         throw e
+//     }
+// }
+
+pipeline {
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+        stage('Build') {
+            steps {
                 sh 'mvn -B -DskipTests clean package'
             }
-
-            stage('Test') {
-                // Run tests
+        }
+        stage('Test') {
+            steps {
                 sh 'mvn test'
-                
-                // Always publish test results
-                junit 'target/surefire-reports/*.xml'
             }
-
-            stage('Deliver') {
-                // Run delivery script
-                sh './jenkins/scripts/deliver.sh'
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
-    } catch (Exception e) {
-        // Handle any exceptions
-        currentBuild.result = 'FAILURE'
-        throw e
+        stage('Deliver') { 
+            steps {
+                sh './jenkins/scripts/deliver.sh' 
+            }
+        }
     }
 }
