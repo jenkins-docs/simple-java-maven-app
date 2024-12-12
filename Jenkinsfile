@@ -31,7 +31,7 @@ pipeline {
     agent any
     tools { 
         maven '3.9.9' 
-        jdk 'jdk23' 
+        jdk 'jdk-23' 
     }
     options {
         skipStagesAfterUnstable()
