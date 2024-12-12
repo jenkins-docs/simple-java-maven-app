@@ -29,22 +29,22 @@
 
 pipeline {
     agent any
+        tools { 
+        maven 'Maven 3.9.9' 
+        jdk 'jdk8' 
+    }
     options {
         skipStagesAfterUnstable()
     }
     stages {
         stage('Build') {
             steps {
-                withMaven {
-                    sh 'mvn -B -DskipTests clean package'
-                } 
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                withMaven {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
             }
             post {
                 always {
@@ -54,9 +54,7 @@ pipeline {
         }
         stage('Deliver') { 
             steps {
-                withMaven {
-                    sh './jenkins/scripts/deliver.sh' 
-                }
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }
