@@ -64,9 +64,11 @@
 
 // Scripted Pipeline
 node {
+    // Define tools
     def mavenTool = tool name: '3.9.9', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
-    env.PATH = "${jdkTool}/bin:${mavenTool}/bin:${env.PATH}"
+    
+    env.PATH = "${env.JAVA_HOME}"
 
     def skipStages = false
 
@@ -75,7 +77,7 @@ node {
             if (skipStages) {
                 echo 'Skipping Build stage because a previous stage was unstable.'
             } else {
-                sh "${mavenTool}/bin/mvn -B -DskipTests clean package"
+                sh 'mvn -B -DskipTests clean package'
             }
         }
 
@@ -84,7 +86,7 @@ node {
                 echo 'Skipping Test stage because a previous stage was unstable.'
             } else {
                 try {
-                    sh "${mavenTool}/bin/mvn test"
+                    sh 'mvn test'
                 } finally {
                     junit 'target/surefire-reports/*.xml'
                 }
@@ -108,3 +110,4 @@ node {
         }
     }
 }
+
