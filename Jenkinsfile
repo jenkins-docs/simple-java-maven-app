@@ -62,6 +62,7 @@
 //     }
 // }
 
+// Scripted Pipeline
 node {
     def mavenTool = tool name: '3.9.9', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
