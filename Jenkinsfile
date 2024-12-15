@@ -68,23 +68,21 @@ node {
     def mavenTool = tool name: '3.9.9', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
     
-    env.PATH = "${env.JAVA_HOME}"
+    properties([
+        pipelineTriggers([cron('H/2 * * * *')])
+    ])
 
     def skipStages = false
 
     try {
         stage('Build') {
-            if (skipStages) {
-                echo 'Skipping Build stage because a previous stage was unstable.'
-            } else {
-                sh 'mvn -B -DskipTests clean package'
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
+                sh 'mvn clean package' 
             }
         }
 
         stage('Test') {
-            if (skipStages) {
-                echo 'Skipping Test stage because a previous stage was unstable.'
-            } else {
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
                 try {
                     sh 'mvn test'
                 } finally {
@@ -94,19 +92,18 @@ node {
         }
 
         stage('Deliver') {
-            if (skipStages) {
-                echo 'Skipping Deliver stage because a previous stage was unstable.'
-            } else {
-                sh './jenkins/scripts/deliver.sh'
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
+                // Instead of deliver.sh, explicitly define delivery steps here
+                // Example:
+                sh 'mvn deploy -DskipTests' // Or use a Jenkins plugin for deployment 
             }
         }
     } catch (e) {
-        skipStages = true
-        echo "Build failed: ${e}"
-        currentBuild.result = 'UNSTABLE'
+        echo "Build failed in stage '${currentBuild.currentResult}': ${e.getMessage()}"
+        currentBuild.result = 'UNSTABLE' 
     } finally {
-        if (skipStages) {
-            echo "Pipeline marked as unstable. Skipped remaining stages."
+        if (currentBuild.result == 'UNSTABLE') {
+            echo "Pipeline marked as unstable." 
         }
     }
 }
