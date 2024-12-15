@@ -27,6 +27,8 @@
 //     }
 // }
 
+// Declarative Pipeline
+
 pipeline {
     agent any
     tools { 
