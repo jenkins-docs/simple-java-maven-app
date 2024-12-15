@@ -54,10 +54,10 @@
 //                 }
 //             }
 //         }
-//         stage('Deliver') { 
-//             steps {
-//                 sh './jenkins/scripts/deliver.sh' 
-//             }
+        // stage('Deliver') { 
+        //     steps {
+        //         sh './jenkins/scripts/deliver.sh' 
+        //     }
 //         }
 //     }
 // }
@@ -93,9 +93,7 @@ node {
 
         stage('Deliver') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
-                // Instead of deliver.sh, explicitly define delivery steps here
-                // Example:
-                sh 'mvn deploy -DskipTests' // Or use a Jenkins plugin for deployment 
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     } catch (e) {
