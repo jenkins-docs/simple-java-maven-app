@@ -20,11 +20,6 @@ pipeline {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
-        }
-        stage('test SCM') {
-            steps {
-                echo "SCM update"
-            }
-        }        
+        }   
     }
 }
