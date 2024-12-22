@@ -16,6 +16,7 @@ node {
                 try {
                     sh 'mvn test'
                 } finally {
+                    sh 'ls -la target/surefire-reports/'
                     junit 'target/surefire-reports/*.xml'
                 }
             }
