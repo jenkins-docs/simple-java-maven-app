@@ -2,9 +2,13 @@ node {
     def mavenTool = tool name: '3.9.9', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
 
-    def skipStages = false
-
     try {
+        stage('Debug Tests') {
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
+                sh 'ls -R src/test/java/' 
+            }
+        }
+
         stage('Build') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
                 sh 'mvn clean package' 
@@ -37,4 +41,3 @@ node {
         }
     }
 }
-
