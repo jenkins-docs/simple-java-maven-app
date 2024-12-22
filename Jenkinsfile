@@ -26,10 +26,16 @@ node {
             }
         }
 
+        stage('Manual Approval') {
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
+                sh './jenkins/scripts/deliver.sh' 
+                input message: 'Lanjutkan ke tahap Deploy?'
+            }
+        }
+
         stage('Deploy') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
                 sh './jenkins/scripts/deliver.sh' 
-                // input message: 'Sudah selesai menggunakan Java App? (Klik "Proceed" untuk mengakhiri)'
                 echo 'Aplikasi akan berjalan selama 1 menit...'
                 sleep(time: 1, unit: 'MINUTES')
                 echo 'Waktu habis, aplikasi akan dihentikan.'
