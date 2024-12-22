@@ -3,11 +3,11 @@ node {
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
 
     try {
-        stage('Debug Tests') {
-            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
-                sh 'ls -R src/test/java/' 
-            }
-        }
+        // stage('Debug Tests') {
+        //     withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
+        //         sh 'ls -R src/test/java/' 
+        //     }
+        // }
 
         stage('Build') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
@@ -29,7 +29,10 @@ node {
         stage('Deploy') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
                 sh './jenkins/scripts/deliver.sh' 
-                input message: 'Sudah selesai menggunakan Java App? (Klik "Proceed" untuk mengakhiri)'
+                // input message: 'Sudah selesai menggunakan Java App? (Klik "Proceed" untuk mengakhiri)'
+                echo 'Aplikasi akan berjalan selama 1 menit...'
+                sleep(time: 1, unit: 'MINUTES')
+                echo 'Waktu habis, aplikasi akan dihentikan.'
             }
         }
     } catch (e) {
