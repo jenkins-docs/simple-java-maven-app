@@ -21,9 +21,10 @@ node {
             }
         }
 
-        stage('Deliver') {
+        stage('Deploy') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
                 sh './jenkins/scripts/deliver.sh' 
+                input message: 'Sudah selesai menggunakan Java App? (Klik "Proceed" untuk mengakhiri)'
             }
         }
     } catch (e) {
