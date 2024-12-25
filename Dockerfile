@@ -1,5 +1,5 @@
 # Use Maven to build the application
-FROM maven:3.8-openjdk-11 AS build
+FROM maven:3.9.2-openjdk-11 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean install
