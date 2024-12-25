@@ -1,23 +1,23 @@
-# First stage: Build with Maven
+# Stage 1: Build the application
 FROM maven:3.9.2-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Maven project files
+# Copy the Maven project files
 COPY pom.xml ./
 COPY src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests
 
-# 2ns stage: Runtime image
+# Stage 2: Create the runtime image
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copy the JAR file from build stage
-COPY --from=build /app/target/simple-app.jar ./simple-app.jar
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/my-app-1.0.2.jar ./my-app.jar
 
-# Expose port 80
-EXPOSE 80
+# Expose the application port (adjust if necessary)
+EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "simple-app.jar"]
+ENTRYPOINT ["java", "-jar", "my-app.jar"]
