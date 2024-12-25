@@ -7,28 +7,35 @@ on:
     branches: [ "master" ]
 
 jobs:
-  Build-Job:
+  Version-Bump:
     runs-on: ubuntu-latest
 
     steps:
-    
     - name: Checkout current repo
       uses: actions/checkout@v4
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: Install Updated Maven
-      uses: s4u/setup-maven-action@v1.17.0
-     
-    - name: Build and test project with Maven
-      run: mvn -B package --file pom.xml
 
     - name: Maven Version Bump Action
       id: bump
       uses: mickem/gh-action-bump-maven-version@v1.0.0
       env: 
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get Version
+      id: get_version
+      uses: battila7/get-version-action@v2.2.1
+      
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: yaafsome/java-maven-fork:${{ steps.get_version.outputs.version-without-v }}
+      
