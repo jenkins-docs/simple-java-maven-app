@@ -33,11 +33,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: yaafsome/java-maven-fork:${{ env.VERSION }}
-          build-args: |
-            VERSION: ${{ env.VERSION }}
+      - name: Build Docker Image
+        run: |
+          docker build -t yaafsome/java-maven-fork:${{ env.VERSION }} --build-arg VERSION=${{ env.VERSION }} .
+          docker push yaafsome/java-maven-fork:${{ env.VERSION }} 
