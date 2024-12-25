@@ -5,6 +5,7 @@ on:
     branches:
       - master
 
+
 jobs:
   update-version:
     runs-on: ubuntu-latest
@@ -29,25 +30,3 @@ jobs:
         git add version.txt
         git commit -m "Update version to $NEW_VERSION"
         git push
-
-  build-and-push:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    # Build Docker image
-    - name: Build Docker image
-      run: |
-        docker build -t stavtsdaka/githubactionproject:$NEW_VERSION .
-
-    - name: Log in to DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Push Docker image to DockerHub
-      run: |
-        docker push stavtsdaka/githubactionproject:$NEW_VERSION
-
