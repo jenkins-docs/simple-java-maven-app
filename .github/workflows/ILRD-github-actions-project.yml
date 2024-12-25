@@ -9,9 +9,6 @@ on:
 jobs:
   Build-Job:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
 
     steps:
     
@@ -29,11 +26,8 @@ jobs:
      
     - name: Build and test project with Maven
       run: mvn -B package --file pom.xml
-      env: 
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-    - name: Bump version
-      id: bump
-      uses: mickem/gh-action-bump-maven-version@v1.0.0
+    - name: Maven Version Bump Action
+      uses: nnichols/maven-version-bump-action@v5  
       env: 
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
