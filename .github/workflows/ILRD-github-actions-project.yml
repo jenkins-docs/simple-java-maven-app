@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      POM_VERSION: ${{ steps.extract_version.outputs.version }}
 
     steps:
       - name: Checkout current repo
@@ -42,6 +40,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: yaafsome/java-maven-fork:${{ env.POM_VERSION }}
+          tags: yaafsome/java-maven-fork:${{ steps.extract_version.outputs.version }}
           build-args: |
-            JAR_VERSION: ${{ env.POM_VERSION }}
+            JAR_VERSION: ${{ steps.extract_version.outputs.version }}
