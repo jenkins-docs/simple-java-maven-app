@@ -9,6 +9,9 @@ on:
 jobs:
   Build-Job:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
 
     steps:
     
@@ -35,11 +38,9 @@ jobs:
     - name: Build and test project with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Automated Version Bump
-      uses: Plugily-Projects/version-bump-action@v9
-      with:
-        github-token: ${{ secrets.ACCESS_TOKEN }}
-        auto-version-bump-mode: patch
+    - name: Bump version
+      id: bump
+      uses: mickem/gh-action-bump-maven-version@v1.0.0
             
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
