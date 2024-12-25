@@ -28,6 +28,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Maven Version Bump Action
-      uses: nnichols/maven-version-bump-action@v5  
+      id: bump
+      uses: mickem/gh-action-bump-maven-version@v1.0.0
       env: 
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
