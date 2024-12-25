@@ -3,26 +3,40 @@ name: Update Version and Build Docker Image
 on:
   push:
     branches:
-      - master
-
-
-build-and-push:
+      - master  
+jobs:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Step to increase the patch version
+    - name: Increase patch version
+      run: |
+        VERSION_FILE="version.txt"
+        CURRENT_VERSION=$(cat $VERSION_FILE)
+        IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+        NEW_PATCH=$((patch + 1))
+        NEW_VERSION="$major.$minor.$NEW_PATCH"
+        echo "New version: $NEW_VERSION"
+        echo $NEW_VERSION > $VERSION_FILE
+        # Save the NEW_VERSION as an environment variable to use in the next steps
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
     # Build Docker image
     - name: Build Docker image
       run: |
-        docker build -t myusername/myapp:$NEW_VERSION .
+        docker build -t stavtsdaka/githubactions:$NEW_VERSION .
 
+    # Log in to DockerHub
     - name: Log in to DockerHub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    # Push Docker image to DockerHub
     - name: Push Docker image to DockerHub
       run: |
-        docker push stavtsdaka/myapp:$NEW_VERSION
+        docker push myusername/githubactions:$NEW_VERSION
