@@ -14,9 +14,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-ARG VERSION
-ENV VERSION=$VERSION
-COPY --from=build /app/target/my-app-${VERSION}.jar ./my-app.jar
+COPY --from=build /app/target/my-app.jar ./my-app.jar
 
 # Expose the application port (adjust if necessary)
 EXPOSE 8080
