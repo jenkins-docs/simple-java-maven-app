@@ -30,8 +30,10 @@ jobs:
     - name: Build and test project with Maven
       run: mvn -B package --file pom.xml
       env: 
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
     - name: Bump version
       id: bump
       uses: mickem/gh-action-bump-maven-version@v1.0.0
+      env: 
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
