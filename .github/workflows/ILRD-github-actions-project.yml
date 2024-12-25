@@ -37,6 +37,18 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Create GitHub App Token
+      uses: actions/create-github-app-token@v1.11.1
+      id: GITREPO_ACCESS_TOKEN
+      with:
+        app-id: ${{ vars.APP_ID }}
+        private-key: ${{ secrets.PRIVATE_KEY }}
+      
+    - uses: ./actions/staging-tests
+      with:
+        token: ${{ steps.GITREPO_ACCESS_TOKEN.outputs.token }}
+            
+
     - name: Update Patch
       uses: qcastel/github-actions-maven-release@v1.12.43
       with:
