@@ -1,12 +1,10 @@
-# Stage 1: Build the application
+# Use Maven to build the application
 FROM maven:3.8-openjdk-11 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean install
 
-# Stage 2: Create the final image with only the built JAR
-FROM openjdk:11-jre-slim
-WORKDIR /app
-COPY --from=build /app/target/myapp.jar myapp.jar
-CMD ["java", "-jar", "myapp.jar"]
+# Run the application with the JRE (OpenJDK 11)
+CMD ["java", "-jar", "/app/target/myapp.jar"]
+
 
