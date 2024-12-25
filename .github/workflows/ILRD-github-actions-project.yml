@@ -43,5 +43,5 @@ jobs:
           context: .
           push: true
           tags: yaafsome/java-maven-fork:${{ env.POM_VERSION }}
-          build-args:
+          build-args: |
             JAR_VERSION: ${{ env.POM_VERSION }}
