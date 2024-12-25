@@ -6,27 +6,23 @@ on:
       - master
 
 
-jobs:
-  update-version:
+build-and-push:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Increase patch version
+    # Build Docker image
+    - name: Build Docker image
       run: |
-        VERSION_FILE="version.txt"
-        CURRENT_VERSION=$(cat $VERSION_FILE)
-        IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
-        NEW_PATCH=$((patch + 1))
-        NEW_VERSION="$major.$minor.$NEW_PATCH"
-        echo "New version: $NEW_VERSION"
-        echo $NEW_VERSION > $VERSION_FILE
+        docker build -t myusername/myapp:$NEW_VERSION .
 
-    - name: Commit updated version
+    - name: Log in to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push Docker image to DockerHub
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add version.txt
-        git commit -m "Update version to $NEW_VERSION"
-        git push
+        docker push stavtsdaka/myapp:$NEW_VERSION
