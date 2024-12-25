@@ -30,7 +30,7 @@ jobs:
     - name: Build and test project with Maven
       run: mvn -B package --file pom.xml
       env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     - name: Bump version
       id: bump
