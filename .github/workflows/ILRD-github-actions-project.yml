@@ -15,8 +15,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-    # Define runners
+  Build-Job:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,9 +31,17 @@ jobs:
 
     - name: Install Updated Maven
       uses: s4u/setup-maven-action@v1.17.0
+
+    - name: Cache the Maven packages to speed up build
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven- 
       
-    - name: Build with Maven
-      run: mvn package
+    - name: Build and test project with Maven
+      run: mvn -B package --file pom.xml
 
     - name: Increment version
       id: increment-version
