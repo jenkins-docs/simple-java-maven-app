@@ -2,25 +2,40 @@ name: Actions with Docker Project
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Maven Version Bump Action
-        id: bump
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Bump Maven Version
+        id: bump_version
         uses: mickem/gh-action-bump-maven-version@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Login to Docker Hub
+      - name: Extract Version from pom.xml
+        id: extract_version
+        uses: PERES-Richard/maven-get-version-action@v3.0.0
+        with:
+          path: '.'
+
+      - name: Set Version as Environment Variable
+        run: echo "POM_VERSION=${{ steps.extract_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -29,11 +44,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push Docker image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: yaafsome/java-maven-fork:latest
+          tags: yaafsome/java-maven-fork:${{ env.POM_VERSION }}
           build-args: |
-            VERSION: latest
+            VERSION: ${{ env.POM_VERSION }}
