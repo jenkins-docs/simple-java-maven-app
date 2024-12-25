@@ -1,5 +1,5 @@
 #Use Java 17
-FROM openjdk-17-jre-headless
+FROM openjdk-17-jre
 
 #Set Working directory
 WORKDIR /app
