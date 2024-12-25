@@ -38,4 +38,3 @@ jobs:
       with:
         push: true
         tags: yaafsome/java-maven-fork:${{ steps.get_version.outputs.version-without-v }}
-      
