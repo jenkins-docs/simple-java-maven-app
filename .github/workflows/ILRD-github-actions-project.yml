@@ -4,10 +4,10 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master"]    
 
 jobs:
-  Version-Bump:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,5 +36,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
+        context: .
         push: true
         tags: yaafsome/java-maven-fork:${{ steps.get_version.outputs.version-without-v }}
