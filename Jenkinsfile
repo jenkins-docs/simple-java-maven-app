@@ -1,5 +1,5 @@
 node {
-    def mavenTool = tool name: '3.9.9', type: 'maven'
+    def mavenTool = tool name: 'maven', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
     def dockerImage = 'liloid/java-maven-app:latest'
     def ec2Host = '13.229.208.132'
