@@ -6,11 +6,11 @@ node {
     def ec2User = 'ec2-user' // Replace with the correct user (e.g., ubuntu, ec2-user)
 
     try {
-        // stage('Debug Tests') {
-        //     withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
-        //         sh 'ls -R src/test/java/' 
-        //     }
-        // }
+        stage('Debug Tests') {
+            withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
+                sh 'pwd' 
+            }
+        }
 
         stage('Build') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
