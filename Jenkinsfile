@@ -56,11 +56,11 @@ node {
                 sshagent(['jenkins-docker-ssh']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << 'EOF'
-                        set -e
-                        sudo docker pull ${dockerImage}
-                        sudo docker stop java-maven-app || true
-                        sudo docker rm java-maven-app || true
-                        sudo docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
+                            set -e
+                            sudo docker pull ${dockerImage}
+                            sudo docker stop java-maven-app || true
+                            sudo docker rm java-maven-app || true
+                            sudo docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
                         EOF
                     """
                 }
