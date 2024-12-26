@@ -84,6 +84,7 @@ pipeline {
         }
         stage('Build') {
             steps {
+                sh 'ls -la'
                 sh 'mvn clean package'
             }
         }
