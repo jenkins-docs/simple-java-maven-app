@@ -48,11 +48,15 @@ node {
         stage('Deploy') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
+                    // Push Docker image to the registry
                     sh "docker push ${dockerImage}"
                 }
+
+                // Use SSH agent for connecting to EC2
                 sshagent(['jenkins-docker-ssh']) {
                     sh """
-                        ssh ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << EOF
+                        ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << EOF
+                        set -e
                         docker pull ${dockerImage}
                         docker stop java-maven-app || true
                         docker rm java-maven-app || true
@@ -61,12 +65,13 @@ node {
                     """
                 }
 
-                sh './jenkins/scripts/deliver.sh' 
+                echo 'Application deployed successfully!'
                 echo 'Aplikasi akan berjalan selama 1 menit...'
                 sleep(time: 1, unit: 'MINUTES')
                 echo 'Waktu habis, aplikasi akan dihentikan.'
             }
         }
+
     } catch (e) {
         echo "Build failed in stage '${currentBuild.currentResult}': ${e.getMessage()}"
         currentBuild.result = 'UNSTABLE' 
