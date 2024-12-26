@@ -50,15 +50,16 @@ node {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
                     sh "docker push ${dockerImage}"
                 }
-
-                // sh """
-                // ssh -i ${sshKey} ${ec2User}@${ec2Host} << EOF
-                // docker pull ${dockerImage}
-                // docker stop java-maven-app || true
-                // docker rm java-maven-app || true
-                // docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
-                // EOF
-                // """
+                sshagent(['ubuntu-ssh']) {
+                    sh """
+                    ssh ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << EOF
+                    docker pull ${dockerImage}
+                    docker stop java-maven-app || true
+                    docker rm java-maven-app || true
+                    docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
+                    EOF
+                    """
+                }
 
                 sh './jenkins/scripts/deliver.sh' 
                 echo 'Aplikasi akan berjalan selama 1 menit...'
@@ -75,28 +76,3 @@ node {
         }
     }
 }
-// pipeline {
-//     agent any
-//     tools { 
-//         maven 'maven' 
-//     }
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 checkout([$class: 'GitSCM', branches: [[name: '*/dev']],
-//                 userRemoteConfigs: [[url: 'file:///home/Documents/devops/cicd/simple-java-maven-app']]])
-//             }
-//         }
-//         stage('Clean Workspace') {
-//             steps {
-//                 deleteDir() // Deletes everything in the workspace
-//             }
-//         }
-//         stage('Build') {
-//             steps {
-//                 sh 'ls -la'
-//                 sh 'mvn clean package'
-//             }
-//         }
-//     }
-// }
