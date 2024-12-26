@@ -10,6 +10,9 @@ node {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
                 sh 'pwd'
             }
+            checkout([$class: 'GitSCM', branches: [[name: '*/dev']], 
+                userRemoteConfigs: [[url: 'file:///home/Documents/devops/cicd/simple-java-maven-app']]])
+            }
         }
 
         stage('Build') {
