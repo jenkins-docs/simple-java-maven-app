@@ -2,8 +2,8 @@ node {
     def mavenTool = tool name: '3.9.9', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
     def dockerImage = 'liloid/java-maven-app:latest'
-    def ec2Host = '13.229.208.132' // Replace with your EC2 instance's public IP
-    def ec2User = 'ec2-user' // Replace with the correct user (e.g., ubuntu, ec2-user)
+    def ec2Host = '13.229.208.132'
+    def ec2User = 'ec2-user'
 
     try {
         stage('Debug Tests') {
