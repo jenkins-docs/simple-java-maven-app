@@ -16,7 +16,6 @@ node {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
                 sh 'mvn clean package'
                 sh 'ls -la'
-                // Build Docker image
                 sh "docker build -t ${dockerImage} ."
             }
         }
