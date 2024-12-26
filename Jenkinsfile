@@ -50,14 +50,14 @@ node {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
                     sh "docker push ${dockerImage}"
                 }
-                sshagent(['ubuntu-ssh']) {
+                sshagent(['jenkins-docker-ssh']) {
                     sh """
-                    ssh ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << EOF
-                    docker pull ${dockerImage}
-                    docker stop java-maven-app || true
-                    docker rm java-maven-app || true
-                    docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
-                    EOF
+                        ssh ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com << EOF
+                        docker pull ${dockerImage}
+                        docker stop java-maven-app || true
+                        docker rm java-maven-app || true
+                        docker run -d --name java-maven-app -p 8080:8080 ${dockerImage}
+                        EOF
                     """
                 }
 
