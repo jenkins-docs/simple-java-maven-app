@@ -44,7 +44,6 @@ node {
                     sh "docker push ${dockerImage}"
                 }
 
-                // Deploy Docker container on EC2
                 // sh """
                 // ssh -i ${sshKey} ${ec2User}@${ec2Host} << EOF
                 // docker pull ${dockerImage}
