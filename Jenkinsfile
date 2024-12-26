@@ -8,7 +8,7 @@ node {
     try {
         stage('Debug Tests') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) { 
-                sh 'pwd' 
+                sh 'pwd'
             }
         }
 
@@ -41,7 +41,6 @@ node {
 
         stage('Deploy') {
             withEnv(["JAVA_HOME=${jdkTool}", "PATH+MAVEN=${mavenTool}/bin"]) {
-                // Push Docker image to Docker Hub
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
                     sh "docker push ${dockerImage}"
                 }
