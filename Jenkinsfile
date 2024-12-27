@@ -2,8 +2,8 @@ node {
     def mavenTool = tool name: 'maven', type: 'maven'
     def jdkTool = tool name: 'jdk-21', type: 'jdk'
     def dockerImage = 'liloid/java-maven-app:latest'
-    def ec2Host = '13.229.208.132'
-    def ec2User = 'ec2-user'
+    def ec2Host = 'xxx.xxx.xxx.xxx'
+    def ec2User = 'xxx'
 
     try {
 
@@ -53,7 +53,7 @@ node {
 
                 sshagent(['jenkins-docker-ssh']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-229-208-132.ap-southeast-1.compute.amazonaws.com \
+                        ssh -o StrictHostKeyChecking=no xxx@xxx.xxx.xxx.xxx.ap-southeast-1.compute.amazonaws.com \
                         "sudo docker pull ${dockerImage} && \
                         sudo docker stop java-maven-app || true && \
                         sudo docker rm java-maven-app || true && \
