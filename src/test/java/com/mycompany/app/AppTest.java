@@ -13,13 +13,13 @@ public class AppTest
     public void testAppConstructor() {
         App app1 = new App();
         App app2 = new App();
-        assertEquals(app1.getMessage(), app2.getMessage());
+        assertTrue(app1.getMessage(), app2.getMessage()); //changed assertEquals to assertTrue
     }
 
     @Test
     public void testAppMessage()
     {
         App app = new App();
-        assertEquals("Hello World!", app.getMessage());
+        assertFalse("Hello World!", app.getMessage()); //changed assertEquals to assertFalse
     }
 }
