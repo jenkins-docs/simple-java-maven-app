@@ -1,9 +1,10 @@
+// Pipeline script for Jenkins
 pipeline {
-	agent any
+    agent any
     stages {
-		stage('Build') {
-			steps {
-				sh 'mvn -B -DskipTests clean package'
+        stage('Build') { 
+            steps {
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
     }
