@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven_3.9.2' // Ensure this matches the name configured in Global Tool Configuration
+        maven 'Maven 3.9.2'
     }
     stages {
         stage('Build') {
