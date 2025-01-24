@@ -1,0 +1,38 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: surya
+  namespace: surya-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: surya
+  template:
+    metadata:
+      labels:
+        app: surya
+    spec:
+      containers:
+        - name: surya-cont
+          image:
+          env:
+            - name: application-details
+              valueFrom:
+                configMapKeyRef:
+                  name: java-maven
+                  key: APP_ENV
+            - name: sensitive-data-user
+              valueFrom:
+                secretKeyRef:
+                  name: app_secrets
+                  key: username
+            - name: sensitive-data-password
+              valueFrom:
+                secretKeyRef:
+                  name: app_secrets
+                  key: password
+          ports:
+            containerPort: 8080
+            protocol: TCP
+

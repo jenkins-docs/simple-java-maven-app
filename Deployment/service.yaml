@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: surya
+  ports:
+    containerPort: 8080
+    protocol: TCP
+type: ClusterIP

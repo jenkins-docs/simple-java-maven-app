@@ -1,0 +1,72 @@
+name: simple-maven #
+
+on:
+  push:
+    branches:
+      - teja
+
+jobs:
+  java-maven:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout to branch"
+        uses:
+
+      - name: "Install Java"
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: "Install Maven"
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.8.2
+
+      - name: "Clean the target files"
+        run: |
+          #!/bin/bash
+          mvn clean 
+
+      - name: "Generate target files"
+        run: |
+          #!/bin/bash
+          mvn package --file pom.xml
+        shell: bash
+
+      - name: "Build Docker Image"
+        run: |
+          #!/bin/bash
+          docker build -t maven ./simple-java-maven-app/surya/teja/Dockerfile .
+        shell: bash
+
+      - name: "Configure GCP SDK"
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: "Authenticate SA"
+        uses:
+        with:
+          credentials_json: ${{ secrets.SA }}
+        shell: bash
+
+      - name: "Tag and push docker images to GAR"
+        run: |
+          #!/bin/bash
+          docker tag maven us-central1-docker.pkg.dev/pelagic-arch-447215-p4/surya-artifact/maven:latest
+          docker push us-central1-docker.pkg.dev/pelagic-arch-447215-p4/surya-artifact/maven:latest
+        shell: bash
+
+      - name: "Configure K8 Credentials"
+        run: |
+          #!/bin/bash
+          gcloud components install kubectl gke-gcloud-auth-plugin
+          gcloud config set project pelagic-arch-447215-p4
+          gcloud config set compute/region us-central1
+          gcloud container clusters get-credentials surya-gke-cluster --region=us-central1
+        shell: bash
+
+      - name: "Deployment"
+        run: |
+          #!/bin/bash
+          kubectl apply -f deployment.yaml
+        shell: bash
