@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: java-maven
+data:
+  application.properties: |-
+    APP_ENV: TEST
