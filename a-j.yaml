@@ -1,0 +1,15 @@
+---
+- name: Ansible Demo
+  hosts: "{{ host_group }}"
+  become: true
+
+  tasks:
+    - name: Install nginx latest version
+      apt:
+        name: nginx
+        state: latest
+
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
