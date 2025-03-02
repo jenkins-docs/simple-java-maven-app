@@ -8,8 +8,6 @@
 
 name: Build and Test
 
-runs-on: self-hosted
-
 on:
   push:
     branches: [ 'dev' ]
@@ -19,7 +17,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
