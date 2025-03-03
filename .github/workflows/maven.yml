@@ -32,6 +32,7 @@ jobs:
 
     - name: Custom stage
       run: |
+        echo "✅ Running Custom Stage..."
         set -e  # Stop execution on any error
         mkdir -p new  # Ensure 'new/' directory exists
         cp -v target/*.jar new/ || { echo "❌ No JAR files found!"; exit 1; }
