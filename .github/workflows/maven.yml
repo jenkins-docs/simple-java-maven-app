@@ -32,7 +32,9 @@ jobs:
 
     - name: Custom stage
       run: |
-        dir=$(pwd)
-        cp ./*.jar ./new/
+        set -e  # Stop execution on any error
+        mkdir -p new  # Ensure 'new/' directory exists
+        cp -v target/*.jar new/ || { echo "❌ No JAR files found!"; exit 1; }
+        ls -la new/  # Debugging: Show copied files
       
       
