@@ -29,3 +29,10 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Custom stage
+      run: |
+        dir=$(pwd)
+        cp ./*.jar ./new/
+      
+      
