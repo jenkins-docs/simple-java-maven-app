@@ -39,6 +39,10 @@ jobs:
       with:
         name: surefire-test-results
         path: target/surefire-reports/
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: target/surefire-reports/TEST-*.xml
 
 #    - name: Custom stage
 #      run: |
