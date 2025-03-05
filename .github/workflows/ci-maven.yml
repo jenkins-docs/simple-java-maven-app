@@ -32,7 +32,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Run tests
-      run: mvn surefire:test -Dtest=TestCircle
+      run: mvn surefire:test -Dtest=AppTest
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
