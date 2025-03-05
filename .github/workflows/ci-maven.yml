@@ -13,6 +13,7 @@ on:
     branches: [ "actions" ]
   pull_request:
     branches: [ "actions" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -37,5 +38,6 @@ jobs:
         mkdir -p new  # Ensure 'new/' directory exists
         cp -v target/*.jar new/ || { echo "❌ No JAR files found!"; exit 1; }
         ls -la new/  # Debugging: Show copied files
+        ls -la target/
       
       
