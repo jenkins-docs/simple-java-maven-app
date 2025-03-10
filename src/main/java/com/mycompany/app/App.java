@@ -18,5 +18,7 @@ public class App {
 
     public String getMessage() {
         return MESSAGE;
+        System.out.println(MESSAGE);
+        logger.info("My Message");  // Compliant, output via logger
     }
 }
