@@ -1,30 +1,75 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'  // Cache Maven dependencies
         }
     }
+    environment {
+        MAVEN_OPTS = '-Xmx1024m'  // Optional: You can set JVM options for Maven
+    }
     stages {
+        // Build Stage: Compiles the code and packages the app
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                echo 'Building the application...'
+                sh 'mvn -B -DskipTests clean package'  // Clean and build while skipping tests
             }
             post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                success {
+                    echo 'Build completed successfully.'
+                }
+                failure {
+                    echo 'Build failed. Check logs for details.'
                 }
             }
         }
+
+        // Test Stage: Runs unit tests
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'mvn test'  // Run tests
+            }
+            post {
+                always {
+                    // Collect and publish test results
+                    junit 'target/surefire-reports/*.xml'
+                }
+                success {
+                    echo 'Tests passed successfully.'
+                }
+                failure {
+                    echo 'Test execution failed. Check the test results.'
+                }
+            }
+        }
+
+        // Delivery Stage: Executes deployment or delivery script
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                echo 'Starting delivery...'
+                sh './jenkins/scripts/deliver.sh'  // Custom delivery script
             }
+            post {
+                success {
+                    echo 'Delivery completed successfully.'
+                }
+                failure {
+                    echo 'Delivery failed. Check the delivery script.'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Pipeline executed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed. Review the logs for details.'
         }
     }
 }
