@@ -26,5 +26,10 @@ pipeline {
                 echo 'Job Completed'
             }
         }
+        stage('Added Feature'){
+            steps{
+                echo 'Added Feature for Multibranch Pipeline'
+            }
+        }
     }
 }
