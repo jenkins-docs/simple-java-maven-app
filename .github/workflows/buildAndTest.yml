@@ -16,7 +16,7 @@ on:
 
 jobs:
 
-  buildAndTest:
+  buildAndTestDev:
 
     runs-on: self-hosted
     
