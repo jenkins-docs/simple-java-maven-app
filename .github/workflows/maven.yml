@@ -26,5 +26,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: my-artifact-1.0.${{ vars.GITHUB_RUN_NUMBER }}
+        name: my-artifact-1.0.${{ run.number }}
         path: /home/runner/work/simple-java-maven-app/simple-java-maven-app/target/my-app-1.0-SNAPSHOT.jar
