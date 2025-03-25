@@ -22,7 +22,7 @@ jobs:
 
     - name: Build with Docker
       uses: docker/build-push-action@v6
-        with: 
-          context: .
-          tags: my-java/app:latest
+      with: 
+        context: .
+        tags: my-java/app:latest
 
