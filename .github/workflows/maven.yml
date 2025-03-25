@@ -19,10 +19,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    
+    - name: Login to Dockerhub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build with Docker
       uses: docker/build-push-action@v6
       with: 
         context: .
-        tags: my-java/app:latest
+        push: true
+        tags: michaelaviram/java-app:latest
 
