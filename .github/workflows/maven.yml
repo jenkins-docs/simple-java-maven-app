@@ -30,6 +30,11 @@ jobs:
         context: .
         push: true
         tags: michaelaviram/java-app:latest
+    
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
 
     - name: Deploy to EC2
       env:
