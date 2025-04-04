@@ -30,7 +30,7 @@ jobs:
         context: .
         push: true
         tags: michaelaviram/java-app:latest
-    
+  """    
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -45,5 +45,6 @@ jobs:
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         docker run michaelaviram/java-app
         '
+  """"
 
 
