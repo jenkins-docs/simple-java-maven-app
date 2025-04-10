@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.meen.io/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.example</groupId>
@@ -44,7 +44,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.13.0</version>
           <configuration>
-            <release>17</release>
+            <release>11</release> <!-- Change this to your current JDK release if not using Java 17 -->
           </configuration>
         </plugin>
       </plugins>
@@ -77,10 +77,10 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>[3.9.2,)</version>
+                  <version>[3.6.0,)</version> <!-- Adjust to your current Maven version -->
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[17,)</version>
+                  <version>[11,)</version> <!-- Adjust to your current JDK version -->
                 </requireJavaVersion>
               </rules>
             </configuration>
