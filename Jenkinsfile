@@ -31,7 +31,7 @@ pipeline {
             steps {
                 bat 'echo Pakckaging...'
                 // Run Maven on a Unix agent.
-                bat "mvn package"
+                bat "mvn install"
             }
 
             post {
