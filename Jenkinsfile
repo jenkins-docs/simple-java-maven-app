@@ -12,27 +12,14 @@ pipeline {
                 // Get some code from a GitHub repository
                 git 'https://github.com/aymendr/simple-java-maven-app.git'
                 
-                bat 'echo Build Project on dev branch'
+                //bat 'echo Build Project on dev branch'
                 // Run Maven on a Unix agent.
-                bat "mvn -Dmaven.test.failure.ignore=true clean compile"
+                bat "mvn -Dmaven.test.failure.ignore=true clean install"
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-        }
-        stage('Test') {
-            steps {
-                bat 'echo Testing...'
-                // Run Maven on a Unix agent.
-                bat "mvn test"
-            }
-        }
-        stage('Packaging') {
-            steps {
-                bat 'echo Pakckaging...'
-                // Run Maven on a Unix agent.
-                bat "mvn install"
-            }
+                
 
             post {
                 // If Maven was able to run the tests, even if some of the test
