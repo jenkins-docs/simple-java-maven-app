@@ -1,7 +1,11 @@
 pipeline {
     agent any
-    options {
-        skipStagesAfterUnstable()
+    //options {
+     //   skipStagesAfterUnstable()
+    //}
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "Jenkins-maven"
     }
     stages {
         stage('Build') {
