@@ -36,12 +36,14 @@
       <scope>provided</scope>
     </dependency>
 
+ 
     <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>5.0.0</version> <!-- Use the version compatible with your Tomcat -->
-      <scope>provided</scope>
-    </dep endency>
+        <groupId>com.example</groupId>
+        <artifactId>example-artifact</artifactId>
+        <version>1.0.0</version>
+        <scope>compile</scope>
+    </dependency>
+
 
 
     <!-- JUnit 5 -->
