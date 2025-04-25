@@ -1,19 +1,17 @@
 package com.mycompany.app;
 
-/**
- * Hello world!
- */
+import static spark.Spark.get;
+import static spark.Spark.port;
+
 public class App {
 
-    private static final String MESSAGE = "Hello World!";
+    private static final String MESSAGE = "Hello from Spark Web Server!";
 
     public App() {}
 
-    public static void main(String[] args) throws InterruptedException {
-    while (true) {
-        System.out.println(MESSAGE);
-        Thread.sleep(5000); // Print every 5 seconds
-    }
+    public static void main(String[] args) {
+        port(8081);  // Ensures the app is listening on port 8081
+        get("/", (req, res) -> MESSAGE);
     }
 
     public String getMessage() {
