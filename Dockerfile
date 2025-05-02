@@ -1,29 +1,31 @@
-#Stage 1: Build the application using Maven
-
+# -------- Stage 1: Build the Java application with Maven --------
 FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy pom.xml and download dependencies
+# Copy Maven config and download dependencies first (for better caching)
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
-# Copy the rest of the source code
+# Copy the full source code
 COPY src ./src
 
-# Package the application
+# Build the application (skip tests for speed; remove -DskipTests to run them)
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
-FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory
+# -------- Stage 2: Run the built JAR with JDK --------
+FROM eclipse-temurin:17-jdk
+
+# Set working directory in the runtime image
 WORKDIR /app
 
-# Copy the built jar from the previous stage
+# Copy the built JAR from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Run the jar file
-CMD ["java", "-jar", "app.jar"]
+# Expose port (optional — change based on your app's configuration)
+EXPOSE 8080
 
+# Run the application
+CMD ["java", "-jar", "app.jar"]
