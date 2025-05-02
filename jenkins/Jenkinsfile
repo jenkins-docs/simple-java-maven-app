@@ -1,4 +1,5 @@
 def gv 
+
 pipeline {
     agent any
     parameters {
@@ -20,12 +21,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                gv.buildApp()
+                script {
+                    gv.buildApp()
+                }
             }
         }
         stage('Test') {
             steps {
-                gv.testApp()
+                script {
+                    gv.testApp()
+                }
             }
             post {
                 always {
@@ -36,13 +41,17 @@ pipeline {
 
         stage( 'Build image'){
             steps {
-                gv.buildAndPushDockerImage()
+                script {
+                    gv.buildAndPushDockerImage()
+                }
             }
         }
         
         stage('Deliver') { 
             steps {
-                gv.deliverApp()    
+                script {
+                    gv.deliverApp()    
+                }      
             }
         }
     }
