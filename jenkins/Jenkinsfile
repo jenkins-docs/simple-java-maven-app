@@ -1,3 +1,4 @@
+def gv 
 pipeline {
     agent any
     parameters {
@@ -10,14 +11,21 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage('init build') {
+            steps {
+                script {
+                    gv = load "./scripts/script.groovy"
+                }
+            }
+        }
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                gv.buildApp()
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                gv.testApp()
             }
             post {
                 always {
@@ -28,18 +36,13 @@ pipeline {
 
         stage( 'Build image'){
             steps {
-                echo "building the docker image"
-                withCredentials([usernamePassword(credentialsId: "docker-hub-repo", passwordVariable: 'PASS', usernameVariable: "USER" )]){
-                    sh 'docker build -t arnoldkibira/simple-java-maven-app:1.2 .'
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh "docker push arnoldkibira/simple-java-maven-app:1.2"
-                }
+                gv.buildAndPushDockerImage()
             }
         }
         
         stage('Deliver') { 
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                gv.deliverApp()    
             }
         }
     }
