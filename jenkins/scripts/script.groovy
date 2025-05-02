@@ -16,7 +16,7 @@ def buildAndPushDockerImage(){
 }
 
 def deliverApp(){
-   sh '../scripts/deliver.sh'
+   sh 'jenkins/scripts/deliver.sh'
 }
 
 return this
