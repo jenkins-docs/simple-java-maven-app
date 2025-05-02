@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'VERSION', defaultValue: "", description: 'version to deploy on production')
+    }
     tools {
         maven 'maven-3.99'
     }
@@ -22,6 +25,18 @@ pipeline {
                 }
             }
         }
+
+        stage( 'Build image'){
+            steps {
+                echo "building the docker image"
+                withCredentials([usernamePassword(credentialsId: "docker-hub-repo", passwordVariable: 'PASS', usernameVariable: "USER" )]){
+                    sh 'docker build -t arnoldkibira/simple-java-maven-app:1.2 ../Dockerfile'
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push arnoldkibira/simple-java-maven-app:1.2"
+                }
+            }
+        }
+        
         stage('Deliver') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
