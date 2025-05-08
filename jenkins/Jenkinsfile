@@ -1,8 +1,9 @@
 pipeline {
     agent any
 
+    // 工具配置
     tools {
-        maven 'Maven-3.9.9'
+        maven 'Maven-3.9.9' // 这里指定了 Jenkins 工具配置中的 Maven 名称
     }
 
     options {
