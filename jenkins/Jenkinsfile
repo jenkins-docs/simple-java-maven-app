@@ -25,9 +25,36 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        // 发布到开发环境
+        stage('Deliver for dev') {
+            // 当分支为 dev 时执行该阶段
+            when {
+                branch 'dev'
+            }
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                echo 'This is dev env!!!'
+            }
+        }
+
+        // 发布到测试环境
+        stage('Deliver for test') {
+            // 当分支为 test 时执行该阶段
+            when {
+                branch 'test'
+            }
+            steps {
+                echo 'This is test env!!!'
+            }
+        }
+
+        // 发布到生产环境
+        stage('Deliver for master') {
+            // 当分支为 master 时执行该阶段
+            when {
+                branch 'master'
+            }
+            steps {
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
