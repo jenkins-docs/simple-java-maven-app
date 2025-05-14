@@ -4,6 +4,17 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage('Check Environment') {
+            steps {
+                script {
+                    // Print Maven and Java version to verify installation
+                    sh 'echo "Maven Version:" && mvn -v'
+                    sh 'echo "Java Version:" && java -version'
+                    // Check if necessary environment variables are set
+                    sh 'echo "PATH Variable:" && echo $PATH'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
