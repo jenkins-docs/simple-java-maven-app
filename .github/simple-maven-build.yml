@@ -1,0 +1,26 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build and package
+        run: |
+          mvn clean package
+
+      - name: Run tests
+        run: |
+          mvn test
