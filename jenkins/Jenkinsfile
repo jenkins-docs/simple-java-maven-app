@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn -Dstyle.color=never test'
+                sh 'mvn test'
             }
             post {
                 always {
