@@ -60,10 +60,10 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>[3.9.2,)</version>
+                  <version>[3.9.9,)</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[17,)</version>
+                  <version>[21,)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
