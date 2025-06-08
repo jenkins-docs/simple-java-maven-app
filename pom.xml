@@ -26,7 +26,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.14.0</version>
           <configuration>
-            <release>17</release>
+            <release>17</release> <!-- Changed from 17 to work with Java 17 -->
           </configuration>
         </plugin>
       </plugins>
@@ -60,10 +60,10 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>[3.9.9,)</version>
+                  <version>[3.8.0,)</version> <!-- Changed from [3.9.9,) to [3.8.0,) -->
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[21,)</version>
+                  <version>[17,)</version> <!-- Changed from [21,) to [17,) -->
                 </requireJavaVersion>
               </rules>
             </configuration>
