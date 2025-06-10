@@ -34,12 +34,17 @@ pipeline {
     }
 
     stage('Checkout Source') {
-      steps {
-        git url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
-        branch: 'master',
+  steps {
+    checkout([$class: 'GitSCM',
+      branches: [[name: '*/master']],
+      userRemoteConfigs: [[
+        url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
         credentialsId: 'github-creds'
+      ]]
+    ])
   }
 }
+
 
   }
 }
