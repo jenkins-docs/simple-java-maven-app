@@ -2,50 +2,35 @@ pipeline {
   agent any
 
   tools {
-    maven 'Maven-3.8.1' // Match this with Jenkins global tool config
-    jdk 'jdk-21'        // Or jdk-17, depending on what you've configured
+    maven 'Maven-3.8.1'
+    jdk 'jdk-21'
   }
 
   stages {
-    stage('Checkout') {
+    stage('Build App Repo') {
       steps {
-        git url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git', branch: 'main'
-      }
-    }
-
-    stage('Build') {
-      steps {
-        sh 'mvn clean compile'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'mvn test'
-        junit '**/target/surefire-reports/*.xml'
-      }
-    }
-
-    stage('Package') {
-      steps {
-        sh 'mvn package'
-        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+        echo 'Building primary app...'
+        sh 'mvn clean install'
       }
     }
 
     stage('Checkout Source') {
-  steps {
-    checkout([$class: 'GitSCM',
-      branches: [[name: '*/master']],
-      userRemoteConfigs: [[
-        url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
-        credentialsId: 'github-creds'
-      ]]
-    ])
-  }
-}
+      steps {
+        checkout([$class: 'GitSCM',
+          branches: [[name: '*/master']],
+          userRemoteConfigs: [[
+            url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
+            credentialsId: 'github-creds'
+          ]]
+        ])
+      }
+    }
 
-
-
+    stage('Build Secondary Repo') {
+      steps {
+        echo 'Building second repo...'
+        sh 'mvn clean install'
+      }
+    }
   }
 }
