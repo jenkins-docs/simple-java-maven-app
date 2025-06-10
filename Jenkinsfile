@@ -10,7 +10,7 @@ pipeline {
     stage('Build App Repo') {
       steps {
         echo 'Building primary app...'
-        sh 'mvn clean install'
+         bat 'mvn clean install'
       }
     }
 
@@ -29,7 +29,7 @@ pipeline {
     stage('Build Secondary Repo') {
       steps {
         echo 'Building second repo...'
-        sh 'mvn clean install'
+        bat 'mvn clean install'
       }
     }
   }
