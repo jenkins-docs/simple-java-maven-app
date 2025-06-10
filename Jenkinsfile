@@ -33,7 +33,7 @@ pipeline {
       }
     }
 
-    stage('Checkout') {
+    stage('Checkout Source') {
       steps {
         git url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
         branch: 'master',
