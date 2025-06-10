@@ -10,7 +10,7 @@ pipeline {
     stage('Build App Repo') {
       steps {
         echo 'Building primary app...'
-         bat 'mvn clean install'
+        bat 'mvn clean install'
       }
     }
 
@@ -19,7 +19,7 @@ pipeline {
         checkout([$class: 'GitSCM',
           branches: [[name: '*/master']],
           userRemoteConfigs: [[
-            url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
+            url: 'https://github.com/Syedrayyangithub/simple-java-maven-app.git',
             credentialsId: 'github-creds'
           ]]
         ])
@@ -28,7 +28,7 @@ pipeline {
 
     stage('Build Secondary Repo') {
       steps {
-        echo 'Building second repo...'
+        echo 'Building secondary repo...'
         bat 'mvn clean install'
       }
     }
