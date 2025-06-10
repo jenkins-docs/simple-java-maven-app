@@ -32,5 +32,14 @@ pipeline {
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
       }
     }
+
+    stage('Checkout') {
+      steps {
+        git url: 'https://github.com/Syedrayyangithub/simple-java-maven-project.git',
+        branch: 'master',
+        credentialsId: 'github-creds'
+  }
+}
+
   }
 }
