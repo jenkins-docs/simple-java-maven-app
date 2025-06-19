@@ -1,0 +1,22 @@
+name: Build with Maven
+
+on:
+  push:
+    branches: [ master ]  # Change "main" to your main branch name if different
+  pull_request:  # Optional: Trigger on pull requests
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Or another desired runner OS
+
+    steps:
+      - uses: actions/checkout@v3  # Checkout your code from the repository
+
+      - name: Set up JDK 17  # Change version if needed
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          cache: 'maven'  # Optionally cache Maven packages
+
+      - name: Build with Maven
+        run: mvn package -DskipTests  # Optionally add -DskipTests to skip tests
