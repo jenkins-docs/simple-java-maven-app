@@ -5,17 +5,7 @@ pipeline {
         maven 'Maven 3.9.10'
     }
 
-    options {
-        skipStagesAfterUnstable()
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Gautamdev20/simple-java-maven-app.git'
-            }
-        }
-
         stage('Check Maven Version') {
             steps {
                 sh 'mvn -v'
@@ -24,30 +14,24 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('simple-java-maven-app') {
-                    sh 'mvn -B -DskipTests clean package'
-                }
+                sh 'mvn -B -DskipTests clean package'
             }
         }
 
         stage('Test') {
             steps {
-                dir('simple-java-maven-app') {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
             }
             post {
                 always {
-                    junit 'simple-java-maven-app/target/surefire-reports/*.xml'
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
 
         stage('Deliver') {
             steps {
-                dir('simple-java-maven-app') {
-                    sh './jenkins/scripts/deliver.sh'
-                }
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
