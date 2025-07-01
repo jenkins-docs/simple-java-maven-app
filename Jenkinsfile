@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = "/usr/lib/jvm/java-21-amazon-corretto.x86_64"
+        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64/"
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
         GIT_REPO_URL = 'https://github.com/akash-devops2/simple-java-maven-app.git'
         SONAR_URL = 'http://3.108.250.202:30900'
