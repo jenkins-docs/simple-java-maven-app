@@ -7,8 +7,8 @@ pipeline {
         GIT_REPO_URL = 'https://github.com/akash-devops2/simple-java-maven-app.git'
         SONAR_URL = 'http://3.108.250.202:30900'
         SONAR_CRED_ID = 'sonar-token-id'
-        NEXUS_URL = 'http://3.108.250.202:30801/repository/sample-releases/'
-        NEXUS_DOCKER_REPO = '3.108.250.202:30001'
+        NEXUS_URL = 'http://3.108.250.202:30001/repository/sample-releases/'
+        NEXUS_DOCKER_REPO = '3.108.250.202:30002'
         NEXUS_CRED_ID = 'nexus-creds'
         NEXUS_DOCKER_CRED_ID = 'nexus-docker-creds'
         MAX_BUILDS_TO_KEEP = 5
