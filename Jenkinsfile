@@ -12,16 +12,13 @@ pipeline {
         NEXUS_CRED_ID = 'nexus-creds'
         NEXUS_DOCKER_CRED_ID = 'nexus-docker-creds'
         MAX_BUILDS_TO_KEEP = 5
-    }
-
-    tools {
-        maven 'maven-3.9.10'
+        MVN_CMD = '/usr/bin/mvn'  // 🔁 Replace this with actual `mvn` path
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: "${GIT_REPO_URL}", branch: 'master'
+                git url: "${GIT_REPO_URL}", branch: 'main'
             }
         }
 
@@ -47,7 +44,7 @@ pipeline {
                     withCredentials([string(credentialsId: "${SONAR_CRED_ID}", variable: 'SONAR_TOKEN')]) {
                         withSonarQubeEnv('MySonar') {
                             sh """
-                                mvn clean verify sonar:sonar \
+                                ${MVN_CMD} clean verify sonar:sonar \
                                 -Dsonar.projectKey=${projectName} \
                                 -Dsonar.host.url=${SONAR_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}
@@ -62,7 +59,7 @@ pipeline {
             steps {
                 script {
                     def artifactName = "my-app-${BUILD_NUMBER}.jar"
-                    sh "mvn clean package"
+                    sh "${MVN_CMD} clean package"
                     sh """
                         mkdir -p tagged-artifacts
                         cp target/*.jar tagged-artifacts/${artifactName}
