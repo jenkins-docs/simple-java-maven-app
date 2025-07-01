@@ -131,28 +131,30 @@ pipeline {
             }
         }
 
-        stage('Delete Old Sonar Projects') {
-            steps {
-                script {
-                    def currentBuild = env.BUILD_NUMBER.toInteger()
-                    def minBuildToKeep = currentBuild - MAX_BUILDS_TO_KEEP
 
-                    if (minBuildToKeep > 0) {
-                        withCredentials([string(credentialsId: "${SONAR_CRED_ID}", variable: 'SONAR_TOKEN')]) {
-                            for (int i = 1; i <= minBuildToKeep; i++) {
-                                def oldProject = "${env.JOB_NAME}-${i}".replace('/', '-')
-                                echo "🧹 Deleting old Sonar project: ${oldProject}"
-                                sh """
-                                    curl -s -X POST -H "Authorization: Bearer ${SONAR_TOKEN}" \
-                                    "${SONAR_URL}/api/projects/delete?project=${oldProject}" || true
-                                """
-                            }
-                        }
+        stage('Delete Old Sonar Projects') {
+    steps {
+        script {
+            def currentBuild = env.BUILD_NUMBER.toInteger()
+            def minBuildToKeep = currentBuild - MAX_BUILDS_TO_KEEP.toInteger()
+
+            if (minBuildToKeep > 0) {
+                withCredentials([usernamePassword(credentialsId: "${SONAR_CRED_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    for (int i = 1; i <= minBuildToKeep; i++) {
+                        def oldProject = "${env.JOB_NAME}-${i}".replace('/', '-')
+                        echo "Deleting old Sonar project: ${oldProject}"
+                        sh """
+                        curl -s -o /dev/null -w "%{http_code}" -u $USERNAME:$PASSWORD -X POST \\
+                          "${SONAR_URL}/api/projects/delete" \\
+                          -d "project=${oldProject}" || true
+                        """
                     }
                 }
             }
         }
     }
+}
+
 
     post {
         always {
