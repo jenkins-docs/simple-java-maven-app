@@ -29,5 +29,10 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh' 
             }
         }
+         stage('Completed maven project') {
+            steps {
+                echo "Completed maven project"
+            }
+        }
     }
 }
