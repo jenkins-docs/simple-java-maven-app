@@ -20,7 +20,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven (skip tests)
-        run: mvn clean package
+        run: |
+          mvn clean package
+          java -jar target/my-app-1.0-SNAPSHOT.jar
 
   test:
     runs-on: ubuntu-latest
