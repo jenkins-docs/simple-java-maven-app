@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
-          path: ././target/surefire-reports/*.xml
+          path: ./target/surefire-reports/*.xml
 
   # deliver:
   #   runs-on: ubuntu-latest
