@@ -38,12 +38,22 @@ jobs:
       - name: Run tests
         run: mvn test
 
+      - name: Prepare artifacts
+        run: |
+          mkdir -p build-artifacts
+          cp target/*.jar build-artifacts/
+
+
       - name: Publish test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
-          path: ./target/surefire-reports/
+          path: build-artifacts/*.xml
+          
+      - name: List files in build-artifacts
+        run: ls -l build-artifacts/
+
 
   # deliver:
   #   runs-on: ubuntu-latest
