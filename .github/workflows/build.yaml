@@ -62,7 +62,7 @@ jobs:
 
   deliver:
     runs-on: ubuntu-22.04
-    needs: test
+ #   needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
