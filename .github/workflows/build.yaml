@@ -38,28 +38,28 @@ jobs:
       - name: Run tests
         run: mvn test
 
-      - name: Prepare artifacts
-        run: |
-          mkdir -p build-artifacts
-          cp target/surefire-reports/*.xml build-artifacts/
-
       - name: Publish test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
-          path: build-artifacts/
+          path: target/surefire-reports/*.xml
+          
+      - name: Prepare artifacts
+        run: |
+          mkdir -p build-artifacts
+          cp target/surefire-reports/*.xml build-artifacts/
           
       - name: List files in build-artifacts
         run: ls -l build-artifacts/
 
 
-  deliver:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # deliver:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Run deliver script
-        run: ./jenkins/scripts/deliver.sh
+  #     - name: Run deliver script
+  #       run: ./jenkins/scripts/deliver.sh
