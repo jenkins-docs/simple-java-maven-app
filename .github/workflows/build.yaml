@@ -41,7 +41,7 @@ jobs:
       - name: Prepare artifacts
         run: |
           mkdir -p build-artifacts
-          cp target/*.jar build-artifacts/
+          cp target/*.xml build-artifacts/
 
 
       - name: Publish test results
