@@ -54,12 +54,12 @@ jobs:
         run: ls -l build-artifacts/
 
 
-  # deliver:
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  deliver:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Run deliver script
-  #       run: ./jenkins/scripts/deliver.sh
+      - name: Run deliver script
+        run: ./jenkins/scripts/deliver.sh
