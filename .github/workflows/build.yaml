@@ -38,19 +38,19 @@ jobs:
       - name: Run tests
         run: mvn test
 
-  #     - name: Publish test results
-  #       if: always()
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: junit-results
-  #         path: target/surefire-reports/*.xml
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-results
+          path: target/surefire-reports/*.xml
 
-  # deliver:
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  deliver:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Run deliver script
-  #       run: ./jenkins/scripts/deliver.sh
+      - name: Run deliver script
+        run: ./jenkins/scripts/deliver.sh
