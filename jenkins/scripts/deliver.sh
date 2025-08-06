@@ -9,6 +9,12 @@ mvn jar:jar install:install help:evaluate -Dexpression=project.name
 #mvn clean package
 set +x
 
+echo "==== JAR CLASS LIST ===="
+jar tf target/${NAME}-${VERSION}.jar | grep App.class
+
+echo "==== MANIFEST CONTENTS ===="
+unzip -p target/${NAME}-${VERSION}.jar META-INF/MANIFEST.MF
+
 echo 'The following command extracts the value of the <name/> element'
 echo 'within <project/> of your Java/Maven project''s "pom.xml" file.'
 set -x
