@@ -5,8 +5,8 @@ echo 'into the local Maven repository, which will ultimately be stored in'
 echo 'GitHub Actions''s local Maven repository (and the "maven-repository" Docker data'
 echo 'volume).'
 set -x
-# mvn jar:jar install:install help:evaluate -Dexpression=project.name
-mvn clean package
+mvn -java:jar install:install help:evaluate -Dexpression=project.name
+#mvn clean package
 set +x
 
 echo 'The following command extracts the value of the <name/> element'
