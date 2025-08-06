@@ -12,7 +12,8 @@ echo "Showing MANIFEST.MF:"
 unzip -p target/${NAME}-${VERSION}.jar META-INF/MANIFEST.MF
 
 set -x
-mvn jar:jar install:install help:evaluate -Dexpression=project.name
+# mvn jar:jar install:install help:evaluate -Dexpression=project.name
+mvn clean package
 set +x
 
 echo 'The following command extracts the value of the <name/> element'
