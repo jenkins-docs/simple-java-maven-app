@@ -4,13 +4,6 @@ echo 'The following Maven command installs your Maven-built Java application'
 echo 'into the local Maven repository, which will ultimately be stored in'
 echo 'GitHub Actions''s local Maven repository (and the "maven-repository" Docker data'
 echo 'volume).'
-
-echo "Listing JAR contents:"
-jar tf target/${NAME}-${VERSION}.jar | grep App.class
-
-echo "Showing MANIFEST.MF:"
-unzip -p target/${NAME}-${VERSION}.jar META-INF/MANIFEST.MF
-
 set -x
 # mvn jar:jar install:install help:evaluate -Dexpression=project.name
 mvn clean package
