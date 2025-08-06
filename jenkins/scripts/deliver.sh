@@ -9,12 +9,6 @@ mvn jar:jar install:install help:evaluate -Dexpression=project.name
 #mvn clean package
 set +x
 
-echo "==== JAR CLASS LIST ===="
-jar tf target/${NAME}-${VERSION}.jar | grep App.class
-
-echo "==== MANIFEST CONTENTS ===="
-unzip -p target/${NAME}-${VERSION}.jar META-INF/MANIFEST.MF
-
 echo 'The following command extracts the value of the <name/> element'
 echo 'within <project/> of your Java/Maven project''s "pom.xml" file.'
 set -x
@@ -26,6 +20,12 @@ echo 'extracts the value of the <version/> element within <project/> instead.'
 set -x
 VERSION=`mvn -q -DforceStdout help:evaluate -Dexpression=project.version`
 set +x
+
+echo "============================================ JAR CLASS LIST ================================================================================="
+jar tf target/${NAME}-${VERSION}.jar | grep App.class
+
+echo "========================================== MANIFEST CONTENTS ===================================================================================="
+unzip -p target/${NAME}-${VERSION}.jar META-INF/MANIFEST.MF
 
 echo 'The following command runs and outputs the execution of your Java'
 echo 'application (which GitHub Actions built using Maven) to the GitHub Actions UI.'
