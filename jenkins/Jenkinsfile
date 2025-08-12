@@ -6,12 +6,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'mvn -B -DskipTests clean package'
+                bat '"%MAVEN_HOME%\\bin\\mvn" -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                bat '"%MAVEN_HOME%\\bin\\mvn" test'
             }
             post {
                 always {
@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Deliver') { 
             steps {
-                bat './jenkins/scripts/deliver.bat' 
+                bat 'jenkins\\scripts\\deliver.bat'
             }
         }
     }
