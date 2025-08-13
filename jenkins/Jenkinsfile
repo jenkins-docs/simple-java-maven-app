@@ -14,7 +14,7 @@ stages{
 
     stage('build'){
         steps {
-            sh 'mymaven clean package'
+            sh 'mvn clean package'
         }
 
         post {
