@@ -1,0 +1,616 @@
+
+
+Apache Maven includes a number of components and libraries with separate
+copyright notices and license terms. Your use of those components are
+subject to the terms and conditions of the following licenses:
+
+
+
+
+
+
+
+
+
+
+
+- lib/aopalliance-1.0.jar: aopalliance:aopalliance:jar:1.0
+    Project: AOP alliance
+Project URL: http://aopalliance.sourceforge.net
+    License: Public Domain (unrecognized)
+
+    License URL: $license.url (lib/aopalliance.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/gson-2.13.1.jar: com.google.code.gson:gson:jar:2.13.1
+    Project: Gson
+Project URL: https://github.com/google/gson
+    License: Apache-2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/gson.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/error_prone_annotations-2.38.0.jar: com.google.errorprone:error_prone_annotations:jar:2.38.0
+    Project: error-prone annotations
+Project URL: https://errorprone.info/error_prone_annotations
+    License: Apache 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/error_prone_annotations.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/failureaccess-1.0.3.jar: com.google.guava:failureaccess:jar:1.0.3
+    Project: Guava InternalFutureFailureAccess and InternalFutures
+Project URL: https://github.com/google/guava/
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/failureaccess.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/guava-33.4.8-jre.jar: com.google.guava:guava:bundle:33.4.8-jre
+    Project: Guava: Google Core Libraries for Java
+Project URL: https://github.com/google/guava
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/guava.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/guice-5.1.0.jar: com.google.inject:guice:jar:5.1.0
+    Project: Google Guice - Core Library
+Project URL: https://github.com/google/guice/
+    License: The Apache Software License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/guice.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/commons-cli-1.9.0.jar: commons-cli:commons-cli:jar:1.9.0
+    Project: Apache Commons CLI
+Project URL: https://commons.apache.org/proper/commons-cli/
+    License: Apache-2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/commons-cli.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/commons-codec-1.18.0.jar: commons-codec:commons-codec:jar:1.18.0
+    Project: Apache Commons Codec
+Project URL: https://commons.apache.org/proper/commons-codec/
+    License: Apache-2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/commons-codec.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/javax.annotation-api-1.3.2.jar: javax.annotation:javax.annotation-api:jar:1.3.2
+    Project: javax.annotation API
+Project URL: http://jcp.org/en/jsr/detail?id=250
+    License: CDDL + GPLv2 with classpath exception (unrecognized)
+
+    License URL: https://github.com/javaee/javax.annotation/blob/master/LICENSE (lib/javax.annotation-api.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/javax.inject-1.jar: javax.inject:javax.inject:jar:1
+    Project: javax.inject
+Project URL: http://code.google.com/p/atinject/
+    License: The Apache Software License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/javax.inject.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/httpclient-4.5.14.jar: org.apache.httpcomponents:httpclient:jar:4.5.14
+    Project: Apache HttpClient
+Project URL: http://hc.apache.org/httpcomponents-client-ga
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/httpclient.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/httpcore-4.4.16.jar: org.apache.httpcomponents:httpcore:jar:4.4.16
+    Project: Apache HttpCore
+Project URL: http://hc.apache.org/httpcomponents-core-ga
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/httpcore.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/plexus-cipher-2.0.jar: org.codehaus.plexus:plexus-cipher:jar:2.0
+    Project: Plexus Cipher: encryption/decryption Component
+Project URL: https://codehaus-plexus.github.io/plexus-cipher/
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-cipher.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- boot/plexus-classworlds-2.9.0.jar: org.codehaus.plexus:plexus-classworlds:bundle:2.9.0
+    Project: Plexus Classworlds
+Project URL: https://codehaus-plexus.github.io/plexus-classworlds/
+    License: Apache-2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (boot/plexus-classworlds.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/plexus-component-annotations-2.2.0.jar: org.codehaus.plexus:plexus-component-annotations:jar:2.2.0
+    Project: Plexus :: Component Annotations (deprecated)
+Project URL: https://codehaus-plexus.github.io/plexus-containers/plexus-component-annotations/
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-component-annotations.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/plexus-interpolation-1.28.jar: org.codehaus.plexus:plexus-interpolation:bundle:1.28
+    Project: Plexus Interpolation API
+Project URL: https://codehaus-plexus.github.io/plexus-pom/plexus-interpolation/
+    License: Apache-2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-interpolation.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/plexus-sec-dispatcher-2.0.jar: org.codehaus.plexus:plexus-sec-dispatcher:jar:2.0
+    Project: Plexus Security Dispatcher Component
+Project URL: https://codehaus-plexus.github.io/plexus-sec-dispatcher/
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-sec-dispatcher.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/plexus-utils-3.6.0.jar: org.codehaus.plexus:plexus-utils:jar:3.6.0
+    Project: Plexus Common Utilities
+Project URL: https://codehaus-plexus.github.io/plexus-utils/
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-utils.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/org.eclipse.sisu.inject-0.9.0.M4.jar: org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.9.0.M4
+    Project: org.eclipse.sisu:org.eclipse.sisu.inject
+Project URL: https://eclipse.dev/sisu/org.eclipse.sisu.inject/
+    License: Eclipse Public License, Version 2.0 (EPL-2.0)
+
+    License URL: https://www.eclipse.org/legal/epl-v20.html (lib/org.eclipse.sisu.inject.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/org.eclipse.sisu.plexus-0.9.0.M4.jar: org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.9.0.M4
+    Project: org.eclipse.sisu:org.eclipse.sisu.plexus
+Project URL: https://eclipse.dev/sisu/org.eclipse.sisu.plexus/
+    License: Eclipse Public License, Version 2.0 (EPL-2.0)
+
+    License URL: https://www.eclipse.org/legal/epl-v20.html (lib/org.eclipse.sisu.plexus.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/jansi-2.4.2.jar: org.fusesource.jansi:jansi:jar:2.4.2
+    Project: Jansi
+Project URL: http://fusesource.github.io/jansi
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/jansi.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/jspecify-1.0.0.jar: org.jspecify:jspecify:jar:1.0.0
+    Project: JSpecify annotations
+Project URL: http://jspecify.org/
+    License: The Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/jspecify.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/asm-9.8.jar: org.ow2.asm:asm:jar:9.8
+    Project: asm
+Project URL: http://asm.ow2.io/
+    License: BSD-3-Clause (unrecognized)
+
+    License URL: https://asm.ow2.io/license.html (lib/asm.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/jcl-over-slf4j-1.7.36.jar: org.slf4j:jcl-over-slf4j:jar:1.7.36
+    Project: JCL 1.2 implemented over SLF4J
+Project URL: http://www.slf4j.org
+    License: Apache License, Version 2.0 (Apache-2.0)
+
+    License URL: https://www.apache.org/licenses/LICENSE-2.0.txt (lib/jcl-over-slf4j.license)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- lib/slf4j-api-1.7.36.jar: org.slf4j:slf4j-api:jar:1.7.36
+    Project: SLF4J API Module
+Project URL: http://www.slf4j.org
+    License: MIT License (MIT)
+
+    License URL: http://www.opensource.org/licenses/mit-license.php (lib/slf4j-api.license)
+
+
+

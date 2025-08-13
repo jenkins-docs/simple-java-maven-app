@@ -1,0 +1,10 @@
+Aug 13, 2025 7:02:39 AM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: server1
+Aug 13, 2025 7:02:39 AM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3309.v27b_9314fd1a_4
+Aug 13, 2025 7:02:39 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/moninder/jenkins/remoting as a remoting work directory
+Aug 13, 2025 7:02:40 AM hudson.remoting.Launcher$CuiListener status
+INFO: WebSocket connection open
+Aug 13, 2025 7:02:40 AM hudson.remoting.Launcher$CuiListener status
+INFO: Connected

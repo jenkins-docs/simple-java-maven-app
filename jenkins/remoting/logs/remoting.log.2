@@ -1,0 +1,202 @@
+Aug 13, 2025 3:27:18 AM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: server1
+Aug 13, 2025 3:27:18 AM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3309.v27b_9314fd1a_4
+Aug 13, 2025 3:27:18 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/moninder/jenkins/remoting as a remoting work directory
+Aug 13, 2025 3:27:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:27:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 1 second before retry
+Aug 13, 2025 3:27:19 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:27:19 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 3 seconds before retry
+Aug 13, 2025 3:27:22 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:27:22 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 7 seconds before retry
+Aug 13, 2025 3:27:29 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:27:29 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:27:58 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.NoRouteToHostException: No route to host
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:27:58 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:28:11 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready
+java.net.NoRouteToHostException: No route to host
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:282)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1320)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1139)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1068)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1691)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1615)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:531)
+	at hudson.remoting.Engine.pingSuccessful(Engine.java:852)
+	at hudson.remoting.Engine.lambda$runWebSocket$2(Engine.java:787)
+	at hudson.remoting.Engine.succeedsWithRetries(Engine.java:829)
+	at hudson.remoting.Engine.runWebSocket(Engine.java:787)
+	at hudson.remoting.Engine.run(Engine.java:542)
+
+Aug 13, 2025 3:28:11 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:28:38 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready: 503
+Aug 13, 2025 3:28:38 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:28:50 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready: 503
+Aug 13, 2025 3:28:50 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:29:00 AM hudson.remoting.Launcher$CuiListener status
+INFO: http://192.168.31.50:8080/login is not ready: 503
+Aug 13, 2025 3:29:00 AM hudson.remoting.Launcher$CuiListener status
+INFO: Waiting 10 seconds before retry
+Aug 13, 2025 3:29:11 AM hudson.remoting.Launcher$CuiListener status
+INFO: WebSocket connection open
+Aug 13, 2025 3:29:11 AM hudson.remoting.Launcher$CuiListener status
+INFO: Connected
