@@ -9,12 +9,21 @@ tools {
   maven 'mymaven'
 }
 
+environment {
+  NAME = "moninder"
+}
+
+
+parameters {
+  string defaultValue: 'singh', name: 'LASTNAME'
+}
 
 stages{
 
     stage('build'){
         steps {
             sh 'mvn clean package'
+            echo "hello $NAME ${params.LASTNAME}"
         }
 
         post {
