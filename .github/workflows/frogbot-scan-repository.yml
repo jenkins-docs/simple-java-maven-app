@@ -13,6 +13,8 @@ permissions:
 jobs:
   scan-repository:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     strategy:
       matrix:
         # The repository scanning will be triggered periodically on the following branches.
