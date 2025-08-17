@@ -1,5 +1,10 @@
 pipeline {
     agent any
+feature-branch1
+    options {
+        skipStagesAfterUnstable()
+    }
+ master
     stages {
         stage('Build') {
             steps {
@@ -16,9 +21,9 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deliver') { 
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }

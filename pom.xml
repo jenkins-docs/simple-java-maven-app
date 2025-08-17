@@ -11,7 +11,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.10.0</version>
+      <version>5.13.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -24,7 +24,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>3.14.0</version>
+          <configuration>
+            <release>17</release>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -33,7 +36,7 @@
         <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -47,7 +50,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -57,10 +60,14 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
+feature-branch1
                   <version>[3.2.5,)</version>
+
+                  <version>[3.9.9,)</version>
+  master
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[11,)</version>
+                  <version>[21,)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
