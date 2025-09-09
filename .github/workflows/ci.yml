@@ -6,14 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
-
-# allow the workflow to push the updated pom.xml back to your repo
+# allow pushing version bumps and container images
 permissions:
   contents: write
   packages: write
 
 env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}/simple-java-maven-app
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
@@ -28,7 +27,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          caceh: 'maven'
+          cache: 'maven'
 
       # ---- 2a: bump PATCH automatically to 1.0.<run_number> ----
       - name: Set Maven version to 1.0.${{ github.run_number }}
@@ -40,13 +39,19 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Build Docker image
-        run: docker build -t simple-java-maven-app:1.0.${{ github.run_number }} .
+      # ---- 2c: login to GHCR and push image ----
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-   - name: Build and push image
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{github.run_number }}
+            ${{ env.IMAGE_NAME }}:1.0.${{ github.run_number }}
             ${{ env.IMAGE_NAME }}:latest
