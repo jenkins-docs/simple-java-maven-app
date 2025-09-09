@@ -6,9 +6,14 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
 # allow the workflow to push the updated pom.xml back to your repo
 permissions:
   contents: write
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}/simple-java-maven-app
 
 jobs:
   build:
@@ -37,3 +42,11 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t simple-java-maven-app:1.0.${{ github.run_number }} .
+
+   - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{github.run_number }}
+            ${{ env.IMAGE_NAME }}:latest
