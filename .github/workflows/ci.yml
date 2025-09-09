@@ -34,3 +34,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
+      - name: Build Docker image
+        run: docker build -t simple-java-maven-app:1.0.${{ github.run_number }} .
