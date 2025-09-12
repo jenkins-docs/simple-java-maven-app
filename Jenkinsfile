@@ -11,6 +11,10 @@ pipeline {
                 bat "mvn clean package"  // 'build' is not a default Maven goal; use 'package'
             }
         }
+        stage("run"){
+            steps{
+                bat "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
+            }
     }
 
     post {
