@@ -14,32 +14,19 @@ pipeline {
             parallel {
                 stage('Server1') {
                     agent { label 'server1' }
-                    tools { git 'LinuxGit' }
                     steps {
-                            sh 'mvn package -DskipTests'
-                        }
-                
-                    post {
-                        success {
-                            archiveArtifacts 'target/*.jar'
-                            echo 'Package created successfully!'
-                        }
+                        sh 'mvn package -DskipTests'
                     }
+
                 }
                 stage('Server2') {
                     agent { label 'server2' }
-                    tools { git 'LinuxGit' }
                     steps {
-                            sh 'mvn package -DskipTests'
-                        }
-                
-                    post {
-                        success {
-                            archiveArtifacts 'target/*.jar'
-                            echo 'Package created successfully!'
-                        }
+                        sh 'mvn package -DskipTests'
                     }
+
                 }
+            }
         }
     }
 
