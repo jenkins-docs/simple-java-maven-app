@@ -1,30 +1,32 @@
 pipeline {
-    agent any
+    agent none  // we will assign agents per stage
     tools {
-        maven "MAVEN" // Ensure this matches your Maven installation name in Jenkins
+        maven "MAVEN"  // Must match your Maven installation name in Jenkins
     }
     stages {
-        stage("build") {
+        stage("Build") {
+            agent { label 'Master' }  // build on master
             steps {
                 bat "mvn clean package"
             }
         }
-        stage("test") {
-            steps {
-                parallel(
-                    test1: {
-                        echo "test 1"
-                    },
-                    test2: {
-                        echo "test 2"
+        stage("Run on Slaves") {
+            parallel(
+                slave1Job: {
+                    agent { label 'slave1' }
+                    steps {
+                        echo "Running on slave1"
+                        bat "java -cp target\\my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
                     }
-                )
-            }
-        }
-        stage("run") {
-            steps {
-                bat "java -cp target\\my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
-            }
+                },
+                slave2Job: {
+                    agent { label 'slave2' }
+                    steps {
+                        echo "Running on slave2"
+                        bat "java -cp target\\my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
+                    }
+                }
+            )
         }
     }
     post {
