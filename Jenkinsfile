@@ -3,12 +3,14 @@ pipeline {
     tools {
         maven "MAVEN"  // name of Maven installation in Jenkins
     }
+
     stages {
         stage("Build on Master") {
-            agent { label 'built-in' }  // Built-in Windows master
+            agent { label 'built-in' }  // Windows master
             steps {
                 bat "mvn clean package"
-                stash includes: 'target/*.jar', name: 'myAppJar'
+                // Archive the JAR so it can be copied to slaves
+                archiveArtifacts artifacts: "target/*.jar", fingerprint: true
             }
         }
 
@@ -17,14 +19,16 @@ pipeline {
                 stage("Run on Server1") {
                     agent { label 'server1' }  // Linux slave1
                     steps {
-                        unstash 'myAppJar'
+                        // Copy the artifact from the master
+                        copyArtifacts(projectName: "${env.JOB_NAME}", selector: lastSuccessful())
                         sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
                     }
                 }
                 stage("Run on Server2") {
                     agent { label 'server2' }  // Linux slave2
                     steps {
-                        unstash 'myAppJar'
+                        // Copy the artifact from the master
+                        copyArtifacts(projectName: "${env.JOB_NAME}", selector: lastSuccessful())
                         sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
                     }
                 }
@@ -34,7 +38,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: "target/*.jar"
+            echo "Pipeline completed successfully!"
         }
     }
 }
