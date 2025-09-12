@@ -1,37 +1,26 @@
-pipeline {
-    agent none  // assign agents per stage
-    tools {
-        maven "MAVEN"  // must match Maven tool name in Jenkins
+stage("Build") {
+    agent { label 'built-in' }  // Windows master
+    steps {
+        bat "mvn clean package"
+        stash includes: 'target/*.jar', name: 'myAppJar'
     }
-    stages {
-        stage("Build") {
-            agent { label 'built-in' }  // build on Windows master
+}
+
+stage("Run on Slaves") {
+    parallel {
+        stage("Run on Slave1") {
+            agent { label 'slave1' }
             steps {
-                bat "mvn clean package"
+                unstash 'myAppJar'
+                sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
             }
         }
-        stage("Run on Slaves") {
-            parallel {
-                stage("Run on Slave1") {
-                    agent { label 'server1' }  // Linux slave
-                    steps {
-                        echo "Running on slave1"
-                        sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
-                    }
-                }
-                stage("Run on Slave2") {
-                    agent { label 'server2' }  // Linux slave
-                    steps {
-                        echo "Running on slave2"
-                        sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
-                    }
-                }
+        stage("Run on Slave2") {
+            agent { label 'slave2' }
+            steps {
+                unstash 'myAppJar'
+                sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
             }
-        }
-    }
-    post {
-        success {
-            archiveArtifacts artifacts: "**/target/*.jar"
         }
     }
 }
