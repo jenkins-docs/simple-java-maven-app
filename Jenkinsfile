@@ -5,7 +5,7 @@ pipeline {
     }
     stages {
         stage("Build") {
-            agent { label 'Master' }  // build on Windows master
+            agent { label 'built-in' }  // build on Windows master
             steps {
                 bat "mvn clean package"
             }
