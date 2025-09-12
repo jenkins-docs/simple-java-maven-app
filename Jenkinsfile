@@ -13,14 +13,14 @@ pipeline {
         stage("Run on Slaves") {
             parallel {
                 stage("Run on Slave1") {
-                    agent { label 'slave1' }  // Linux slave
+                    agent { label 'server1' }  // Linux slave
                     steps {
                         echo "Running on slave1"
                         sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
                     }
                 }
                 stage("Run on Slave2") {
-                    agent { label 'slave2' }  // Linux slave
+                    agent { label 'server2' }  // Linux slave
                     steps {
                         echo "Running on slave2"
                         sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
