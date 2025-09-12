@@ -7,7 +7,6 @@ pipeline {
             steps {
                 // Only build if source is already available; skip checkout on master
                 bat "mvn clean package"
-                stash includes: 'target/*.jar', name: 'myAppJar'
             }
         }
 
@@ -17,21 +16,30 @@ pipeline {
                     agent { label 'server1' }
                     tools { git 'LinuxGit' }
                     steps {
-                        git url: 'https://github.com/pavan203/simple-java-maven-app.git', branch: 'master'
-                        unstash 'myAppJar'
-                        sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
+                            sh 'mvn package -DskipTests'
+                        }
+                
+                    post {
+                        success {
+                            archiveArtifacts 'target/*.jar'
+                            echo 'Package created successfully!'
+                        }
                     }
                 }
                 stage('Server2') {
                     agent { label 'server2' }
                     tools { git 'LinuxGit' }
                     steps {
-                        git url: 'https://github.com/pavan203/simple-java-maven-app.git', branch: 'master'
-                        unstash 'myAppJar'
-                        sh "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
+                            sh 'mvn package -DskipTests'
+                        }
+                
+                    post {
+                        success {
+                            archiveArtifacts 'target/*.jar'
+                            echo 'Package created successfully!'
+                        }
                     }
                 }
-            }
         }
     }
 
