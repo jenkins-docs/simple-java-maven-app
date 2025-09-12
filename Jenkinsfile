@@ -1,16 +1,19 @@
 pipeline {
     agent any
-
+    tools{
+        maven "MAVEN"
     stages {
         stage('Build') {
             steps {
-                echo 'Build process'
+                bat "mvn clean build"
             }
-        }
-        stage('Clean') {
-            steps {
-                echo 'Clean'
+        post {
+              always {
+                archiveArtifacts artifacts="**/target/*.war"
+              }
             }
+
         }
+
     }
 }
