@@ -1,26 +1,19 @@
-pipeline {
+pipeline{
     agent any
-
-    tools {
-        maven "MAVEN"
-    }
-
-    stages {
-        stage('Build') {
-            steps {
+    stages{
+        stage("build"){
+            steps{
                 bat "mvn clean package"
             }
         }
-
-        stage('Run') {
-            steps {
+        stage("run"){
+            steps{
                 bat "java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App"
             }
         }
     }
-
     post {
-        always {
+        success{
             archiveArtifacts artifacts: "**/target/*.jar"
         }
     }
