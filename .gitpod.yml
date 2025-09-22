@@ -1,0 +1,11 @@
+image: gitpod/workspace-java-21
+
+tasks:
+  - name: Maven Install
+    init: mvn install
+    command: echo "Workspace ready! Maven dependencies installed."
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - redhat.java
