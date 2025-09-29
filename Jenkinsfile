@@ -5,11 +5,6 @@ pipeline {
         maven 'M3'
     }
 
-    environment {
-        // credentials for accessing tomcat servers
-        TOMCAT_CREDS = credentials('tomcat-credentials')
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -34,7 +29,7 @@ pipeline {
             steps {
                 echo 'Deploying to tomcat...'
                 // FIXED: Added closing parenthesis here
-                sshagent(credentials: [TOMCAT_CREDS]) {
+                sshagent(credentials: [tomcat-credentials]) {
                     // FIXED: Changed 'ssh' to 'sh'
                     sh """
                         scp -o StrictHostKeyChecking=no \
