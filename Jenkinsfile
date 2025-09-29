@@ -29,7 +29,7 @@ pipeline {
             steps {
                 echo 'Deploying to tomcat...'
                 // FIXED: Added closing parenthesis here
-                sshagent(credentials: [tomcat-credentials]) {
+                sshagent(credentials: ['tomcat-credentials']) {
                     // FIXED: Changed 'ssh' to 'sh'
                     sh """
                         scp -o StrictHostKeyChecking=no \
