@@ -37,7 +37,7 @@ pipeline {
 					ssh """
 						scp -o StrictHostKeyChecking=no \
 							target/maven-web-app.war \
-							$TOMCAT_CREDS_USR@107.22.82.222:/usr/share/tomcat10/webapps/
+							$TOMCAT_CREDS_USR@52.91.249.201:/usr/share/tomcat10/webapps/
 						"""
 				}
 			}
