@@ -32,6 +32,7 @@ pipeline {
                 sshagent(credentials: ['tomcat-credentials']) {
                     // FIXED: Changed 'ssh' to 'sh'
                     sh """
+                        sh 'ls -l target'
                         scp -o StrictHostKeyChecking=no \
                             target/maven-web-app.war \
                             ec2-user@52.91.249.201:/usr/share/tomcat10/webapps/
