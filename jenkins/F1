@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Deliver-package-yahoo') { 
+        stage('Deliver-package') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
             }
