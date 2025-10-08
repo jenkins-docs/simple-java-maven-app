@@ -4,7 +4,7 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
-        stage('Build-babu') {
+        stage('Build-babu-rao') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
