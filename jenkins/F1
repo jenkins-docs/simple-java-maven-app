@@ -4,12 +4,12 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
-        stage('Build-babu-rao') {
+        stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Test-baba') {
+        stage('Test') {
             steps {
                 sh 'mvn test'
             }
@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Deliver-package-yao') { 
+        stage('Deliver-package') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
             }
