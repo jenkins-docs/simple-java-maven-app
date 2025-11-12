@@ -1,42 +1,47 @@
-pipeline{
-  agent any
+pipeline {
+    agent any
 
-  tools{
-    maven 'MAVEN'
-    
-  }
-  stages{
-    stage('Checkout'){
-          steps{
-            git branch: 'master' , url: 'https://github.com/astrayaaadi/simple-java-maven-app.git' 
-          }
+    tools {
+        maven 'MAVEN'
     }
-          stage('Build'){
-            steps{
-              bat 'mvn -B -DskipTests clean package'
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/astrayaaadi/simple-java-maven-app.git'
             }
-          }
-          stage('Test'){
-            steps{
-              bat  'mvn test'
+        }
+        
+        stage('Build') {
+            steps {
+                bat 'mvn -B -DskipTests clean package'
             }
-            post{
-              always{
-                junit '**/target/surefire-reports/*.xml'
-          }
+        }
+        
+        stage('Test') {
+            steps {
+                bat 'mvn test'
             }
-            stage('Archive'){
-              steps{archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true 
-                   }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
-          }
-          post{
-            success{
-              echo 'Build successful!'
+        }
+
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
             }
-            failure{
-              echo 'Build Failed!'
-            }
-          }
-  }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build successful!'
+        }
+        failure {
+            echo 'Build Failed!'
+        }
+    }
 }
