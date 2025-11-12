@@ -4,7 +4,14 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage("Checkout"){
+            steps{
+                git'https://github.com/astrayaaadi/simple-java-maven-app'
+            }
+            
+        }
         stage('Build') {
+            
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
@@ -25,4 +32,16 @@ pipeline {
             }
         }
     }
+    post{ 
+    success{
+        echo ' Build and test succesful!'
+    }
+    failure{
+        echo ' Build or test failed!'
+            
+        
+    }
+    
 }
+}
+
