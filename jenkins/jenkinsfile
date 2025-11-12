@@ -6,7 +6,7 @@ pipeline{
     
   }
   stages{
-    stage('Checkout){
+    stage('Checkout'){
           steps{
             git branch: 'master' , url: 'https://github.com/astrayaaadi/simple-java-maven-app.git' 
           }
