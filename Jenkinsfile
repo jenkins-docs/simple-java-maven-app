@@ -1,11 +1,20 @@
 pipeline {
   agent any
   stages {
-    stage('test1') {
+    stage('Checkout') {
       steps {
-        sh 'echo \'maven\''
+        checkout scm
       }
     }
 
+    stage('Build') {
+      steps {
+        sh 'mvn clean package -DskipTests'
+      }
+    }
+
+  }
+  options {
+    skipDefaultCheckout(true)
   }
 }
