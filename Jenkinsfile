@@ -10,6 +10,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'mvn clean compile'
+        sh 'rm -rf ~/.m2/repository'
       }
     }
 
