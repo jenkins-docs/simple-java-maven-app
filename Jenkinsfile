@@ -1,11 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3-alpine'
-      args '-v /tmp:/tmp'
-    }
-
-  }
+  agent any
   stages {
     stage('init') {
       steps {
