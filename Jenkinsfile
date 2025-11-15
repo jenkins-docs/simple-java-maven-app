@@ -10,7 +10,6 @@ pipeline {
     stage('Build') {
       steps {
         sh 'mvn clean compile'
-        sh 'rm -rf ~/.m2/repository'
       }
     }
 
@@ -23,6 +22,7 @@ pipeline {
     stage('Package') {
       steps {
         sh 'mvn package -DskipTests -T 4'
+        sh 'du -sh ~/.m2'
       }
     }
 
