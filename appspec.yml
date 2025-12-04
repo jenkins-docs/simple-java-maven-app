@@ -7,12 +7,12 @@ hooks:
       timeout: 300
       runas: root
       commands:
-        - docker rm -f my-app-container || true
+        - docker rm -f simple-java-maven-app || true  # Stop and remove old container if it exists
 
   AfterInstall:
     - location: inline
       timeout: 300
       runas: root
       commands:
-        - docker build -t my-app /home/ec2-user/my-app/
-        - docker run -d --name my-app-container -p 8080:8080 my-app
+        - docker pull zangetsu203/simple-java-maven-app:latest  # Pull the latest image from Docker Hub
+        - docker run -d --name simple-java-maven-app zangetsu203/simple-java-maven-app:latest  # Run container
