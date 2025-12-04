@@ -3,10 +3,16 @@ os: linux
 
 hooks:
   ApplicationStop:
-    - location: scripts/stop_container.sh
+    - location: inline
       timeout: 300
       runas: root
+      commands:
+        - docker rm -f my-app-container || true
+
   AfterInstall:
-    - location: scripts/start_container.sh
+    - location: inline
       timeout: 300
       runas: root
+      commands:
+        - docker build -t my-app /home/ec2-user/my-app/
+        - docker run -d --name my-app-container -p 8080:8080 my-app
