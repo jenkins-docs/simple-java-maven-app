@@ -1,0 +1,61 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    # 1. Yêu cầu: Chạy trong Container Maven 3.6.3 JDK 11
+    container:
+      image: maven:3.6.3-jdk-11
+
+    # Cấu hình quyền để dorny/test-reporter có thể viết Report lên Github Check
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
+
+    # Định nghĩa biến môi trường để Maven lưu cache vào đúng chỗ trong workspace
+    env:
+      MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
+
+    steps:
+      # 2. Yêu cầu: actions/checkout
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 3. Yêu cầu: actions/cache (Cache thư mục .m2 để build nhanh hơn lần sau)
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: .m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Bước chạy Maven Test (Sẽ sinh ra file .jar và file report xml)
+      - name: Build and Test
+        run: mvn package
+
+      # 4. Yêu cầu: Upload Artifact (Lưu file .jar đã build xong)
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app-jar
+          path: target/*.jar
+          retention-days: 5 # Giữ file trong 5 ngày
+
+      # 5. Yêu cầu: Test Reporter (Hiển thị kết quả JUnit đẹp trên giao diện GitHub)
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure() # Chạy bước này ngay cả khi Test fail
+        with:
+          name: JUnit Tests Report
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: false
