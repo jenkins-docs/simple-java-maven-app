@@ -50,12 +50,9 @@ jobs:
           path: target/*.jar
           retention-days: 5 # Giữ file trong 5 ngày
 
-      # 5. Yêu cầu: Test Reporter (Hiển thị kết quả JUnit đẹp trên giao diện GitHub)
-      - name: Publish Test Report
-        uses: dorny/test-reporter@v2
-        if: success() || failure() # Chạy bước này ngay cả khi Test fail
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: JUnit Tests Report
-          path: target/surefire-reports/*.xml
-          reporter: java-junit
-          fail-on-error: false
+          name: java-app-jar
+          path: target/*.jar
+          retention-days: 5 # Giữ file trong 5 ngày
