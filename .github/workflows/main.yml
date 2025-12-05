@@ -52,7 +52,7 @@ jobs:
 
       # 5. Yêu cầu: Test Reporter (Hiển thị kết quả JUnit đẹp trên giao diện GitHub)
       - name: Publish Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: success() || failure() # Chạy bước này ngay cả khi Test fail
         with:
           name: JUnit Tests Report
