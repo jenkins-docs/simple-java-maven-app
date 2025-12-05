@@ -12,7 +12,7 @@ jobs:
     
     # 1. Yêu cầu: Chạy trong Container Maven 3.6.3 JDK 11
     container:
-      image: maven:3.6.3-jdk-11
+      image: maven:3.9.9-eclipse-temurin-21
 
     # Cấu hình quyền để dorny/test-reporter có thể viết Report lên Github Check
     permissions:
