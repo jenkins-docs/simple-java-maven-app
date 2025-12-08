@@ -31,9 +31,9 @@ jobs:
 
       # 3. Yêu cầu: actions/cache (Cache thư mục .m2 để build nhanh hơn lần sau)
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: .m2/repository
+          path: ${{ github.workspace }}/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
@@ -43,13 +43,6 @@ jobs:
         run: mvn package
 
       # 4. Yêu cầu: Upload Artifact (Lưu file .jar đã build xong)
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app-jar
-          path: target/*.jar
-          retention-days: 5 # Giữ file trong 5 ngày
-
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
