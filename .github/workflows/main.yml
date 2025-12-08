@@ -20,6 +20,9 @@ jobs:
       checks: write
       statuses: write
 
+    env:
+      MAVEN_OPTS: -Dmaven.repo.local=${{ github.workspace }}/.m2/repository
+
     steps:
       # 2. Yêu cầu: actions/checkout
       - name: Checkout Code
@@ -29,7 +32,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
-          path: /root/.m2/repository
+          path: ${{ github.workspace }}/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
