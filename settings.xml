@@ -1,0 +1,25 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+
+    <!-- 配置镜像 -->
+    <mirrors>
+        <mirror>
+            <id>nexus</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Nexus Maven Repository</name>
+            <url>http://10.0.0.143:8081/repository/maven-public/</url>
+        </mirror>
+    </mirrors>
+
+    <!-- 如果需要认证，添加服务器配置 -->
+    <servers>
+        <server>
+            <id>nexus</id>
+            <username>admin</username>
+            <password>123</password>
+        </server>
+    </servers>
+
+</settings>
