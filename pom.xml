@@ -17,8 +17,6 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <maven.compiler.source>11</maven.compiler.source> <!-- 11/17/8 均可 -->
-      <maven.compiler.target>11</maven.compiler.target> <!-- 必须与 source 一致 -->
   </properties>
   <build>
     <pluginManagement>
