@@ -10,9 +10,9 @@ pipeline {
 
       }
       steps {
-        sh '''#rm -rf ~/.m2/repository/*
+        sh '''rm -rf ~/.m2/repository/*
 
-#mvn clean compile'''
+mvn clean compile'''
       }
     }
 
@@ -94,10 +94,10 @@ org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \\
         }
 
         withCredentials(bindings: [usernamePassword(
-                                                                                                                                                                                      credentialsId: ACR_CREDENTIALS_ID,
-                                                                                                                                                                                      usernameVariable: 'ACR_USERNAME',
-                                                                                                                                                                                      passwordVariable: 'ACR_PASSWORD'
-                                                                                                                                                                                  )]) {
+                                                                                                                                                                                                credentialsId: ACR_CREDENTIALS_ID,
+                                                                                                                                                                                                usernameVariable: 'ACR_USERNAME',
+                                                                                                                                                                                                passwordVariable: 'ACR_PASSWORD'
+                                                                                                                                                                                            )]) {
             sh "docker login -u ${ACR_USERNAME} -p ${ACR_PASSWORD} ${ACR_REGISTRY}"
           }
 
