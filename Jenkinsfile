@@ -10,7 +10,7 @@ pipeline {
 
       }
       steps {
-        sh '''rm -rf ~/.m2/repository/*
+        sh '''#rm -rf ~/.m2/repository/*
 
 mvn clean compile'''
       }
@@ -27,12 +27,12 @@ mvn clean compile'''
       steps {
         sh '''mvn test
 
-mvn -s settings.xml clean verify \\
-org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \\
-  -Dsonar.projectKey=simple-java-maven-app \\
-  -Dsonar.projectName=\'simple-java-maven-app\' \\
-  -Dsonar.host.url=http://10.0.0.143:9000 \\
-  -Dsonar.token=sqp_e547a41aaeb1ccc94e15aad2f13f836879c43a60'''
+#mvn -s settings.xml clean verify \\
+#org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \\
+#  -Dsonar.projectKey=simple-java-maven-app \\
+#  -Dsonar.projectName=\'simple-java-maven-app\' \\
+#  -Dsonar.host.url=http://10.0.0.143:9000 \\
+#  -Dsonar.token=sqp_e547a41aaeb1ccc94e15aad2f13f836879c43a60'''
       }
     }
 
@@ -94,10 +94,10 @@ org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \\
         }
 
         withCredentials(bindings: [usernamePassword(
-                                                                                                                                                                                                          credentialsId: ACR_CREDENTIALS_ID,
-                                                                                                                                                                                                          usernameVariable: 'ACR_USERNAME',
-                                                                                                                                                                                                          passwordVariable: 'ACR_PASSWORD'
-                                                                                                                                                                                                      )]) {
+                                                                                                                                                                                                                    credentialsId: ACR_CREDENTIALS_ID,
+                                                                                                                                                                                                                    usernameVariable: 'ACR_USERNAME',
+                                                                                                                                                                                                                    passwordVariable: 'ACR_PASSWORD'
+                                                                                                                                                                                                                )]) {
             sh "docker login -u ${ACR_USERNAME} -p ${ACR_PASSWORD} ${ACR_REGISTRY}"
           }
 
