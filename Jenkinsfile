@@ -45,7 +45,7 @@ mvn clean compile'''
 
       }
       steps {
-        sh '''mvn package -DskipTests -s settings.xml
+        sh '''mvn package -DskipTests -Dmaven.test.skip=true -s settings.xml
 
 '''
         stash(name: 'build-artifacts', includes: 'target/*.jar')
@@ -94,10 +94,10 @@ mvn clean compile'''
         }
 
         withCredentials(bindings: [usernamePassword(
-                                                                                                                                                                                                                              credentialsId: ACR_CREDENTIALS_ID,
-                                                                                                                                                                                                                              usernameVariable: 'ACR_USERNAME',
-                                                                                                                                                                                                                              passwordVariable: 'ACR_PASSWORD'
-                                                                                                                                                                                                                          )]) {
+                                                                                                                                                                                                                                        credentialsId: ACR_CREDENTIALS_ID,
+                                                                                                                                                                                                                                        usernameVariable: 'ACR_USERNAME',
+                                                                                                                                                                                                                                        passwordVariable: 'ACR_PASSWORD'
+                                                                                                                                                                                                                                    )]) {
             sh "docker login -u ${ACR_USERNAME} -p ${ACR_PASSWORD} ${ACR_REGISTRY}"
           }
 
