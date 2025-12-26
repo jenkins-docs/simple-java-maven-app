@@ -173,7 +173,56 @@ Verify Compatibility: Before clicking "Install," check the "Compatibility" colum
 
 <img width="544" height="443" alt="image" src="https://github.com/user-attachments/assets/39897cf1-8a09-4320-8b6b-ecbd6e383e6c" />
 
+#################################################
 
+<img width="566" height="222" alt="image" src="https://github.com/user-attachments/assets/d3d69d52-cfa9-4fa1-8c97-03c4fcaef56c" />
+
+
+
+Follow these steps for both required jobs: build-and-test-service-A and build-and-test-service-B.
+
+Create Jenkins Jobs:
+
+Select New Item on the dashboard, enter the specific job name (e.g., build-and-test-service-A), and select  "Pipeline".
+
+Configure Git Branching:
+
+In the Source Code Management section, provide your Git repository URL.
+
+Crucially, configure each job to clone from a different branch (e.g., Job A clones the dev branch, while Job B clones the feature branch).
+
+Simulate Unit Tests:
+
+Add an Execute Shell build step.
+
+Run basic shell script logic such as echo "Running unit tests..." followed by a conditional check to simulate a testing environment.
+
+Generate and Save Build Artifacts:
+
+In the same shell script, include a command to save build artifacts by creating a compressed file, such as tar -czvf service-a-build.tar.gz ./*.
+
+Ensure these fake .tar.gz files are generated directly within the Jenkins workspace.
+
+Archive Build Artifacts:
+
+Add a Post-build Action titled Archive the artifacts.
+
+Specify the file pattern (e.g., *.tar.gz) to ensure the build output is preserved and accessible from the Jenkins job dashboard
+
+<img width="596" height="419" alt="image" src="https://github.com/user-attachments/assets/9e01a1c2-7975-4e80-86c9-9caf017015d4" />
+
+
+<img width="653" height="443" alt="image" src="https://github.com/user-attachments/assets/d7be20d0-2236-4f97-8954-d995f871d6ae" />
+
+<img width="713" height="240" alt="image" src="https://github.com/user-attachments/assets/4036b38f-72c5-443e-ba26-5cd5df464d42" />
+
+JOB B
+
+<img width="603" height="410" alt="image" src="https://github.com/user-attachments/assets/ad44faeb-e817-4caf-b27b-8cb5f4fbe1fc" />
+
+<img width="546" height="463" alt="image" src="https://github.com/user-attachments/assets/4bc776f8-43cc-4bf3-b73f-581289ca6842" />
+
+<img width="515" height="260" alt="image" src="https://github.com/user-attachments/assets/62d2100e-23d6-449c-8c8b-2d6060fa1c32" />
 
 
 
