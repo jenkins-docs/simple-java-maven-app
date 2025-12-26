@@ -1,12 +1,19 @@
 pipeline {
     agent any
+    
+    // Task 3: Use parameterized jobs for dynamic selection
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'dev', description: 'Branch selection (e.g., dev or feature)')
+        booleanParam(name: 'DEBUG_MODE', defaultValue: false, description: 'Debug mode toggle')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Simulated environment selection')
+    }
 
     stages {
         stage('Checkout Source') {
             steps {
                 // Task: Source Code Management with Git
-                // For Job A use 'dev', for Job B use 'feature'
-                git branch: 'feature', url: 'https://github.com/Madhu427/simple-java-maven-app.git'
+                // Uses the BRANCH_NAME parameter for dynamic cloning
+                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/Madhu427/simple-java-maven-app.git'
             }
         }
 
@@ -15,8 +22,14 @@ pipeline {
                 // Task: Run basic shell script logic to simulate unit tests
                 sh '''
                     #!/bin/bash
-                    echo "Starting Build and Test Process..."
+                    echo "Starting Build on Environment: ${ENVIRONMENT}"
                     
+                    # Check Debug Mode toggle
+                    if [ "${DEBUG_MODE}" = "true" ]; then
+                        echo "DEBUG: System path is $PATH"
+                        set -x # Enable verbose logging
+                    fi
+
                     # Simulate Test Result
                     TEST_RESULT=0 
                     
@@ -29,6 +42,7 @@ pipeline {
 
                     # Task: Save build artifacts (fake .tar.gz files) in workspace
                     echo "Generating Build Version: 1.0.$BUILD_NUMBER" > build_info.txt
+                    echo "Environment: ${ENVIRONMENT}" >> build_info.txt
                     tar -czvf service-build-${BUILD_NUMBER}.tar.gz build_info.txt
                 '''
             }
