@@ -1,4 +1,4 @@
-sh '''#!/bin/bash
+#!/bin/bash
 
 echo "-------------------------------------------------------"
 echo "Starting Build and Test Process for Service..."
@@ -27,4 +27,4 @@ tar -czvf service-build-${BUILD_NUMBER}.tar.gz build_info.txt
 echo "-------------------------------------------------------"
 echo "Build and Test Completed!"
 echo "Artifact created: service-build-${BUILD_NUMBER}.tar.gz"
-echo "-------------------------------------------------------"'''
+echo "-------------------------------------------------------"
