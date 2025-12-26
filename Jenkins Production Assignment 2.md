@@ -273,4 +273,16 @@ JOB B
 <img width="515" height="260" alt="image" src="https://github.com/user-attachments/assets/62d2100e-23d6-449c-8c8b-2d6060fa1c32" />
 
 
+######################################################################################
+
+<img width="554" height="143" alt="image" src="https://github.com/user-attachments/assets/1e19fe2f-de6c-4b68-af96-3a495415cebd" />
+
+
+<img width="874" height="349" alt="image" src="https://github.com/user-attachments/assets/4e81a0b5-47ba-469b-8158-0d7c4b2aa825" />
+
+<img width="704" height="455" alt="image" src="https://github.com/user-attachments/assets/6d45b8dc-83a5-42a1-a031-027798b43423" />
+
+<img width="617" height="297" alt="image" src="https://github.com/user-attachments/assets/41e3d0bf-3d00-462a-b7b5-a55c49541a3c" />
+
+
 
