@@ -348,4 +348,37 @@ pipeline {
 <img width="617" height="297" alt="image" src="https://github.com/user-attachments/assets/41e3d0bf-3d00-462a-b7b5-a55c49541a3c" />
 
 
+#############################################################################################
+
+
+<img width="515" height="131" alt="image" src="https://github.com/user-attachments/assets/6fb8ae9b-6f7a-44e3-a2d9-b3062f3e95fd" />
+
+
+------------------------------------------------------------------------
+pipeline {
+    agent any
+    
+    stages {
+        stage ('BUILD') {
+            steps {
+                sh '''echo "DEPLOYMENT STATUS: Starting deployment to ${ENVIRONMENT} environment..."
+echo "Deploying Service A and Service B as a unified release."
+echo "Release Version: 1.0.${BUILD_NUMBER}" > deployment_manifest.txt
+echo "Includes Service A Build: ${UPSTREAM_BUILD_NUMBER_SERVICE_A}" >> deployment_manifest.txt
+echo "Includes Service B Build: ${UPSTREAM_BUILD_NUMBER_SERVICE_B}" >> deployment_manifest.txt'''
+            }
+        }
+    }
+}
+
+
+-------------------------------------
+
+
+
+<img width="947" height="394" alt="image" src="https://github.com/user-attachments/assets/7ad7e64f-291c-415b-b620-aba4d09c5ab2" />
+
+
+
+
 
