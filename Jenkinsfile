@@ -9,7 +9,7 @@ echo "Running Unit Tests..."
 sleep 2 
 TEST_RESULT=0 
 
-if [ $TEST_RESULT -eq 0 ]; then
+if ( $TEST_RESULT -eq 0 ); then
     echo "Unit Tests Passed Successfully!"
 else
     echo "Unit Tests Failed!"
