@@ -6,7 +6,7 @@ echo "-------------------------------------------------------"
 
 //1. Simulate Unit Tests
 echo "Running Unit Tests..."
-sleep 2 # Simulating processing time
+sleep 2 //Simulating processing time
 TEST_RESULT=0 # 0 means success
 
 if [ $TEST_RESULT -eq 0 ]; then
