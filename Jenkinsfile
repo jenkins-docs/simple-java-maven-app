@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 pipeline {
     agent any
 
@@ -76,3 +77,10 @@ pipeline {
         }
     }
 }
+=======
+@Library('my-shared-library') _
+standardPipeline(
+    appName: 'SimpleJavaApp',
+    repoUrl: 'https://github.com/Madhu427/simple-java-maven-app.git'
+)
+>>>>>>> 7e7d95359253f4c041c001428e50714e96f535a6
