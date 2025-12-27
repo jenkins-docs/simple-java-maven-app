@@ -9,7 +9,7 @@ def call(Map config) {
                 agent { label 'build-worker' }
                 steps {
                     // Reusable Checkout
-                    git url: config.repoUrl, branch: 'main'
+                    git url: config.repoUrl, branch: 'final'
                     echo "Checking out ${standardizedName}"
                 }
             }
