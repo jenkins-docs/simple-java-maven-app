@@ -34,7 +34,7 @@ pipeline {
 
         stage('Deploy to Production') {
             // Task: Assign different jobs/stages to different agents
-            agent { label 'production salve' }
+            agent { label 'production-slave' }
             // Task: Use 'when' directive to ensure deployment only happens on main
             when { branch 'main' } 
             steps {
