@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Task: Source Code Management with Git
                 // For Job A use 'dev', for Job B use 'feature'
-                git branch: 'feature', url: 'https://github.com/Madhu427/simple-java-maven-app.git'
+                git branch: 'dev', url: 'https://github.com/Madhu427/simple-java-maven-app.git'
             }
         }
 
@@ -18,7 +18,7 @@ pipeline {
                     echo "Starting Build and Test Process..."
                     
                     # Simulate Test Result
-                    TEST_RESULT=0 
+                    TEST_RESULT=1 
                     
                     if [ $TEST_RESULT -eq 0 ]; then
                         echo "Unit Tests Passed Successfully!"
