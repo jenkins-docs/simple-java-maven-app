@@ -3,7 +3,7 @@ def call(Map config) {
     def fullJobName = "PROD-${config.appName}-${env.BUILD_NUMBER}"
 
     pipeline {
-        agent { label 'build-worker' }
+        agent any
         stages {
             stage('Checkout') {
                 steps {
