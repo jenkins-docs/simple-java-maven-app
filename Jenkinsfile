@@ -37,17 +37,16 @@ pipeline {
 
     post {
         failure {
-            // Task: Send mock echo alert to console
-            echo "************************************************"
-            echo "ALERT: Build Failed on Stage: ${env.STAGE_NAME}"
-            echo "Sending notification to: madhusudhanachary.k@gmail.com"
-            echo "************************************************"
+        
+            // Task 5: Send a real email notification
+            mail to: 'madhusudhanachary.k@gmail.com',
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "Something went wrong with build ${env.BUILD_URL}. Check the archived logs."
 
-            // Task: Archive failed logs in a dedicated location
-            sh 'echo "Error details for Build #${BUILD_NUMBER}" > failure_report.txt'
-            sh 'date >> failure_report.txt'
-            
-            archiveArtifacts artifacts: 'failure_report.txt', fingerprint: true
+            // Task 5: Archive failed logs in a dedicated location
+            sh 'mkdir -p failure_logs'
+            sh 'echo "Failure detected on node: ${NODE_NAME}" > failure_logs/build_error.txt'
+            archiveArtifacts artifacts: 'failure_logs/*.txt', fingerprint: true
         }
        always {
             // Task: Implement a cleanup step to remove old artifacts
