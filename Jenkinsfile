@@ -32,8 +32,9 @@ pipeline {
 
         stage('Simulate Tests') {
             // Task: Implement retry logic for test stages (max 2 retries)
-            retry(2) {
+            
                 steps {
+                    retry(2) {
                     sh '''
                         echo "Running Unit Tests..."
                         # Simulate a 10% chance of failure to test retry logic
@@ -43,9 +44,9 @@ pipeline {
                         fi
                         echo "Tests Passed!"
                     '''
-                }
-            }
-        }
+                    }
+                 }
+              }
 
         stage('Build & Package') {
             // Task: Use of when directive to conditionally run stages
