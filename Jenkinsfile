@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'production-slave' }
 
     stages {
         stage('Checkout Source') {
