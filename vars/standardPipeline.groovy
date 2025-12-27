@@ -8,7 +8,7 @@ def call(Map config) {
             stage('Checkout') {
                 steps {
                     echo "Standardized Checkout for ${fullJobName}"
-                    git url: config.repoUrl, branch: 'final'
+                    git url: config.repoUrl, branch: 'main'
                 }
             }
             stage('Build') {
