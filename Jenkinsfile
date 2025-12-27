@@ -1,59 +1,77 @@
 pipeline {
     agent any
-    
-    // Task 3: Use parameterized jobs for dynamic selection
-    parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'master', description: 'Branch selection (e.g., master or feature)')
-        booleanParam(name: 'DEBUG_MODE', defaultValue: false, description: 'Debug mode toggle')
-        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Simulated environment selection')
+
+    environment {
+        // Task: Use of environment variables
+        APP_NAME = "MultiService-App"
+        CACHE_DIR = "maven_cache"
     }
 
     stages {
-        stage('Checkout Source') {
+        stage('Initialize & Cache') {
             steps {
-                // Task: Source Code Management with Git
-                // Uses the BRANCH_NAME parameter for dynamic cloning
-                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/Madhu427/simple-java-maven-app.git'
+                // Task: Simulate caching
+                sh '''
+                    if [ -d "${CACHE_DIR}" ]; then
+                        echo "Dependencies found in cache. Skipping download."
+                    else
+                        echo "Cache empty. Downloading dependencies..."
+                        mkdir ${CACHE_DIR}
+                        echo "dependency-v1.0" > ${CACHE_DIR}/lib.txt
+                    fi
+                '''
             }
         }
 
-        stage('Build and Simulate Tests') {
+        stage('Checkout Source') {
             steps {
-                // Task: Run basic shell script logic to simulate unit tests
+                // Task: Proper use of stages and steps
+                git branch: 'main', url: 'https://github.com/Madhu427/simple-java-maven-app.git'
+            }
+        }
+
+        stage('Simulate Tests') {
+            // Task: Implement retry logic for test stages (max 2 retries)
+            retry(2) {
+                steps {
+                    sh '''
+                        echo "Running Unit Tests..."
+                        # Simulate a 10% chance of failure to test retry logic
+                        if [ $(( $RANDOM % 10 )) -eq 0 ]; then
+                            echo "Random network failure detected!"
+                            exit 1
+                        fi
+                        echo "Tests Passed!"
+                    '''
+                }
+            }
+        }
+
+        stage('Build & Package') {
+            // Task: Use of when directive to conditionally run stages
+            // Only runs if we are on the 'main' or 'prod' branch
+            when {
+                anyOf {
+                    branch 'main'; branch 'prod'
+                }
+            }
+            steps {
                 sh '''
-                    #!/bin/bash
-                    echo "Starting Build on Environment: ${ENVIRONMENT}"
-                    
-                    # Check Debug Mode toggle
-                    if [ "${DEBUG_MODE}" = "true" ]; then
-                        echo "DEBUG: System path is $PATH"
-                        set -x # Enable verbose logging
-                    fi
-
-                    # Simulate Test Result
-                    TEST_RESULT=0 
-                    
-                    if [ $TEST_RESULT -eq 0 ]; then
-                        echo "Unit Tests Passed Successfully!"
-                    else
-                        echo "Unit Tests Failed!"
-                        exit 1
-                    fi
-
-                    # Task: Save build artifacts (fake .tar.gz files) in workspace
-                    echo "Generating Build Version: 1.0.$BUILD_NUMBER" > build_info.txt
-                    echo "Environment: ${ENVIRONMENT}" >> build_info.txt
-                    tar -czvf service-build-${BUILD_NUMBER}.tar.gz build_info.txt
+                    echo "Packaging ${APP_NAME}..."
+                    tar -czvf service-build-${BUILD_NUMBER}.tar.gz ./*
                 '''
             }
         }
     }
 
     post {
-        always {
-            // Task: Archive build artifacts
-            // This ensures *.tar.gz files are saved and visible on the job page
+        // Task: Proper use of post conditions
+        success {
+            echo "Build and Test successful! Ready for Deployment."
             archiveArtifacts artifacts: '*.tar.gz', fingerprint: true
+        }
+        failure {
+            echo "Build failed. Check the logs for caching or test errors."
         }
     }
 }
