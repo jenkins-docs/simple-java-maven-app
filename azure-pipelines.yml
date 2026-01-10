@@ -15,3 +15,9 @@ steps:
     mavenPomFile: 'pom.xml'                    #this file should be present in your code repo, this contain code dependecies
     mavenOptions: '-Xmx3072m'                  #optional, heap memory while running    
     goals: 'compile'                           # we are using compile goal of maven lifecycle
+
+- task: Maven@3
+  displayName: 'execute unit tests'
+  inputs:
+    mavenPomFile: 'pom.xml'                    #this file should be present in your code repo, this contain code dependecies
+    goals: 'test'                              # we are using test goal of maven lifecycle
