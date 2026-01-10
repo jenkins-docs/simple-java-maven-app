@@ -5,7 +5,8 @@ trigger:
 
 pool:
   name: my-agent                                 #pool name
-  - Agent.Name -equals azure-devops-agent        #agent name
+  demands:
+    - Agent.Name -equals azure-devops-agent        #agent name
 
 steps:
 - task: Maven@3
