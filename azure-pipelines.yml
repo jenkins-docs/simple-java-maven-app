@@ -1,0 +1,16 @@
+trigger:
+- main
+- developer
+- master
+
+pool:
+  name: my-agent                                 #pool name
+  - Agent.Name -equals azure-devops-agent        #agent name
+
+steps:
+- task: Maven@3
+  displayName: 'code compile'
+  inputs:
+    mavenPomFile: 'pom.xml'                    #this file should be present in your code repo, this contain code dependecies
+    mavenOptions: '-Xmx3072m'                  #optional, heap memory while running    
+    goals: 'compile'                           # we are using compile goal of maven lifecycle
