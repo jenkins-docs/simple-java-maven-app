@@ -22,3 +22,9 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'                    #this file should be present in your code repo, this contain code dependecies
     goals: 'test'                              # we are using test goal of maven lifecycle
+
+- task: Maven@3
+  displayName: 'build code and generate artifact'
+  inputs:
+    mavenPomFile: 'pom.xml'                    #this file should be present in your code repo, this contain code dependecies
+    goals: 'package'                           #it creates deployable from compiled source code
