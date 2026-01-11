@@ -2,6 +2,7 @@ trigger:
 - main
 - developer
 - master
+- feat/*  
 
 pool:
   name: my-agent                                 #pool name
