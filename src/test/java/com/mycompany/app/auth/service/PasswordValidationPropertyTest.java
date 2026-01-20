@@ -226,10 +226,9 @@ public class PasswordValidationPropertyTest {
         PasswordResetResult resetResult = authService.initiatePasswordReset(username);
         String token = resetResult.getToken();
         
-        // Property: Empty password should throw exception
-        assertThrows(IllegalArgumentException.class, () -> {
-            authService.completePasswordReset(token, "");
-        }, "Empty password should throw IllegalArgumentException");
+        // Property: Empty password should be rejected (return false)
+        boolean resetSuccess = authService.completePasswordReset(token, "");
+        assertFalse(resetSuccess, "Empty password should be rejected");
         
         // Verify password is unchanged
         AuthenticationResult loginWithOldPassword = authService.login(username, oldPassword);

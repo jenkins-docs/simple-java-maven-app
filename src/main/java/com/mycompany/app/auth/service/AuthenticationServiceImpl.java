@@ -195,8 +195,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (token == null || token.trim().isEmpty()) {
             throw new IllegalArgumentException("Token cannot be null or empty");
         }
-        if (newPassword == null || newPassword.trim().isEmpty()) {
+        if (newPassword == null) {
             throw new IllegalArgumentException("New password cannot be null or empty");
+        }
+        
+        // Check for empty or whitespace-only password (return false instead of throwing)
+        if (newPassword.trim().isEmpty()) {
+            return false;
         }
         
         // Validate password meets security requirements
