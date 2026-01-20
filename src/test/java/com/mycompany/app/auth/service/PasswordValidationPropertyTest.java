@@ -421,24 +421,59 @@ public class PasswordValidationPropertyTest {
     }
     
     private String generatePasswordOfLength(int length) {
-        StringBuilder password = new StringBuilder();
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        if (length < 3) {
+            // For very short passwords (used in negative tests), just return random chars
+            StringBuilder password = new StringBuilder();
+            String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (int i = 0; i < length; i++) {
+                password.append(chars.charAt(random.nextInt(chars.length())));
+            }
+            return password.toString();
+        }
         
-        for (int i = 0; i < length; i++) {
+        // For valid passwords, ensure they meet all requirements
+        StringBuilder password = new StringBuilder();
+        
+        // Guarantee at least one of each required character type
+        password.append((char) ('A' + random.nextInt(26))); // Uppercase
+        password.append((char) ('a' + random.nextInt(26))); // Lowercase
+        password.append((char) ('0' + random.nextInt(10))); // Digit
+        
+        // Fill the rest with random characters
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (int i = 3; i < length; i++) {
             password.append(chars.charAt(random.nextInt(chars.length())));
         }
         
-        return password.toString();
+        // Shuffle the password to randomize position of required characters
+        return shuffleString(password.toString());
+    }
+    
+    private String shuffleString(String input) {
+        char[] chars = input.toCharArray();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+        }
+        return new String(chars);
     }
     
     private String generatePasswordWithSpecialChars() {
         int length = 10 + random.nextInt(11); // Length between 10 and 20
         StringBuilder password = new StringBuilder();
+        
+        // Guarantee at least one of each required character type
+        password.append((char) ('A' + random.nextInt(26))); // Uppercase
+        password.append((char) ('a' + random.nextInt(26))); // Lowercase
+        password.append((char) ('0' + random.nextInt(10))); // Digit
+        
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         String specialChars = "!@#$%^&*()_+-=[]{}|;:,.<>?";
         
         // Add some regular characters
-        for (int i = 0; i < length - 3; i++) {
+        for (int i = 3; i < length - 3; i++) {
             password.append(chars.charAt(random.nextInt(chars.length())));
         }
         
@@ -447,6 +482,7 @@ public class PasswordValidationPropertyTest {
             password.append(specialChars.charAt(random.nextInt(specialChars.length())));
         }
         
-        return password.toString();
+        // Shuffle to randomize positions
+        return shuffleString(password.toString());
     }
 }
