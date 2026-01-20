@@ -26,7 +26,7 @@ This directory contains the GitHub Actions workflow configuration for automated 
 - Upload JAR artifact (retained for 30 days)
 - Upload test results (retained for 30 days)
 
-**Artifacts**:
+**Artifacts** (using actions/upload-artifact@v4):
 - `authentication-app-jar`: Compiled JAR file
 - `test-results`: JUnit test reports
 
@@ -168,7 +168,7 @@ on:
 Change artifact retention periods in the upload steps:
 
 ```yaml
-- uses: actions/upload-artifact@v3
+- uses: actions/upload-artifact@v4
   with:
     retention-days: 7  # Change from 30 to 7 days
 ```
