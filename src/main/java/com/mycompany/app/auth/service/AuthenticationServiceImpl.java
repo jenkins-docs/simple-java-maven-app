@@ -34,9 +34,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordHasher passwordHasher;
     private final SecureIdentifierGenerator identifierGenerator;
     
-    // Password validation pattern: at least 8 characters, one uppercase, one lowercase, one digit
+    // Password validation pattern: 8-128 characters, one uppercase, one lowercase, one digit
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,128}$"
     );
     
     private static final String GENERIC_AUTH_ERROR = "Invalid credentials";
@@ -234,7 +234,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * Validates that a password meets security requirements.
      * 
      * Requirements:
-     * - At least 8 characters long
+     * - Between 8 and 128 characters long
      * - Contains at least one uppercase letter
      * - Contains at least one lowercase letter
      * - Contains at least one digit
