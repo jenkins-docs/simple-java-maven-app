@@ -300,13 +300,31 @@ public class PasswordResetCompletionPropertyTest {
     private String generateRandomPassword() {
         int length = 8 + random.nextInt(25); // Length between 8 and 32
         StringBuilder password = new StringBuilder();
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
         
-        for (int i = 0; i < length; i++) {
+        // Guarantee at least one of each required character type
+        password.append((char) ('A' + random.nextInt(26))); // Uppercase
+        password.append((char) ('a' + random.nextInt(26))); // Lowercase
+        password.append((char) ('0' + random.nextInt(10))); // Digit
+        
+        // Fill the rest with random characters
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+        for (int i = 3; i < length; i++) {
             password.append(chars.charAt(random.nextInt(chars.length())));
         }
         
-        return password.toString();
+        // Shuffle to randomize positions
+        return shuffleString(password.toString());
+    }
+    
+    private String shuffleString(String input) {
+        char[] chars = input.toCharArray();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+        }
+        return new String(chars);
     }
     
     private String generateDifferentPassword(String originalPassword) {
