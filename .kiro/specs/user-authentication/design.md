@@ -197,8 +197,9 @@ public class PasswordResetResult {
 - Single-use tokens (invalidated after use)
 
 **Information Disclosure Prevention:**
-- Generic error messages that don't reveal user existence
-- Consistent response timing for valid and invalid usernames
+- Generic error messages for login failures that don't reveal user existence
+- **Fake token generation for password reset requests on non-existent users** - returns realistic-looking tokens that cannot be used, making it impossible to determine if a username exists
+- Consistent response patterns regardless of user existence
 - No sensitive information in logs or error messages
 
 ## Dependencies

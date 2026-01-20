@@ -21,7 +21,6 @@ This directory contains the GitHub Actions workflow configuration for automated 
 - Cache Maven dependencies for faster builds
 - Compile the application
 - Run all unit tests
-- Generate test reports with JUnit format
 - Package the application into JAR
 - Upload JAR artifact (retained for 30 days)
 - Upload test results (retained for 30 days)
@@ -86,9 +85,9 @@ This directory contains the GitHub Actions workflow configuration for automated 
 - Artifacts available for download from GitHub Actions UI
 
 ### Test Reporting
-- Automatic JUnit test report generation
-- Test results visible in GitHub Actions UI
-- Failed tests highlighted with detailed information
+- Test results uploaded as artifacts for 30 days
+- Test results available for download from GitHub Actions UI
+- Failed tests visible in workflow logs with detailed information
 
 ### Error Handling
 - Security vulnerability checks are non-blocking

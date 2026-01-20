@@ -93,12 +93,12 @@ Automated GitHub Actions workflow featuring:
 - Secure token generation for password reset requests
 - Token validation with expiration checking
 - Password validation against security requirements:
-  - Minimum 8 characters
+  - Length between 8 and 128 characters
   - At least one uppercase letter
   - At least one lowercase letter
   - At least one digit
 - Single-use tokens automatically invalidated after successful reset
-- Generic error messages to prevent username enumeration
+- **Advanced user enumeration prevention**: Returns fake tokens for non-existent users with identical response patterns to real tokens, making it impossible to determine if a username exists in the system. Fake tokens appear valid but will fail during password reset completion.
 
 *Password Reset Token Management:*
 - Thread-safe token storage with automatic username-based replacement
@@ -111,10 +111,14 @@ Automated GitHub Actions workflow featuring:
 - BCrypt password hashing with configurable work factor (4-31)
 - Comprehensive password hashing test coverage including edge cases
 - Cryptographically secure token and session ID generation
-- Generic error messages preventing user enumeration
+- **Advanced user enumeration prevention**: 
+  - Generic error messages for login failures
+  - Fake token generation for password reset requests on non-existent users with identical response patterns
+  - Fake tokens appear valid but fail during password reset completion
+  - Consistent response timing and structure regardless of user existence
 - Automatic session expiration and cleanup
 - Thread-safe concurrent operations
-- Enhanced password validation with complexity requirements (uppercase, lowercase, digit)
+- Enhanced password validation with complexity requirements (8-128 characters, uppercase, lowercase, digit)
 
 ### CI/CD Integration
 
@@ -291,9 +295,8 @@ The GitHub Actions pipeline (`.github/workflows/simple-maven-build.yml`) provide
 - Pull request validation for `master`, `main`, and `develop` branches
 - Maven dependency caching for faster builds
 - Full test suite execution with JUnit 5
-- Test result reporting with detailed feedback
 - JAR artifact generation and archival (30-day retention)
-- Test report uploads for analysis
+- Test report uploads for analysis (30-day retention)
 
 **Code Quality Analysis:**
 - Maven verify phase execution

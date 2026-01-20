@@ -283,16 +283,25 @@ public class AuthenticationServiceIntegrationTest {
     /**
      * Test password reset for non-existent user.
      * Validates: Requirements 3.6, 5.5
+     * 
+     * Security Note: To prevent user enumeration attacks, the system returns
+     * success with a fake token even for non-existent users. The fake token
+     * will not work for password reset, but the response looks identical to
+     * a real token response.
      */
     @Test
     public void testPasswordResetForNonExistentUser() {
         // Try to reset password for non-existent user
         PasswordResetResult resetResult = authService.initiatePasswordReset("nonexistent");
         
-        // Should return generic error (don't reveal user existence)
-        assertFalse(resetResult.isSuccessful());
-        assertNotNull(resetResult.getErrorMessage());
-        assertNull(resetResult.getToken());
+        // Should return success with fake token (don't reveal user existence)
+        assertTrue(resetResult.isSuccessful(), "Should return success to prevent user enumeration");
+        assertNotNull(resetResult.getToken(), "Should provide fake token");
+        assertNull(resetResult.getErrorMessage(), "Should not have error message");
+        
+        // Verify the fake token doesn't actually work
+        boolean resetComplete = authService.completePasswordReset(resetResult.getToken(), "NewPassword123");
+        assertFalse(resetComplete, "Fake token should not work for password reset");
     }
     
     /**
@@ -323,11 +332,20 @@ public class AuthenticationServiceIntegrationTest {
         assertThrows(IllegalArgumentException.class, () -> authService.initiatePasswordReset(null));
         assertThrows(IllegalArgumentException.class, () -> authService.initiatePasswordReset(""));
         
-        // completePasswordReset validation
-        assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset(null, "password"));
-        assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset("", "password"));
+        // completePasswordReset validation - null/empty token throws exception
+        assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset(null, "ValidPass123"));
+        assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset("", "ValidPass123"));
+        
+        // completePasswordReset validation - null password throws exception
         assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset("token", null));
-        assertThrows(IllegalArgumentException.class, () -> authService.completePasswordReset("token", ""));
+        
+        // completePasswordReset validation - empty/whitespace password returns false (not exception)
+        PasswordResetResult resetResult = authService.initiatePasswordReset("alice");
+        String token = resetResult.getToken();
+        assertFalse(authService.completePasswordReset(token, ""), 
+            "Empty password should return false");
+        assertFalse(authService.completePasswordReset(token, "   "), 
+            "Whitespace-only password should return false");
     }
     
     /**
