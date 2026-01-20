@@ -113,6 +113,12 @@ public class PasswordValidationPropertyTest {
         String oldPassword = generateRandomPassword();
         String newPassword = generatePasswordOfLength(8); // Exactly 8 characters
         
+        // Debug: Verify the generated password meets requirements
+        assertTrue(newPassword.length() == 8, "Password should be exactly 8 characters, got: " + newPassword.length());
+        assertTrue(newPassword.matches(".*[A-Z].*"), "Password should contain uppercase: " + newPassword);
+        assertTrue(newPassword.matches(".*[a-z].*"), "Password should contain lowercase: " + newPassword);
+        assertTrue(newPassword.matches(".*\\d.*"), "Password should contain digit: " + newPassword);
+        
         // Create and save user
         String hashedPassword = passwordHasher.hashPassword(oldPassword);
         User user = new User(username, hashedPassword, LocalDateTime.now(), null);
@@ -125,7 +131,7 @@ public class PasswordValidationPropertyTest {
         // Property: Password reset with 8-character password should succeed
         boolean resetSuccess = authService.completePasswordReset(token, newPassword);
         assertTrue(resetSuccess, 
-            "Password reset with 8-character password should succeed for user: " + username);
+            "Password reset with 8-character password '" + newPassword + "' should succeed for user: " + username);
         
         // Verify can login with new password
         AuthenticationResult loginWithNewPassword = authService.login(username, newPassword);
