@@ -174,9 +174,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Find user by username
         Optional<User> userOpt = userRepository.findByUsername(username.trim());
         
-        // If user doesn't exist, return generic error (don't reveal user existence)
+        // If user doesn't exist, return success with fake token (don't reveal user existence)
+        // This prevents user enumeration attacks
         if (!userOpt.isPresent()) {
-            return PasswordResetResult.failure(GENERIC_RESET_ERROR);
+            // Generate a fake token that looks real but won't work
+            String fakeToken = identifierGenerator.generatePasswordResetToken();
+            return PasswordResetResult.success(fakeToken);
         }
         
         // Generate secure reset token
