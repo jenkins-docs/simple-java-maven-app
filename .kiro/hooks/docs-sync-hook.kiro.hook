@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "Auto Documentation Sync",
+  "description": "Automatically updates README.md and documentation when Java source files or configuration files are modified",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.java",
+      "pom.xml",
+      "*.xml",
+      "*.properties",
+      "*.yml",
+      "*.yaml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file has been modified. Please review the changes and update the README.md file to reflect any new features, API changes, or configuration updates. If there are significant changes, also consider updating any documentation in the .kiro/specs folder to keep it current with the implementation."
+  }
+}
