@@ -8,12 +8,12 @@
   <name>my-app</name>
   <url>https://maven.apache.org</url>
   <dependencies>
-    <dependency>
+    <!--<dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>6.0.2</version>
       <scope>test</scope>
-    </dependency>
+    </dependency>-->
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
