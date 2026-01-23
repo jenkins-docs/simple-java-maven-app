@@ -1,0 +1,118 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK21'
+        maven 'Maven-3.9.9'
+    }
+
+    options {
+        timestamps()
+        skipStagesAfterUnstable()
+    }
+
+    environment {
+        TOMCAT_HOME    = 'C:/tools/apache-tomcat-10.1.18'
+        TOMCAT_WEBAPPS = 'C:/tools/apache-tomcat-10.1.18/webapps'
+        APP_NAME       = 'ROOT'     // ROOT => http://localhost:9090/
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+
+        stage('Build WAR') {
+            steps {
+                bat 'mvn -B clean package -DskipTests'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn -B test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+
+        stage('Validate Artifact') {
+            steps {
+                bat '''
+                @echo off
+                echo ==========================
+                echo TARGET CONTENTS
+                echo ==========================
+                dir target
+
+                echo ==========================
+                echo CHECK WAR SIZE
+                echo ==========================
+                for %%f in (target\\*.war) do (
+                    echo WAR: %%f
+                    for %%A in ("%%f") do echo SIZE_BYTES=%%~zA
+                    if %%~zA LSS 50000 (
+                        echo ERROR: WAR is too small (likely broken). Fix pom.xml / webapp files.
+                        exit /b 1
+                    )
+                )
+                '''
+            }
+        }
+
+        stage('Deploy to Local Tomcat') {
+            steps {
+                bat '''
+                @echo off
+                setlocal EnableDelayedExpansion
+
+                echo ================================
+                echo Deploying to Tomcat webapps
+                echo ================================
+
+                if not exist "%TOMCAT_WEBAPPS%" (
+                    echo ERROR: Tomcat webapps not found: %TOMCAT_WEBAPPS%
+                    exit /b 1
+                )
+
+                set WAR_FILE=
+                for %%f in (target\\*.war) do set WAR_FILE=%%f
+
+                if "!WAR_FILE!"=="" (
+                    echo ERROR: WAR file not found in target folder
+                    exit /b 1
+                )
+
+                echo Using WAR: !WAR_FILE!
+
+                echo Cleaning old deployment...
+                if exist "%TOMCAT_WEBAPPS%\\%APP_NAME%" (
+                    rmdir /s /q "%TOMCAT_WEBAPPS%\\%APP_NAME%"
+                )
+                if exist "%TOMCAT_WEBAPPS%\\%APP_NAME%.war" (
+                    del /f /q "%TOMCAT_WEBAPPS%\\%APP_NAME%.war"
+                )
+
+                echo Copying new WAR...
+                copy /y "!WAR_FILE!" "%TOMCAT_WEBAPPS%\\%APP_NAME%.war"
+
+                echo ✅ Deploy copy done. Tomcat will auto-deploy.
+                endlocal
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '🎉 SUCCESS: WAR built + deployed to Tomcat webapps'
+        }
+        failure {
+            echo '❌ FAILED: Check console logs (WAR size / pom / webapp files)'
+        }
+    }
+}
