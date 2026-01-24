@@ -1,28 +1,78 @@
 pipeline {
     agent any
+
     options {
-        skipStagesAfterUnstable()
+        timestamps()
+        disableConcurrentBuilds()
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(
+            logRotator(
+                daysToKeepStr: '7',
+                numToKeepStr: '50'
+            )
+        )
     }
+
+    parameters {
+        booleanParam(
+            name: 'BUILD',
+            defaultValue: true,
+            description: 'Build project'
+        )
+        booleanParam(
+            name: 'TEST',
+            defaultValue: true,
+            description: 'Run tests'
+        )
+    }
+
+    environment {
+        MVN = "/opt/homebrew/bin/mvn"
+    }
+
     stages {
+
+        stage('Checkout') {
+            steps {
+                PrintStage()
+                echo 'Checkout source code'
+                checkout scm
+            }
+        }
+
         stage('Build') {
+            when {
+                expression { return params.BUILD }
+            }
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                PrintStage()
+                sh "${MVN} -B -DskipTests clean package"
             }
         }
+
         stage('Test') {
-            steps {
-                sh 'mvn test'
+            when {
+                expression { return params.TEST }
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('Deliver') { 
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                PrintStage()
+                sh "${MVN} -B test"
             }
         }
     }
+
+    post {
+        always {
+            script {
+                currentBuild.result = currentBuild.result ?: 'SUCCESS'
+                echo "Pipeline finished with status: ${currentBuild.result}"
+            }
+        }
+    }
+}
+
+void PrintStage(String text = "") {
+    text == ""
+        ? println('* ' * 10 + env.STAGE_NAME.toUpperCase() + ' *' * 10)
+        : println(text)
 }
