@@ -3,27 +3,15 @@ pipeline {
 
     options {
         timestamps()
+        ansiColor('xterm')
         disableConcurrentBuilds()
         timeout(time: 1, unit: 'HOURS')
-        buildDiscarder(
-            logRotator(
-                daysToKeepStr: '7',
-                numToKeepStr: '50'
-            )
-        )
+        buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '50'))
     }
 
     parameters {
-        booleanParam(
-            name: 'BUILD',
-            defaultValue: true,
-            description: 'Build project'
-        )
-        booleanParam(
-            name: 'TEST',
-            defaultValue: true,
-            description: 'Run tests'
-        )
+        booleanParam(name: 'BUILD', defaultValue: true, description: 'Build project')
+        booleanParam(name: 'TEST',  defaultValue: true, description: 'Run tests')
     }
 
     environment {
@@ -31,19 +19,15 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 PrintStage()
-                echo 'Checkout source code'
                 checkout scm
             }
         }
 
         stage('Build') {
-            when {
-                expression { return params.BUILD }
-            }
+            when { expression { return params.BUILD } }
             steps {
                 PrintStage()
                 sh "${MVN} -B -DskipTests clean package"
@@ -51,18 +35,26 @@ pipeline {
         }
 
         stage('Test') {
-            when {
-                expression { return params.TEST }
-            }
+            when { expression { return params.TEST } }
             steps {
                 PrintStage()
                 sh "${MVN} -B test"
+            }
+        }
+
+        stage('Archive') {
+            when { expression { return params.BUILD } }
+            steps {
+                PrintStage("Archiving build artifacts")
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
 
     post {
         always {
+            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
+
             script {
                 currentBuild.result = currentBuild.result ?: 'SUCCESS'
                 echo "Pipeline finished with status: ${currentBuild.result}"
@@ -76,3 +68,4 @@ void PrintStage(String text = "") {
         ? println('* ' * 10 + env.STAGE_NAME.toUpperCase() + ' *' * 10)
         : println(text)
 }
+
