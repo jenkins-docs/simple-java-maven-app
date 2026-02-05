@@ -1,0 +1,18 @@
+name: maven test
+
+on:
+  push: ["master"]
+
+jobs:
+  maven-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - name: run
+        run: mvn -B test
