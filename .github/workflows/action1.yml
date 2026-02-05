@@ -1,0 +1,12 @@
+name: GitHub Action - first try
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  print-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "print hello world"
+        run: echo "Hello for, github actions"
