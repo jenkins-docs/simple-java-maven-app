@@ -4,12 +4,18 @@ on:
   push:
     branches: ["master"]
 
+permissions:
+  contents: write
+
 jobs:
   maven-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -18,6 +24,31 @@ jobs:
           java-version: "21"
           cache: maven
 
+      - name: Get current version
+        id: get_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "current=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Bump patch version
+        id: bump
+        run: |
+          IFS='.' read -r major minor patch <<< "${{ steps.get_version.outputs.current }}"
+          patch=$((patch + 1))
+          NEW_VERSION="$major.$minor.$patch"
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update pom.xml
+        run: |
+          mvn -B versions:set -DnewVersion=${{ steps.bump.outputs.new }} -DgenerateBackupPoms=false
+
+      - name: Commit new version
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add pom.xml
+          git commit -m "bump version to ${{ steps.bump.outputs.new }}"
+          git push
+
       - name: Run Maven tests
         run: mvn -B test
-
