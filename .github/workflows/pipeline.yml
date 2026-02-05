@@ -69,6 +69,6 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.bump.outputs.new }}
+            ghcr.io/${{ github.actor }}/simple-java-maven-app:latest
+            ghcr.io/${{ github.actor }}/simple-java-maven-app:${{ steps.bump.outputs.new }}
 
