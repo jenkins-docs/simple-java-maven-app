@@ -64,10 +64,9 @@ jobs:
         uses: Azure/pipelines@v1
         with:
           azure-devops-project-url: "https://dev.azure.com/adirmelker1/DevOps-Basic"
-          azure-pipeline-name: "pipeline-name" # name of the Azure pipeline to be triggered
+          azure-pipeline-name: "simple-java-maven-app" # name of the Azure pipeline to be triggered
           azure-devops-token: "${{ secrets.AZURE_DEVOPS_PROJECT }}"
-          azure-pipeline-variables: '{"variable1": "value1", "variable2": "value2"}' # optional stringified json
-
+          #azure-pipeline-variables: '{"variable1": "value1", "variable2": "value2"}' # optional stringified json
 
     # # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
