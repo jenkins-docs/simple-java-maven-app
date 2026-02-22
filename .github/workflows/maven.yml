@@ -60,6 +60,15 @@ jobs:
           docker logs test-container
           docker ps
 
+      - name: trigger azure devops pipeline
+        uses: Azure/pipelines@v1
+        with:
+          azure-devops-project-url: "https://dev.azure.com/adirmelker1/DevOps-Basic"
+          azure-pipeline-name: "pipeline-name" # name of the Azure pipeline to be triggered
+          azure-devops-token: "${{ secrets.AZURE_DEVOPS_PROJECT }}"
+          azure-pipeline-variables: '{"variable1": "value1", "variable2": "value2"}' # optional stringified json
+
+
     # # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
     #   uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
