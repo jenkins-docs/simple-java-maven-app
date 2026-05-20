@@ -1,29 +1,33 @@
 pipeline {
     agent any
-    
+
+    environment {
+        SONAR_HOST_URL = 'http://<SONARQUBE-IP>:9000'
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', 
-                credentialsId: 'jnekins_ci', 
-                url: 'https://github.com/pabhishek1994-pixel/simple-java-maven-app.git'
-            
+                git branch: 'main',
+                    credentialsId: 'jnekins_ci',
+                    url: 'https://github.com/pabhishek1994-pixel/simple-java-maven-app.git'
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         sh 'mvn -B -DskipTests clean package'
-        //     }
-        // }
-        
+
         stage('Sonar') {
             steps {
-                withCrendentials([string(credentialsId: 'sonar-server', variable: 'SONAR_TOKEN')])
-                    sh """
-                        sonar scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}
-                    """
+                withCredentials([string(credentialsId: 'sonar-server', variable: 'SONAR_TOKEN')]) {
+
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.projectKey=simple-java-maven-app \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.token=$SONAR_TOKEN
+                    '''
+                }
             }
         }
-        
     }
 }
