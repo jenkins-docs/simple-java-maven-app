@@ -18,7 +18,7 @@ pipeline {
         
         stage('Sonar') {
             steps {
-                withCrendentials([string(credentialsId: 'sonar-server', variable)])
+                withCrendentials([string(credentialsId: 'sonar-server', variable: 'SONAR_TOKEN')])
                     sh """
                         sonar scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}
                     """
