@@ -1,28 +1,29 @@
 pipeline {
     agent any
-    options {
-        skipStagesAfterUnstable()
-    }
+    
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                git branch: 'main', 
+                credentialsId: 'jnekins_ci', 
+                url: 'https://github.com/pabhishek1994-pixel/simple-java-maven-app.git'
+            
             }
         }
-        stage('Test') {
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn -B -DskipTests clean package'
+        //     }
+        // }
+        
+        stage('Sonar') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                withCrendentials([string(credentialsId: 'sonar-server', variable)])
+                    sh """
+                        sonar scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}
+                    """
             }
         }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
-            }
-        }
+        
     }
 }
