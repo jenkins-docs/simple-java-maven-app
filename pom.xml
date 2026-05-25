@@ -64,6 +64,11 @@
                 </requireMavenVersion>
                 <requireJavaVersion>
                   <version>[21,)</version>
+                  <properties>
+                    <sonar.projectKey>simple-java-app</sonar.projectKey>
+                    <sonar.projectName>simple-java-app</sonar.projectName>
+                    <sonar.host.url>http://3.108.228.250/:9000</sonar.host.url>
+                  </properties>
                 </requireJavaVersion>
               </rules>
             </configuration>
