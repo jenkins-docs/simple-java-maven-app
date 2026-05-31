@@ -28,7 +28,7 @@ jobs:
         with:
             distribution: temurin
             java-version: '17'
-          cache: maven
+            cache: maven
       - name: move inside the application    
         run: cd simple-java-maven-app
         run: pwd
