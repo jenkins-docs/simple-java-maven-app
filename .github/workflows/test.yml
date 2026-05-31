@@ -17,4 +17,22 @@ jobs:
         run: cat /etc/os-release
       - name: print my signature
         run: echo "by underbis on 5-31-2026"
-      
+        
+  test-application:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+            distribution: temurin
+            java-version: '17'
+          cache: maven
+      - name: move inside the application    
+        run: cd simple-java-maven-app
+        run: pwd
+      - name: Build application
+        run: mvn clean package
+      - name: Run test
+        run: mvn clean verify
