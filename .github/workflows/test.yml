@@ -1,0 +1,20 @@
+name: Test writing pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-my-writing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: user name
+        run: whoami
+      - name: print working directory
+        run: pwd
+      - name: print OS release
+        run: cat /etc/os-release
+      - name: print my signature
+        run: echo "by Tevin B on 5-31-2026"
+      
