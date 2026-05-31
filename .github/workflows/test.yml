@@ -5,19 +5,6 @@ on:
       - master
 
 jobs:
-  test-my-writing:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: user name
-        run: whoami
-      - name: print working directory
-        run: pwd
-      - name: print OS release
-        run: cat /etc/os-release
-      - name: print my signature
-        run: echo "by underbis on 5-31-2026"
-        
   test-application:
     runs-on: ubuntu-latest
     steps:
@@ -35,8 +22,15 @@ jobs:
           ls
           pwd
       - name: Build application
-        run: |
-          mvn clean package
-          ls target/*.jar
-      - name: Run test
+        run: mvn clean package
+      - name: Show JAR file
+        run: ls target/*.jar
+          
+      - name: Run 2nd test
         run: mvn clean verify
+        
+      - name: Upload Artifact 
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: target/*.jar
