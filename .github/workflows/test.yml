@@ -2,7 +2,7 @@ name: Test writing pipeline
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   test-my-writing:
@@ -16,5 +16,5 @@ jobs:
       - name: print OS release
         run: cat /etc/os-release
       - name: print my signature
-        run: echo "by Tevin B on 5-31-2026"
+        run: echo "by underbis on 5-31-2026"
       
