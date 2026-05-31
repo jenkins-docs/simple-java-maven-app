@@ -30,9 +30,12 @@ jobs:
             java-version: '17'
             cache: maven
       - name: move inside the application    
-        run: cd simple-java-maven-app
-        run: pwd
+        run: | 
+          cd simple-java-maven-app
+          pwd
       - name: Build application
-        run: mvn clean package
+        run: |
+          mvn clean package
+          ls target/*.jar
       - name: Run test
         run: mvn clean verify
