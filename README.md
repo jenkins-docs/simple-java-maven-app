@@ -15,4 +15,4 @@ contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
 
 
-Testing Pull Request pipeline.
+Testing Pull Request pipeline for the second time.
