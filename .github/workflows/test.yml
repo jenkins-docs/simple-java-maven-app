@@ -1,8 +1,7 @@
 name: Test writing pipeline
 on:
   push:
-    branches:
-      - master
+  pull_request:
 
 jobs:
   test-application:
