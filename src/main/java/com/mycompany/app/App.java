@@ -5,15 +5,22 @@ package com.mycompany.app;
  */
 public class App {
 
-    private static final String MESSAGE = "Hello World!\nYuktha\n CI";
-
-    public App() {}
-
-    public static void main(String[] args) {
-        System.out.println(MESSAGE);
+     public int add(int a, int b) {
+        return a + b;
     }
 
-    public String getMessage() {
-        return MESSAGE;
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int divide(int a, int b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("Cannot divide by zero");
+        }
+        return a / b;
     }
 }
