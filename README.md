@@ -1,15 +1,41 @@
-# simple-java-maven-app
+# Simple Java Maven App
 
-This repository is for the
-[Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
-tutorial in the [Jenkins User Documentation](https://jenkins.io/doc/).
+## Projenin ne yaptığı
 
-The repository contains a simple Java application which outputs the string
-"Hello world!" and is accompanied by a couple of unit tests to check that the
-main application works as expected. The results of these tests are saved to a
-JUnit XML report.
+Bu proje, çalıştırıldığında ekrana `Hello World!` yazan basit bir Java uygulamasıdır.
+Yeni başlayanların küçük bir Java projesinin nasıl düzenlendiğini görmesi için hazırlanmıştır.
 
-The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
-you'll be creating yourself during the tutorial and the `jenkins/scripts` subdirectory
-contains a shell script with commands that are executed when Jenkins processes
-the "Deliver" stage of your Pipeline.
+## Proje yapısı
+
+- `src/main/java`: Uygulamanın Java kodunu içerir.
+- `src/test/java`: Uygulamanın testlerini içerir.
+- `pom.xml`: Projenin Maven ayarlarını içerir.
+- `jenkins`: Jenkins ile otomatik derleme ve test için örnek dosyaları içerir.
+
+## Uygulamayı çalıştırma
+
+Bilgisayarınızda Java 21 veya daha yeni bir sürüm ile Maven 3.9.9 veya daha yeni bir sürüm kurulu olmalıdır.
+
+Proje klasöründe önce uygulamayı hazırlayın:
+
+```sh
+mvn clean package
+```
+
+Ardından uygulamayı çalıştırın:
+
+```sh
+java -jar target/my-app-1.0-SNAPSHOT.jar
+```
+
+Terminalde `Hello World!` mesajını görmelisiniz.
+
+## Testleri çalıştırma
+
+Proje klasöründe şu komutu kullanın:
+
+```sh
+mvn test
+```
+
+Testler başarılıysa Maven işlemin başarıyla tamamlandığını bildirir.
