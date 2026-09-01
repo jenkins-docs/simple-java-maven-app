@@ -8,8 +8,21 @@ stages{
 stage ("build"){
 
 steps{
-    echo " this a build stage"
+    sh "mvn clean package"
+
 }
+ post{
+
+success {
+
+    archiveArtifact artifacts: '**/target/*.war'
+
+    echo "build is successful"
+}
+
+
+
+ }
 
 }
 
@@ -18,6 +31,7 @@ stage("test"){
     steps{
         echo "this is a test stage"
     }
+    
 }
 
 stage('DEPLOY"' )
