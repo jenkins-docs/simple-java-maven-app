@@ -1,7 +1,9 @@
 pipeline
 {
 
-agent any
+agent { Label "server-1"}
+
+tools { Maven "maven-3.9.16" }
 
 stages{
 
