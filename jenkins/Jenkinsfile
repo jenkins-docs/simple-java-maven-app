@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        label '!windows'
-    }
-    options {
-        skipStagesAfterUnstable()
-    }
+    agent any
     stages {
         stage('Build') {
             steps {
