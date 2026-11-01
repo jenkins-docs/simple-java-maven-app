@@ -1,0 +1,47 @@
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  UPSTREAM_REPO: jenkins-docs/simple-java-maven-app
+  UPSTREAM_BRANCH: master
+  SYNC_BRANCH: upstream-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          # Optional PAT with repo+workflow scope. GITHUB_TOKEN can't push upstream
+          # commits that change .github/workflows, and PRs it opens don't trigger CI.
+          token: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+      - name: Open PR for new upstream commits
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          git fetch "https://github.com/$UPSTREAM_REPO.git" "$UPSTREAM_BRANCH"
+          new=$(git rev-list --count "HEAD..FETCH_HEAD")
+          if [[ "$new" == 0 ]]; then
+            echo "Up to date with $UPSTREAM_REPO." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          # The PR head is upstream itself, so conflicts show up in the PR instead of breaking the sync.
+          git push --force origin "FETCH_HEAD:refs/heads/$SYNC_BRANCH"
+          if [[ -n "$(gh pr list --head "$SYNC_BRANCH" --state open --json number --jq '.[].number')" ]]; then
+            echo "Updated existing PR with $new upstream commit(s)." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          gh pr create --base "${{ github.event.repository.default_branch }}" --head "$SYNC_BRANCH" \
+            --title "Sync upstream $UPSTREAM_REPO" \
+            --body "Brings in $new new commit(s) from [$UPSTREAM_REPO](https://github.com/$UPSTREAM_REPO/tree/$UPSTREAM_BRANCH). Resolve any conflicts before merging."
+          echo "Opened PR with $new upstream commit(s)." | tee -a "$GITHUB_STEP_SUMMARY"
