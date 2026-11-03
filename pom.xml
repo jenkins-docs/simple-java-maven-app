@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <!-- Changed from 1.0-SNAPSHOT to a release version -->
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>my-app</name>
     <url>https://maven.apache.org</url>
